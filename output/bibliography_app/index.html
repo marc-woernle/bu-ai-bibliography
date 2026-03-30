@@ -45,10 +45,11 @@ body { font-family: var(--serif); color: #1a1a1a; line-height: 1.6; background: 
 .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; font-family: var(--sans); font-size: 13px; align-items: flex-end; }
 .filter-group { display: flex; flex-direction: column; gap: 2px; }
 .filter-group label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; font-weight: 500; }
-.filter-group select, .filter-group input[type="number"] { padding: 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; min-width: 120px; }
-.filter-group input[type="number"] { width: 70px; }
+.filter-group select, .filter-group input[type="number"] { padding: 5px 28px 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; min-width: 120px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23666' d='M4.5 6L8 9.5 11.5 6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 2px center; background-size: 16px; border-right: none; outline: none; }
+.filter-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='32' viewBox='0 0 28 32'%3E%3Crect x='0' y='0' width='1' height='32' fill='%23ddd'/%3E%3Cpath fill='%23888' d='M10 13L14 17 18 13z'/%3E%3C/svg%3E"); background-position: right 0 center; background-size: 28px 100%; border-right: 1px solid #ddd; padding-right: 32px; }
+.filter-group input[type="number"] { width: 70px; -webkit-appearance: none; appearance: none; background-image: none; padding-right: 8px; border-right: 1px solid #ddd; }
 .multi-select { position: relative; min-width: 160px; }
-.multi-select-btn { padding: 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 4px; white-space: nowrap; }
+.multi-select-btn { padding: 5px 32px 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 4px; white-space: nowrap; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='32' viewBox='0 0 28 32'%3E%3Crect x='0' y='0' width='1' height='32' fill='%23ddd'/%3E%3Cpath fill='%23888' d='M10 13L14 17 18 13z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0 center; background-size: 28px 100%; }
 .multi-select-btn .count { background: var(--bu-red); color: #fff; border-radius: 10px; padding: 0 6px; font-size: 11px; font-weight: 600; }
 .multi-select-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd; border-radius: 4px; max-height: 260px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 250px; }
 .multi-select-dropdown.open { display: block; }
@@ -432,7 +433,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     let h = `<div class="filter-group"><label>${label}</label>
       <div class="multi-select" id="ms-${id}">
         <div class="multi-select-btn" onclick="app.toggleMS('${id}')">
-          ${count > 0 ? label + ' ' : 'All ' + label}${count > 0 ? `<span class="count">${count}</span>` : ''} \u25BE
+          ${count > 0 ? label + ' ' : 'All ' + label}${count > 0 ? `<span class="count">${count}</span>` : ''}
         </div>
         <div class="multi-select-dropdown" id="msd-${id}">
           <input class="ms-search" type="text" placeholder="Filter\u2026" oninput="app.filterMS('${id}',this.value)" onclick="event.stopPropagation()">
