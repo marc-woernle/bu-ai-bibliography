@@ -69,7 +69,7 @@ Edit `config.py` and set your email:
 ```python
 CONTACT_EMAIL = "yourname@bu.edu"
 ```
-This unlocks "polite pool" access for OpenAlex and CrossRef (faster rate limits).
+This unlocks "polite pool" access for OpenAlex and CrossRef (faster rate limits). Different institutions may have different databases and different access emails.
 
 ### 2. Test connections
 ```bash
