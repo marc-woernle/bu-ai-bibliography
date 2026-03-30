@@ -281,28 +281,48 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     if (groupBy !== 'none') params.set('group', groupBy);
     if (currentPage > 1) params.set('p', currentPage);
     const str = params.toString();
-    history.replaceState(null, '', str ? '#' + str : location.pathname);
+    const newUrl = str ? '#' + str : location.pathname;
+    if (newUrl !== location.hash && newUrl !== location.pathname) {
+      history.pushState(null, '', newUrl);
+    } else {
+      history.replaceState(null, '', newUrl);
+    }
   }
 
   function readHash() {
-    if (!location.hash || location.hash.length < 2) return;
-    try {
-      const params = new URLSearchParams(location.hash.slice(1));
-      if (params.has('q')) searchQuery = params.get('q');
-      if (params.has('cat')) filterCategory = params.get('cat');
-      if (params.has('sch')) filterSchool = params.get('sch');
-      if (params.has('rel')) filterRelevance = params.get('rel');
-      if (params.has('sort')) sortBy = params.get('sort');
-      if (params.has('oa')) filterOA = true;
-      if (params.has('ymin')) yearMin = parseInt(params.get('ymin')) || yearMin;
-      if (params.has('ymax')) yearMax = parseInt(params.get('ymax')) || yearMax;
-      if (params.has('dom')) params.get('dom').split('|').forEach(d => selectedDomains.add(d));
-      if (params.has('sub')) params.get('sub').split('|').forEach(s => selectedSubfields.add(s));
-      if (params.has('group')) groupBy = params.get('group');
-      if (params.has('p')) currentPage = parseInt(params.get('p')) || 1;
-      document.getElementById('search-input').value = searchQuery;
-    } catch(e) {}
+    // Reset all filters to defaults first
+    searchQuery = ''; filterCategory = 'all'; filterSchool = 'all';
+    filterRelevance = 'all'; filterOA = false;
+    yearMin = dataYearMin; yearMax = dataYearMax;
+    selectedDomains.clear(); selectedSubfields.clear();
+    sortBy = 'year'; groupBy = 'none'; currentPage = 1;
+
+    if (location.hash && location.hash.length >= 2) {
+      try {
+        const params = new URLSearchParams(location.hash.slice(1));
+        if (params.has('q')) searchQuery = params.get('q');
+        if (params.has('cat')) filterCategory = params.get('cat');
+        if (params.has('sch')) filterSchool = params.get('sch');
+        if (params.has('rel')) filterRelevance = params.get('rel');
+        if (params.has('sort')) sortBy = params.get('sort');
+        if (params.has('oa')) filterOA = true;
+        if (params.has('ymin')) yearMin = parseInt(params.get('ymin')) || dataYearMin;
+        if (params.has('ymax')) yearMax = parseInt(params.get('ymax')) || dataYearMax;
+        if (params.has('dom')) params.get('dom').split('|').forEach(d => selectedDomains.add(d));
+        if (params.has('sub')) params.get('sub').split('|').forEach(s => selectedSubfields.add(s));
+        if (params.has('group')) groupBy = params.get('group');
+        if (params.has('p')) currentPage = parseInt(params.get('p')) || 1;
+      } catch(e) {}
+    }
+    document.getElementById('search-input').value = searchQuery;
   }
+
+  // Browser back/forward support
+  window.addEventListener('popstate', function() {
+    readHash();
+    applyFilters(true);
+    render();
+  });
 
   // ---- Data helpers ----
   function buildFilterOptions() {
