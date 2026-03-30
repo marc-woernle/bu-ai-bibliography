@@ -82,7 +82,22 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .paper:not(.expanded):hover { background: #fafafa; }
 .paper.expanded { background: #f0eeeb; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding-right: 16px; border-left-width: 4px; }
 .paper.visited .paper-title { color: #555; }
-.paper-title { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+.paper-header { position: relative; }
+.paper-title { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; cursor: pointer; }
+.paper-title:hover { color: var(--bu-red); }
+.paper-expand-hint { position: absolute; right: 0; top: 2px; font-family: var(--sans); font-size: 18px; color: #ccc; transition: transform 0.2s, color 0.2s; }
+.paper:hover .paper-expand-hint { color: #999; }
+.paper.expanded .paper-expand-hint { transform: rotate(90deg); color: #999; }
+.intro-line { font-family: var(--sans); font-size: 13px; color: #888; margin-bottom: 16px; line-height: 1.5; }
+.color-legend { font-family: var(--sans); font-size: 11px; color: #999; display: flex; gap: 14px; margin-bottom: 12px; }
+.color-legend span { display: flex; align-items: center; gap: 4px; }
+.color-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.quick-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.quick-chip { font-family: var(--sans); font-size: 12px; padding: 4px 12px; border: 1px solid #ddd; border-radius: 16px; background: #fff; cursor: pointer; color: #555; transition: all 0.15s; }
+.quick-chip:hover { border-color: var(--bu-red); color: var(--bu-red); }
+.quick-chip.active { background: var(--bu-red); color: #fff; border-color: var(--bu-red); }
+[data-tooltip] { position: relative; }
+[data-tooltip]:hover:after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #333; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 4px; white-space: nowrap; z-index: 200; pointer-events: none; font-weight: 400; text-transform: none; letter-spacing: 0; }
 .paper-authors { font-family: var(--sans); font-size: 13px; color: #555; margin-bottom: 3px; }
 .paper-authors .bu-author { color: var(--bu-red); font-weight: 600; }
 .paper-header .author-link { pointer-events: none; cursor: default; text-decoration: none; }
@@ -192,7 +207,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   <div id="app-header"></div>
   <div id="sticky-bar">
     <div class="search-row" id="search-row" style="display:none">
-      <input class="search-input" id="search-input" type="text" placeholder="Search titles, authors, annotations&hellip;" oninput="app.search(this.value)">
+      <input class="search-input" id="search-input" type="text" placeholder="Try &quot;machine learning&quot;, &quot;Robertson&quot;, or &quot;computer vision&quot;&hellip;" oninput="app.search(this.value)">
     </div>
     <div id="filters-container"></div>
   </div>
@@ -530,32 +545,72 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       <div class="stat-item"><div class="stat-value">${topSchools.length > 0 ? escHtml(topSchools[0][0].replace('CAS \u2014 ','').replace('Faculty of ','')) : '\u2014'}</div><div class="stat-label">Top school</div></div>
     </div>`;
 
+    // Precompute counts for filter options
+    const relCounts = {primary: 0, methodological: 0, peripheral: 0};
+    const oaCount = {yes: 0};
+    const thisYearCount = {count: 0};
+    const catCounts = {LAW: 0, 'NON-LAW': 0, BOTH: 0, UNCLASSIFIED: 0};
+    const allSchoolCounts = {};
+    papers.forEach(p => {
+      if (p.r) relCounts[p.r] = (relCounts[p.r] || 0) + 1;
+      if (p.oa) oaCount.yes++;
+      if (p.y && p.y >= new Date().getFullYear()) thisYearCount.count++;
+      if (p.cat) catCounts[p.cat] = (catCounts[p.cat] || 0) + 1;
+      (p.sch || []).forEach(s => {
+        const k = s === 'Boston University (unspecified)' ? 'Boston University' : s;
+        allSchoolCounts[k] = (allSchoolCounts[k] || 0) + 1;
+      });
+    });
+
     document.getElementById('search-row').style.display = '';
     const searchEl = document.getElementById('search-input');
     if (searchEl !== document.activeElement) searchEl.value = searchQuery;
 
-    // Filters (into sticky container)
+    // Intro + legend + quick filters + main filters
     let fh = '';
+
+    // Intro line
+    fh += `<div class="intro-line">Browse and search AI-related research published by Boston University faculty across all schools and departments.</div>`;
+
+    // Color legend
+    fh += `<div class="color-legend">
+      <span><span class="dot" style="background:var(--blue)"></span> Core AI</span>
+      <span><span class="dot" style="background:var(--purple)"></span> AI Methods</span>
+      <span><span class="dot" style="background:var(--gray)"></span> AI-Adjacent</span>
+    </div>`;
+
+    // Quick filter chips
+    const isCorAI = filterRelevance === 'primary';
+    const isOAActive = filterOA;
+    const isCitSort = sortBy === 'citations';
+    const isThisYear = yearMin >= new Date().getFullYear();
+    fh += `<div class="quick-filters">
+      <button class="quick-chip${isCitSort ? ' active' : ''}" onclick="app.setFilter('sort','${isCitSort ? 'year' : 'citations'}')">Most Cited</button>
+      <button class="quick-chip${isCorAI ? ' active' : ''}" onclick="app.setFilter('relevance','${isCorAI ? 'all' : 'primary'}')">Core AI Only</button>
+      <button class="quick-chip${isOAActive ? ' active' : ''}" onclick="app.setFilter('oa',${isOAActive ? 'false' : 'true'})">Open Access</button>
+      <button class="quick-chip${isThisYear ? ' active' : ''}" onclick="app.setFilter('yearMin',${isThisYear ? dataYearMin : new Date().getFullYear()})">${new Date().getFullYear()}</button>
+    </div>`;
+
     const hasActiveFilters = filterCategory !== 'all' || filterSchool !== 'all' || filterRelevance !== 'all' || filterOA || selectedDomains.size || selectedSubfields.size || yearMin > dataYearMin || yearMax < dataYearMax || searchQuery.trim();
     fh += `<button class="filter-toggle${hasActiveFilters ? ' open' : ''}" onclick="app.toggleFilters()" id="filter-toggle">Filters${hasActiveFilters ? ' (active)' : ''}</button>`;
     fh += `<div class="filters-collapsible${hasActiveFilters ? ' open' : ''}" id="filters-wrap">`;
     fh += `<div class="filters">`;
     fh += `<div class="filter-group"><label>Category</label><select onchange="app.setFilter('category',this.value)">
-      <option value="all"${filterCategory==='all'?' selected':''}>All</option>
-      <option value="LAW"${filterCategory==='LAW'?' selected':''}>Law</option>
-      <option value="NON-LAW"${filterCategory==='NON-LAW'?' selected':''}>Non-Law</option>
-      <option value="BOTH"${filterCategory==='BOTH'?' selected':''}>Both</option>
-      <option value="UNCLASSIFIED"${filterCategory==='UNCLASSIFIED'?' selected':''}>Unclassified</option>
+      <option value="all"${filterCategory==='all'?' selected':''}>All (${papers.length.toLocaleString()})</option>
+      <option value="LAW"${filterCategory==='LAW'?' selected':''}>Law (${catCounts.LAW || 0})</option>
+      <option value="NON-LAW"${filterCategory==='NON-LAW'?' selected':''}>Non-Law (${catCounts['NON-LAW'] || 0})</option>
+      <option value="BOTH"${filterCategory==='BOTH'?' selected':''}>Both (${catCounts.BOTH || 0})</option>
+      <option value="UNCLASSIFIED"${filterCategory==='UNCLASSIFIED'?' selected':''}>Unclassified (${catCounts.UNCLASSIFIED || 0})</option>
     </select></div>`;
     fh += `<div class="filter-group"><label>School</label><select onchange="app.setFilter('school',this.value)">
       <option value="all"${filterSchool==='all'?' selected':''}>All Schools</option>
-      ${allSchools.map(s => `<option value="${escHtml(s)}"${filterSchool===s?' selected':''}>${escHtml(s)}</option>`).join('')}
+      ${allSchools.map(s => `<option value="${escHtml(s)}"${filterSchool===s?' selected':''}>${escHtml(s)} (${allSchoolCounts[s] || 0})</option>`).join('')}
     </select></div>`;
     fh += `<div class="filter-group"><label>AI Relevance</label><select onchange="app.setFilter('relevance',this.value)">
       <option value="all"${filterRelevance==='all'?' selected':''}>All</option>
-      <option value="primary"${filterRelevance==='primary'?' selected':''}>Core AI</option>
-      <option value="methodological"${filterRelevance==='methodological'?' selected':''}>AI Methods</option>
-      <option value="peripheral"${filterRelevance==='peripheral'?' selected':''}>AI-Adjacent</option>
+      <option value="primary"${filterRelevance==='primary'?' selected':''}>Core AI (${relCounts.primary.toLocaleString()})</option>
+      <option value="methodological"${filterRelevance==='methodological'?' selected':''}>AI Methods (${relCounts.methodological.toLocaleString()})</option>
+      <option value="peripheral"${filterRelevance==='peripheral'?' selected':''}>AI-Adjacent (${relCounts.peripheral.toLocaleString()})</option>
     </select></div>`;
     fh += `<div class="filter-group"><label>Sort</label><select onchange="app.setFilter('sort',this.value)">
       <option value="year"${sortBy==='year'?' selected':''}>Year (newest)</option>
@@ -659,6 +714,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
       h += `<div class="paper ${borderClass}${visitedClass} ${isExp ? 'expanded' : ''}">`;
       h += `<div class="paper-header" onclick="app.toggle(${globalIdx})">`;
+      h += `<span class="paper-expand-hint">\u203A</span>`;
       h += `<div class="paper-title">${hl(p.t || 'Untitled')}</div>`;
       h += `<div class="paper-authors">${authorHtml}</div>`;
       h += `<div class="paper-meta">`;
@@ -666,10 +722,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       if (p.y) h += `<span>${p.y}</span>`;
       else h += `<span style="font-style:italic">forthcoming</span>`;
       if (p.c) h += `<span>${p.c.toLocaleString()} citation${p.c !== 1 ? 's' : ''}</span>`;
-      h += `<span class="badge badge-${p.r || 'peripheral'}" onclick="event.stopPropagation();app.setFilter('relevance','${p.r || 'peripheral'}')">${REL_LABELS[p.r] || p.r}</span>`;
-      if (p.oa) h += `<span class="badge badge-oa" onclick="event.stopPropagation();app.setFilter('oa',true)">Open Access</span>`;
+      h += `<span class="badge badge-${p.r || 'peripheral'}" data-tooltip="Click to filter" onclick="event.stopPropagation();app.setFilter('relevance','${p.r || 'peripheral'}')">${REL_LABELS[p.r] || p.r}</span>`;
+      if (p.oa) h += `<span class="badge badge-oa" data-tooltip="Click to filter" onclick="event.stopPropagation();app.setFilter('oa',true)">Open Access</span>`;
       const dSchool = displaySchool(p);
-      if (dSchool) { const safeSch = escHtml(dSchool).replace(/'/g, "\\'"); h += `<span class="badge badge-school" onclick="event.stopPropagation();app.setFilter('school','${safeSch}')">${escHtml(dSchool)}</span>`; }
+      if (dSchool) { const safeSch = escHtml(dSchool).replace(/'/g, "\\'"); h += `<span class="badge badge-school" data-tooltip="Click to filter" onclick="event.stopPropagation();app.setFilter('school','${safeSch}')">${escHtml(dSchool)}</span>`; }
       h += `</div>`;
       h += `</div>`; // paper-header
 
