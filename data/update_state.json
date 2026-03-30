@@ -1,10 +1,27 @@
 {
-  "last_weekly_run": "2026-03-28T00:00:00",
+  "last_weekly_run": "2026-03-30T17:13:53.257784",
   "last_monthly_run": "2026-03-28T00:00:00",
-  "master_paper_count": 10329,
+  "master_paper_count": 10349,
   "consecutive_zero_weeks": 0,
-  "total_api_cost_usd": 72.88,
-  "source_health": {},
+  "total_api_cost_usd": 73.36531,
+  "source_health": {
+    "openalex": {
+      "last_success": "2026-03-30",
+      "consecutive_failures": 0
+    },
+    "pubmed": {
+      "last_success": "2026-03-30",
+      "consecutive_failures": 0
+    },
+    "biorxiv": {
+      "last_success": "2026-03-30",
+      "consecutive_failures": 0
+    },
+    "ssrn": {
+      "last_success": "2026-03-30",
+      "consecutive_failures": 0
+    }
+  },
   "domain_snapshot": {
     "Medicine & Health": 3356,
     "Computer Science": 9331,
