@@ -154,11 +154,15 @@ The pipeline is designed for high recall, but some items may slip through:
 
 ```
 bu-ai-bibliography/
-├── harvest.py              # Main orchestrator (runs all sources + school mapping)
-├── classify.py             # Claude-powered AI relevance classifier
+│
+├── ── Initial Harvest Pipeline ──────────────────
+├── harvest.py              # Main orchestrator (all 10 sources + school mapping)
+├── classify.py             # Claude batch classifier (for large initial runs)
+├── classify_papers.py      # Classification prompts, schemas, API logic
 ├── school_mapper.py        # School/department classifier (23 BU units)
 ├── format_output.py        # Output formatter (Markdown, BibTeX, stats)
-├── gap_check.py            # Coverage gap analyzer + manual checklist
+├── gap_check.py            # Coverage gap analyzer
+├── merge_all.py            # Multi-source merge utility
 ├── config.py               # All configuration and constants
 ├── utils.py                # Shared utilities (dedup, persistence, etc.)
 ├── source_openalex.py      # OpenAlex harvester (primary)
@@ -169,15 +173,35 @@ bu-ai-bibliography/
 ├── source_crossref.py
 ├── source_openbu.py
 ├── source_in_progress.py   # NIH Reporter, NSF Awards, bioRxiv/medRxiv
-├── data/                   # Harvested data and checkpoints
-│   ├── sonnet_classification_bu_verified.json  # Final classified dataset
+│
+├── ── Auto-Update System ────────────────────────
+├── update_pipeline.py      # Shared pipeline (harvest, filter, classify, merge, validate)
+├── update_weekly.py        # Weekly incremental update (--dry-run, --force, --test)
+├── update_monthly.py       # Monthly deep update + citation refresh + reports
+├── quarterly_review.py     # Quarterly diagnostic report for human review
+├── generate_data_js.py     # Master JSON → compact data.js for the web app
+├── install_schedules.py    # Claude Code trigger setup
+│
+├── ── Data ──────────────────────────────────────
+├── data/
+│   ├── sonnet_classification_bu_verified.json  # Master dataset (all classified papers)
 │   ├── bu_faculty_roster.json                  # Faculty lookup table
-│   └── harvest_stats_*.json                    # Run statistics
-├── output/
-│   └── bibliography_app/   # Interactive web bibliography
-│       ├── index.html      # Single-file app (HTML + inline JS/CSS)
-│       └── data.js         # Paper data (loaded via script tag)
-├── docs/                   # GitHub Pages deployment (copy of bibliography_app)
+│   ├── bu_authors_from_openalex.json           # 82K+ BU author names
+│   ├── update_state.json                       # Auto-update persistent state
+│   └── update_log.csv                          # Run history log
+│
+├── ── Web App ───────────────────────────────────
+├── output/bibliography_app/
+│   ├── index.html          # Interactive bibliography (public)
+│   ├── index_private.html  # Private version (with LinkedIn post generator)
+│   ├── data.js             # Paper data (public, compact format)
+│   └── data_private.js     # Paper data (with abstracts)
+├── docs/                   # GitHub Pages (serves index.html + data.js)
+│
+├── ── Reports ───────────────────────────────────
+├── output/monthly_report_*.md
+├── output/quarterly_review_*.md
+│
 └── README.md
 ```
 
@@ -191,36 +215,63 @@ cd bu-ai-bibliography
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
-# Edit config
-nano config.py  # Set CONTACT_EMAIL to a .edu email for polite pool API access
-
-# Test connections
-python harvest.py --dry-run
-
-# Full harvest (all 10 sources + school classification)
-python harvest.py
-
-# Classify with Claude
-export ANTHROPIC_API_KEY=sk-ant-...
-python classify.py data/bu_ai_bibliography_*.json --sample 20   # test
-python classify.py data/bu_ai_bibliography_*.json               # full run
-
-# Format output
-python format_output.py data/classified_*.json
-
-# Check for gaps
-python gap_check.py data/bu_ai_bibliography_*.json
 ```
+
+### Environment variables
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...   # Required for classification
+export S2_API_KEY=...                  # Optional, for Semantic Scholar
+```
+
+### Running the initial harvest (already done — 10,329 papers)
+```bash
+python harvest.py                     # Harvest from all 10 sources
+python classify.py data/*.json        # Classify via Claude Sonnet Batch API
+python format_output.py data/*.json   # Generate formatted output
+```
+
+### Auto-updates (the main workflow going forward)
+```bash
+python update_weekly.py --dry-run     # Preview what would be harvested
+python update_weekly.py               # Run the full weekly update
+python update_monthly.py              # Monthly deep update + citation refresh
+python quarterly_review.py            # Quarterly diagnostic report
+```
+
+## Auto-Update System
+
+The bibliography stays current automatically via scheduled updates:
+
+| Schedule | Script | What it does |
+|----------|--------|-------------|
+| **Weekly** (Sunday 3am) | `update_weekly.py` | Harvests new papers from OpenAlex, PubMed, bioRxiv, SSRN. Deduplicates, pre-filters (keyword + embedding), classifies via Sonnet, verifies BU affiliation, merges into master dataset, regenerates the web app, pushes to GitHub. |
+| **Monthly** (1st of month) | `update_monthly.py` | Everything weekly does, plus: wider harvest window (12 months), citation count refresh, preprint-to-publication tracking, broken URL detection, BU author roster refresh, domain trend analysis, new faculty candidate detection. Generates a monthly report. |
+| **Quarterly** (Jan/Apr/Jul/Oct) | `quarterly_review.py` | Read-only diagnostic: faculty gap check, random sample for human review, year-over-year trends, cross-school collaboration analysis, cost summary. |
+
+Updates are orchestrated by **Claude Code scheduled triggers** — meaning Claude is in the loop to handle API changes, edge cases, and bugs as they arise, rather than a static cron job that silently fails.
+
+### Cost controls
+- Pre-classification cost estimate before any API call
+- Hard caps: $5/weekly, $10/monthly
+- Paper count gates: >100 weekly or >300 monthly triggers a pause
+- Running total tracked in `data/update_state.json`
+
+### Notifications
+- Routine updates: git commit message only
+- Alerts (zero papers for 3+ weeks, cost exceeded, source failures): GitHub Issue created automatically
+- Monthly/quarterly reports: GitHub Issue with summary + link to full report
 
 ## Pipeline at a Glance
 
 ```
-harvest.py          →  10 sources → deduplicated JSON (school-tagged)
-classify.py         →  Claude labels each paper: AI relevance, domain, annotation
-format_output.py    →  Markdown (grouped by school → domain), BibTeX, stats
-gap_check.py        →  Flags missing faculty, suggests manual checks
-school_mapper.py    →  (runs inside harvest.py, or standalone for re-classification)
+── Initial Harvest (done once) ──
+harvest.py          →  10 sources → 243K papers → deduplicated, school-tagged
+classify_papers.py  →  Sonnet Batch API → 27K pre-filtered → 10K+ verified AI papers
+
+── Auto-Updates (ongoing) ──
+update_weekly.py    →  Incremental harvest → dedup → filter → classify → merge → push
+update_monthly.py   →  + citation refresh, preprint tracking, reports
+quarterly_review.py →  Diagnostic report for human review
 ```
 
 ## Extending
@@ -229,17 +280,16 @@ school_mapper.py    →  (runs inside harvest.py, or standalone for re-classific
 1. Create `source_newname.py` with a `harvest() -> list[dict]` function
 2. Use `make_paper_record()` from `utils.py` for standardized output
 3. Register in `SOURCE_REGISTRY` in `harvest.py`
-4. Add to `DEFAULT_SOURCE_ORDER`
 
-### Adding faculty to the school mapper
-Edit `school_mapper.py` and add entries to the `_add_faculty()` calls:
-```python
-_add_faculty("New Professor Name", "School of Law", "LAW")
-_add_faculty("Another Professor", "CAS — Computer Science", "NON-LAW")
-```
+### Adding faculty
+Edit `school_mapper.py` and add entries to the `_add_faculty()` calls. The quarterly review also detects new faculty candidates automatically.
 
-### Adding affiliation patterns
-Add regex patterns to `SCHOOL_PATTERNS` in `school_mapper.py` (more specific patterns first).
+### Porting to another university
+The pipeline is parameterized via `config.py`. To adapt for a different institution:
+1. Change `BU_ROR_ID`, `BU_GRID_ID`, `BU_OPENALEX_INSTITUTION_ID` in `config.py`
+2. Update `SCHOOL_PATTERNS` and `FACULTY_LOOKUP` in `school_mapper.py`
+3. Update `CONTACT_EMAIL` for API polite pool access
+4. Run the initial harvest + classification pipeline
 
 ## Built With
 
