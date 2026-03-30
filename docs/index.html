@@ -139,8 +139,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
 /* Mobile filter toggle */
 .filter-toggle { display: none; font-family: var(--sans); font-size: 13px; padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; width: 100%; text-align: left; color: #555; margin-bottom: 8px; }
-.filter-toggle:after { content: ' \25BE'; float: right; }
-.filter-toggle.open:after { content: ' \25B4'; }
+.filter-toggle:after { content: '\25BE'; float: right; }
+.filter-toggle.open:after { content: '\25B4'; }
 
 @media (max-width: 768px) {
   .header h1 { font-size: 24px; }
@@ -263,10 +263,21 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
   const REL_LABELS = { primary: 'Core AI', methodological: 'AI Methods', peripheral: 'AI-Adjacent' };
 
-  // ---- Sticky bar scroll detection ----
+  // ---- Sticky bar scroll detection + mobile filter auto-collapse ----
   const stickyBar = document.getElementById('sticky-bar');
+  let lastScrollY = 0;
   window.addEventListener('scroll', function() {
     stickyBar.classList.toggle('scrolled', window.scrollY > 180);
+    // Auto-collapse filters on mobile when scrolling down
+    if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 100) {
+      const wrap = document.getElementById('filters-wrap');
+      const btn = document.getElementById('filter-toggle');
+      if (wrap && wrap.classList.contains('open')) {
+        wrap.classList.remove('open');
+        if (btn) btn.classList.remove('open');
+      }
+    }
+    lastScrollY = window.scrollY;
   }, { passive: true });
 
   // ---- URL hash state ----
@@ -806,6 +817,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       else if (key === 'yearMin') yearMin = parseInt(val) || dataYearMin;
       else if (key === 'yearMax') yearMax = parseInt(val) || dataYearMax;
       applyFilters(); render();
+      this._collapseFiltersOnMobile();
     },
     clearFilters() {
       searchQuery = ''; filterCategory = 'all'; filterSchool = 'all';
@@ -874,12 +886,21 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       if (id === 'domains') selectedDomains.clear(); else selectedSubfields.clear();
       applyFilters(); render();
     },
+    _collapseFiltersOnMobile() {
+      if (window.innerWidth <= 768) {
+        const wrap = document.getElementById('filters-wrap');
+        const btn = document.getElementById('filter-toggle');
+        if (wrap) wrap.classList.remove('open');
+        if (btn) btn.classList.remove('open');
+      }
+    },
     filterByTag(type, value) {
       const set = type === 'domains' ? selectedDomains : selectedSubfields;
       set.clear();
       set.add(value);
       applyFilters();
       render();
+      this._collapseFiltersOnMobile();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     toggleFilters() {
