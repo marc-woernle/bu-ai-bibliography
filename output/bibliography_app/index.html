@@ -629,8 +629,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       ) : [];
       const formatAuthor = (name) => {
         const isbu = buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
-        const safe = escHtml(name).replace(/'/g, "\\'");
         const display = hl(name);
+        if (!isExp) {
+          return isbu ? `<span class="bu-author">${display}</span>` : display;
+        }
+        const safe = escHtml(name).replace(/'/g, "\\'");
         return isbu
           ? `<a class="bu-author author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`
           : `<a class="author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`;
