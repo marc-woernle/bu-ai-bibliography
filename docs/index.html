@@ -85,8 +85,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .paper-title { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
 .paper-authors { font-family: var(--sans); font-size: 13px; color: #555; margin-bottom: 3px; }
 .paper-authors .bu-author { color: var(--bu-red); font-weight: 600; }
-.author-link { cursor: pointer; text-decoration: none; }
-.author-link:hover { text-decoration: underline; }
+.paper-header .author-link { pointer-events: none; cursor: default; text-decoration: none; }
+.paper.expanded .paper-header .author-link { pointer-events: auto; cursor: pointer; }
+.paper.expanded .paper-header .author-link:hover { text-decoration: underline; }
+.paper-detail .author-link { cursor: pointer; text-decoration: none; }
+.paper-detail .author-link:hover { text-decoration: underline; }
 .paper-meta { font-family: var(--sans); font-size: 12px; color: #888; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; cursor: default; }
 .paper-meta .venue { font-style: italic; }
 .badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; cursor: pointer; }
@@ -629,11 +632,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       ) : [];
       const formatAuthor = (name) => {
         const isbu = buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
-        const display = hl(name);
-        if (!isExp) {
-          return isbu ? `<span class="bu-author">${display}</span>` : display;
-        }
         const safe = escHtml(name).replace(/'/g, "\\'");
+        const display = hl(name);
         return isbu
           ? `<a class="bu-author author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`
           : `<a class="author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`;
