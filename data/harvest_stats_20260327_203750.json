@@ -1,0 +1,14 @@
+{
+  "total_unique_papers": 37508,
+  "total_elapsed_seconds": 3064.6,
+  "sources": {
+    "openbu": {
+      "raw_count": 37875,
+      "new_count": 37508,
+      "dupe_count": 367,
+      "elapsed_seconds": 3064.6,
+      "status": "success"
+    }
+  },
+  "timestamp": "2026-03-28T00:37:50.555664"
+}

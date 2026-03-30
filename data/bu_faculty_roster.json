@@ -1,0 +1,2178 @@
+[
+  {
+    "name": "Aaron Bockmiller",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Aaron Mueller",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Aaron Stevens",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Abraham Matta",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Adam Guren",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Adam Smith",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Adrian Thompson",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Akihiro Kanamori",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Aldo Pacchiano",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Alex Olshevsky",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Alexander Bertoloni Meli",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Alexander Poremba",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Alice Cronin-Golomb",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Alina Ene",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Alley Stoughton",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Allison Wade",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Allison   McDonald",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Allyala Nandakumar",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Alvard Arazyan",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Alyssa Farley",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Amanda Tarullo",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Amelia Stanton",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Amiremad Ghassami",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Amy Doyle",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ana Fiszbein",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ana Maria Bolling Cruz",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Andre Switala",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Andrea Lincoln",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Andrea Mercurio",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Andrew F. Newman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Andrew Sokatch",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Andrew Wood",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Angela Ho",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Angela O&#8217;Neil",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ankush Das",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Anna Arpaci-Dusseau",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Anne Gehrenbeck-Shim",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Anthony Yacovone",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Antoinette Delmonico",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Apekshya Prasai",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Arash Yazdanbakhsh",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Ari Trachtenberg",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Arjun Vishwanath",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Arthur Lee",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Ashis Gangopadhyay",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Ashley Davis",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ashley Slay",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ashok Cutkosky",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Assaf Kfoury",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Astraea Augsberger",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Asya Lyass",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Ayse Coskun",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Azer Bestavros",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Barbara L. Jones",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Barton Lipman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Benjamin Koskinen",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Benjamin Marx",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Benjamin Scott",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Bill Crown",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Bjorn Persson",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Boqing Gong",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Brett DiBenedictis",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Brett Litz",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Brian Cleary",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Brian Kulis",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Brian Williams",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Bronwyn Keefe",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Bruce Watson",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Bryan Plummer",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Carmel Barrau",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Carol Mann-Cohen",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Catherine Caldwell-Harris",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Chandramouli Chandrasekaran",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Chang Xiao",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Chantal Stern",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Charalampos Tsourakakis",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Cheryl Knott",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Chiara Margaria",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Ching-To Albert MA",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Chloe Frankel",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Chloe Jordan",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Chris Richardson",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Christie Barone",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Christina Lee",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Christine Papadakis-Kanaris",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Christine Slaughter",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Christophe Chamley",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Christopher J. Schneider",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Christopher Schmitt",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Claudia Miranda-Julian",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Clemens Noelke",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Cole Brahim",
+    "department": "School of Public Health"
+  },
+  {
+    "name": "Contact Us",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Corinne Beaugard",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Course Planning",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Cristina Araujo Brinkerhoff",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Cynthia Bradham",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Daniel Bullock",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Daniel Do",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Daniel Erker",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Daniel Jacobson López",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Daniel P. Miller",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Daniel Segrè",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Daniel Weiner",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Daniele Paserman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Darien Alexander Williams",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "David Apostol",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "David Barlow",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "David Fried",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "David Glick",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "David J. Waxman",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "David Lagakos",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "David Langer",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "David Mayers",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "David Rohrlich",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "David Shim",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "David Somers",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "David Starobinski",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "David Sullivan",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Dawn Belkin Martinez",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Dean R. Tolan",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Debarghya Mukherjee",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Deborah Belle",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Deborah Chassler",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Deborah Goldfarb",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Deborah Kelemen",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Debra K. Borkovitz",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Deepti Ghadiyaram",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Deirdre Calvert",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Derry Wijaya",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Diane Crowley",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Diane Mello-Goldner",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Dilip Mookherjee",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Dolores Acevedo-Garcia",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Donna McLaughlin",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Donna Pincus",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Dora Erdos",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "E. Nilay Kafali",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Ed Chien",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Edward L. Loechler",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Elaine Gatewood",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Eliza Campbell",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Elizabeth Co",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Elizabeth Cohen",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Elizabeth Coppock",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Elizabeth Eustis",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Elizabeth Godrick",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ellen DeVoe",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ellen Faszewski",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ellen S. Hendriksen",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Ellen Sandoval",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Emily Pilowa",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Emily Stephen",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Emily Whiting",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Eran Tromer",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Eric Boorman",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Eric Chang",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Eric Simonian",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Eric Widmaier",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Erik Peinert",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Erika Tullgren",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Eshed Ohn-Bar",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Ethan Deyle",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Eva Garrett",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Evan Sadler",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Evimaria Terzi",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Faith Little",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Fan Yang",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Fotios Kokkotos",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Frances Grossman",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Francis C. Monette",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Francisco J. Naya",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Fred E. Wasserman",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Gabriel Ocker",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Gail Patt",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Gary Benson",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Gary Eager",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Gaurab Aryal",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Geoffrey M. Cooper",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "George Kollios",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Georgios Zervas",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Gianluca Stringhini",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Gina Baral Abrams",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Glenn Stevens",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Gloria V. Callard",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Grace Gowdy",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Graduate Students",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Guangqu Zheng",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Haldun Evrenk",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Haviland Wright",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Heidi Meyer",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Helen Tager-Flusberg",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Hengye Man",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Henry Marcucella",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Hiroaki Kaido",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Hongwei Xi",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Hope Haslam Straughan",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Horacio Frydman",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Hsueh-Ling Huynh",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Hyeouk Chris Hahm",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ian Davison",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ian P. Callard",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "In Memoriam",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Irena Lucifredi",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Irene Pepperberg",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Isaac Fried",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Ishita Dey",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Ivan Fernandez-Val",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jacob Brown",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "James Cherry",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "James F. A. Traniello",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "James Feigenbaum",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jana Iverson",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Jared Weinstein",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Jawwad Noor",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jean Berko Gleason",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Jean-Jacques Forneron",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jeffrey Chin",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jeffrey Gavornik",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jeffrey Marlow",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jelle Atema",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jen-Wei Lin",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jenni Wiech",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jennifer Balakrishnan",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Jennifer Bhatnagar",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jennifer LaRoche",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jennifer M. Gómez",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jerry Chen",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jessica Charles",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jessica Kant",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jihye Jeon",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jill Schreider",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jillian Ayotte",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Joanna Bridger",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Joaquin Blaum",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Job Candidates",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Job Openings",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jodi Dean",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Joe Larkin",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Johannes Schmieder",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "John Bakum",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "John Benducci",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "John Byers",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "John L. Celenza",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "John Liagouris",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "John Otis",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "John R. Finnerty",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "John Tullai",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Jonathan Appavoo",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Jonathan Barnes",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Jonathan Huggins",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Jordana Muroff",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Jordi Jaumandreu",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Jorge Delva",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Joseph McGuire",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Joseph Pereira",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Joshua Goodman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Juan Fuxman Bass",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Juan Ortner",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Juanita Duque-Rosero",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Judith C. Scott",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Judith G. Gonyea",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Judith Lok",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Julio Castrillon",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Kanako Okuda",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Karen Warkentin",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Kari Kipf Horstmann",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Karin Schon",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Karina Scavo Lord",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Kate Henneberry",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Kate Lynn Lindsey",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Kate Nussenbaum",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kate Saenko",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Kate Warren Barnes",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Katherine Levine Einstein",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Kathleen Corriveau",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kathleen Kantak",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kathleen Malley-Morrison",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kathryn Spilios",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Katrina Huff-Larmond",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Katya Ravid",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Kelly Aho",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ken Chung",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Kevin Kozin",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Kevin Lang",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Kim McCall",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Kimberly Hokanson",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Kimberly Saudino",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kira Goldner",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Konstantinos Spiliopoulos",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Krishna Dasaratha",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Kristin Long",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Kristina Whiton-O&#8217;Brien",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Krzysztof Onak",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Kyle Best",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Kyle Deeds",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Laila Swydan",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lance Galletti",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Langdon White",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Laura Fletcher",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lauren Ferreira Cardoso",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lauren Mattioli",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Laurence J. Kotlikoff",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Layla Khayr",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lee Staples",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lenette Azzi-Lessing",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Leonid Levin",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Leonid Reyzin",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Leonidas Kontothanassis",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Les Kaufman",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Leslie Brody",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Lida Maxwell",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Lincoln Brown",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Linh Tô",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Lisa Kerzner-Sirois",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lisa Smith",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Lisa Sorenson",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Luis Carvalho",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Luis R. Alvarez-Hernandez",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Luz Marilis López",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Lynette Strickland",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Lynne Brogan",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Lynne Chantranupong",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "M. Emilia Bianco",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Maciej Szczesny",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Madyson Bostic",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Malaka Mims",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Mamikon Ginovyan",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Manos Athanassoulis",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Manuel Egele",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Marc Howard",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Marc Rysman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Marci Morris",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Marco Gaboardi",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Marcus Walton",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Margaret Beck",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Margaret Kiwanuka-Woernle",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Margaret Lombe",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Margaret Ross",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Margaret Wile",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Margrit Betke",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Marianne Baxter",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Marie Parsons",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Marine Biology",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Mario Muscedere",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Marji Erickson Warfield",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Marjorie Thomsen",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Mark Bun",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Mark Crovella",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Mark Gianino",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Mark Howe",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Mark Kon",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Mark Kramer",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Mark Richardson",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Martha Tompson",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Martin Fiszbein",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Mary Bertrand",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Mary Elizabeth Collins",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Maryann Amodeo",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Masanao Yajima",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Masao Fukui",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Matthew Neil Moore",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Maxwell Palmer",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Maya Milic-Strkalij",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Mayank Varia",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Meg Younger",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Melissa Kibbe",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Michael Baum",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Michael D. Sorenson",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Michael Everdell",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Michael Hasselmo",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Michael Lyons",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Michael Otto",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Michael Salins",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Michaelyn Hartmann",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Michelle McCarthy",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Michelle Wexelblat",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Mikel Garcia-Marcos",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Mohamad Kassab",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Monica Ashjian",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Myra Hindus",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Nadia Chamblin Foster",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Najoung Kim",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Nancy Kopell",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Natalia Ramondo",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Nathan Klein",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Nathan Mull",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Neil Myler",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Nicholas Wagner",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Nicolas Wittstock",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Nikki Kirsch",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Nikki Pollard",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Nina Aronoff",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Noor Toraif",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Onur Burak Celik",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Open Positions",
+    "department": "College of Engineering — BME"
+  },
+  {
+    "name": "Orran Krieger",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Ovsanna Leyfer",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Padmavathi Srinivasan",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Pamela Audeh",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Pamela Joshi",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Pamela Templer",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Pankaj Tandon",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Patricia Mackay",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Patty Underwood",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Paul Hagstrom",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Paul M. B. Gutierrez",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Pauline Mourot",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Peter Blake",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Peter Buston",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Peter Gacs",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Peter Treitler",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Phillip S. Lobel",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Phillipe Copeland",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Pierre Perron",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Prakash Ishwar",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Preethi Narayanan",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Priscilla Cheung",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Professors Emeriti",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Qimin Liu",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Rachel Agnir",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Rachel Denison",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Rachel Meade",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Rachel Merson",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Ran Canetti",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Randall P. Ellis",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Randi Rotjan",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ranjan Panth",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Raymond Fisman",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Rebecca Minor, LICSW",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Recent News",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Regina Cati",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Renato Mancuso",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Renée Spencer",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Rich West",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Richard B. Primack",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Rick Cresta",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Robert A. Brown",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Robert A. Margo",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Robert G. King",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Robert M. G. Reinhart",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Robert Pollack",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Robin Francis",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Robin Quinterno",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Robinson W. Fulweiler",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Roi Orzach",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Ronald Czik",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Rosella Cappella Zielinski",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Rosemary Toomey",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Ruth Paris",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Ryan Bakinowski",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Ryan Goh",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "S. Wade Taylor",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sabrina Neuman",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Sam Ling",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Samuel Isaacson",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Samuel Meisel",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Sandra Acevedo",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sandra McEvoy",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Santiago Franco",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Sara Rodrigues",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sarah Allen",
+    "department": "College of Engineering — SE"
+  },
+  {
+    "name": "Sarah Davies",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Sarah Keenan",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sarah Parkerson",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sean P. Mullen",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Será Godfrey-Kaplan",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Shantelle Castle",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sharon Goldberg",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Sheila Gomez",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Shelley J. Russek",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Shereif El-Sheikh",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Sidney L. Tamm",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Simon Kasif",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Simone Gill",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Sir Hans Kornberg",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Siu-Cheong Lau",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Slava Krigman",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Sofia Perez",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Sofya Raskhodnikova",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Sofía Casasa",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Solesne Bourguin",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Sophie Hao",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Spencer Piston",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Srdjan Divac",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Stacey Gelsheimer",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Stan Sclaroff",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Stay Connected",
+    "department": "Faculty of Computing & Data Sciences"
+  },
+  {
+    "name": "Stefania Garetto",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Stephen Grossberg",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Steve Homer",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Steve Ramirez",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Steven Rosenzweig",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Steven Sandage",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Stjepko Golubic",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Suzanne Plasse",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Sylvia Krinsky",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Takashi Kimura",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Tara Mandalaywala",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Tarek Hassan",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Tasso Kaper",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Taylor Boas",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Taylor Hall",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Taymaz Davoodi",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Teaching Fellows",
+    "department": "CAS — Linguistics"
+  },
+  {
+    "name": "Terence Keane",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "The Download Newsletter",
+    "department": "Faculty of Computing & Data Sciences"
+  },
+  {
+    "name": "Thomas Enkosky",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Thomas Gilmore",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Thomas Kunz",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Tiago Januario",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Tibor Palfai",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Timothy A. Brown",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Timothy Kohl",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Timothy P. Longman",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Todd Farchione",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Todd Idson",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Tracy Dunne",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Trevor W. Siggers",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Tuan Leng Tay",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Ulla Hansen",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Undergraduate Major",
+    "department": "Faculty of Computing & Data Sciences"
+  },
+  {
+    "name": "Undergraduate Minor",
+    "department": "Faculty of Computing & Data Sciences"
+  },
+  {
+    "name": "Uri Eden",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Uwe Beffert",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Varsha Kulkarni",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Vasiliki Kalavri",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Venkatesh Saligrama",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "View All",
+    "department": "Faculty of Computing & Data Sciences"
+  },
+  {
+    "name": "Vijaya Kolachalama",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Vincent Dionne",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Visiting Scholars",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Wayne Snyder",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Wenchao Li",
+    "department": "CAS — Computer Science"
+  },
+  {
+    "name": "Wendy Lippe",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "William Eldred",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "William W. Grimes",
+    "department": "CAS — Political Science"
+  },
+  {
+    "name": "Yakeel Quiroz",
+    "department": "CAS — Psychology"
+  },
+  {
+    "name": "Yoonsook Ha",
+    "department": "School of Social Work"
+  },
+  {
+    "name": "Yu-Shen Lin",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Yuhei Miyauchi",
+    "department": "CAS — Economics"
+  },
+  {
+    "name": "Yves Atchade",
+    "department": "CAS — Mathematics & Statistics"
+  },
+  {
+    "name": "Zeba Wunderlich",
+    "department": "CAS — Biology"
+  },
+  {
+    "name": "Zhongjun Qu",
+    "department": "CAS — Economics"
+  }
+]

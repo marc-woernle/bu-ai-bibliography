@@ -1,0 +1,21 @@
+{
+  "total_unique_papers": 18959,
+  "total_elapsed_seconds": 427.7,
+  "sources": {
+    "pubmed": {
+      "raw_count": 3620,
+      "new_count": 3580,
+      "dupe_count": 40,
+      "elapsed_seconds": 45.0,
+      "status": "success"
+    },
+    "openbu": {
+      "raw_count": 15694,
+      "new_count": 15379,
+      "dupe_count": 315,
+      "elapsed_seconds": 382.7,
+      "status": "success"
+    }
+  },
+  "timestamp": "2026-03-27T23:45:20.814977"
+}

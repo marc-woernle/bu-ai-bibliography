@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BU AI Research Bibliography</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bu-red: #cc0000;
+  --bu-red-light: #cc000018;
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --gray: #6b7280;
+  --green-bg: #dcfce7;
+  --green-fg: #166534;
+  --serif: 'Crimson Pro', Georgia, serif;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--serif); color: #1a1a1a; line-height: 1.6; background: #fff; }
+.bu-topbar { background: var(--bu-red); height: 4px; width: 100%; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.header { border-bottom: 1px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 20px; position: relative; }
+.header-inner { display: flex; align-items: flex-start; gap: 18px; }
+.bu-mark { flex-shrink: 0; display: flex; align-items: center; gap: 16px; }
+.bu-mark img { width: 49px; height: 35px; }
+.bu-mark-divider { width: 1px; height: 44px; background: #ddd; }
+.header-text { flex: 1; }
+.header-label { font-family: var(--sans); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bu-red); font-weight: 600; margin-bottom: 2px; }
+.header h1 { font-size: 28px; font-weight: 700; margin: 2px 0 6px; line-height: 1.15; color: #1a1a1a; }
+.header-meta { font-family: var(--sans); font-size: 13px; color: #666; }
+.header-date { font-family: var(--sans); font-size: 11px; color: #999; margin-top: 3px; }
+.stats-bar { display: flex; gap: 24px; flex-wrap: wrap; padding: 14px 16px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 20px; font-family: var(--sans); font-size: 13px; color: #555; }
+.stat-item { display: flex; flex-direction: column; }
+.stat-value { font-size: 20px; font-weight: 600; color: #1a1a1a; }
+.stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Sticky bar */
+#sticky-bar { position: sticky; top: 0; z-index: 50; background: #fff; padding: 12px 0 4px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
+#sticky-bar.scrolled { border-bottom-color: #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.search-row { margin-bottom: 10px; }
+.search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: var(--sans); outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--bu-red); }
+.filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; font-family: var(--sans); font-size: 13px; align-items: flex-end; }
+.filter-group { display: flex; flex-direction: column; gap: 2px; }
+.filter-group label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; font-weight: 500; }
+.filter-group select, .filter-group input[type="number"] { padding: 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; min-width: 120px; }
+.filter-group input[type="number"] { width: 70px; }
+.multi-select { position: relative; min-width: 160px; }
+.multi-select-btn { padding: 5px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: var(--sans); background: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 4px; white-space: nowrap; }
+.multi-select-btn .count { background: var(--bu-red); color: #fff; border-radius: 10px; padding: 0 6px; font-size: 11px; font-weight: 600; }
+.multi-select-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd; border-radius: 4px; max-height: 260px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 250px; }
+.multi-select-dropdown.open { display: block; }
+.multi-select-dropdown label { display: flex; align-items: center; gap: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
+.multi-select-dropdown label:hover { background: #f5f5f5; }
+.multi-select-dropdown input[type="checkbox"] { accent-color: var(--bu-red); }
+.ms-search { width: calc(100% - 12px); margin: 6px; padding: 4px 8px; border: 1px solid #ddd; border-radius: 3px; font-size: 12px; font-family: var(--sans); }
+.ms-clear { padding: 4px 10px; font-size: 11px; color: var(--bu-red); cursor: pointer; border-top: 1px solid #eee; }
+.toggle { position: relative; width: 36px; height: 20px; cursor: pointer; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .slider { position: absolute; inset: 0; background: #ccc; border-radius: 20px; transition: 0.2s; }
+.toggle .slider:before { content: ''; position: absolute; width: 16px; height: 16px; left: 2px; bottom: 2px; background: #fff; border-radius: 50%; transition: 0.2s; }
+.toggle input:checked + .slider { background: var(--bu-red); }
+.toggle input:checked + .slider:before { transform: translateX(16px); }
+.filter-summary { font-family: var(--sans); font-size: 12px; color: #888; margin-bottom: 4px; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 12px; font-family: var(--sans); align-items: center; }
+.toolbar-btn { padding: 4px 12px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; font-size: 12px; font-family: var(--sans); color: #555; transition: all 0.15s; }
+.toolbar-btn:hover { background: #f5f5f5; border-color: #bbb; }
+
+/* Search highlighting */
+mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; }
+
+/* Group headers */
+.group-header { font-family: var(--sans); font-size: 14px; font-weight: 600; color: #555; padding: 10px 0 6px; margin-top: 8px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: baseline; }
+.group-header .group-count { font-size: 12px; font-weight: 400; color: #999; }
+
+/* Paper cards */
+.paper { border-left: 3px solid #ccc; padding: 12px 0 12px 16px; margin-bottom: 6px; transition: all 0.15s; }
+.paper-header { cursor: pointer; }
+.paper:not(.expanded):hover { background: #fafafa; }
+.paper.expanded { background: #f0eeeb; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding-right: 16px; border-left-width: 4px; }
+.paper.visited .paper-title { color: #555; }
+.paper-title { font-size: 18px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+.paper-authors { font-family: var(--sans); font-size: 13px; color: #555; margin-bottom: 3px; }
+.paper-authors .bu-author { color: var(--bu-red); font-weight: 600; }
+.paper-authors .author-link { cursor: pointer; text-decoration: none; }
+.paper-authors .author-link:hover { text-decoration: underline; }
+.paper-meta { font-family: var(--sans); font-size: 12px; color: #888; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.paper-meta .venue { font-style: italic; }
+.badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
+.badge-primary { background: #2563eb18; color: #2563eb; }
+.badge-methodological { background: #7c3aed18; color: #7c3aed; }
+.badge-peripheral { background: #6b728018; color: #6b7280; }
+.badge-oa { background: var(--green-bg); color: var(--green-fg); }
+.badge-school { background: var(--bu-red-light); color: var(--bu-red); font-size: 10px; padding: 1px 6px; border-radius: 3px; }
+.border-primary { border-left-color: var(--blue); }
+.border-methodological { border-left-color: var(--purple); }
+.border-peripheral { border-left-color: var(--gray); }
+.paper-detail { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0dfdc; user-select: text; cursor: auto; }
+.paper-annotation { font-family: var(--sans); font-size: 14px; color: #333; line-height: 1.65; margin-bottom: 10px; }
+.paper-abstract-snippet { font-family: var(--sans); font-size: 13px; color: #555; line-height: 1.55; margin-bottom: 10px; font-style: italic; padding: 8px 12px; background: #f8f9fa; border-radius: 4px; border-left: 2px solid #ddd; }
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.tag { font-family: var(--sans); font-size: 11px; padding: 2px 8px; border-radius: 12px; }
+.tag-domain { background: #f0f0f0; color: #555; }
+.tag-subfield { background: #eff6ff; color: #1d4ed8; }
+.paper-bu-info { font-family: var(--sans); font-size: 13px; color: #666; margin-bottom: 8px; }
+.paper-actions { display: flex; gap: 10px; font-family: var(--sans); font-size: 13px; align-items: center; flex-wrap: wrap; }
+.paper-actions a { color: var(--bu-red); text-decoration: none; font-weight: 500; }
+.paper-actions a:hover { text-decoration: underline; }
+.cite-btn { background: none; border: 1px solid #888; color: #555; padding: 2px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
+.cite-btn:hover { border-color: #555; color: #333; }
+.linkedin-btn { background: none; border: 1px solid #0a66c2; color: #0a66c2; padding: 2px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
+.linkedin-box { margin-top: 10px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e5e7eb; }
+.linkedin-text { font-family: var(--sans); font-size: 12px; white-space: pre-wrap; color: #333; line-height: 1.5; }
+.linkedin-copy { margin-top: 8px; background: #0a66c2; color: #fff; border: none; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
+.cite-box { margin-top: 10px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e5e7eb; }
+.cite-text { font-family: var(--sans); font-size: 12px; color: #333; line-height: 1.5; }
+.cite-copy { margin-top: 8px; background: #555; color: #fff; border: none; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 24px; font-family: var(--sans); font-size: 13px; flex-wrap: wrap; }
+.page-btn { padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; font-family: var(--sans); font-size: 13px; }
+.page-btn:hover { background: #f5f5f5; }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+.page-btn.active { background: var(--bu-red); color: #fff; border-color: var(--bu-red); }
+.footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-family: var(--sans); font-size: 11px; color: #aaa; text-align: center; }
+.loading { text-align: center; padding: 60px 20px; font-family: var(--sans); font-size: 16px; color: #888; }
+.loading .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid #eee; border-top-color: var(--bu-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 640px) {
+  .header h1 { font-size: 24px; }
+  .stats-bar { gap: 16px; }
+  .filters { flex-direction: column; }
+  .filter-group select { width: 100%; }
+  .paper-title { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bu-topbar"></div>
+<div class="container">
+  <div id="app-header"></div>
+  <div id="sticky-bar">
+    <div class="search-row" id="search-row" style="display:none">
+      <input class="search-input" id="search-input" type="text" placeholder="Search titles, authors, annotations&hellip;" oninput="app.search(this.value)">
+    </div>
+    <div id="filters-container"></div>
+  </div>
+  <div id="app">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div>Loading bibliography&hellip;</div>
+    </div>
+  </div>
+</div>
+
+<!-- DATA_SCRIPT_TAG -->
+<script src="data.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  const papers = window.PAPERS_DATA || [];
+  const IS_PRIVATE = papers.length > 0 && papers[0].hasOwnProperty('abs');
+
+  // State
+  let expandedIdx = null;
+  let linkedinIdx = null;
+  let citeIdx = null;
+  let currentPage = 1;
+  const PAGE_SIZE = 25;
+
+  let searchQuery = '';
+  let filterCategory = 'all';
+  let filterSchool = 'all';
+  let filterRelevance = 'all';
+  let filterOA = false;
+  let yearMin = 1960;
+  let yearMax = 2026;
+  let dataYearMin = 1960;
+  let dataYearMax = 2026;
+  let selectedDomains = new Set();
+  let selectedSubfields = new Set();
+  let sortBy = 'year';
+  let groupBy = 'none'; // 'none', 'year', 'school'
+  const viewedPapers = new Set(); // track expanded papers this session
+
+  let allSchools = [];
+  let allDomains = [];
+  let allSubfields = [];
+  let filteredPapers = [];
+
+  const REL_LABELS = { primary: 'Core AI', methodological: 'AI Methods', peripheral: 'AI-Adjacent' };
+
+  // ---- Sticky bar scroll detection ----
+  const stickyBar = document.getElementById('sticky-bar');
+  window.addEventListener('scroll', function() {
+    stickyBar.classList.toggle('scrolled', window.scrollY > 180);
+  }, { passive: true });
+
+  // ---- URL hash state ----
+  function writeHash() {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('q', searchQuery);
+    if (filterCategory !== 'all') params.set('cat', filterCategory);
+    if (filterSchool !== 'all') params.set('sch', filterSchool);
+    if (filterRelevance !== 'all') params.set('rel', filterRelevance);
+    if (sortBy !== 'year') params.set('sort', sortBy);
+    if (filterOA) params.set('oa', '1');
+    if (yearMin > dataYearMin) params.set('ymin', yearMin);
+    if (yearMax < dataYearMax) params.set('ymax', yearMax);
+    if (selectedDomains.size) params.set('dom', [...selectedDomains].join('|'));
+    if (selectedSubfields.size) params.set('sub', [...selectedSubfields].join('|'));
+    if (groupBy !== 'none') params.set('group', groupBy);
+    if (currentPage > 1) params.set('p', currentPage);
+    const str = params.toString();
+    history.replaceState(null, '', str ? '#' + str : location.pathname);
+  }
+
+  function readHash() {
+    if (!location.hash || location.hash.length < 2) return;
+    try {
+      const params = new URLSearchParams(location.hash.slice(1));
+      if (params.has('q')) searchQuery = params.get('q');
+      if (params.has('cat')) filterCategory = params.get('cat');
+      if (params.has('sch')) filterSchool = params.get('sch');
+      if (params.has('rel')) filterRelevance = params.get('rel');
+      if (params.has('sort')) sortBy = params.get('sort');
+      if (params.has('oa')) filterOA = true;
+      if (params.has('ymin')) yearMin = parseInt(params.get('ymin')) || yearMin;
+      if (params.has('ymax')) yearMax = parseInt(params.get('ymax')) || yearMax;
+      if (params.has('dom')) params.get('dom').split('|').forEach(d => selectedDomains.add(d));
+      if (params.has('sub')) params.get('sub').split('|').forEach(s => selectedSubfields.add(s));
+      if (params.has('group')) groupBy = params.get('group');
+      if (params.has('p')) currentPage = parseInt(params.get('p')) || 1;
+      document.getElementById('search-input').value = searchQuery;
+    } catch(e) {}
+  }
+
+  // ---- Data helpers ----
+  function buildFilterOptions() {
+    const schoolSet = new Set(), domainSet = new Set(), subfieldSet = new Set();
+    let minY = 9999, maxY = 0;
+    papers.forEach(p => {
+      (p.sch || []).forEach(s => schoolSet.add(s));
+      (p.dom || []).forEach(d => domainSet.add(d));
+      (p.sub || []).forEach(s => subfieldSet.add(s));
+      if (p.y && p.y < minY) minY = p.y;
+      if (p.y && p.y > maxY) maxY = p.y;
+    });
+    if (schoolSet.has('Boston University (unspecified)')) {
+      schoolSet.delete('Boston University (unspecified)');
+      schoolSet.add('Boston University');
+    }
+    allSchools = [...schoolSet].sort();
+    allDomains = [...domainSet].sort();
+    allSubfields = [...subfieldSet].sort();
+    dataYearMin = minY; dataYearMax = maxY;
+    if (yearMin < minY || yearMin > maxY) yearMin = minY;
+    if (yearMax < minY || yearMax > maxY) yearMax = maxY;
+  }
+
+  function applyFilters(keepPage) {
+    let result = papers;
+    if (filterCategory !== 'all') result = result.filter(p => p.cat === filterCategory);
+    if (filterSchool !== 'all') result = result.filter(p => {
+      const schools = (p.sch || []).map(s => s === 'Boston University (unspecified)' ? 'Boston University' : s);
+      return schools.includes(filterSchool);
+    });
+    if (filterRelevance !== 'all') result = result.filter(p => p.r === filterRelevance);
+    if (filterOA) result = result.filter(p => p.oa);
+    if (yearMin > dataYearMin || yearMax < dataYearMax) {
+      result = result.filter(p => p.y && p.y >= yearMin && p.y <= yearMax);
+    }
+    if (selectedDomains.size > 0) result = result.filter(p => (p.dom || []).some(d => selectedDomains.has(d)));
+    if (selectedSubfields.size > 0) result = result.filter(p => (p.sub || []).some(s => selectedSubfields.has(s)));
+    if (searchQuery.trim()) {
+      const terms = searchQuery.toLowerCase().trim().split(/\s+/);
+      result = result.filter(p => {
+        const hay = [p.t, p.a, p.n, p.s].join(' ').toLowerCase();
+        return terms.every(term => hay.includes(term));
+      });
+    }
+    if (sortBy === 'year') result.sort((a, b) => (b.y || 0) - (a.y || 0));
+    else if (sortBy === 'citations') result.sort((a, b) => (b.c || 0) - (a.c || 0));
+    else if (sortBy === 'title') result.sort((a, b) => (a.t || '').localeCompare(b.t || ''));
+    filteredPapers = result;
+    if (!keepPage) { currentPage = 1; }
+    expandedIdx = null;
+    linkedinIdx = null;
+    citeIdx = null;
+  }
+
+  // ---- Helpers ----
+  function escHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Search term highlighting
+  function hl(text) {
+    if (!searchQuery.trim()) return text;
+    const escaped = escHtml(text);
+    const terms = searchQuery.trim().split(/\s+/);
+    let result = escaped;
+    terms.forEach(term => {
+      if (term.length < 2) return;
+      const re = new RegExp('(' + escRegex(term) + ')', 'gi');
+      result = result.replace(re, '<mark>$1</mark>');
+    });
+    return result;
+  }
+
+  function hlRaw(html) {
+    // Highlight within already-built HTML, skipping tags
+    if (!searchQuery.trim()) return html;
+    const terms = searchQuery.trim().split(/\s+/).filter(t => t.length >= 2);
+    if (!terms.length) return html;
+    // Split on tags, highlight only text nodes
+    return html.replace(/([^<>]+)(?=<|$)/g, function(text) {
+      let r = text;
+      terms.forEach(term => {
+        const re = new RegExp('(' + escRegex(term) + ')', 'gi');
+        r = r.replace(re, '<mark>$1</mark>');
+      });
+      return r;
+    });
+  }
+
+  function getPageRange(current, total) {
+    if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+    const pages = [1];
+    if (current > 3) pages.push('...');
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+    if (current < total - 2) pages.push('...');
+    pages.push(total);
+    return pages;
+  }
+
+  function displaySchool(p) {
+    const specific = (p.sch || []).find(s => s !== 'Boston University (unspecified)');
+    return specific || ((p.sch || []).length ? 'Boston University' : null);
+  }
+
+  function cleanSchools(p) {
+    return (p.sch || []).map(s => s === 'Boston University (unspecified)' ? 'Boston University' : s);
+  }
+
+  function generateLinkedIn(p) {
+    const catLabel = p.cat === 'LAW' ? 'BU Law' : p.cat === 'BOTH' ? 'BU Law & Faculty' : 'BU';
+    return `\u{1F52C} ${catLabel} AI Research Spotlight\n\n"${p.t}" (${p.y || 'forthcoming'})\n\nBy ${p.a}\nPublished in ${p.v || 'Unpublished'}\n\n${p.s || ''}\n\n${p.n || ''}\n\n${p.oa ? '\u{1F4D6} Open Access \u2014 read it here:' : '\u{1F517} Read more:'} ${p.u || ''}\n\n${(p.dom||[]).map(d => '#' + d.replace(/[^a-zA-Z0-9]/g,'')).join(' ')} #BostonUniversity #AIResearch`;
+  }
+
+  function generateCitation(p) {
+    // APA-ish format
+    const authors = p.a || 'Unknown';
+    const year = p.y ? ` (${p.y})` : ' (n.d.)';
+    const title = p.t || 'Untitled';
+    const venue = p.v ? ` ${p.v}.` : '';
+    const doi = p.doi ? ` https://doi.org/${p.doi}` : (p.u ? ` ${p.u}` : '');
+    return `${authors}${year}. ${title}.${venue}${doi}`;
+  }
+
+  function renderMultiSelect(id, label, options, selected) {
+    const count = selected.size;
+    let h = `<div class="filter-group"><label>${label}</label>
+      <div class="multi-select" id="ms-${id}">
+        <div class="multi-select-btn" onclick="app.toggleMS('${id}')">
+          ${count > 0 ? label + ' ' : 'All ' + label}${count > 0 ? `<span class="count">${count}</span>` : ''} \u25BE
+        </div>
+        <div class="multi-select-dropdown" id="msd-${id}">
+          <input class="ms-search" type="text" placeholder="Filter\u2026" oninput="app.filterMS('${id}',this.value)" onclick="event.stopPropagation()">
+          <div id="mso-${id}">`;
+    options.forEach(opt => {
+      const safeVal = escHtml(opt).replace(/'/g, "\\'");
+      h += `<label onclick="event.stopPropagation()"><input type="checkbox" ${selected.has(opt)?'checked':''} onchange="app.toggleMSItem('${id}','${safeVal}',this.checked)"> ${escHtml(opt)}</label>`;
+    });
+    h += `</div>`;
+    if (count > 0) h += `<div class="ms-clear" onclick="app.clearMS('${id}');event.stopPropagation()">Clear selection</div>`;
+    h += `</div></div></div>`;
+    return h;
+  }
+
+  // ---- Group by helpers ----
+  function getGroupKey(p) {
+    if (groupBy === 'year') return p.y || 'Unknown year';
+    if (groupBy === 'school') return displaySchool(p) || 'Unknown school';
+    return null;
+  }
+
+  // ---- Rendering ----
+  function render() {
+    const totalCitations = filteredPapers.reduce((s, p) => s + (p.c || 0), 0);
+    const years = filteredPapers.filter(p => p.y).map(p => p.y);
+    const yrRange = years.length ? `${Math.min(...years)}\u2013${Math.max(...years)}` : '\u2014';
+    const schoolCounts = {};
+    filteredPapers.forEach(p => (p.sch || []).forEach(s => {
+      if (s !== 'Boston University (unspecified)') schoolCounts[s] = (schoolCounts[s] || 0) + 1;
+    }));
+    const topSchools = Object.entries(schoolCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+    const totalPages = Math.ceil(filteredPapers.length / PAGE_SIZE);
+    const pageStart = (currentPage - 1) * PAGE_SIZE;
+    const pagePapers = filteredPapers.slice(pageStart, pageStart + PAGE_SIZE);
+
+    // Header
+    document.getElementById('app-header').innerHTML = `<div class="header">
+      <div class="header-inner">
+        <div class="bu-mark">
+          <img src="https://www.bu.edu/cdn/images/logos/subbrand49x35-retina.png" alt="Boston University" width="49" height="35">
+          <div class="bu-mark-divider"></div>
+        </div>
+        <div class="header-text">
+          <div class="header-label">Boston University</div>
+          <h1>AI Research Bibliography</h1>
+          <div class="header-meta">${papers.length.toLocaleString()} Publications \u00B7 Classified by Sonnet 4</div>
+          <div class="header-date">Current as of March 29, 2026 \u00B7 Spanning 1962\u2013present \u00B7 10 Data Sources (243,379 unique papers harvested)${IS_PRIVATE ? ' \u00B7 <span style="color:var(--bu-red);font-weight:600">PRIVATE VERSION</span>' : ''}</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-value">${filteredPapers.length.toLocaleString()}</div><div class="stat-label">Papers shown</div></div>
+      <div class="stat-item"><div class="stat-value">${totalCitations.toLocaleString()}</div><div class="stat-label">Total citations</div></div>
+      <div class="stat-item"><div class="stat-value">${yrRange}</div><div class="stat-label">Year range</div></div>
+      <div class="stat-item"><div class="stat-value">${topSchools.length > 0 ? escHtml(topSchools[0][0].replace('CAS \u2014 ','').replace('Faculty of ','')) : '\u2014'}</div><div class="stat-label">Top school</div></div>
+    </div>`;
+
+    document.getElementById('search-row').style.display = '';
+    const searchEl = document.getElementById('search-input');
+    if (searchEl !== document.activeElement) searchEl.value = searchQuery;
+
+    // Filters (into sticky container)
+    let fh = '';
+    fh += `<div class="filters">`;
+    fh += `<div class="filter-group"><label>Category</label><select onchange="app.setFilter('category',this.value)">
+      <option value="all"${filterCategory==='all'?' selected':''}>All</option>
+      <option value="LAW"${filterCategory==='LAW'?' selected':''}>Law</option>
+      <option value="NON-LAW"${filterCategory==='NON-LAW'?' selected':''}>Non-Law</option>
+      <option value="BOTH"${filterCategory==='BOTH'?' selected':''}>Both</option>
+      <option value="UNCLASSIFIED"${filterCategory==='UNCLASSIFIED'?' selected':''}>Unclassified</option>
+    </select></div>`;
+    fh += `<div class="filter-group"><label>School</label><select onchange="app.setFilter('school',this.value)">
+      <option value="all"${filterSchool==='all'?' selected':''}>All Schools</option>
+      ${allSchools.map(s => `<option value="${escHtml(s)}"${filterSchool===s?' selected':''}>${escHtml(s)}</option>`).join('')}
+    </select></div>`;
+    fh += `<div class="filter-group"><label>AI Relevance</label><select onchange="app.setFilter('relevance',this.value)">
+      <option value="all"${filterRelevance==='all'?' selected':''}>All</option>
+      <option value="primary"${filterRelevance==='primary'?' selected':''}>Core AI</option>
+      <option value="methodological"${filterRelevance==='methodological'?' selected':''}>AI Methods</option>
+      <option value="peripheral"${filterRelevance==='peripheral'?' selected':''}>AI-Adjacent</option>
+    </select></div>`;
+    fh += `<div class="filter-group"><label>Sort</label><select onchange="app.setFilter('sort',this.value)">
+      <option value="year"${sortBy==='year'?' selected':''}>Year (newest)</option>
+      <option value="citations"${sortBy==='citations'?' selected':''}>Citations</option>
+      <option value="title"${sortBy==='title'?' selected':''}>Title A\u2013Z</option>
+    </select></div>`;
+    fh += `<div class="filter-group"><label>Group by</label><select onchange="app.setFilter('group',this.value)">
+      <option value="none"${groupBy==='none'?' selected':''}>None</option>
+      <option value="year"${groupBy==='year'?' selected':''}>Year</option>
+      <option value="school"${groupBy==='school'?' selected':''}>School</option>
+    </select></div>`;
+    fh += `</div>`;
+
+    fh += `<div class="filters" style="margin-top:8px">`;
+    fh += renderMultiSelect('domains', 'Domains', allDomains, selectedDomains);
+    fh += renderMultiSelect('subfields', 'Subfields', allSubfields, selectedSubfields);
+    fh += `<div class="filter-group"><label>Year from</label>
+      <input type="number" min="${dataYearMin}" max="${dataYearMax}" value="${yearMin}" onchange="app.setFilter('yearMin',this.value)">
+    </div>`;
+    fh += `<div class="filter-group"><label>Year to</label>
+      <input type="number" min="${dataYearMin}" max="${dataYearMax}" value="${yearMax}" onchange="app.setFilter('yearMax',this.value)">
+    </div>`;
+    fh += `<div class="filter-group"><label>Open Access</label>
+      <label class="toggle"><input type="checkbox" ${filterOA?'checked':''} onchange="app.setFilter('oa',this.checked)"><span class="slider"></span></label>
+    </div>`;
+    fh += `</div>`;
+
+    // Active filters summary
+    const af = [];
+    if (filterCategory !== 'all') af.push(filterCategory);
+    if (filterSchool !== 'all') af.push(filterSchool);
+    if (filterRelevance !== 'all') af.push(REL_LABELS[filterRelevance]);
+    if (filterOA) af.push('Open Access');
+    if (selectedDomains.size) af.push(selectedDomains.size + ' domain' + (selectedDomains.size > 1 ? 's' : ''));
+    if (selectedSubfields.size) af.push(selectedSubfields.size + ' subfield' + (selectedSubfields.size > 1 ? 's' : ''));
+    if (yearMin > dataYearMin || yearMax < dataYearMax) af.push(yearMin + '\u2013' + yearMax);
+    if (searchQuery.trim()) af.push('\u201C' + searchQuery.trim() + '\u201D');
+    if (af.length > 0) {
+      fh += `<div class="filter-summary">Filters: ${af.join(' \u00B7 ')} \u00B7 <a href="#" onclick="app.clearFilters();return false" style="color:var(--bu-red)">Clear all</a></div>`;
+    }
+
+    // Export button
+    fh += `<div class="toolbar"><button class="toolbar-btn" onclick="app.exportCSV()">Export CSV (${filteredPapers.length.toLocaleString()} papers)</button></div>`;
+
+    document.getElementById('filters-container').innerHTML = fh;
+
+    // ---- Papers ----
+    let h = '';
+    let lastGroupKey = null;
+
+    // Pre-compute group counts for headers
+    let groupCounts = {};
+    if (groupBy !== 'none') {
+      pagePapers.forEach(p => {
+        const k = getGroupKey(p);
+        groupCounts[k] = (groupCounts[k] || 0) + 1;
+      });
+    }
+
+    h += `<div>`;
+    pagePapers.forEach((p, i) => {
+      const globalIdx = pageStart + i;
+      const isExp = expandedIdx === globalIdx;
+
+      // Group header
+      if (groupBy !== 'none') {
+        const gk = getGroupKey(p);
+        if (gk !== lastGroupKey) {
+          lastGroupKey = gk;
+          h += `<div class="group-header"><span>${escHtml(String(gk))}</span><span class="group-count">${groupCounts[gk]} paper${groupCounts[gk] !== 1 ? 's' : ''} on this page</span></div>`;
+        }
+      }
+
+      const borderClass = 'border-' + (p.r || 'peripheral');
+      const visitedClass = viewedPapers.has(globalIdx) ? ' visited' : '';
+
+      // Authors
+      const buSet = new Set((p.bu || []).map(n => n.toLowerCase()));
+      const authorNames = (p.a || '').split(/,\s*/);
+      const MAX_AUTHORS = 8;
+      const truncated = authorNames.length > MAX_AUTHORS;
+      const shownAuthors = truncated ? authorNames.slice(0, MAX_AUTHORS) : authorNames;
+      const buBeyondCut = truncated ? authorNames.slice(MAX_AUTHORS).filter(name =>
+        buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name))
+      ) : [];
+      const formatAuthor = (name) => {
+        const isbu = buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
+        const safe = escHtml(name).replace(/'/g, "\\'");
+        const display = hl(name);
+        return isbu
+          ? `<a class="bu-author author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`
+          : `<a class="author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`;
+      };
+      let authorHtml = shownAuthors.map(formatAuthor).join(', ');
+      if (buBeyondCut.length) authorHtml += ', ' + buBeyondCut.map(formatAuthor).join(', ');
+      if (truncated) {
+        const remaining = authorNames.length - MAX_AUTHORS - buBeyondCut.length;
+        if (remaining > 0) authorHtml += ` <span style="color:#aaa">+${remaining} more</span>`;
+      }
+
+      h += `<div class="paper ${borderClass}${visitedClass} ${isExp ? 'expanded' : ''}">`;
+      h += `<div class="paper-header" onclick="app.toggle(${globalIdx})">`;
+      h += `<div class="paper-title">${hl(p.t || 'Untitled')}</div>`;
+      h += `<div class="paper-authors">${authorHtml}</div>`;
+      h += `<div class="paper-meta">`;
+      if (p.v) h += `<span class="venue">${escHtml(p.v)}</span>`;
+      if (p.y) h += `<span>${p.y}</span>`;
+      else h += `<span style="font-style:italic">forthcoming</span>`;
+      if (p.c) h += `<span>${p.c.toLocaleString()} citation${p.c !== 1 ? 's' : ''}</span>`;
+      h += `<span class="badge badge-${p.r || 'peripheral'}">${REL_LABELS[p.r] || p.r}</span>`;
+      if (p.oa) h += `<span class="badge badge-oa">Open Access</span>`;
+      const dSchool = displaySchool(p);
+      if (dSchool) h += `<span class="badge badge-school">${escHtml(dSchool)}</span>`;
+      h += `</div>`;
+      h += `</div>`; // paper-header
+
+      if (isExp) {
+        h += `<div class="paper-detail">`;
+        if (p.n) h += `<div class="paper-annotation">${hl(p.n)}</div>`;
+
+        if (!IS_PRIVATE && p.abs) {
+          const snippet = p.abs.length > 400 ? p.abs.substring(0, 400) + '\u2026' : p.abs;
+          h += `<div class="paper-abstract-snippet">${hl(snippet)}</div>`;
+        }
+
+        if ((p.dom && p.dom.length) || (p.sub && p.sub.length)) {
+          h += `<div class="tag-row">`;
+          (p.dom || []).forEach(d => { h += `<span class="tag tag-domain">${escHtml(d)}</span>`; });
+          (p.sub || []).forEach(s => { h += `<span class="tag tag-subfield">${escHtml(s)}</span>`; });
+          h += `</div>`;
+        }
+
+        if (p.bu && p.bu.length) {
+          h += `<div class="paper-bu-info"><strong>BU Faculty:</strong> ${p.bu.map(n => `<span style="color:var(--bu-red);font-weight:600">${escHtml(n)}</span>`).join(', ')}</div>`;
+        }
+        const cs = cleanSchools(p);
+        if (cs.length > 1) {
+          h += `<div class="paper-bu-info"><strong>Schools:</strong> ${cs.map(s => escHtml(s)).join(', ')}</div>`;
+        }
+        if (p.src && p.src.length) {
+          h += `<div class="paper-bu-info" style="font-size:12px;color:#999"><strong>Sources:</strong> ${p.src.join(', ')}</div>`;
+        }
+
+        h += `<div class="paper-actions">`;
+        if (p.u) h += `<a href="${escHtml(p.u)}" target="_blank" rel="noopener">Read paper \u2192</a>`;
+        if (p.doi) h += `<a href="https://doi.org/${escHtml(p.doi)}" target="_blank" rel="noopener" style="color:#555">DOI</a>`;
+        h += `<button class="cite-btn" onclick="app.toggleCite(${globalIdx})">${citeIdx === globalIdx ? 'Hide' : 'Cite'}</button>`;
+        if (IS_PRIVATE) {
+          h += `<button class="linkedin-btn" onclick="app.toggleLinkedin(${globalIdx})">${linkedinIdx === globalIdx ? 'Hide' : 'LinkedIn Post'}</button>`;
+        }
+        h += `</div>`;
+
+        // Citation box
+        if (citeIdx === globalIdx) {
+          const cite = generateCitation(p);
+          h += `<div class="cite-box">
+            <div class="cite-text">${escHtml(cite)}</div>
+            <button class="cite-copy" onclick="app.copyCite(${globalIdx})">Copy citation</button>
+          </div>`;
+        }
+
+        // LinkedIn box
+        if (IS_PRIVATE && linkedinIdx === globalIdx) {
+          const post = generateLinkedIn(p);
+          h += `<div class="linkedin-box">
+            <div class="linkedin-text">${escHtml(post)}</div>
+            <button class="linkedin-copy" onclick="app.copyLinkedin(${globalIdx})">Copy to clipboard</button>
+          </div>`;
+        }
+
+        h += `</div>`;
+      }
+      h += `</div>`;
+    });
+    h += `</div>`;
+
+    // Pagination
+    if (totalPages > 1) {
+      h += `<div class="pagination">`;
+      h += `<button class="page-btn" onclick="app.page(1)" ${currentPage <= 1 ? 'disabled' : ''}>\u00AB</button>`;
+      h += `<button class="page-btn" onclick="app.page(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>\u2039</button>`;
+      getPageRange(currentPage, totalPages).forEach(pg => {
+        if (pg === '...') h += `<span style="color:#aaa">\u2026</span>`;
+        else h += `<button class="page-btn ${pg === currentPage ? 'active' : ''}" onclick="app.page(${pg})">${pg}</button>`;
+      });
+      h += `<button class="page-btn" onclick="app.page(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>\u203A</button>`;
+      h += `<button class="page-btn" onclick="app.page(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>\u00BB</button>`;
+      h += `<span style="font-size:12px;color:#888;margin-left:8px">Page ${currentPage} of ${totalPages}</span>`;
+      h += `</div>`;
+    }
+
+    h += `<div class="footer">BU AI Research Bibliography \u00B7 ${papers.length.toLocaleString()} papers from OpenAlex, Semantic Scholar, PubMed, arXiv, SSRN, CrossRef, OpenBU, NIH, NSF, bioRxiv \u00B7 Classified by Sonnet 4</div>`;
+
+    document.getElementById('app').innerHTML = h;
+    writeHash();
+  }
+
+  // ---- Export ----
+  function exportCSV() {
+    const headers = ['Title','Authors','Year','Venue','Citations','AI Relevance','Domains','Subfields','BU Category','BU Schools','BU Faculty','DOI','URL','Open Access'];
+    const rows = filteredPapers.map(p => [
+      p.t || '',
+      p.a || '',
+      p.y || '',
+      p.v || '',
+      p.c || 0,
+      p.r || '',
+      (p.dom || []).join('; '),
+      (p.sub || []).join('; '),
+      p.cat || '',
+      cleanSchools(p).join('; '),
+      (p.bu || []).join('; '),
+      p.doi || '',
+      p.u || '',
+      p.oa ? 'Yes' : 'No'
+    ]);
+    let csv = headers.map(h => '"' + h + '"').join(',') + '\n';
+    rows.forEach(row => {
+      csv += row.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',') + '\n';
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bu_ai_bibliography_' + filteredPapers.length + '_papers.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ---- Close dropdowns on outside click ----
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.multi-select-dropdown.open').forEach(el => {
+      if (!el.parentElement.contains(e.target)) el.classList.remove('open');
+    });
+  });
+
+  // ---- Public API ----
+  let searchTimeout = null;
+  window.app = {
+    search(val) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { searchQuery = val; applyFilters(); render(); }, 250);
+    },
+    searchAuthor(name) {
+      searchQuery = name;
+      document.getElementById('search-input').value = name;
+      applyFilters();
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    setFilter(key, val) {
+      if (key === 'category') filterCategory = val;
+      else if (key === 'school') filterSchool = val;
+      else if (key === 'relevance') filterRelevance = val;
+      else if (key === 'sort') sortBy = val;
+      else if (key === 'group') groupBy = val;
+      else if (key === 'oa') filterOA = val;
+      else if (key === 'yearMin') yearMin = parseInt(val) || dataYearMin;
+      else if (key === 'yearMax') yearMax = parseInt(val) || dataYearMax;
+      applyFilters(); render();
+    },
+    clearFilters() {
+      searchQuery = ''; filterCategory = 'all'; filterSchool = 'all';
+      filterRelevance = 'all'; filterOA = false;
+      yearMin = dataYearMin; yearMax = dataYearMax;
+      selectedDomains.clear(); selectedSubfields.clear();
+      sortBy = 'year'; groupBy = 'none';
+      document.getElementById('search-input').value = '';
+      applyFilters(); render();
+    },
+    toggle(idx) {
+      if (expandedIdx === idx) {
+        expandedIdx = null;
+      } else {
+        expandedIdx = idx;
+        viewedPapers.add(idx);
+      }
+      linkedinIdx = null;
+      citeIdx = null;
+      render();
+      if (expandedIdx !== null) {
+        setTimeout(() => {
+          const el = document.querySelectorAll('.paper')[expandedIdx - (currentPage - 1) * PAGE_SIZE];
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+    },
+    toggleLinkedin(idx) { linkedinIdx = linkedinIdx === idx ? null : idx; citeIdx = null; render(); },
+    toggleCite(idx) { citeIdx = citeIdx === idx ? null : idx; linkedinIdx = null; render(); },
+    copyLinkedin(idx) {
+      const p = filteredPapers[idx];
+      navigator.clipboard.writeText(generateLinkedIn(p));
+      const btn = document.querySelector('.linkedin-copy');
+      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy to clipboard'; }, 1500); }
+    },
+    copyCite(idx) {
+      const p = filteredPapers[idx];
+      navigator.clipboard.writeText(generateCitation(p));
+      const btn = document.querySelector('.cite-copy');
+      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy citation'; }, 1500); }
+    },
+    exportCSV: exportCSV,
+    page(n) {
+      const tp = Math.ceil(filteredPapers.length / PAGE_SIZE);
+      if (n < 1 || n > tp) return;
+      currentPage = n; expandedIdx = null; linkedinIdx = null; citeIdx = null;
+      render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    toggleMS(id) {
+      const el = document.getElementById('msd-' + id);
+      const wasOpen = el.classList.contains('open');
+      document.querySelectorAll('.multi-select-dropdown.open').forEach(e => e.classList.remove('open'));
+      if (!wasOpen) el.classList.add('open');
+    },
+    filterMS(id, val) {
+      const labels = document.getElementById('mso-' + id).querySelectorAll('label');
+      const q = val.toLowerCase();
+      labels.forEach(l => { l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+    },
+    toggleMSItem(id, val, checked) {
+      const set = id === 'domains' ? selectedDomains : selectedSubfields;
+      if (checked) set.add(val); else set.delete(val);
+      applyFilters(); render();
+    },
+    clearMS(id) {
+      if (id === 'domains') selectedDomains.clear(); else selectedSubfields.clear();
+      applyFilters(); render();
+    }
+  };
+
+  // ---- Init ----
+  if (papers.length === 0) {
+    document.getElementById('app').innerHTML = '<div class="loading">No data loaded. Make sure data.js is in the same directory as this HTML file.</div>';
+  } else {
+    buildFilterOptions();
+    readHash();
+    applyFilters(true);
+    render();
+  }
+})();
+</script>
+</body>
+</html>

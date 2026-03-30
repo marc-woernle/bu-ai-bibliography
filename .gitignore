@@ -1,0 +1,62 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+logs/
+
+# OS files
+.DS_Store
+
+# Private/sensitive files
+output/bibliography_app/data_private.js
+output/bibliography_app/index_private.html
+
+# Large intermediate data files (raw harvests, partial downloads, etc.)
+data/bu_ai_bibliography_20260327_*.json
+data/bu_ai_bibliography_20260327_*.csv
+data/openalex_concepts_*.json
+data/openalex_keywords_*.json
+data/nsf_awards_*.json
+data/openbu_*.json
+data/pubmed_*.json
+data/ssrn_*.json
+data/nih_reporter_*.json
+data/semantic_scholar_*.json
+data/crossref_*.json
+data/biorxiv_medrxiv_*.json
+data/arxiv_*.json
+data/ai_candidates_*.json
+data/ai_rejected_*.json
+data/ai_prefiltered_*.json
+data/classify_batch_requests.jsonl
+data/sonnet_classification_results.json
+data/classified_for_format.json
+data/faculty_recovered_works.json
+data/faculty_needs_classification.json
+data/bu_authors_from_openalex.json
+
+# Output exports (timestamped, regenerable)
+output/bu_ai_bibliography_*.bib
+output/bu_ai_bibliography_*.csv
+output/bu_ai_bibliography_*.md
+output/bu_ai_bibliography_stats_*.md
+
+# Batch job files (intermediate, regenerable)
+data/classify_batch_id.txt
+data/faculty_classify_batch.jsonl
+data/faculty_classify_batch_id.txt
+data/stage1_batch_requests.jsonl
+
+# Environment / secrets
+.env
+*.key
+*.secret
+
+# Claude project files
+.claude/
+.github/

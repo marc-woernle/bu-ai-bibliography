@@ -1,0 +1,14 @@
+{
+  "total_unique_papers": 803,
+  "total_elapsed_seconds": 2875.4,
+  "sources": {
+    "in_progress": {
+      "raw_count": 0,
+      "new_count": 0,
+      "dupe_count": 0,
+      "elapsed_seconds": 2875.4,
+      "status": "FAILED: unhashable type: 'list'"
+    }
+  },
+  "timestamp": "2026-03-27T23:59:08.650634"
+}
