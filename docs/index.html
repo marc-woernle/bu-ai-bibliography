@@ -519,10 +519,6 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     }));
     const topSchools = Object.entries(schoolCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
-    const totalPages = Math.ceil(filteredPapers.length / PAGE_SIZE);
-    const pageStart = (currentPage - 1) * PAGE_SIZE;
-    const pagePapers = filteredPapers.slice(pageStart, pageStart + PAGE_SIZE);
-
     // Header
     document.getElementById('app-header').innerHTML = `<div class="header">
       <div class="header-inner" onclick="app.resetAll()" style="cursor:pointer">
@@ -658,7 +654,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
     document.getElementById('filters-container').innerHTML = fh;
 
-    // ---- Papers ----
+    document.getElementById('app').innerHTML = _buildPapersHtml();
+    writeHash();
+  }
+
+  function _buildPapersHtml() {
+    const totalPages = Math.ceil(filteredPapers.length / PAGE_SIZE);
+    const pageStart = (currentPage - 1) * PAGE_SIZE;
+    const pagePapers = filteredPapers.slice(pageStart, pageStart + PAGE_SIZE);
     let h = '';
     let lastGroupKey = null;
 
@@ -806,8 +809,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
     h += `<div class="footer">BU AI Research Bibliography \u00B7 ${papers.length.toLocaleString()} papers from OpenAlex, Semantic Scholar, PubMed, arXiv, SSRN, CrossRef, OpenBU, NIH, NSF, bioRxiv \u00B7 Classified by Sonnet 4</div>`;
 
-    document.getElementById('app').innerHTML = h;
-    writeHash();
+    return h;
+  }
+
+  function _renderPapersOnly() {
+    document.getElementById('app').innerHTML = _buildPapersHtml();
   }
 
   // ---- Export ----
@@ -904,21 +910,26 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       linkedinIdx = null;
       citeIdx = null;
 
-      // Save the clicked paper's position relative to viewport before re-render
+      // Save scroll anchor: use the clicked paper's top edge
       const localIdx = idx - (currentPage - 1) * PAGE_SIZE;
       const paperEl = document.querySelectorAll('.paper')[localIdx];
-      const offsetBefore = paperEl ? paperEl.getBoundingClientRect().top : null;
+      const rect = paperEl ? paperEl.getBoundingClientRect() : null;
+      const scrollBefore = window.scrollY;
 
-      render();
+      // Only re-render the papers section, not the whole page
+      _renderPapersOnly();
 
-      // Restore position so the paper stays in the same spot on screen
-      if (offsetBefore !== null) {
+      // Restore: keep the clicked paper at the same viewport position
+      requestAnimationFrame(() => {
         const paperElAfter = document.querySelectorAll('.paper')[localIdx];
-        if (paperElAfter) {
-          const offsetAfter = paperElAfter.getBoundingClientRect().top;
-          window.scrollBy(0, offsetAfter - offsetBefore);
+        if (paperElAfter && rect) {
+          const newRect = paperElAfter.getBoundingClientRect();
+          const drift = newRect.top - rect.top;
+          if (Math.abs(drift) > 2) {
+            window.scrollTo(0, scrollBefore + drift);
+          }
         }
-      }
+      });
     },
     toggleLinkedin(idx) { linkedinIdx = linkedinIdx === idx ? null : idx; citeIdx = null; render(); },
     toggleCite(idx) { citeIdx = citeIdx === idx ? null : idx; linkedinIdx = null; render(); },
