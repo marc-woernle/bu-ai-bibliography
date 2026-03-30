@@ -687,12 +687,10 @@ def regenerate_all_outputs(master_path: str = MASTER_PATH):
 HTML_FILES = [
     "docs/index.html",
     "output/bibliography_app/index.html",
-    "output/bibliography_app/index_private.html",
 ]
 
 DATA_JS_FILES = [
     "output/bibliography_app/data.js",
-    "output/bibliography_app/data_private.js",
     "docs/data.js",
 ]
 
