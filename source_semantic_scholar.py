@@ -5,8 +5,9 @@ Supplements OpenAlex with S2's strong CS/ML paper coverage.
 Uses the public API (no key needed, 1 req/sec).
 """
 
-import requests
 import logging
+import os
+import requests
 import time
 from config import AI_KEYWORDS_PRIMARY, SEMANTIC_SCHOLAR_RATE_LIMIT
 from utils import RateLimiter, make_paper_record, save_checkpoint
@@ -82,7 +83,7 @@ def search_papers(query: str, limit: int = 1000) -> list[dict]:
         try:
             resp = requests.get(
                 f"{BASE_URL}/paper/search",
-                headers={"x-api-key": "hLfK2wWEnC4IkQv6ihJ5c2xusMwlYLz49Z2zmz2b"},
+                headers={"x-api-key": os.environ.get("S2_API_KEY", "")},
                 params={
                     "query": query,
                     "offset": offset,

@@ -787,6 +787,18 @@ def git_commit_and_push(message: str) -> bool:
         subprocess.run(["git", "commit", "-m", message], capture_output=True, check=True)
         subprocess.run(["git", "push", "origin", "main"], capture_output=True, check=True, timeout=120)
         logger.info(f"Pushed: {message}")
+
+        # Update repo description with current paper count
+        try:
+            with open(MASTER_PATH) as f:
+                count = len(json.load(f))
+            subprocess.run([
+                "gh", "repo", "edit", "marc-woernle/bu-ai-bibliography",
+                "--description", f"Comprehensive annotated bibliography of AI research at Boston University \u2014 {count:,} papers, auto-updating",
+            ], capture_output=True, timeout=15)
+        except Exception:
+            pass  # Non-critical
+
         return True
 
     except subprocess.CalledProcessError as e:
