@@ -651,7 +651,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
         }
 
         if (p.bu && p.bu.length) {
-          h += `<div class="paper-bu-info"><strong>BU Faculty:</strong> ${p.bu.map(n => `<span style="color:var(--bu-red);font-weight:600">${escHtml(n)}</span>`).join(', ')}</div>`;
+          h += `<div class="paper-bu-info"><strong>BU Faculty:</strong> ${p.bu.map(n => { const safe = escHtml(n).replace(/'/g, "\\'"); return `<a class="bu-author author-link" onclick="app.searchAuthor('${safe}')" style="color:var(--bu-red);font-weight:600">${escHtml(n)}</a>`; }).join(', ')}</div>`;
         }
         const cs = cleanSchools(p);
         if (cs.length > 1) {

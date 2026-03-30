@@ -1,2 +1,2 @@
 timestamp,type,harvested,deduped,filtered,classified,added,final_count,cost_usd,duration_s,status
-2026-03-30T17:13:53.258039,weekly,979,906,94,28,13,10349,0.4853,388,success
+2026-03-30T12:23:30.556012,weekly,975,911,17,16,7,10336,0.0938,99,success
