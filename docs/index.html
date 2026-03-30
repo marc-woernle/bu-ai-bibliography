@@ -89,7 +89,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .author-link:hover { text-decoration: underline; }
 .paper-meta { font-family: var(--sans); font-size: 12px; color: #888; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; cursor: default; }
 .paper-meta .venue { font-style: italic; }
-.badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; cursor: default; }
+.badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; cursor: pointer; }
+.badge:hover { opacity: 0.7; }
 .badge-primary { background: #2563eb18; color: #2563eb; }
 .badge-methodological { background: #7c3aed18; color: #7c3aed; }
 .badge-peripheral { background: #6b728018; color: #6b7280; }
@@ -630,10 +631,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       if (p.y) h += `<span>${p.y}</span>`;
       else h += `<span style="font-style:italic">forthcoming</span>`;
       if (p.c) h += `<span>${p.c.toLocaleString()} citation${p.c !== 1 ? 's' : ''}</span>`;
-      h += `<span class="badge badge-${p.r || 'peripheral'}">${REL_LABELS[p.r] || p.r}</span>`;
-      if (p.oa) h += `<span class="badge badge-oa">Open Access</span>`;
+      h += `<span class="badge badge-${p.r || 'peripheral'}" onclick="event.stopPropagation();app.setFilter('relevance','${p.r || 'peripheral'}')">${REL_LABELS[p.r] || p.r}</span>`;
+      if (p.oa) h += `<span class="badge badge-oa" onclick="event.stopPropagation();app.setFilter('oa',true)">Open Access</span>`;
       const dSchool = displaySchool(p);
-      if (dSchool) h += `<span class="badge badge-school">${escHtml(dSchool)}</span>`;
+      if (dSchool) { const safeSch = escHtml(dSchool).replace(/'/g, "\\'"); h += `<span class="badge badge-school" onclick="event.stopPropagation();app.setFilter('school','${safeSch}')">${escHtml(dSchool)}</span>`; }
       h += `</div>`;
       h += `</div>`; // paper-header
 
