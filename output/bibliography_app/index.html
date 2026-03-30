@@ -162,6 +162,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   'use strict';
 
   const papers = window.PAPERS_DATA || [];
+  const meta = window.PAPERS_META || {};
   const IS_PRIVATE = papers.length > 0 && papers[0].hasOwnProperty('abs');
 
   // State
@@ -418,7 +419,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
           <div class="header-label">Boston University</div>
           <h1>AI Research Bibliography</h1>
           <div class="header-meta">${papers.length.toLocaleString()} Publications \u00B7 Classified by Sonnet 4</div>
-          <div class="header-date">Current as of March 29, 2026 \u00B7 Spanning 1962\u2013present \u00B7 10 Data Sources (243,379 unique papers harvested)${IS_PRIVATE ? ' \u00B7 <span style="color:var(--bu-red);font-weight:600">PRIVATE VERSION</span>' : ''}</div>
+          <div class="header-date">Current as of ${meta.updated || 'March 29, 2026'} \u00B7 Spanning 1962\u2013present \u00B7 ${meta.sources || 10} Data Sources${IS_PRIVATE ? ' \u00B7 <span style="color:var(--bu-red);font-weight:600">PRIVATE VERSION</span>' : ''}</div>
         </div>
       </div>
     </div>
