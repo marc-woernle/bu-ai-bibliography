@@ -37,8 +37,8 @@ body { font-family: var(--serif); color: #1a1a1a; line-height: 1.6; background: 
 .stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Sticky bar */
-#sticky-bar { position: sticky; top: 0; z-index: 50; background: #fff; padding: 12px 0 4px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
-#sticky-bar.scrolled { border-bottom-color: #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+#sticky-bar { position: sticky; top: 0; z-index: 50; background: #fff; padding: 12px 0 4px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: box-shadow 0.2s; }
+#sticky-bar.scrolled { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .search-row { margin-bottom: 10px; }
 .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: var(--sans); outline: none; transition: border-color 0.2s; }
 .search-input:focus { border-color: var(--bu-red); }
