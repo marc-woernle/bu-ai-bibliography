@@ -497,7 +497,6 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
     // Filters (into sticky container)
     let fh = '';
-    const activeCount = af.length; // computed below but we need it here; recalc inline
     const hasActiveFilters = filterCategory !== 'all' || filterSchool !== 'all' || filterRelevance !== 'all' || filterOA || selectedDomains.size || selectedSubfields.size || yearMin > dataYearMin || yearMax < dataYearMax || searchQuery.trim();
     fh += `<button class="filter-toggle${hasActiveFilters ? ' open' : ''}" onclick="app.toggleFilters()" id="filter-toggle">Filters${hasActiveFilters ? ' (active)' : ''}</button>`;
     fh += `<div class="filters-collapsible${hasActiveFilters ? ' open' : ''}" id="filters-wrap">`;
