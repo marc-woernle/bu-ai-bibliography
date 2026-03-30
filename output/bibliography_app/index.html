@@ -105,6 +105,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .tag { font-family: var(--sans); font-size: 11px; padding: 2px 8px; border-radius: 12px; }
 .tag-domain { background: #f0f0f0; color: #555; }
 .tag-subfield { background: #eff6ff; color: #1d4ed8; }
+.clickable-tag { cursor: pointer; transition: opacity 0.15s; }
+.clickable-tag:hover { opacity: 0.7; }
 .paper-bu-info { font-family: var(--sans); font-size: 13px; color: #666; margin-bottom: 8px; }
 .paper-actions { display: flex; gap: 10px; font-family: var(--sans); font-size: 13px; align-items: center; flex-wrap: wrap; }
 .paper-actions a { color: var(--bu-red); text-decoration: none; font-weight: 500; }
@@ -646,8 +648,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
         if ((p.dom && p.dom.length) || (p.sub && p.sub.length)) {
           h += `<div class="tag-row">`;
-          (p.dom || []).forEach(d => { h += `<span class="tag tag-domain">${escHtml(d)}</span>`; });
-          (p.sub || []).forEach(s => { h += `<span class="tag tag-subfield">${escHtml(s)}</span>`; });
+          (p.dom || []).forEach(d => { const safe = escHtml(d).replace(/'/g, "\\'"); h += `<span class="tag tag-domain clickable-tag" onclick="app.filterByTag('domains','${safe}')">${escHtml(d)}</span>`; });
+          (p.sub || []).forEach(s => { const safe = escHtml(s).replace(/'/g, "\\'"); h += `<span class="tag tag-subfield clickable-tag" onclick="app.filterByTag('subfields','${safe}')">${escHtml(s)}</span>`; });
           h += `</div>`;
         }
 
@@ -846,6 +848,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     clearMS(id) {
       if (id === 'domains') selectedDomains.clear(); else selectedSubfields.clear();
       applyFilters(); render();
+    },
+    filterByTag(type, value) {
+      const set = type === 'domains' ? selectedDomains : selectedSubfields;
+      set.clear();
+      set.add(value);
+      applyFilters();
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     toggleFilters() {
       const wrap = document.getElementById('filters-wrap');
