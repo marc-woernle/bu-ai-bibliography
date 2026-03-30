@@ -139,8 +139,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
 /* Mobile filter toggle */
 .filter-toggle { display: none; font-family: var(--sans); font-size: 13px; padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; width: 100%; text-align: left; color: #555; margin-bottom: 8px; }
-.filter-toggle:after { content: ' \u25BE'; float: right; }
-.filter-toggle.open:after { content: ' \u25B4'; }
+.filter-toggle:after { content: ' \25BE'; float: right; }
+.filter-toggle.open:after { content: ' \25B4'; }
 
 @media (max-width: 768px) {
   .header h1 { font-size: 24px; }
@@ -162,7 +162,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   .paper-title { font-size: 16px; }
   .paper { padding: 10px 0 10px 12px; }
   .paper.expanded { padding-right: 12px; }
-  #sticky-bar { padding: 8px 0 2px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  #sticky-bar { position: static; padding: 8px 0 2px; margin: 0; border-bottom: none; box-shadow: none; }
+  #sticky-bar.scrolled { box-shadow: none; }
   .search-input { padding: 10px 12px; font-size: 16px; }
   .page-btn { padding: 8px 12px; }
   .toolbar-btn { padding: 6px 10px; font-size: 13px; }
