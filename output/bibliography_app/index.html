@@ -125,13 +125,55 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-family: var(--sans); font-size: 11px; color: #aaa; text-align: center; }
 .loading { text-align: center; padding: 60px 20px; font-family: var(--sans); font-size: 16px; color: #888; }
 .loading .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid #eee; border-top-color: var(--bu-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+.load-progress { width: 200px; height: 4px; background: #eee; border-radius: 2px; margin: 12px auto 0; overflow: hidden; }
+.load-progress-bar { height: 100%; background: var(--bu-red); border-radius: 2px; width: 0%; transition: width 0.3s; animation: load-pulse 1.5s ease-in-out infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 640px) {
+@keyframes load-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* Mobile filter toggle */
+.filter-toggle { display: none; font-family: var(--sans); font-size: 13px; padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; width: 100%; text-align: left; color: #555; margin-bottom: 8px; }
+.filter-toggle:after { content: ' \u25BE'; float: right; }
+.filter-toggle.open:after { content: ' \u25B4'; }
+
+@media (max-width: 768px) {
   .header h1 { font-size: 24px; }
-  .stats-bar { gap: 16px; }
-  .filters { flex-direction: column; }
-  .filter-group select { width: 100%; }
+  .header-inner { gap: 12px; }
+  .bu-mark svg { width: 36px; height: 36px; }
+  .bu-mark-divider { height: 32px; }
+  .stats-bar { gap: 12px; padding: 10px 12px; }
+  .stat-value { font-size: 17px; }
+  .filter-toggle { display: block; }
+  .filters-collapsible { display: none; }
+  .filters-collapsible.open { display: block; }
+  .filters { flex-direction: column; gap: 8px; }
+  .filter-group { width: 100%; }
+  .filter-group select, .filter-group input[type="number"] { width: 100%; min-width: 0; padding: 8px 10px; font-size: 14px; }
+  .multi-select { width: 100%; min-width: 0; }
+  .multi-select-btn { width: 100%; padding: 8px 10px; font-size: 14px; }
+  .multi-select-dropdown { min-width: 0; width: 100%; }
+  .multi-select-dropdown label { padding: 8px 10px; font-size: 14px; }
   .paper-title { font-size: 16px; }
+  .paper { padding: 10px 0 10px 12px; }
+  .paper.expanded { padding-right: 12px; }
+  #sticky-bar { padding: 8px 0 2px; margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  .search-input { padding: 10px 12px; font-size: 16px; }
+  .page-btn { padding: 8px 12px; }
+  .toolbar-btn { padding: 6px 10px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 16px 12px; }
+  .header h1 { font-size: 20px; }
+  .header-meta { font-size: 12px; }
+  .header-date { font-size: 10px; }
+  .stats-bar { gap: 8px; }
+  .stat-value { font-size: 15px; }
+  .stat-label { font-size: 10px; }
+  .bu-mark svg { width: 30px; height: 30px; }
+  .bu-mark-divider { height: 26px; }
+  .paper-authors { font-size: 12px; }
+  .paper-meta { font-size: 11px; gap: 8px; }
+  .badge { font-size: 9px; padding: 1px 4px; }
 }
 </style>
 </head>
@@ -147,15 +189,34 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     <div id="filters-container"></div>
   </div>
   <div id="app">
-    <div class="loading">
+    <div class="loading" id="loading">
       <div class="spinner"></div>
       <div>Loading bibliography&hellip;</div>
+      <div class="load-progress"><div class="load-progress-bar" id="load-bar"></div></div>
+      <div style="font-size:12px;margin-top:8px;color:#aaa" id="load-status"></div>
     </div>
   </div>
 </div>
 
+<!-- Loading progress: animate bar while data.js loads -->
+<script>
+(function() {
+  var bar = document.getElementById('load-bar');
+  var status = document.getElementById('load-status');
+  var pct = 0;
+  var iv = setInterval(function() {
+    pct = Math.min(pct + (90 - pct) * 0.08, 90);
+    if (bar) bar.style.width = pct + '%';
+  }, 100);
+  window._loadDone = function() {
+    clearInterval(iv);
+    if (bar) bar.style.width = '100%';
+    if (status) status.textContent = 'Rendering\u2026';
+  };
+})();
+</script>
 <!-- DATA_SCRIPT_TAG -->
-<script src="data.js"></script>
+<script src="data.js" onload="window._loadDone && window._loadDone()"></script>
 
 <script>
 (function() {
@@ -436,6 +497,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
     // Filters (into sticky container)
     let fh = '';
+    const activeCount = af.length; // computed below but we need it here; recalc inline
+    const hasActiveFilters = filterCategory !== 'all' || filterSchool !== 'all' || filterRelevance !== 'all' || filterOA || selectedDomains.size || selectedSubfields.size || yearMin > dataYearMin || yearMax < dataYearMax || searchQuery.trim();
+    fh += `<button class="filter-toggle${hasActiveFilters ? ' open' : ''}" onclick="app.toggleFilters()" id="filter-toggle">Filters${hasActiveFilters ? ' (active)' : ''}</button>`;
+    fh += `<div class="filters-collapsible${hasActiveFilters ? ' open' : ''}" id="filters-wrap">`;
     fh += `<div class="filters">`;
     fh += `<div class="filter-group"><label>Category</label><select onchange="app.setFilter('category',this.value)">
       <option value="all"${filterCategory==='all'?' selected':''}>All</option>
@@ -496,6 +561,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 
     // Export button
     fh += `<div class="toolbar"><button class="toolbar-btn" onclick="app.exportCSV()">Export CSV (${filteredPapers.length.toLocaleString()} papers)</button></div>`;
+    fh += `</div>`; // close filters-collapsible
 
     document.getElementById('filters-container').innerHTML = fh;
 
@@ -780,6 +846,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     clearMS(id) {
       if (id === 'domains') selectedDomains.clear(); else selectedSubfields.clear();
       applyFilters(); render();
+    },
+    toggleFilters() {
+      const wrap = document.getElementById('filters-wrap');
+      const btn = document.getElementById('filter-toggle');
+      if (wrap && btn) {
+        wrap.classList.toggle('open');
+        btn.classList.toggle('open');
+      }
     }
   };
 
