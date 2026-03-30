@@ -59,4 +59,3 @@ data/stage1_batch_requests.jsonl
 
 # Claude project files
 .claude/
-.github/
