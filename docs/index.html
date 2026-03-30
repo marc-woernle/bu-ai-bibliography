@@ -162,7 +162,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   .header-inner { gap: 12px; }
   .bu-mark svg { width: 36px; height: 36px; }
   .bu-mark-divider { height: 32px; }
-  .stats-bar { gap: 12px; padding: 10px 12px; }
+  .stats-bar { gap: 12px; padding: 10px 12px; flex-wrap: wrap; }
+  .stat-school { order: -1; }
+  .stat-papers { display: none; }
+  .stat-citations { display: none; }
   .stat-value { font-size: 17px; }
   .filter-toggle { display: block; }
   .filters-collapsible { display: none; }
@@ -539,10 +542,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       </div>
     </div>
     <div class="stats-bar">
-      <div class="stat-item"><div class="stat-value">${filteredPapers.length.toLocaleString()}</div><div class="stat-label">Papers shown</div></div>
-      <div class="stat-item"><div class="stat-value">${totalCitations.toLocaleString()}</div><div class="stat-label">Total citations</div></div>
-      <div class="stat-item"><div class="stat-value">${yrRange}</div><div class="stat-label">Year range</div></div>
-      <div class="stat-item"><div class="stat-value">${topSchools.length > 0 ? escHtml(topSchools[0][0].replace('CAS \u2014 ','').replace('Faculty of ','')) : '\u2014'}</div><div class="stat-label">Top school</div></div>
+      <div class="stat-item stat-papers"><div class="stat-value">${filteredPapers.length.toLocaleString()}</div><div class="stat-label">Papers shown</div></div>
+      <div class="stat-item stat-citations"><div class="stat-value">${totalCitations.toLocaleString()}</div><div class="stat-label">Total citations</div></div>
+      <div class="stat-item stat-years"><div class="stat-value">${yrRange}</div><div class="stat-label">Year range</div></div>
+      <div class="stat-item stat-school"><div class="stat-value">${topSchools.length > 0 ? escHtml(topSchools[0][0].replace('CAS \u2014 ','').replace('Faculty of ','')) : '\u2014'}</div><div class="stat-label">Top school</div></div>
     </div>`;
 
     // Precompute counts for filter options
