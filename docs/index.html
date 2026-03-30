@@ -18,7 +18,7 @@
   --sans: 'Source Sans 3', system-ui, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--serif); color: #1a1a1a; line-height: 1.6; background: #fff; }
+body { font-family: var(--serif); color: #1a1a1a; line-height: 1.6; background: #fff; transition: opacity 0.08s; }
 .bu-topbar { background: var(--bu-red); height: 4px; width: 100%; }
 .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
 .header { border-bottom: 1px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 20px; position: relative; margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); padding-left: calc(50vw - 50% + 16px); padding-right: calc(50vw - 50% + 16px); }
@@ -526,8 +526,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     // Header
     document.getElementById('app-header').innerHTML = `<div class="header">
       <div class="header-inner" onclick="app.resetAll()" style="cursor:pointer">
-        <div class="bu-mark">
-          <img src="https://www.bu.edu/cdn/images/logos/subbrand49x35-retina.png" alt="Boston University" width="49" height="35">
+        <div class="bu-mark" onclick="app.resetAll()">
+          <img src="https://www.bu.edu/cdn/images/logos/subbrand49x35-retina.png" alt="Boston University" width="49" height="35" style="cursor:pointer;pointer-events:auto">
           <div class="bu-mark-divider"></div>
         </div>
         <div class="header-text">
@@ -885,9 +885,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       applyFilters(); render();
     },
     resetAll() {
-      this.clearFilters();
-      window.scrollTo({ top: 0 });
-      history.pushState(null, '', location.pathname);
+      // Flash the page white to simulate a refresh
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        this.clearFilters();
+        window.scrollTo({ top: 0 });
+        history.pushState(null, '', location.pathname);
+        document.body.style.opacity = '1';
+      }, 80);
     },
     toggle(idx) {
       if (expandedIdx === idx) {
