@@ -269,7 +269,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   window.addEventListener('scroll', function() {
     stickyBar.classList.toggle('scrolled', window.scrollY > 180);
     // Auto-collapse filters on mobile when scrolling down
-    if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 400) {
+    if (window.innerWidth <= 768 && window.scrollY > lastScrollY && window.scrollY > 1200) {
       const wrap = document.getElementById('filters-wrap');
       const btn = document.getElementById('filter-toggle');
       if (wrap && wrap.classList.contains('open')) {
