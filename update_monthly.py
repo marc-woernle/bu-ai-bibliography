@@ -208,6 +208,12 @@ def _run(args, start_time):
     except ImportError:
         logger.warning("source_openbu not available")
 
+    try:
+        from source_scholarly_commons import harvest as harvest_sc
+        sources.append(("scholarly_commons", lambda: harvest_sc()))
+    except ImportError:
+        logger.warning("source_scholarly_commons not available")
+
     for name, harvester in sources:
         try:
             papers = harvester()
