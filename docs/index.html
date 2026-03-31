@@ -152,6 +152,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes load-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
 
+/* Desktop filter collapse */
+.desktop-collapse-btn { font-family: var(--sans); font-size: 12px; color: #888; background: none; border: none; cursor: pointer; padding: 4px 0; display: flex; align-items: center; gap: 5px; transition: color 0.15s; }
+.desktop-collapse-btn:hover { color: var(--bu-red); }
+#filters-container.collapsed { display: none; }
+
 /* Mobile filter toggle */
 .filter-toggle { display: none; font-family: var(--sans); font-size: 13px; padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; width: 100%; text-align: left; color: #555; margin-bottom: 8px; }
 .filter-toggle:after { content: '\25BE'; float: right; }
@@ -165,6 +170,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   .stats-bar { gap: 12px; padding: 10px 12px; flex-wrap: wrap; }
   .stat-value { font-size: 17px; }
   .filter-toggle { display: block; }
+  #desktop-filter-toggle { display: none !important; }
   .filters-collapsible { display: none; }
   .filters-collapsible.open { display: block; }
   .filters { flex-direction: column; gap: 8px; }
@@ -208,6 +214,12 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   <div id="sticky-bar">
     <div class="search-row" id="search-row" style="display:none">
       <input class="search-input" id="search-input" type="text" placeholder="Try &quot;machine learning&quot;, &quot;Robertson&quot;, or &quot;computer vision&quot;&hellip;" oninput="app.search(this.value)">
+    </div>
+    <div id="desktop-filter-toggle" style="display:none">
+      <button class="desktop-collapse-btn" id="desktop-collapse-btn" onclick="app.toggleDesktopFilters()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px"><path d="M1 4H13M1 7H9M1 10H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span id="desktop-collapse-text">Hide filters</span>
+      </button>
     </div>
     <div id="filters-container"></div>
   </div>
@@ -559,6 +571,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     });
 
     document.getElementById('search-row').style.display = '';
+    document.getElementById('desktop-filter-toggle').style.display = '';
     const searchEl = document.getElementById('search-input');
     if (searchEl !== document.activeElement) searchEl.value = searchQuery;
 
@@ -995,6 +1008,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       if (wrap && btn) {
         wrap.classList.toggle('open');
         btn.classList.toggle('open');
+      }
+    },
+    toggleDesktopFilters() {
+      const fc = document.getElementById('filters-container');
+      const btn = document.getElementById('desktop-collapse-text');
+      if (fc && btn) {
+        fc.classList.toggle('collapsed');
+        btn.textContent = fc.classList.contains('collapsed') ? 'Show filters' : 'Hide filters';
       }
     }
   };
