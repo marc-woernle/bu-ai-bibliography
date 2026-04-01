@@ -1,0 +1,270 @@
+#!/usr/bin/env python3
+"""
+Resolve OpenAlex author IDs for the BU faculty roster.
+
+Strategy: Fetch ALL BU-affiliated authors from OpenAlex (~98K),
+then match against our 5,190 faculty roster locally by name.
+This is much faster than 5,190 individual API queries.
+"""
+
+import json
+import re
+import time
+import unicodedata
+from collections import defaultdict
+from pathlib import Path
+
+import requests
+
+BU_ROR = "https://ror.org/05qwgg493"
+ROSTER_PATH = Path("data/bu_faculty_roster_verified.json")
+CACHE_PATH = Path("data/openalex_bu_authors_cache.json")
+EMAIL = "mwoernle@bu.edu"  # For polite pool
+
+def normalize_name(name: str) -> str:
+    """Normalize a name for matching: lowercase, strip accents, remove punctuation."""
+    name = unicodedata.normalize("NFKD", name)
+    name = "".join(c for c in name if not unicodedata.combining(c))
+    name = name.lower().strip()
+    name = re.sub(r"[^a-z\s]", "", name)
+    name = re.sub(r"\s+", " ", name)
+    return name
+
+def name_parts(name: str) -> tuple:
+    """Extract (last, first) from a name string."""
+    parts = normalize_name(name).split()
+    if len(parts) < 2:
+        return (name.lower(), "")
+    return (parts[-1], parts[0])
+
+def name_key(name: str) -> str:
+    """Create a matching key: 'last first'."""
+    last, first = name_parts(name)
+    return f"{last} {first}"
+
+def name_key_initial(name: str) -> str:
+    """Create a loose key: 'last f' (first initial only)."""
+    last, first = name_parts(name)
+    return f"{last} {first[0]}" if first else last
+
+
+def fetch_all_bu_authors() -> list[dict]:
+    """Fetch all BU-affiliated authors from OpenAlex using cursor pagination."""
+    if CACHE_PATH.exists():
+        print(f"Loading cached authors from {CACHE_PATH}")
+        with open(CACHE_PATH) as f:
+            authors = json.load(f)
+        print(f"  Loaded {len(authors)} cached authors")
+        return authors
+
+    print("Fetching ALL BU-affiliated authors from OpenAlex...")
+    authors = []
+    cursor = "*"
+    page = 0
+
+    while cursor:
+        url = (
+            f"https://api.openalex.org/authors"
+            f"?filter=affiliations.institution.ror:{BU_ROR}"
+            f"&select=id,display_name,display_name_alternatives,works_count,last_known_institutions"
+            f"&per_page=200&cursor={cursor}&mailto={EMAIL}"
+        )
+        resp = requests.get(url, timeout=30)
+        if resp.status_code == 429:
+            print("  Rate limited, waiting 5s...")
+            time.sleep(5)
+            continue
+        if resp.status_code != 200:
+            print(f"  Error {resp.status_code}: {resp.text[:200]}")
+            break
+
+        data = resp.json()
+        results = data.get("results", [])
+        if not results:
+            break
+
+        for r in results:
+            authors.append({
+                "id": r["id"],
+                "name": r["display_name"],
+                "alt_names": r.get("display_name_alternatives", []),
+                "works_count": r.get("works_count", 0),
+                "last_institution": (
+                    r["last_known_institutions"][0].get("display_name", "")
+                    if r.get("last_known_institutions") else ""
+                ),
+            })
+
+        cursor = data.get("meta", {}).get("next_cursor")
+        page += 1
+        if page % 50 == 0:
+            print(f"  Page {page}: {len(authors)} authors so far...")
+
+        # Polite rate: ~10 req/s
+        time.sleep(0.1)
+
+    print(f"  Total fetched: {len(authors)}")
+
+    # Cache for reuse
+    CACHE_PATH.parent.mkdir(exist_ok=True)
+    with open(CACHE_PATH, "w") as f:
+        json.dump(authors, f)
+    print(f"  Cached to {CACHE_PATH}")
+
+    return authors
+
+
+def build_openalex_index(authors: list[dict]) -> dict:
+    """Build name -> list of OpenAlex authors index."""
+    by_full = defaultdict(list)
+    by_initial = defaultdict(list)
+
+    for a in authors:
+        # Index by display_name
+        key = name_key(a["name"])
+        by_full[key].append(a)
+        ikey = name_key_initial(a["name"])
+        by_initial[ikey].append(a)
+
+        # Also index alternative names
+        for alt in a.get("alt_names", []):
+            akey = name_key(alt)
+            if akey != key:
+                by_full[akey].append(a)
+            aikey = name_key_initial(alt)
+            if aikey != ikey:
+                by_initial[aikey].append(a)
+
+    return {"full": by_full, "initial": by_initial}
+
+
+def match_faculty(roster: list[dict], index: dict) -> list[dict]:
+    """Match each roster entry against the OpenAlex index."""
+    matched = 0
+    ambiguous = 0
+    no_match = 0
+    updated = []
+
+    for fac in roster:
+        fkey = name_key(fac["name"])
+        fikey = name_key_initial(fac["name"])
+
+        candidates = index["full"].get(fkey, [])
+
+        if not candidates:
+            # Try initial-only match
+            candidates = index["initial"].get(fikey, [])
+
+        if len(candidates) == 1:
+            # Unique match
+            c = candidates[0]
+            fac["openalex_id"] = c["id"]
+            fac["openalex_works"] = c["works_count"]
+            fac["is_rare_name"] = True
+            matched += 1
+        elif len(candidates) > 1:
+            # Multiple matches - pick the one with most works at BU
+            # Prefer someone whose last_institution is BU
+            bu_cands = [c for c in candidates if "boston university" in c.get("last_institution", "").lower()]
+            if len(bu_cands) == 1:
+                c = bu_cands[0]
+                fac["openalex_id"] = c["id"]
+                fac["openalex_works"] = c["works_count"]
+                fac["is_rare_name"] = False  # Common name, multiple matches
+                matched += 1
+            elif bu_cands:
+                # Multiple still at BU - pick highest works count
+                c = max(bu_cands, key=lambda x: x["works_count"])
+                fac["openalex_id"] = c["id"]
+                fac["openalex_works"] = c["works_count"]
+                fac["is_rare_name"] = False
+                matched += 1
+                ambiguous += 1
+            else:
+                # None currently at BU - pick highest works count
+                c = max(candidates, key=lambda x: x["works_count"])
+                fac["openalex_id"] = c["id"]
+                fac["openalex_works"] = c["works_count"]
+                fac["is_rare_name"] = False
+                matched += 1
+                ambiguous += 1
+        else:
+            fac["openalex_id"] = None
+            fac["openalex_works"] = 0
+            fac["is_rare_name"] = None
+            no_match += 1
+
+        updated.append(fac)
+
+    return updated, matched, ambiguous, no_match
+
+
+def main():
+    # Load roster
+    with open(ROSTER_PATH) as f:
+        roster = json.load(f)
+    print(f"Roster: {len(roster)} faculty")
+
+    # Fetch all BU authors
+    authors = fetch_all_bu_authors()
+
+    # Sanity check: how many have >0 works?
+    active = sum(1 for a in authors if a["works_count"] > 0)
+    print(f"\nOpenAlex BU authors: {len(authors)} total, {active} with works > 0")
+
+    # Build index
+    print("Building name index...")
+    index = build_openalex_index(authors)
+    print(f"  Full-name keys: {len(index['full'])}")
+    print(f"  Initial keys: {len(index['initial'])}")
+
+    # Match
+    print("\nMatching roster against OpenAlex...")
+    updated, matched, ambiguous, no_match = match_faculty(roster, index)
+
+    print(f"\n{'='*50}")
+    print(f"RESULTS")
+    print(f"{'='*50}")
+    print(f"  Matched:   {matched} ({matched/len(roster)*100:.1f}%)")
+    print(f"  Ambiguous: {ambiguous} (matched but multiple candidates)")
+    print(f"  No match:  {no_match} ({no_match/len(roster)*100:.1f}%)")
+
+    # Breakdown by school
+    from collections import Counter
+    school_stats = defaultdict(lambda: {"matched": 0, "total": 0})
+    for fac in updated:
+        s = fac["school"]
+        school_stats[s]["total"] += 1
+        if fac.get("openalex_id"):
+            school_stats[s]["matched"] += 1
+
+    print(f"\nBy school:")
+    for school in sorted(school_stats, key=lambda s: -school_stats[s]["total"]):
+        st = school_stats[school]
+        pct = st["matched"] / st["total"] * 100 if st["total"] else 0
+        print(f"  {school}: {st['matched']}/{st['total']} ({pct:.0f}%)")
+
+    # Sanity check: spot-check some known faculty
+    print(f"\nSpot checks:")
+    spot_checks = ["Ran Canetti", "Kate Saenko", "Mark Crovella", "Margrit Betke", "Azer Bestavros"]
+    for name in spot_checks:
+        matches = [f for f in updated if f["name"] == name]
+        if matches:
+            m = matches[0]
+            print(f"  {name}: {m.get('openalex_id', 'NO ID')} (works: {m.get('openalex_works', 0)})")
+        else:
+            print(f"  {name}: NOT IN ROSTER")
+
+    # Rare name analysis
+    rare = sum(1 for f in updated if f.get("is_rare_name") is True)
+    common = sum(1 for f in updated if f.get("is_rare_name") is False)
+    print(f"\nName rarity: {rare} rare, {common} common (multiple OA matches)")
+
+    # Save
+    with open(ROSTER_PATH, "w") as f:
+        json.dump(updated, f, indent=2)
+    print(f"\nSaved updated roster to {ROSTER_PATH}")
+
+
+if __name__ == "__main__":
+    main()
