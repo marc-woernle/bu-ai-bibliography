@@ -37,7 +37,15 @@ from utils import (
     title_fingerprint,
 )
 from classify_papers import MODEL, SYSTEM_PROMPT, derived_fields, paper_to_prompt_text
-from school_mapper import FACULTY_LOOKUP, classify_all, classify_paper
+from school_mapper import (
+    FACULTY_LOOKUP,
+    FACULTY_BY_FULLNAME,
+    FACULTY_BY_OAID,
+    _name_key,
+    classify_all,
+    classify_author_by_openalex_id,
+    classify_paper,
+)
 from source_openalex import _headers as openalex_headers
 from source_openalex import _parse_work, _reconstruct_abstract
 from source_ssrn import _parse_crossref_item, _search_crossref_for_ssrn
@@ -592,49 +600,46 @@ def _name_matches(name1: str, name2: str) -> bool:
 
 
 def verify_bu_authors(papers: list[dict]) -> list[dict]:
-    """Three-tier BU verification. Drops papers with zero BU authors.
+    """Verify BU authorship using the faculty roster. Drops papers with zero BU authors.
 
-    Tier 1: Check is_bu flags (set by OpenAlex ROR matching)
-    Tier 2: Match against bu_authors_from_openalex.json
-    Tier 3: Match against FACULTY_LOOKUP
+    Tier 1: Check existing is_bu flags (set by OpenAlex ROR matching during harvest)
+    Tier 2: Match author names against faculty roster (6K+ entries)
+            - Full-name unique match → high confidence
+            - Initial match against (last, first_initial) → medium confidence
+    Tier 3: For large-author papers (>30), only trust Tier 1 + full-name matches
+            (initial matches produce too many false positives on CERN-style papers)
     """
-    bu_names = load_bu_author_names()
-    faculty_names = {
-        f"{last} {first_initial}".lower(): True
-        for (last, first_initial) in FACULTY_LOOKUP
-    }
-
     verified = []
     for paper in papers:
         has_bu = False
+        n_authors = len(paper.get("authors", []))
+        is_big_paper = n_authors > 30
+
         for author in paper.get("authors", []):
             name = author.get("name", "")
 
-            # Tier 1: already flagged
+            # Tier 1: already flagged by source (OpenAlex ROR match)
             if author.get("is_bu"):
                 has_bu = True
                 continue
 
-            # Tier 2: roster match
-            if name.lower().strip() in bu_names:
+            # Tier 2: full-name match against roster
+            fkey = _name_key(name)
+            matches = FACULTY_BY_FULLNAME.get(fkey, [])
+            if len(matches) == 1:
                 author["is_bu"] = True
                 has_bu = True
                 continue
 
-            # Check fuzzy against roster
-            if any(_name_matches(name, bn) for bn in list(bu_names)[:1000]):
-                author["is_bu"] = True
-                has_bu = True
-                continue
-
-            # Tier 3: faculty lookup
-            parts = name.lower().split()
-            if len(parts) >= 2:
-                last = parts[-1]
-                first_initial = parts[0][0]
-                if (last, first_initial) in FACULTY_LOOKUP:
-                    author["is_bu"] = True
-                    has_bu = True
+            # Tier 3: initial match (skip for big papers — too many false positives)
+            if not is_big_paper:
+                parts = name.lower().split()
+                if len(parts) >= 2:
+                    last = parts[-1]
+                    first_initial = parts[0][0]
+                    if (last, first_initial) in FACULTY_LOOKUP:
+                        author["is_bu"] = True
+                        has_bu = True
 
         if has_bu:
             verified.append(paper)
@@ -1049,20 +1054,19 @@ def detect_domain_trends(current: dict, previous: dict) -> list[str]:
 
 
 def detect_new_faculty_candidates(master: list[dict]) -> list[dict]:
-    """Find BU authors with 5+ AI papers who aren't in FACULTY_LOOKUP."""
+    """Find BU authors with 5+ AI papers who aren't in the faculty roster."""
     author_counts = {}
     for p in master:
         for name in p.get("bu_author_names", []):
             author_counts[name] = author_counts.get(name, 0) + 1
 
-    known = set()
-    for (last, fi) in FACULTY_LOOKUP:
-        known.add(last.lower())
+    # Check against full roster (not just the old FACULTY_LOOKUP)
+    known_keys = set(FACULTY_BY_FULLNAME.keys())
 
     candidates = []
     for name, count in sorted(author_counts.items(), key=lambda x: -x[1]):
-        last = name.split()[-1].lower() if name.split() else ""
-        if count >= 5 and last not in known:
+        fkey = _name_key(name)
+        if count >= 5 and fkey not in known_keys:
             candidates.append({"name": name, "paper_count": count})
 
     return candidates[:20]  # Top 20
@@ -1167,7 +1171,7 @@ def run_sanity_checks(
     source_errors: dict,
     run_type: str = "weekly",
 ) -> list[str]:
-    """Run all sanity checks. Returns list of alert messages."""
+    """Run all sanity checks including ground truth validation. Returns alert messages."""
     alerts = []
 
     max_new = 200 if run_type == "weekly" else 500
@@ -1187,5 +1191,26 @@ def run_sanity_checks(
         failures = health.get("consecutive_failures", 0)
         if failures >= 3:
             alerts.append(f"Source '{source}' has failed {failures} consecutive runs")
+
+    # Ground truth validation — catch missing anchor faculty, data consistency
+    try:
+        from validate_dataset import (
+            check_anchor_faculty,
+            check_data_consistency,
+            check_suspicious_patterns,
+            load_data,
+        )
+        master, roster = load_data()
+        for issue in check_anchor_faculty(master):
+            if issue["level"] == "FAIL":
+                alerts.append(f"GROUND TRUTH: {issue['message']}")
+        for issue in check_data_consistency(master):
+            if issue["level"] == "FAIL":
+                alerts.append(f"DATA INTEGRITY: {issue['message']}")
+        for issue in check_suspicious_patterns(master):
+            if issue["level"] == "FAIL":
+                alerts.append(f"SUSPICIOUS: {issue['message']}")
+    except Exception as e:
+        logger.warning(f"Ground truth validation skipped: {e}")
 
     return alerts

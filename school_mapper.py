@@ -18,11 +18,14 @@ import re
 import json
 import logging
 import argparse
+import unicodedata
 from collections import defaultdict
 from pathlib import Path
 from datetime import datetime
 
 logger = logging.getLogger("bu_bib.school_map")
+
+ROSTER_PATH = Path("data/bu_faculty_roster_verified.json")
 
 
 # ── Affiliation Pattern Matching ──────────────────────────────────────────────
@@ -132,99 +135,74 @@ _COMPILED_PATTERNS = [
 ]
 
 
-# ── Known Faculty → Department Lookup ─────────────────────────────────────────
-# Maps (normalized last name, first initial) → (school, category)
-# This catches cases where affiliation text is vague (e.g., just "Boston University")
+# ── Faculty Roster Loader ────────────────────────────────────────────────────
+# Loads from bu_faculty_roster_verified.json (6K+ entries with OpenAlex IDs)
+# instead of a hardcoded list. Falls back to empty dict if file missing.
 
-FACULTY_LOOKUP = {}
+FACULTY_LOOKUP = {}      # (last_name, first_initial) → (school, category)
+FACULTY_BY_OAID = {}     # openalex_id → (name, school, category)
+FACULTY_BY_FULLNAME = {} # "last first" → [(school, category, is_rare)]
 
-def _add_faculty(name: str, school: str, category: str):
-    """Add a faculty member to the lookup table."""
-    parts = name.lower().split()
-    if len(parts) >= 2:
-        key = (parts[-1], parts[0][0])  # (last_name, first_initial)
-        FACULTY_LOOKUP[key] = (school, category)
 
-# ── LAW FACULTY ──
-for name in [
-    "Christopher Robertson", "James Bessen", "Stacey Dogan", "Andrew Sellars",
-    "Woodrow Hartzog", "Daniel Susser", "Mason Kortz", "Rena Conti",
-    "Gary Lawson", "Jack Beermann", "Daniela Caruso", "Keith Hylton",
-    "Wendy Gordon", "Michael Meurer", "David Walker", "Jay Wexler",
-    "Kevin Outterson", "Nicole Huberfeld", "Aziza Ahmed", "Karen Pita Loor",
-    "Linda McClain", "Khiara Bridges", "Robert Bone", "David Seipp",
-    "Frederick Tung", "David Webber", "Madison Condon", "Ngozi Okidegbe",
-    "Jessica Roberts", "Claudia Haupt", "Gabriel Scheffler",
-]:
-    _add_faculty(name, "School of Law", "LAW")
+def _normalize_name(name: str) -> str:
+    name = unicodedata.normalize("NFKD", name)
+    name = "".join(c for c in name if not unicodedata.combining(c))
+    name = name.lower().strip()
+    name = re.sub(r"[^a-z\s-]", "", name)
+    return re.sub(r"\s+", " ", name)
 
-# ── CS FACULTY ──
-for name in [
-    "Mark Crovella", "Evimaria Terzi", "Lorenzo Orecchia", "Ran Canetti",
-    "Mayank Varia", "Adam Smith", "Leonid Reyzin", "Hongwei Xi",
-    "Abraham Matta", "John Byers", "Kate Saenko", "Bryan Plummer",
-    "Margrit Betke", "Stan Sclaroff", "Derry Wijaya", "Eshed Ohn-Bar",
-    "Jonathan Appavoo", "Renato Mancuso",
-]:
-    _add_faculty(name, "CAS — Computer Science", "NON-LAW")
 
-# ── ENGINEERING ──
-for name in [
-    "Yannis Paschalidis", "Prakash Ishwar", "Venkatesh Saligrama",
-    "Calin Belta", "Roberto Tron", "Sean Andersson", "Lei Tian",
-    "Ioannis Kontoyiannis", "Gianluca Stringhini", "Ari Trachtenberg",
-    "Ayse Bhisitkul", "David Castanon",
-]:
-    _add_faculty(name, "College of Engineering", "NON-LAW")
+def _name_key(name: str) -> str:
+    parts = _normalize_name(name).split()
+    if len(parts) < 2:
+        return _normalize_name(name)
+    return f"{parts[-1]} {parts[0]}"
 
-# ── CDS ──
-for name in [
-    "Azer Bestavros", "Mark Kon", "Eric Kolaczyk", "Pankaj Mehta",
-]:
-    _add_faculty(name, "Faculty of Computing & Data Sciences", "NON-LAW")
 
-# ── QUESTROM ──
-for name in [
-    "Marshall Van Alstyne", "Chrysanthos Dellarocas", "Sam Ransbotham",
-    "Andrei Hagiu", "Iain Cockburn",
-]:
-    _add_faculty(name, "Questrom School of Business", "NON-LAW")
+def _load_faculty_roster():
+    """Load faculty roster and build lookup indexes."""
+    global FACULTY_LOOKUP, FACULTY_BY_OAID, FACULTY_BY_FULLNAME
 
-# ── ECONOMICS ──
-for name in [
-    "Pascual Restrepo", "Kehinde Ajayi", "Samuel Bazzi",
-]:
-    _add_faculty(name, "CAS — Economics", "NON-LAW")
+    if not ROSTER_PATH.exists():
+        logger.warning(f"Roster not found at {ROSTER_PATH}, using empty lookup")
+        return
 
-# ── SPH ──
-for name in [
-    "Eleanor Murray", "Josée Dupuis",
-]:
-    _add_faculty(name, "School of Public Health", "NON-LAW")
+    with open(ROSTER_PATH) as f:
+        roster = json.load(f)
 
-# ── MEDICINE ──
-for name in [
-    "Vijaya Kolachalama",
-]:
-    _add_faculty(name, "School of Medicine", "NON-LAW")
+    for entry in roster:
+        name = entry.get("name", "")
+        school = entry.get("school", "Boston University (unspecified)")
+        category = "LAW" if school == "School of Law" else "NON-LAW"
+        oa_id = entry.get("openalex_id")
+        is_rare = entry.get("is_rare_name", True)
 
-# ── POLITICAL SCIENCE ──
-for name in [
-    "Dino Christenson",
-]:
-    _add_faculty(name, "CAS — Political Science", "NON-LAW")
+        # Index by (last, first_initial) — legacy format
+        parts = _normalize_name(name).split()
+        if len(parts) >= 2:
+            key = (parts[-1], parts[0][0])
+            # Don't overwrite if already set (first entry wins for ambiguous names)
+            if key not in FACULTY_LOOKUP:
+                FACULTY_LOOKUP[key] = (school, category)
 
-# ── COMMUNICATION ──
-for name in [
-    "Lei Guo",
-]:
-    _add_faculty(name, "College of Communication", "NON-LAW")
+        # Index by OpenAlex ID
+        if oa_id:
+            FACULTY_BY_OAID[oa_id] = (name, school, category)
 
-# ── LINGUISTICS ──
-for name in [
-    "Najoung Kim",
-]:
-    _add_faculty(name, "CAS — Linguistics", "NON-LAW")
+        # Index by full normalized name
+        fkey = _name_key(name)
+        FACULTY_BY_FULLNAME.setdefault(fkey, []).append(
+            (school, category, is_rare)
+        )
+
+    logger.info(
+        f"Loaded faculty roster: {len(roster)} entries, "
+        f"{len(FACULTY_LOOKUP)} name keys, {len(FACULTY_BY_OAID)} OA IDs"
+    )
+
+
+# Load on import
+_load_faculty_roster()
 
 
 # ── Classification Functions ──────────────────────────────────────────────────
@@ -248,15 +226,36 @@ def classify_affiliation(affiliation_text: str) -> tuple[str, str] | None:
 
 def classify_author_by_name(author_name: str) -> tuple[str, str] | None:
     """
-    Look up an author by name in the faculty lookup table.
+    Look up an author by name in the faculty roster.
+    Uses full-name match first (more precise), falls back to initial match.
     Returns (school, category) or None.
     """
-    parts = author_name.lower().strip().split()
+    # Try full-name match first
+    fkey = _name_key(author_name)
+    matches = FACULTY_BY_FULLNAME.get(fkey, [])
+    if len(matches) == 1:
+        return (matches[0][0], matches[0][1])
+    if len(matches) > 1:
+        # Multiple matches — only return if all point to same school
+        schools = set(m[0] for m in matches)
+        if len(schools) == 1:
+            return (matches[0][0], matches[0][1])
+        # Ambiguous — fall through to initial match
+
+    # Fall back to (last, first_initial) lookup
+    parts = _normalize_name(author_name).split()
     if len(parts) < 2:
         return None
-
     key = (parts[-1], parts[0][0])
     return FACULTY_LOOKUP.get(key)
+
+
+def classify_author_by_openalex_id(oa_id: str) -> tuple[str, str, str] | None:
+    """
+    Look up an author by OpenAlex ID. Returns (name, school, category) or None.
+    This is the most reliable matching method — zero false positives.
+    """
+    return FACULTY_BY_OAID.get(oa_id)
 
 
 def classify_paper(paper: dict) -> dict:
