@@ -30,16 +30,6 @@ jobs:
           mkdir -p logs
           python update_weekly.py 2>&1 | tee logs/weekly_ci.log
 
-      - name: Commit and push
-        run: |
-          git config user.name "Marc Woernle"
-          git config user.email "marcwho13@gmail.com"
-          git add data/sonnet_classification_bu_verified.json \
-                  data/update_state.json data/update_log.csv \
-                  output/bibliography_app/data.js docs/data.js
-          git diff --staged --quiet || git commit -m "weekly update (automated)"
-          git push
-
       - name: Create issue on failure
         if: failure()
         env:

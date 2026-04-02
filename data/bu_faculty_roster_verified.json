@@ -33474,10 +33474,10 @@
     "title": "Online MPH",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5089996193",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 231
   },
   {
     "name": "Les I. Boden",
@@ -33944,20 +33944,20 @@
     "title": "Advising & Employer Engagement",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5044972222",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 30
   },
   {
     "name": "Charles Daniel",
     "title": "Online MPH",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5007078845",
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100696404",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 101
+    "openalex_works": 759
   },
   {
     "name": "Amy Dark",
@@ -33974,20 +33974,20 @@
     "title": "Finance",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5032622937",
-    "is_rare_name": false,
+    "openalex_id": null,
+    "is_rare_name": null,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 0
   },
   {
     "name": "Patrick Elliot De",
     "title": "Administration",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5114016622",
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5070738091",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 3
+    "openalex_works": 769
   },
   {
     "name": "Sandra Dana Deluccia",
@@ -34094,10 +34094,10 @@
     "title": "Administrative Director",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5111384625",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 4
   },
   {
     "name": "Vinay Kumar Kumar Duggineni",
@@ -34204,10 +34204,10 @@
     "title": "Training Manager",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5095727104",
-    "is_rare_name": true,
+    "openalex_id": null,
+    "is_rare_name": null,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 0
   },
   {
     "name": "Lindsay A Farrer",
@@ -34344,10 +34344,10 @@
     "title": "Postdoctoral Associate",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5013317411",
-    "is_rare_name": false,
+    "openalex_id": "https://openalex.org/A5056436365",
+    "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 526
+    "openalex_works": 65
   },
   {
     "name": "David R Gagnon",
@@ -34454,10 +34454,10 @@
     "title": "Director of Administration",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5020764330",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 123
   },
   {
     "name": "Allegra R Gordon",
@@ -34904,10 +34904,10 @@
     "title": "SPH School News",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5064859743",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 133
   },
   {
     "name": "Lunise Joseph",
@@ -34934,10 +34934,10 @@
     "title": "Admission Online MPH",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5040754632",
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5066868698",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 43
+    "openalex_works": 113
   },
   {
     "name": "Sachelly Julian-Serrano",
@@ -35184,10 +35184,10 @@
     "title": "Careers & Practicum",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5069918697",
-    "is_rare_name": false,
+    "openalex_id": null,
+    "is_rare_name": null,
     "scraped_at": "2026-03-31",
-    "openalex_works": 53
+    "openalex_works": 0
   },
   {
     "name": "Ann Marie Larese",
@@ -35415,7 +35415,7 @@
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
     "openalex_id": "https://openalex.org/A5000791467",
-    "is_rare_name": false,
+    "is_rare_name": true,
     "scraped_at": "2026-03-31",
     "openalex_works": 52
   },
@@ -35744,10 +35744,10 @@
     "title": "Project Manager",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5095727104",
+    "openalex_id": "https://openalex.org/A5093362705",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 1
   },
   {
     "name": "Chad William Milando",
@@ -35874,10 +35874,10 @@
     "title": "Students",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5058798835",
-    "is_rare_name": false,
+    "openalex_id": "https://openalex.org/A5017158707",
+    "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 882
+    "openalex_works": 2
   },
   {
     "name": "Stephen Murray",
@@ -36544,10 +36544,10 @@
     "title": "Director of Operations",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5102489937",
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5086610923",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 16
+    "openalex_works": 10
   },
   {
     "name": "Jeffrey H Samet",
@@ -36564,10 +36564,10 @@
     "title": "Senior Financial Administrator",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5049044028",
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5058146600",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 20
+    "openalex_works": 29
   },
   {
     "name": "Ian M. Sanne",
@@ -37264,10 +37264,10 @@
     "title": "Marketing & Communications",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5008127339",
+    "openalex_id": "https://openalex.org/A5103446577",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 408
+    "openalex_works": 26
   },
   {
     "name": "Michael R Winter",
@@ -37324,10 +37324,10 @@
     "title": "Postdoctoral Associate",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": null,
-    "is_rare_name": null,
+    "openalex_id": "https://openalex.org/A5104019600",
+    "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 0
+    "openalex_works": 13
   },
   {
     "name": "Ziming Xuan",
@@ -51216,7 +51216,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075696701",
     "openalex_works": 405,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51224,9 +51224,9 @@
     "title": "",
     "school": "College of Engineering",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5047685950",
-    "openalex_works": 720,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5076149541",
+    "openalex_works": 18,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51246,7 +51246,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081816980",
     "openalex_works": 234,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51256,7 +51256,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103073490",
     "openalex_works": 264,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51284,9 +51284,9 @@
     "title": "",
     "school": "College of Engineering",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5063199641",
-    "openalex_works": 231,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5109888487",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51296,7 +51296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032985635",
     "openalex_works": 311,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51306,7 +51306,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025328957",
     "openalex_works": 257,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51356,7 +51356,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023669249",
     "openalex_works": 112,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51386,7 +51386,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080971897",
     "openalex_works": 719,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51406,7 +51406,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064676631",
     "openalex_works": 244,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51416,7 +51416,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039167346",
     "openalex_works": 153,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51426,7 +51426,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037975948",
     "openalex_works": 1959,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51476,7 +51476,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057463669",
     "openalex_works": 803,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51516,7 +51516,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044943177",
     "openalex_works": 95,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51526,7 +51526,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084369008",
     "openalex_works": 533,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51574,9 +51574,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101595883",
-    "openalex_works": 119,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5021040304",
+    "openalex_works": 534,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51626,7 +51626,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065209470",
     "openalex_works": 587,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51634,9 +51634,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5027561648",
-    "openalex_works": 2010,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5011039322",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51646,7 +51646,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004804087",
     "openalex_works": 398,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51664,9 +51664,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5004050875",
-    "openalex_works": 27,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5068903474",
+    "openalex_works": 21,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51676,7 +51676,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058798782",
     "openalex_works": 289,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51704,9 +51704,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5035399148",
-    "openalex_works": 829,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5110926025",
+    "openalex_works": 3,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51726,7 +51726,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074054089",
     "openalex_works": 189,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51736,7 +51736,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012357319",
     "openalex_works": 590,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51746,7 +51746,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5021633597",
     "openalex_works": 285,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51786,7 +51786,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054913205",
     "openalex_works": 712,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51796,7 +51796,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067153327",
     "openalex_works": 117,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51846,7 +51846,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018592922",
     "openalex_works": 184,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51874,9 +51874,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5102701099",
-    "openalex_works": 21,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5086221405",
+    "openalex_works": 15,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51886,7 +51886,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053091216",
     "openalex_works": 614,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51916,7 +51916,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109957638",
     "openalex_works": 163,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51924,9 +51924,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5076978787",
-    "openalex_works": 438,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5124718642",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51946,7 +51946,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080971897",
     "openalex_works": 719,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51956,7 +51956,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059272397",
     "openalex_works": 255,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51966,7 +51966,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075805130",
     "openalex_works": 1560,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -51986,7 +51986,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059325659",
     "openalex_works": 133,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52026,7 +52026,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047607459",
     "openalex_works": 313,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52036,7 +52036,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113696329",
     "openalex_works": 175,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52046,7 +52046,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035836760",
     "openalex_works": 43,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52074,9 +52074,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5005819096",
-    "openalex_works": 605,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5126832076",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52086,7 +52086,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086153927",
     "openalex_works": 730,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52096,7 +52096,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5050031371",
     "openalex_works": 518,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52104,9 +52104,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100753087",
-    "openalex_works": 78,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100507331",
+    "openalex_works": 15,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52144,9 +52144,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5113599985",
-    "openalex_works": 481,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5108462171",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52166,7 +52166,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010556254",
     "openalex_works": 1972,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52226,7 +52226,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5005144899",
     "openalex_works": 420,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52236,7 +52236,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5007007075",
     "openalex_works": 60,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52256,7 +52256,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066868698",
     "openalex_works": 113,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52284,9 +52284,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5111816021",
-    "openalex_works": 95,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5111576442",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52316,7 +52316,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064002558",
     "openalex_works": 560,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52336,7 +52336,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080879027",
     "openalex_works": 585,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52364,9 +52364,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5104356567",
-    "openalex_works": 12,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101060039",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52396,7 +52396,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091558550",
     "openalex_works": 429,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52424,9 +52424,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5011892455",
-    "openalex_works": 251,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5068000252",
+    "openalex_works": 45,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52446,7 +52446,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058192976",
     "openalex_works": 360,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52464,9 +52464,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5088432110",
-    "openalex_works": 268,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101979242",
+    "openalex_works": 20,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52546,7 +52546,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044943177",
     "openalex_works": 95,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52606,7 +52606,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091215942",
     "openalex_works": 182,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52616,7 +52616,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024256473",
     "openalex_works": 84,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52636,7 +52636,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090898185",
     "openalex_works": 158,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52654,9 +52654,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5023845697",
-    "openalex_works": 42,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5007678309",
+    "openalex_works": 124,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52664,9 +52664,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5104349267",
-    "openalex_works": 109,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5054401063",
+    "openalex_works": 117,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52696,7 +52696,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5002827290",
     "openalex_works": 872,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52706,7 +52706,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043582832",
     "openalex_works": 199,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52716,7 +52716,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074143608",
     "openalex_works": 344,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52724,9 +52724,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5033725627",
-    "openalex_works": 152,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5125916584",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52746,7 +52746,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100672557",
     "openalex_works": 330,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52786,7 +52786,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036791650",
     "openalex_works": 358,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52796,7 +52796,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082136205",
     "openalex_works": 179,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52806,7 +52806,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044678468",
     "openalex_works": 221,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52854,9 +52854,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5048961134",
-    "openalex_works": 24,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5114704127",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52876,7 +52876,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042506283",
     "openalex_works": 36,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52886,7 +52886,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091604315",
     "openalex_works": 344,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -52974,9 +52974,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5103712809",
-    "openalex_works": 35,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100742301",
+    "openalex_works": 36,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53016,7 +53016,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016411386",
     "openalex_works": 162,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53026,7 +53026,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004656494",
     "openalex_works": 1866,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53046,7 +53046,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032470748",
     "openalex_works": 471,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53114,9 +53114,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100358010",
-    "openalex_works": 227,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5034346452",
+    "openalex_works": 659,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53136,7 +53136,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075024250",
     "openalex_works": 78,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53146,7 +53146,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082644230",
     "openalex_works": 706,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53156,7 +53156,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004781553",
     "openalex_works": 819,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53166,7 +53166,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067535440",
     "openalex_works": 120,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53194,9 +53194,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100327582",
-    "openalex_works": 1570,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5121396932",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53224,9 +53224,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5107950319",
-    "openalex_works": 816,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5029367526",
+    "openalex_works": 547,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53276,7 +53276,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053146265",
     "openalex_works": 484,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53296,7 +53296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067654120",
     "openalex_works": 38,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53306,7 +53306,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037140250",
     "openalex_works": 68,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53324,9 +53324,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101539670",
-    "openalex_works": 28,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5033556419",
+    "openalex_works": 10,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53334,9 +53334,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100378656",
-    "openalex_works": 973,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5115589198",
+    "openalex_works": 1833,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53344,9 +53344,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5051096462",
-    "openalex_works": 87,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5128680920",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53384,9 +53384,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101686683",
-    "openalex_works": 115,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5042282723",
+    "openalex_works": 12,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53396,7 +53396,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031223249",
     "openalex_works": 269,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53466,7 +53466,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081103981",
     "openalex_works": 159,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53506,7 +53506,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016344156",
     "openalex_works": 155,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53526,7 +53526,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5028622176",
     "openalex_works": 86,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53604,9 +53604,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5015297358",
-    "openalex_works": 334,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103871366",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53664,9 +53664,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101617305",
-    "openalex_works": 123,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5032147874",
+    "openalex_works": 215,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53674,9 +53674,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100731724",
-    "openalex_works": 736,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101849105",
+    "openalex_works": 100,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53706,7 +53706,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5099464027",
     "openalex_works": 11,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53714,9 +53714,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5023904642",
-    "openalex_works": 151,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5121446329",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53736,7 +53736,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074213191",
     "openalex_works": 516,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53766,7 +53766,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083047329",
     "openalex_works": 271,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53774,9 +53774,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5077075722",
-    "openalex_works": 131,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5082533874",
+    "openalex_works": 7,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53836,7 +53836,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100626780",
     "openalex_works": 593,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53866,7 +53866,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068197208",
     "openalex_works": 194,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53876,7 +53876,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101909915",
     "openalex_works": 55,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53916,7 +53916,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075376639",
     "openalex_works": 469,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53976,7 +53976,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100689247",
     "openalex_works": 180,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -53996,7 +53996,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000801624",
     "openalex_works": 269,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54004,9 +54004,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5063560944",
-    "openalex_works": 930,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5106325617",
+    "openalex_works": 65,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54016,7 +54016,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107859330",
     "openalex_works": 597,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54024,9 +54024,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5038874491",
-    "openalex_works": 1559,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5107859330",
+    "openalex_works": 597,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54044,9 +54044,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5103407838",
-    "openalex_works": 29,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5080449427",
+    "openalex_works": 628,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54054,9 +54054,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100427561",
-    "openalex_works": 410,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100427565",
+    "openalex_works": 587,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54064,9 +54064,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5111766989",
-    "openalex_works": 59,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5049107377",
+    "openalex_works": 102,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54076,7 +54076,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5011162822",
     "openalex_works": 141,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54084,9 +54084,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5112719601",
-    "openalex_works": 633,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5073944694",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54106,7 +54106,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003992296",
     "openalex_works": 77,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54116,7 +54116,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014872089",
     "openalex_works": 178,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54124,9 +54124,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5054401063",
-    "openalex_works": 117,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5107448818",
+    "openalex_works": 141,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54144,9 +54144,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5008596377",
-    "openalex_works": 590,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103713317",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54166,7 +54166,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037560637",
     "openalex_works": 172,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54176,7 +54176,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041005536",
     "openalex_works": 283,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54196,7 +54196,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084614356",
     "openalex_works": 787,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54206,7 +54206,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110394980",
     "openalex_works": 79,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54214,9 +54214,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5093913734",
-    "openalex_works": 5,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5105080461",
+    "openalex_works": 8,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54236,7 +54236,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055620452",
     "openalex_works": 154,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54266,7 +54266,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102862663",
     "openalex_works": 80,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54274,9 +54274,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5023939930",
-    "openalex_works": 13,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5125478945",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54296,7 +54296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084570185",
     "openalex_works": 523,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54346,7 +54346,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5115603648",
     "openalex_works": 369,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54354,9 +54354,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5043926480",
-    "openalex_works": 1789,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5059739506",
+    "openalex_works": 9,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54374,9 +54374,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5111439251",
-    "openalex_works": 10,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5076569498",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54386,7 +54386,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088822272",
     "openalex_works": 1012,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54406,7 +54406,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083489256",
     "openalex_works": 108,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54424,9 +54424,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5027681613",
-    "openalex_works": 304,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5129898715",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54446,7 +54446,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5045211979",
     "openalex_works": 393,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54486,7 +54486,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034776394",
     "openalex_works": 392,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54524,9 +54524,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5119247408",
-    "openalex_works": 133,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101592322",
+    "openalex_works": 156,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54564,9 +54564,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101890757",
-    "openalex_works": 135,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101890758",
+    "openalex_works": 146,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54576,7 +54576,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100609547",
     "openalex_works": 717,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54616,7 +54616,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063754448",
     "openalex_works": 668,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54634,9 +54634,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5012515136",
-    "openalex_works": 412,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101483004",
+    "openalex_works": 27,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54674,9 +54674,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100453773",
-    "openalex_works": 110,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5016982554",
+    "openalex_works": 21,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54694,9 +54694,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5075372626",
-    "openalex_works": 27,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5039916645",
+    "openalex_works": 37,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54724,9 +54724,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5113483155",
-    "openalex_works": 19,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5019534541",
+    "openalex_works": 89,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54766,7 +54766,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100452094",
     "openalex_works": 1217,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54776,7 +54776,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057463669",
     "openalex_works": 803,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54834,9 +54834,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5048357691",
-    "openalex_works": 286,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5107931138",
+    "openalex_works": 85,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54844,9 +54844,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5107914646",
-    "openalex_works": 376,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5107859330",
+    "openalex_works": 597,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54866,7 +54866,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037889468",
     "openalex_works": 380,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54886,7 +54886,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055088966",
     "openalex_works": 147,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54944,9 +54944,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5026851512",
-    "openalex_works": 83,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5033558676",
+    "openalex_works": 18,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54956,7 +54956,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012610633",
     "openalex_works": 30,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54974,9 +54974,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5049727242",
-    "openalex_works": 11,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5009203493",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -54996,7 +54996,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100424736",
     "openalex_works": 85,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55076,7 +55076,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064623534",
     "openalex_works": 836,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55104,9 +55104,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100333738",
-    "openalex_works": 929,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5015944394",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55114,9 +55114,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5028420500",
-    "openalex_works": 241,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5047223160",
+    "openalex_works": 12,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55196,7 +55196,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108136543",
     "openalex_works": 12,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55204,9 +55204,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5021407843",
-    "openalex_works": 175,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5027397372",
+    "openalex_works": 20,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55246,7 +55246,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5007616136",
     "openalex_works": 493,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55256,7 +55256,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046013508",
     "openalex_works": 285,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55294,9 +55294,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5049415248",
-    "openalex_works": 318,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100768100",
+    "openalex_works": 50,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55314,9 +55314,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5102882703",
-    "openalex_works": 40,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5123934846",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55326,7 +55326,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012499268",
     "openalex_works": 643,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55334,9 +55334,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100447284",
-    "openalex_works": 1156,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100447291",
+    "openalex_works": 137,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55346,7 +55346,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5104233305",
     "openalex_works": 13,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55396,7 +55396,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101900844",
     "openalex_works": 56,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55404,9 +55404,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5112009281",
-    "openalex_works": 597,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5110254030",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55424,9 +55424,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5041083181",
-    "openalex_works": 63,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100614062",
+    "openalex_works": 29,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55456,7 +55456,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067104597",
     "openalex_works": 515,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55466,7 +55466,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035068594",
     "openalex_works": 1524,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55484,9 +55484,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100448510",
-    "openalex_works": 419,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5004764605",
+    "openalex_works": 74,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55516,7 +55516,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100423435",
     "openalex_works": 944,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55526,7 +55526,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040764765",
     "openalex_works": 73,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55564,9 +55564,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5012041302",
-    "openalex_works": 1012,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5089209583",
+    "openalex_works": 255,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55594,9 +55594,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5025257225",
-    "openalex_works": 24,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5113986170",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55634,9 +55634,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5024094171",
-    "openalex_works": 517,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101408324",
+    "openalex_works": 117,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55656,7 +55656,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100372199",
     "openalex_works": 176,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55696,7 +55696,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100696404",
     "openalex_works": 759,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55716,7 +55716,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074117194",
     "openalex_works": 1546,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55814,9 +55814,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100458183",
-    "openalex_works": 1204,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5047447023",
+    "openalex_works": 63,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55826,7 +55826,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5045583989",
     "openalex_works": 310,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55916,7 +55916,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069018938",
     "openalex_works": 1184,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55934,9 +55934,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5107874554",
-    "openalex_works": 238,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5036782661",
+    "openalex_works": 241,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -55966,7 +55966,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013887346",
     "openalex_works": 427,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56054,9 +56054,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5031151665",
-    "openalex_works": 123,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103559618",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56104,9 +56104,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5081575577",
-    "openalex_works": 191,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101796118",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56176,7 +56176,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090261504",
     "openalex_works": 240,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56226,7 +56226,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063168842",
     "openalex_works": 23,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56234,9 +56234,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100377147",
-    "openalex_works": 1459,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5059739506",
+    "openalex_works": 9,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56266,7 +56266,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072514907",
     "openalex_works": 8,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56286,7 +56286,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059560495",
     "openalex_works": 1035,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56334,9 +56334,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5070206514",
-    "openalex_works": 94,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5056165227",
+    "openalex_works": 5,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56366,7 +56366,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001851740",
     "openalex_works": 165,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56396,7 +56396,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083570181",
     "openalex_works": 737,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56426,7 +56426,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5006157054",
     "openalex_works": 44,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56454,9 +56454,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101717144",
-    "openalex_works": 2111,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101408324",
+    "openalex_works": 117,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56514,9 +56514,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5013334138",
-    "openalex_works": 14,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101383489",
+    "openalex_works": 18,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56534,9 +56534,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5072312680",
-    "openalex_works": 19,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5108929425",
+    "openalex_works": 25,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56556,7 +56556,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022496169",
     "openalex_works": 103,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56574,9 +56574,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5041509539",
-    "openalex_works": 55,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5023605156",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56596,7 +56596,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108153919",
     "openalex_works": 7,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56604,9 +56604,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5079153908",
-    "openalex_works": 64,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5113308782",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56616,7 +56616,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5060308139",
     "openalex_works": 119,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56626,7 +56626,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033355210",
     "openalex_works": 423,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56656,7 +56656,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5026166163",
     "openalex_works": 126,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56686,7 +56686,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100623075",
     "openalex_works": 38,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56706,7 +56706,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065564472",
     "openalex_works": 52,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56746,7 +56746,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085562803",
     "openalex_works": 364,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56756,7 +56756,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111083054",
     "openalex_works": 4,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56766,7 +56766,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055328684",
     "openalex_works": 129,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56784,9 +56784,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100441917",
-    "openalex_works": 747,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5091946954",
+    "openalex_works": 7,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56946,7 +56946,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100362822",
     "openalex_works": 218,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56966,7 +56966,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113916210",
     "openalex_works": 131,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -56976,7 +56976,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088393616",
     "openalex_works": 197,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57026,7 +57026,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040070345",
     "openalex_works": 530,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57036,7 +57036,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056927935",
     "openalex_works": 195,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57066,7 +57066,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059022101",
     "openalex_works": 50,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57106,7 +57106,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069517567",
     "openalex_works": 264,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57156,7 +57156,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087728660",
     "openalex_works": 53,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57176,7 +57176,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039762889",
     "openalex_works": 327,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57236,7 +57236,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019780693",
     "openalex_works": 193,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57246,7 +57246,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023857061",
     "openalex_works": 37,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57286,7 +57286,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5020737501",
     "openalex_works": 14,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57324,9 +57324,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101694841",
-    "openalex_works": 191,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5054038673",
+    "openalex_works": 8,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57366,7 +57366,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042252857",
     "openalex_works": 143,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57396,7 +57396,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107869802",
     "openalex_works": 209,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57406,7 +57406,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082723913",
     "openalex_works": 188,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57414,9 +57414,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5078526061",
-    "openalex_works": 295,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5002529174",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57434,9 +57434,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5078041293",
-    "openalex_works": 155,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5113272940",
+    "openalex_works": 5,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57474,9 +57474,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5102693581",
-    "openalex_works": 4,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5113396512",
+    "openalex_works": 5,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57486,7 +57486,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109362088",
     "openalex_works": 243,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57496,7 +57496,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003219679",
     "openalex_works": 302,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57566,7 +57566,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035521823",
     "openalex_works": 56,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57594,9 +57594,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5099636001",
-    "openalex_works": 4,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5099635990",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57624,9 +57624,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100353673",
-    "openalex_works": 5578,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5008729718",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57666,7 +57666,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5060100126",
     "openalex_works": 260,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57724,9 +57724,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5002555967",
-    "openalex_works": 151,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5113563600",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57806,7 +57806,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087254915",
     "openalex_works": 95,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57814,9 +57814,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5106824166",
-    "openalex_works": 128,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100717701",
+    "openalex_works": 302,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57826,7 +57826,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058631355",
     "openalex_works": 173,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57836,7 +57836,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103066327",
     "openalex_works": 122,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57846,7 +57846,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101849259",
     "openalex_works": 171,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57866,7 +57866,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017168859",
     "openalex_works": 589,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57876,7 +57876,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018592922",
     "openalex_works": 184,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57886,7 +57886,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074054089",
     "openalex_works": 189,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57896,7 +57896,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057463669",
     "openalex_works": 803,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57916,7 +57916,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039611937",
     "openalex_works": 2062,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57944,9 +57944,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100381719",
-    "openalex_works": 246,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5072154678",
+    "openalex_works": 6,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57966,7 +57966,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036913803",
     "openalex_works": 327,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -57986,7 +57986,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100417426",
     "openalex_works": 160,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58006,7 +58006,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075696701",
     "openalex_works": 405,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58014,9 +58014,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5049608457",
-    "openalex_works": 143,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5008773651",
+    "openalex_works": 22,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58046,7 +58046,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103547750",
     "openalex_works": 174,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58054,9 +58054,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5103044811",
-    "openalex_works": 100,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5011503365",
+    "openalex_works": 7,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58066,7 +58066,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027174211",
     "openalex_works": 136,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58086,7 +58086,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025328957",
     "openalex_works": 257,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58106,7 +58106,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067153327",
     "openalex_works": 117,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58196,7 +58196,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100640260",
     "openalex_works": 524,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58286,7 +58286,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100450462",
     "openalex_works": 751,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58296,7 +58296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100419038",
     "openalex_works": 888,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58344,9 +58344,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5010704175",
-    "openalex_works": 208,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5071064725",
+    "openalex_works": 244,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58404,9 +58404,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5000497629",
-    "openalex_works": 5,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5055038898",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58456,7 +58456,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042279154",
     "openalex_works": 285,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58476,7 +58476,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103819240",
     "openalex_works": 237,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58536,7 +58536,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064538702",
     "openalex_works": 238,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58576,7 +58576,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062831158",
     "openalex_works": 441,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58584,9 +58584,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5015051319",
-    "openalex_works": 729,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5121350765",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58596,7 +58596,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080596276",
     "openalex_works": 132,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58614,9 +58614,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5066985455",
-    "openalex_works": 38,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5019165436",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58624,9 +58624,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5016962908",
-    "openalex_works": 268,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5050547091",
+    "openalex_works": 106,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58646,7 +58646,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083738404",
     "openalex_works": 32,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58694,9 +58694,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5089994476",
-    "openalex_works": 209,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5083166994",
+    "openalex_works": 49,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58724,9 +58724,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5037959901",
-    "openalex_works": 24,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5110949400",
+    "openalex_works": 37,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58764,9 +58764,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5026382723",
-    "openalex_works": 552,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5083917329",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58786,7 +58786,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071396629",
     "openalex_works": 12,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58856,7 +58856,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033845918",
     "openalex_works": 351,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58896,7 +58896,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085104823",
     "openalex_works": 183,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -58984,9 +58984,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5053804996",
-    "openalex_works": 21,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5084887746",
+    "openalex_works": 51,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59016,7 +59016,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101806987",
     "openalex_works": 112,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59026,7 +59026,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051991963",
     "openalex_works": 289,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59086,7 +59086,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102005063",
     "openalex_works": 292,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59114,9 +59114,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5041693244",
-    "openalex_works": 152,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5041646845",
+    "openalex_works": 28,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59156,7 +59156,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091697861",
     "openalex_works": 146,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59166,7 +59166,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027688260",
     "openalex_works": 18,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59186,7 +59186,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018343158",
     "openalex_works": 461,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59196,7 +59196,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113756805",
     "openalex_works": 14,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59204,9 +59204,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5030605750",
-    "openalex_works": 88,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5037603339",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59236,7 +59236,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093920148",
     "openalex_works": 6,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59246,7 +59246,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048651048",
     "openalex_works": 327,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59256,7 +59256,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074696533",
     "openalex_works": 69,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59304,9 +59304,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5035754215",
-    "openalex_works": 15,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5030540959",
+    "openalex_works": 16,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59434,9 +59434,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5102978337",
-    "openalex_works": 72,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5000856613",
+    "openalex_works": 259,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59486,7 +59486,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109074467",
     "openalex_works": 151,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59496,7 +59496,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086825937",
     "openalex_works": 327,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59586,7 +59586,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019522183",
     "openalex_works": 675,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59596,7 +59596,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5045077650",
     "openalex_works": 518,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59624,9 +59624,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5001637232",
-    "openalex_works": 177,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5004836994",
+    "openalex_works": 179,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59654,9 +59654,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101511623",
-    "openalex_works": 116,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101511622",
+    "openalex_works": 150,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59694,9 +59694,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5101717144",
-    "openalex_works": 2111,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101408324",
+    "openalex_works": 117,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59774,9 +59774,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5052261115",
-    "openalex_works": 59,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5025912867",
+    "openalex_works": 2,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59796,7 +59796,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100363740",
     "openalex_works": 232,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59804,9 +59804,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5068922252",
-    "openalex_works": 220,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5048708280",
+    "openalex_works": 97,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59874,9 +59874,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5064854046",
-    "openalex_works": 14,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103114416",
+    "openalex_works": 6,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59886,7 +59886,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013884472",
     "openalex_works": 162,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59926,7 +59926,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001449972",
     "openalex_works": 157,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59964,9 +59964,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5110975484",
-    "openalex_works": 3,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5102768662",
+    "openalex_works": 7,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -59976,7 +59976,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110940870",
     "openalex_works": 12,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60086,7 +60086,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001851740",
     "openalex_works": 165,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60186,7 +60186,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074098919",
     "openalex_works": 17,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60194,9 +60194,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5103160719",
-    "openalex_works": 128,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5046306910",
+    "openalex_works": 109,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60216,7 +60216,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080262061",
     "openalex_works": 630,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60246,7 +60246,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101802238",
     "openalex_works": 63,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60296,7 +60296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101449743",
     "openalex_works": 188,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60354,9 +60354,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5075153292",
-    "openalex_works": 19,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5121172258",
+    "openalex_works": 1,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60384,9 +60384,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5008516186",
-    "openalex_works": 94,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100785482",
+    "openalex_works": 186,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60404,9 +60404,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100641226",
-    "openalex_works": 122,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5121572509",
+    "openalex_works": 3,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60416,7 +60416,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082542793",
     "openalex_works": 508,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60424,9 +60424,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5010454242",
-    "openalex_works": 288,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5107938186",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60484,9 +60484,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5047476496",
-    "openalex_works": 357,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5102396217",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60504,9 +60504,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100435093",
-    "openalex_works": 178,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5120790453",
+    "openalex_works": 62,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60626,7 +60626,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100355638",
     "openalex_works": 755,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60646,7 +60646,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100609330",
     "openalex_works": 61,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60726,7 +60726,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103100326",
     "openalex_works": 44,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60776,7 +60776,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024060116",
     "openalex_works": 67,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60876,7 +60876,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100342886",
     "openalex_works": 1474,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -60986,7 +60986,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100716873",
     "openalex_works": 228,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61016,7 +61016,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010496812",
     "openalex_works": 139,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61044,9 +61044,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5018262238",
-    "openalex_works": 36,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5041005595",
+    "openalex_works": 118,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61054,9 +61054,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5109228195",
-    "openalex_works": 40,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5091801204",
+    "openalex_works": 17,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61146,7 +61146,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010513899",
     "openalex_works": 22,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61214,9 +61214,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100403938",
-    "openalex_works": 1618,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5082136205",
+    "openalex_works": 179,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61224,9 +61224,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5005447367",
-    "openalex_works": 145,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5105938963",
+    "openalex_works": 10,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61236,7 +61236,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059122240",
     "openalex_works": 664,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61254,9 +61254,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5057858044",
-    "openalex_works": 185,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103591718",
+    "openalex_works": 3,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61284,9 +61284,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5019018567",
-    "openalex_works": 35,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5103158780",
+    "openalex_works": 14,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61296,7 +61296,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004804087",
     "openalex_works": 398,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61304,9 +61304,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100444188",
-    "openalex_works": 163,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5100444203",
+    "openalex_works": 38,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61344,9 +61344,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100297988",
-    "openalex_works": 78,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5003412921",
+    "openalex_works": 4,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61386,7 +61386,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036110536",
     "openalex_works": 1314,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61404,9 +61404,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5028095460",
-    "openalex_works": 40,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5004525528",
+    "openalex_works": 9,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61456,7 +61456,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100373745",
     "openalex_works": 19059,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61526,7 +61526,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066768461",
     "openalex_works": 216,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61534,9 +61534,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100331094",
-    "openalex_works": 773,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5119272186",
+    "openalex_works": 1766,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61544,9 +61544,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5102993243",
-    "openalex_works": 133,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5086054551",
+    "openalex_works": 54,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61564,9 +61564,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5112129114",
-    "openalex_works": 15,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5101005666",
+    "openalex_works": 35,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61686,7 +61686,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018730262",
     "openalex_works": 182,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61706,7 +61706,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062048275",
     "openalex_works": 212,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61714,9 +61714,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5000497629",
-    "openalex_works": 5,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5055038898",
+    "openalex_works": 11,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61816,7 +61816,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109545831",
     "openalex_works": 39,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61854,9 +61854,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5001138508",
-    "openalex_works": 142,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5089202910",
+    "openalex_works": 48,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61876,7 +61876,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100452094",
     "openalex_works": 1217,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61906,7 +61906,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100607414",
     "openalex_works": 181,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61934,9 +61934,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100330449",
-    "openalex_works": 1526,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5125429160",
+    "openalex_works": 10,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61966,7 +61966,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107856113",
     "openalex_works": 422,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61976,7 +61976,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017326625",
     "openalex_works": 1784,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -61984,9 +61984,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5080648559",
-    "openalex_works": 253,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5105506464",
+    "openalex_works": 20,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -62004,9 +62004,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5107925332",
-    "openalex_works": 61,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5085939960",
+    "openalex_works": 193,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -62056,7 +62056,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113696329",
     "openalex_works": 175,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -62126,7 +62126,7 @@
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035068594",
     "openalex_works": 1524,
-    "is_rare_name": true,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {
@@ -62224,9 +62224,9 @@
     "title": "",
     "school": "Boston University (unspecified)",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5113630954",
-    "openalex_works": 74,
-    "is_rare_name": true,
+    "openalex_id": "https://openalex.org/A5086386539",
+    "openalex_works": 3,
+    "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
   {

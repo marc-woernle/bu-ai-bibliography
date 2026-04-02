@@ -156,11 +156,13 @@ def load_master() -> list[dict]:
 
 
 def save_master(papers: list[dict]):
-    """Save the master dataset with reindexing."""
+    """Save the master dataset with reindexing. Uses atomic write to prevent corruption."""
     for i, p in enumerate(papers):
         p["index"] = i
-    with open(MASTER_PATH, "w") as f:
+    tmp_path = str(MASTER_PATH) + ".tmp"
+    with open(tmp_path, "w") as f:
         json.dump(papers, f, ensure_ascii=False)
+    os.rename(tmp_path, MASTER_PATH)
 
 
 def build_dedup_index(master: list[dict]) -> tuple[set, set]:
@@ -569,35 +571,6 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
 # ═══════════════════════════════════════════════════════════════════════════
 # BU AUTHOR VERIFICATION
 # ═══════════════════════════════════════════════════════════════════════════
-
-def load_bu_author_names() -> set[str]:
-    """Load normalized BU author names from the OpenAlex roster."""
-    if not os.path.exists(BU_AUTHORS_PATH):
-        return set()
-    with open(BU_AUTHORS_PATH) as f:
-        authors = json.load(f)
-    return {a["name"].lower().strip() for a in authors if a.get("name")}
-
-
-def _name_matches(name1: str, name2: str) -> bool:
-    """Fuzzy name matching: substring or initial matching."""
-    n1 = name1.lower().strip()
-    n2 = name2.lower().strip()
-    if n1 == n2:
-        return True
-    if n1 in n2 or n2 in n1:
-        return True
-    # Initial matching: "J. Smith" matches "John Smith"
-    parts1 = n1.split()
-    parts2 = n2.split()
-    if len(parts1) >= 2 and len(parts2) >= 2:
-        if parts1[-1] == parts2[-1]:  # Same last name
-            # Check if first name matches or is an initial
-            f1, f2 = parts1[0].rstrip("."), parts2[0].rstrip(".")
-            if f1[0] == f2[0] and (len(f1) == 1 or len(f2) == 1):
-                return True
-    return False
-
 
 def verify_bu_authors(papers: list[dict]) -> list[dict]:
     """Verify BU authorship using the faculty roster. Drops papers with zero BU authors.

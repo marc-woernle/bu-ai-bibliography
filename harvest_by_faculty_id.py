@@ -14,16 +14,15 @@ Strategy:
   5. Save candidates for Sonnet classification (separate step to control cost)
 """
 
-import hashlib
 import json
-import re
 import time
-import unicodedata
 from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
 import requests
+
+from utils import normalize_doi, title_fingerprint
 
 BU_ROR = "https://ror.org/05qwgg493"
 EMAIL = "mwoernle@bu.edu"
@@ -75,20 +74,6 @@ AI_KEYWORDS = [
     "bandit", "regret bound", "online learning", "rlhf",
 ]
 
-
-def title_fingerprint(title: str) -> str:
-    """Normalized title fingerprint for dedup."""
-    t = unicodedata.normalize("NFKD", title.lower())
-    t = re.sub(r"[^a-z0-9]", "", t)
-    return hashlib.md5(t.encode()).hexdigest()[:16]
-
-
-def normalize_doi(doi: str) -> str:
-    if not doi:
-        return ""
-    doi = doi.lower().strip()
-    doi = doi.replace("https://doi.org/", "").replace("http://doi.org/", "")
-    return doi
 
 
 def keyword_match(title: str, abstract: str) -> bool:

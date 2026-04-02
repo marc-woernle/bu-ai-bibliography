@@ -31,14 +31,6 @@ jobs:
           mkdir -p logs
           python update_monthly.py 2>&1 | tee logs/monthly_ci.log
 
-      - name: Commit and push
-        run: |
-          git config user.name "Marc Woernle"
-          git config user.email "marcwho13@gmail.com"
-          git add data/ output/ docs/
-          git diff --staged --quiet || git commit -m "monthly update (automated)"
-          git push
-
       - name: Create issue on failure
         if: failure()
         env:

@@ -45,27 +45,6 @@ def _search_openbu(query: str, page: int = 0, size: int = 100) -> dict:
             return {}
 
 
-def _get_item_metadata(item_uuid: str) -> dict:
-    """Fetch full metadata for an OpenBU item."""
-    while True:
-        rate_limiter.wait()
-        try:
-            resp = requests.get(
-                f"{BASE_URL}/core/items/{item_uuid}/metadata",
-                headers={"Accept": "application/json"},
-                timeout=15,
-            )
-            if resp.status_code == 429:
-                logger.warning("OpenBU 429 rate-limited; sleeping 10s")
-                time.sleep(10)
-                continue
-            resp.raise_for_status()
-            return resp.json()
-        except requests.exceptions.RequestException as e:
-            logger.error(f"OpenBU metadata fetch failed for {item_uuid}: {e}")
-            return {}
-
-
 def _parse_search_result(result: dict) -> dict | None:
     """Parse an OpenBU search result into standard format."""
     # Extract from indexable object (result.type is "discover", not "item")

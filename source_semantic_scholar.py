@@ -122,20 +122,6 @@ def search_papers(query: str, limit: int = 1000) -> list[dict]:
     return papers
 
 
-def _is_bu_affiliated(paper: dict) -> bool:
-    """Heuristic check if any author is BU-affiliated.
-    
-    S2 doesn't always have affiliation data, so this is fuzzy.
-    We check author names against a known BU faculty list if available,
-    or look for "Boston University" in any available affiliation text.
-    """
-    for author in paper.get("authors", []):
-        aff = author.get("affiliation", "").lower()
-        if "boston university" in aff:
-            return True
-    return False
-
-
 def harvest() -> list[dict]:
     """
     Search S2 for AI papers by BU authors.
