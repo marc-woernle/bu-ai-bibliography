@@ -1,3 +1,5 @@
+> Always read STATUS.md at the start of every session for current project state.
+
 # BU AI Bibliography — Project Guide
 
 ## What this is

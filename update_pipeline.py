@@ -576,43 +576,34 @@ def verify_bu_authors(papers: list[dict]) -> list[dict]:
     """Verify BU authorship using the faculty roster. Drops papers with zero BU authors.
 
     Tier 1: Check existing is_bu flags (set by OpenAlex ROR matching during harvest)
-    Tier 2: Match author names against faculty roster (6K+ entries)
-            - Full-name unique match → high confidence
-            - Initial match against (last, first_initial) → medium confidence
-    Tier 3: For large-author papers (>30), only trust Tier 1 + full-name matches
-            (initial matches produce too many false positives on CERN-style papers)
+    Tier 2: OpenAlex author ID match against FACULTY_BY_OAID (zero false positives)
+    Tier 3: Full-name unique match against roster (no initial-only fallback)
     """
     verified = []
     for paper in papers:
         has_bu = False
-        n_authors = len(paper.get("authors", []))
-        is_big_paper = n_authors > 30
 
         for author in paper.get("authors", []):
-            name = author.get("name", "")
-
             # Tier 1: already flagged by source (OpenAlex ROR match)
             if author.get("is_bu"):
                 has_bu = True
                 continue
 
-            # Tier 2: full-name match against roster
+            # Tier 2: OpenAlex author ID
+            oa_id = author.get("openalex_id")
+            if oa_id and oa_id in FACULTY_BY_OAID:
+                author["is_bu"] = True
+                has_bu = True
+                continue
+
+            # Tier 3: full-name match only (no initial fallback)
+            name = author.get("name", "")
             fkey = _name_key(name)
             matches = FACULTY_BY_FULLNAME.get(fkey, [])
             if len(matches) == 1:
                 author["is_bu"] = True
                 has_bu = True
                 continue
-
-            # Tier 3: initial match (skip for big papers — too many false positives)
-            if not is_big_paper:
-                parts = name.lower().split()
-                if len(parts) >= 2:
-                    last = parts[-1]
-                    first_initial = parts[0][0]
-                    if (last, first_initial) in FACULTY_LOOKUP:
-                        author["is_bu"] = True
-                        has_bu = True
 
         if has_bu:
             verified.append(paper)

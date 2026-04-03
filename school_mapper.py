@@ -261,7 +261,13 @@ def classify_author_by_openalex_id(oa_id: str) -> tuple[str, str, str] | None:
 def classify_paper(paper: dict) -> dict:
     """
     Add school classification to a paper record.
-    
+
+    Matching priority:
+      1. OpenAlex author ID → FACULTY_BY_OAID (zero false positives)
+      2. Affiliation text → regex patterns
+      3. Full-name roster match (no initial-only fallback — too many collisions)
+      4. If author is flagged is_bu but unmatched → "Boston University (unspecified)"
+
     Adds:
       paper["bu_schools"] — list of unique schools represented
       paper["bu_category"] — "LAW" | "NON-LAW" | "BOTH"
@@ -274,29 +280,46 @@ def classify_paper(paper: dict) -> dict:
     for author in paper.get("authors", []):
         school = None
         category = None
-
-        # Strategy 1: Try affiliation text
-        aff = author.get("affiliation", "")
-        if aff:
-            result = classify_affiliation(aff)
-            if result:
-                school, category = result
-
-        # Strategy 2: Try faculty name lookup (fallback or confirmation)
         name = author.get("name", "")
-        if name:
-            name_result = classify_author_by_name(name)
-            if name_result:
-                # Name lookup overrides generic affiliation if more specific
-                if school is None or school.endswith("(unspecified)"):
-                    school, category = name_result
-                elif school != name_result[0]:
-                    # Author has different affiliation than expected — could be
-                    # a joint appointment. Keep both.
-                    schools.add(name_result[0])
-                    categories.add(name_result[1])
 
-        # Strategy 3: Check if author is flagged as BU but we couldn't classify
+        # Strategy 1: OpenAlex author ID (highest confidence — no false positives)
+        oa_id = author.get("openalex_id")
+        if oa_id:
+            oa_result = classify_author_by_openalex_id(oa_id)
+            if oa_result:
+                _, school, category = oa_result
+
+        # Strategy 2: Affiliation text regex
+        if school is None or school.endswith("(unspecified)"):
+            aff = author.get("affiliation", "")
+            if aff:
+                result = classify_affiliation(aff)
+                if result:
+                    aff_school, aff_cat = result
+                    if school is None or (school.endswith("(unspecified)") and not aff_school.endswith("(unspecified)")):
+                        school, category = aff_school, aff_cat
+
+        # Strategy 3: Full-name roster match only (no initial fallback)
+        if name:
+            fkey = _name_key(name)
+            matches = FACULTY_BY_FULLNAME.get(fkey, [])
+            if len(matches) == 1:
+                name_school, name_cat = matches[0][0], matches[0][1]
+                if school is None or school.endswith("(unspecified)"):
+                    school, category = name_school, name_cat
+                elif school != name_school:
+                    # Joint appointment — keep both schools
+                    schools.add(name_school)
+                    categories.add(name_cat)
+            elif len(matches) > 1:
+                # Multiple matches — only use if all same school
+                match_schools = set(m[0] for m in matches)
+                if len(match_schools) == 1:
+                    name_school, name_cat = matches[0][0], matches[0][1]
+                    if school is None or school.endswith("(unspecified)"):
+                        school, category = name_school, name_cat
+
+        # Strategy 4: Author flagged as BU but no school determined
         if school is None and author.get("is_bu"):
             school = "Boston University (unspecified)"
             category = "NON-LAW"

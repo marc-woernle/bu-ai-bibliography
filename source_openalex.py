@@ -55,9 +55,13 @@ def _parse_work(work: dict) -> dict:
             if inst.get("ror") == BU_ROR_ID:
                 bu_affiliated = True
 
+        # Extract OpenAlex author ID (e.g. "https://openalex.org/A5003349673")
+        oa_author_id = author_info.get("id", "")
+
         authors.append({
             "name": name,
             "orcid": orcid,
+            "openalex_id": oa_author_id if oa_author_id else None,
             "affiliation": "; ".join(a for a in affiliations if a),
             "is_bu": any(
                 inst.get("ror") == BU_ROR_ID
