@@ -139,9 +139,10 @@ _COMPILED_PATTERNS = [
 # Loads from bu_faculty_roster_verified.json (6K+ entries with OpenAlex IDs)
 # instead of a hardcoded list. Falls back to empty dict if file missing.
 
-FACULTY_LOOKUP = {}      # (last_name, first_initial) → (school, category)
+FACULTY_LOOKUP = {}      # (last_name, first_initial) → (school, category)  [legacy, first-wins]
 FACULTY_BY_OAID = {}     # openalex_id → (name, school, category)
 FACULTY_BY_FULLNAME = {} # "last first" → [(school, category, is_rare)]
+FACULTY_BY_INITIAL = {}  # (last_name, first_initial) → [(school, category)]  [all entries]
 
 
 def _normalize_name(name: str) -> str:
@@ -161,7 +162,7 @@ def _name_key(name: str) -> str:
 
 def _load_faculty_roster():
     """Load faculty roster and build lookup indexes."""
-    global FACULTY_LOOKUP, FACULTY_BY_OAID, FACULTY_BY_FULLNAME
+    global FACULTY_LOOKUP, FACULTY_BY_OAID, FACULTY_BY_FULLNAME, FACULTY_BY_INITIAL
 
     if not ROSTER_PATH.exists():
         logger.warning(f"Roster not found at {ROSTER_PATH}, using empty lookup")
@@ -177,13 +178,15 @@ def _load_faculty_roster():
         oa_id = entry.get("openalex_id")
         is_rare = entry.get("is_rare_name", True)
 
-        # Index by (last, first_initial) — legacy format
+        # Index by (last, first_initial)
         parts = _normalize_name(name).split()
         if len(parts) >= 2:
             key = (parts[-1], parts[0][0])
-            # Don't overwrite if already set (first entry wins for ambiguous names)
+            # Legacy index (first entry wins)
             if key not in FACULTY_LOOKUP:
                 FACULTY_LOOKUP[key] = (school, category)
+            # All-entries index (for ambiguity detection)
+            FACULTY_BY_INITIAL.setdefault(key, []).append((school, category))
 
         # Index by OpenAlex ID
         if oa_id:
@@ -224,10 +227,11 @@ def classify_affiliation(affiliation_text: str) -> tuple[str, str] | None:
     return None
 
 
-def classify_author_by_name(author_name: str) -> tuple[str, str] | None:
+def classify_author_by_name(author_name: str, full_name_only: bool = False) -> tuple[str, str] | None:
     """
     Look up an author by name in the faculty roster.
-    Uses full-name match first (more precise), falls back to initial match.
+    Uses full-name match first, falls back to initial match (single-entry only)
+    unless full_name_only=True (used when affiliation already gave a specific school).
     Returns (school, category) or None.
     """
     # Try full-name match first
@@ -240,14 +244,19 @@ def classify_author_by_name(author_name: str) -> tuple[str, str] | None:
         schools = set(m[0] for m in matches)
         if len(schools) == 1:
             return (matches[0][0], matches[0][1])
-        # Ambiguous — fall through to initial match
 
-    # Fall back to (last, first_initial) lookup
+    if full_name_only:
+        return None
+
+    # Fall back to (last, first_initial) — only if exactly one roster entry
     parts = _normalize_name(author_name).split()
     if len(parts) < 2:
         return None
     key = (parts[-1], parts[0][0])
-    return FACULTY_LOOKUP.get(key)
+    initial_matches = FACULTY_BY_INITIAL.get(key, [])
+    if len(initial_matches) == 1:
+        return initial_matches[0]
+    return None
 
 
 def classify_author_by_openalex_id(oa_id: str) -> tuple[str, str, str] | None:
@@ -261,13 +270,7 @@ def classify_author_by_openalex_id(oa_id: str) -> tuple[str, str, str] | None:
 def classify_paper(paper: dict) -> dict:
     """
     Add school classification to a paper record.
-
-    Matching priority:
-      1. OpenAlex author ID → FACULTY_BY_OAID (zero false positives)
-      2. Affiliation text → regex patterns
-      3. Full-name roster match (no initial-only fallback — too many collisions)
-      4. If author is flagged is_bu but unmatched → "Boston University (unspecified)"
-
+    
     Adds:
       paper["bu_schools"] — list of unique schools represented
       paper["bu_category"] — "LAW" | "NON-LAW" | "BOTH"
@@ -280,46 +283,34 @@ def classify_paper(paper: dict) -> dict:
     for author in paper.get("authors", []):
         school = None
         category = None
+
+        # Strategy 1: Try affiliation text
+        aff = author.get("affiliation", "")
+        if aff:
+            result = classify_affiliation(aff)
+            if result:
+                school, category = result
+
+        # Strategy 2: Try faculty name lookup — only for BU-affiliated authors
+        # (matching non-BU authors against the roster produces false school tags)
         name = author.get("name", "")
-
-        # Strategy 1: OpenAlex author ID (highest confidence — no false positives)
-        oa_id = author.get("openalex_id")
-        if oa_id:
-            oa_result = classify_author_by_openalex_id(oa_id)
-            if oa_result:
-                _, school, category = oa_result
-
-        # Strategy 2: Affiliation text regex
-        if school is None or school.endswith("(unspecified)"):
-            aff = author.get("affiliation", "")
-            if aff:
-                result = classify_affiliation(aff)
-                if result:
-                    aff_school, aff_cat = result
-                    if school is None or (school.endswith("(unspecified)") and not aff_school.endswith("(unspecified)")):
-                        school, category = aff_school, aff_cat
-
-        # Strategy 3: Full-name roster match only (no initial fallback)
-        if name:
-            fkey = _name_key(name)
-            matches = FACULTY_BY_FULLNAME.get(fkey, [])
-            if len(matches) == 1:
-                name_school, name_cat = matches[0][0], matches[0][1]
+        is_bu_author = author.get("is_bu") or (school is not None)
+        if name and is_bu_author:
+            has_specific_school = school is not None and not school.endswith("(unspecified)")
+            name_result = classify_author_by_name(
+                name, full_name_only=has_specific_school
+            )
+            if name_result:
+                # Name lookup overrides generic affiliation if more specific
                 if school is None or school.endswith("(unspecified)"):
-                    school, category = name_school, name_cat
-                elif school != name_school:
-                    # Joint appointment — keep both schools
-                    schools.add(name_school)
-                    categories.add(name_cat)
-            elif len(matches) > 1:
-                # Multiple matches — only use if all same school
-                match_schools = set(m[0] for m in matches)
-                if len(match_schools) == 1:
-                    name_school, name_cat = matches[0][0], matches[0][1]
-                    if school is None or school.endswith("(unspecified)"):
-                        school, category = name_school, name_cat
+                    school, category = name_result
+                elif school != name_result[0]:
+                    # Author has different affiliation than expected — could be
+                    # a joint appointment. Keep both.
+                    schools.add(name_result[0])
+                    categories.add(name_result[1])
 
-        # Strategy 4: Author flagged as BU but no school determined
+        # Strategy 3: Check if author is flagged as BU but we couldn't classify
         if school is None and author.get("is_bu"):
             school = "Boston University (unspecified)"
             category = "NON-LAW"
