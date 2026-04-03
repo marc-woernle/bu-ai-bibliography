@@ -2,7 +2,7 @@
 
 ## What this is
 
-A bibliography of every AI-related paper by Boston University faculty. 10,446 papers classified by Sonnet, displayed in a static web app at GitHub Pages. Auto-updated weekly/monthly via GitHub Actions.
+A bibliography of every AI-related paper by Boston University faculty. ~10,400 papers classified by Sonnet, displayed in a static web app at GitHub Pages. Auto-updated weekly/monthly via GitHub Actions.
 
 ## Key files — don't break these
 
@@ -51,12 +51,16 @@ Author names must be identical in `authors[].name` and `bu_author_names[]`. The 
 - `data/faculty_harvest_cache/` — local cache directory
 - Backup files (`*.backup_*.json`)
 
+## Data source philosophy
+OpenAlex is our primary source but it is NOT exhaustive or authoritative. It is one database among many — it has gaps, stale data, name collisions, and merged/split author profiles. Do not treat OpenAlex as ground truth. Cross-reference with other sources (Scholarly Commons, SSRN, PubMed, CrossRef, faculty CVs). When a paper is known to exist but isn't in OpenAlex, add it manually with source="manual". The same applies to every other source — none of them are complete.
+
 ## Known data issues
-- 4,701 papers tagged "Boston University (unspecified)" — authors not in roster
+- ~4,500 papers tagged "Boston University (unspecified)" — authors not in roster or roster lacks school info
 - Tim Duncan (Law AI Program Director) has zero publications — he's a practitioner, not a researcher
 - Bernard Chao incorrectly listed as BU in OpenAlex — actually University of Denver
-- Economics has 41 papers for 59 faculty — SSRN/NBER source gap
-- 389 papers have bu_category=UNCLASSIFIED — need school_mapper re-run
+- Economics has ~41 papers for 59 faculty — SSRN/NBER source gap
+- Scholarly Commons uploads full back-catalog when faculty join BU — must filter by bu_start_year
+- school_mapper.py `classify_paper()` does NOT use OpenAlex author IDs — it falls back to affiliation text + name string matching. The `FACULTY_BY_OAID` index is loaded but unused in the paper classification path. This is a known gap.
 
 ## Validation
 Run `python validate_dataset.py` after any data change. 0 failures = safe to push. Warnings are informational. The anchor faculty list in that file defines who MUST have papers — if they show 0, something is broken.
