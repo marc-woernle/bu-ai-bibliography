@@ -2694,10 +2694,10 @@
     "title": "Assistant Professor",
     "school": "CAS \u2014 Psychology & Brain Sciences",
     "source_url": "https://www.bu.edu/psych/people/faculty/",
-    "openalex_id": "https://openalex.org/A5081144092",
+    "openalex_id": "https://openalex.org/A5100457958",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1523
+    "openalex_works": 211
   },
   {
     "name": "Ovsanna Leyfer",
@@ -9004,10 +9004,10 @@
     "title": "",
     "school": "School of Medicine",
     "source_url": "https://www.bumc.bu.edu/camed/about/directory/",
-    "openalex_id": "https://openalex.org/A5081144092",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1523
+    "openalex_works": 0
   },
   {
     "name": "Angela L Cramer",
@@ -9384,10 +9384,10 @@
     "title": "",
     "school": "School of Medicine",
     "source_url": "https://www.bumc.bu.edu/camed/about/directory/",
-    "openalex_id": "https://openalex.org/A5081144092",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1523
+    "openalex_works": 0
   },
   {
     "name": "Annie Potter",
@@ -30724,10 +30724,10 @@
     "title": "",
     "school": "School of Medicine",
     "source_url": "https://www.bumc.bu.edu/camed/about/directory/",
-    "openalex_id": "https://openalex.org/A5100457958",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 211
+    "openalex_works": 0
   },
   {
     "name": "Sumana G. Setty",
@@ -39575,10 +39575,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5063830804",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 926
+    "openalex_works": 0
   },
   {
     "name": "Tugba Efendigil",
@@ -47855,10 +47855,10 @@
     "title": "Clinical Instructor of General Dentistry",
     "school": "School of Dental Medicine",
     "source_url": "https://www.bu.edu/dental/profiles/affiliation/faculty/",
-    "openalex_id": "https://openalex.org/A5100457958",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 211
+    "openalex_works": 0
   },
   {
     "name": "Cataldo W. Leone",
