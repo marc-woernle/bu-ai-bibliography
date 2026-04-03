@@ -145,6 +145,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .page-btn:disabled { opacity: 0.4; cursor: default; }
 .page-btn.active { background: var(--bu-red); color: #fff; border-color: var(--bu-red); }
 .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-family: var(--sans); font-size: 11px; color: #aaa; text-align: center; }
+.data-note { margin-top: 24px; padding: 12px 16px; background: #f9f9f9; border: 1px solid #e5e7eb; border-radius: 6px; font-family: var(--sans); font-size: 11px; color: #888; line-height: 1.6; }
 .loading { text-align: center; padding: 60px 20px; font-family: var(--sans); font-size: 16px; color: #888; }
 .loading .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid #eee; border-top-color: var(--bu-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
 .load-progress { width: 200px; height: 4px; background: #eee; border-radius: 2px; margin: 12px auto 0; overflow: hidden; }
@@ -820,6 +821,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       h += `</div>`;
     }
 
+    h += `<div class="data-note"><strong>Data note:</strong> School and department tags are derived from our faculty roster and may not be available for every paper. If a school appears underrepresented, try searching by a specific author name instead. Coverage varies by discipline\u2014fields with established preprint and open-access traditions (CS, physics, medicine) are better represented than fields that primarily publish in proprietary law reviews, NBER working papers, or non-indexed venues. Papers are included only when we can confirm at least one author held a BU appointment at the time of publication.</div>`;
     h += `<div class="footer">BU AI Research Bibliography \u00B7 ${papers.length.toLocaleString()} papers from OpenAlex, Semantic Scholar, PubMed, arXiv, SSRN, CrossRef, OpenBU, NIH, NSF, bioRxiv \u00B7 Classified by Sonnet 4</div>`;
 
     return h;

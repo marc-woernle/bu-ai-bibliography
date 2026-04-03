@@ -5097,7 +5097,8 @@
     "openalex_id": "https://openalex.org/A5100823394",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 92
+    "openalex_works": 92,
+    "bu_start_year": 2022
   },
   {
     "name": "Zohra Ahmed",
@@ -5117,7 +5118,8 @@
     "openalex_id": "https://openalex.org/A5089720985",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 132
+    "openalex_works": 132,
+    "bu_start_year": 2005
   },
   {
     "name": "Susan M. Akram",
@@ -5327,7 +5329,8 @@
     "openalex_id": "https://openalex.org/A5041133538",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 80
+    "openalex_works": 80,
+    "bu_start_year": 1984
   },
   {
     "name": "James Bessen",
@@ -5337,7 +5340,8 @@
     "openalex_id": "https://openalex.org/A5039127783",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 144
+    "openalex_works": 144,
+    "bu_start_year": 2004
   },
   {
     "name": "Aaron HC Black",
@@ -5757,7 +5761,8 @@
     "openalex_id": "https://openalex.org/A5036882033",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 45
+    "openalex_works": 45,
+    "bu_start_year": 2005
   },
   {
     "name": "Stephen M. Donweber",
@@ -5827,7 +5832,8 @@
     "openalex_id": "https://openalex.org/A5041206447",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 32
+    "openalex_works": 32,
+    "bu_start_year": 2024
   },
   {
     "name": "Lisa Freudenheim",
@@ -5897,7 +5903,8 @@
     "openalex_id": "https://openalex.org/A5003349673",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 105
+    "openalex_works": 105,
+    "bu_start_year": 2022
   },
   {
     "name": "Scott Hirst",
@@ -5927,7 +5934,8 @@
     "openalex_id": "https://openalex.org/A5057960729",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 295
+    "openalex_works": 295,
+    "bu_start_year": 1995
   },
   {
     "name": "Cody Jacobs",
@@ -6097,7 +6105,8 @@
     "openalex_id": "https://openalex.org/A5044053537",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 148
+    "openalex_works": 148,
+    "bu_start_year": 1999
   },
   {
     "name": "Maria O\u2019Brien",
@@ -6127,7 +6136,8 @@
     "openalex_id": "https://openalex.org/A5009633275",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 14
+    "openalex_works": 14,
+    "bu_start_year": 2022
   },
   {
     "name": "Ousama M. A\u2019Amar",
@@ -36397,7 +36407,8 @@
     "openalex_id": "https://openalex.org/A5050547091",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 106
+    "openalex_works": 106,
+    "bu_start_year": 2020
   },
   {
     "name": "Peter C. Rockers",
@@ -51597,7 +51608,8 @@
     "openalex_id": "https://openalex.org/A5012043241",
     "openalex_works": 150,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01"
+    "scraped_at": "2026-04-01",
+    "bu_start_year": 2019
   },
   {
     "name": "Yujia Xue",
@@ -52852,12 +52864,13 @@
   {
     "name": "Rory Van Loo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Law",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5114704127",
     "openalex_works": 1,
     "is_rare_name": false,
-    "scraped_at": "2026-04-01"
+    "scraped_at": "2026-04-01",
+    "bu_start_year": 2016
   },
   {
     "name": "John Magee",
@@ -54857,7 +54870,8 @@
     "openalex_id": "https://openalex.org/A5053822908",
     "openalex_works": 88,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01"
+    "scraped_at": "2026-04-01",
+    "bu_start_year": 2021
   },
   {
     "name": "Crystal Schaaf",
@@ -58090,16 +58104,6 @@
     "scraped_at": "2026-04-01"
   },
   {
-    "name": "Neil Richards",
-    "title": "",
-    "school": "Boston University (unspecified)",
-    "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5064912928",
-    "openalex_works": 130,
-    "is_rare_name": true,
-    "scraped_at": "2026-04-01"
-  },
-  {
     "name": "Anthony J. Rosellini",
     "title": "",
     "school": "Boston University (unspecified)",
@@ -58627,7 +58631,8 @@
     "openalex_id": "https://openalex.org/A5050547091",
     "openalex_works": 106,
     "is_rare_name": false,
-    "scraped_at": "2026-04-01"
+    "scraped_at": "2026-04-01",
+    "bu_start_year": 2020
   },
   {
     "name": "Alexander von L\u00fchmann",
@@ -62237,7 +62242,8 @@
     "openalex_id": "https://openalex.org/A5073131392",
     "openalex_works": 12,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01"
+    "scraped_at": "2026-04-01",
+    "bu_start_year": 2016
   },
   {
     "name": "Tiffany Li",
@@ -62388,5 +62394,16 @@
     "openalex_works": 324,
     "is_rare_name": true,
     "scraped_at": "2026-04-01"
+  },
+  {
+    "name": "Katharine Silbaugh",
+    "title": "Professor of Law",
+    "school": "School of Law",
+    "source_url": "https://www.bu.edu/law/profile/katharine-silbaugh/",
+    "openalex_id": "https://openalex.org/A5082988457",
+    "openalex_works": 0,
+    "is_rare_name": true,
+    "scraped_at": "2026-04-03",
+    "bu_start_year": 1993
   }
 ]
