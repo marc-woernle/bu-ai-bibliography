@@ -38,7 +38,6 @@ from utils import (
 )
 from classify_papers import MODEL, SYSTEM_PROMPT, derived_fields, paper_to_prompt_text
 from school_mapper import (
-    FACULTY_LOOKUP,
     FACULTY_BY_FULLNAME,
     FACULTY_BY_OAID,
     _name_key,
@@ -357,11 +356,11 @@ def harvest_ssrn_by_faculty() -> list[dict]:
     papers = []
     seen_dois = set()
 
-    law_last_names = [
-        last.title()
-        for (last, _), (school, _) in FACULTY_LOOKUP.items()
-        if school == "School of Law"
-    ]
+    law_last_names = list({
+        name_key.split()[0].title()
+        for name_key, entries in FACULTY_BY_FULLNAME.items()
+        if any(school == "School of Law" for school, _ in entries)
+    })
 
     for name in law_last_names:
         _crossref_rl.wait()

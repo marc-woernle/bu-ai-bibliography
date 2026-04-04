@@ -143,6 +143,19 @@ FACULTY_BY_OAID = {}     # openalex_id → (name, school, category)
 FACULTY_BY_FULLNAME = {} # "last first" → [(school, category)]
 FACULTY_BY_ALTNAME = {}  # normalized_name → (school, category)  [from OpenAlex alt_names cache]
 
+# Known false Tier-3 name matches: common names that collide with Dental roster
+# entries. These authors at other institutions share names with BU Dental faculty.
+# The OAID-mismatch guard catches this when the paper author has an OAID, but
+# when they don't, this blocklist prevents the false match.
+# Format: name_key → set of schools to block
+NAME_MATCH_BLOCKLIST = {
+    "liu bing": {"School of Dental Medicine"},
+    "chang claire": {"School of Dental Medicine"},
+    "liu li": {"School of Dental Medicine"},
+    "miller andrew": {"School of Dental Medicine"},
+    "sharma rashi": {"School of Dental Medicine"},
+}
+
 
 def _normalize_name(name: str) -> str:
     name = unicodedata.normalize("NFKD", name)
@@ -307,6 +320,15 @@ def classify_paper(paper: dict) -> dict:
             oa_result = classify_author_by_openalex_id(oa_id)
             if oa_result:
                 _, school, category = oa_result
+                # Blocklist guard: OpenAlex sometimes merges different people
+                # under one ID. If this (name, school) is blocklisted, only
+                # trust the OAID match when affiliation text confirms the school.
+                fkey = _name_key(name)
+                blocked = NAME_MATCH_BLOCKLIST.get(fkey, set())
+                if school in blocked:
+                    aff = (author.get("affiliation") or "").lower()
+                    if "dental" not in aff:
+                        school, category = None, None
 
         # Tier 2: Affiliation text regex — only for authors already known to
         # be BU, or whose affiliation text mentions BU. Prevents matching
@@ -336,6 +358,16 @@ def classify_paper(paper: dict) -> dict:
             if school is None or school.endswith("(unspecified)"):
                 # Tier 3: Full-name roster match (with OAID-mismatch guard)
                 name_result = classify_author_by_name(name)
+                # Blocklist check: known common-name collisions
+                if name_result:
+                    fkey = _name_key(name)
+                    blocked_schools = NAME_MATCH_BLOCKLIST.get(fkey, set())
+                    if name_result[0] in blocked_schools:
+                        # Known false match — OpenAlex may have merged different
+                        # people under one OAID, so we can't trust OAID confirmation.
+                        aff = (author.get("affiliation") or "").lower()
+                        if "dental" not in aff:
+                            name_result = None
                 if name_result and oa_id:
                     # Check: does the roster entry for this name have a different OAID?
                     fkey = _name_key(name)

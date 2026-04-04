@@ -48694,10 +48694,10 @@
     "title": "",
     "school": "Pardee School of Global Studies",
     "source_url": "https://www.bu.edu/pardeeschool/academics/faculty/",
-    "openalex_id": "https://openalex.org/A5110623396",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 64
+    "openalex_works": 0
   },
   {
     "name": "Min Ye",
