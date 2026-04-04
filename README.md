@@ -24,10 +24,10 @@ Sources (OpenAlex, PubMed, SSRN, Scholarly Commons, OpenBU, NIH, NSF, arXiv, Cro
 ## Methodology
 
 ### Harvesting
-Papers are collected from 10 sources. OpenAlex is the primary source, queried by BU's ROR identifier for exact institutional matching. Other sources use a mix of affiliation text search, MeSH terms, faculty name matching, and direct repository access. Each source has known biases — OpenAlex undercounts conference proceedings, PubMed only covers biomedical literature, SSRN skews toward law and business. We cast a wide net and filter downstream rather than relying on any single source.
+Papers are collected from 10 sources. OpenAlex is the primary source, queried by BU's ROR identifier for exact institutional matching. Other sources use a mix of affiliation text search, MeSH terms, faculty name matching, and direct repository access. Each source has known biases: OpenAlex undercounts conference proceedings, PubMed only covers biomedical literature, SSRN skews toward law and business. We cast a wide net and filter downstream rather than relying on any single source.
 
 ### Filtering and classification
-Raw harvests go through three stages of filtering. A keyword pre-filter checks for 187 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.25 — intentionally permissive). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a 2-3 sentence annotation. Papers classified as not_relevant are excluded. Cost is ~$0.003/paper via the Anthropic Batch API.
+Raw harvests go through three stages of filtering. A keyword pre-filter checks for 187 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.25, intentionally permissive). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a 2-3 sentence annotation. Papers classified as not_relevant are excluded. Cost is ~$0.003/paper via the Anthropic Batch API.
 
 ### Author matching and school classification
 BU authorship is verified against a faculty roster of 5,896 entries scraped from 24+ BU department web pages, with OpenAlex author IDs resolved for ~4,500 faculty. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
@@ -71,7 +71,7 @@ Cost controls: $5/weekly cap, $10/monthly cap, paper count gates, running total 
 | **NSF Awards** | 13 | NSF-funded AI research | Awardee name |
 | **bioRxiv/medRxiv** | 7 | Biomedical preprints | CrossRef DOI prefix |
 
-Papers often appear in multiple sources — total mentions exceed the 10,456 deduplicated paper count.
+Papers often appear in multiple sources, so total mentions exceed the 10,456 deduplicated paper count.
 
 ## Setup
 
