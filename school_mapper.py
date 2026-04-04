@@ -430,6 +430,11 @@ def classify_paper(paper: dict) -> dict:
     else:
         paper_category = "UNCLASSIFIED"
 
+    # Drop "Boston University (unspecified)" if paper has any real school tag
+    unspecified = "Boston University (unspecified)"
+    if unspecified in schools and len(schools) > 1:
+        schools.discard(unspecified)
+
     paper["bu_schools"] = sorted(schools)
     paper["bu_category"] = paper_category
     paper["bu_authors_classified"] = author_classifications

@@ -131,7 +131,7 @@ def generate_monthly_report(data: dict) -> str:
     # New faculty candidates
     if data.get("new_faculty"):
         lines.append("## New Faculty Candidates")
-        lines.append("Authors with 5+ AI papers not in FACULTY_LOOKUP:")
+        lines.append("Authors with 5+ AI papers not in roster:")
         for f in data["new_faculty"][:10]:
             lines.append(f"- **{f['name']}** ({f['paper_count']} papers)")
         lines.append("")
@@ -213,6 +213,18 @@ def _run(args, start_time):
         sources.append(("scholarly_commons", lambda: harvest_sc()))
     except ImportError:
         logger.warning("source_scholarly_commons not available")
+
+    try:
+        from source_arxiv import harvest as harvest_arxiv
+        sources.append(("arxiv", lambda: harvest_arxiv()))
+    except ImportError:
+        logger.warning("source_arxiv not available")
+
+    try:
+        from source_semantic_scholar import harvest as harvest_s2
+        sources.append(("semantic_scholar", lambda: harvest_s2()))
+    except ImportError:
+        logger.warning("source_semantic_scholar not available")
 
     for name, harvester in sources:
         try:

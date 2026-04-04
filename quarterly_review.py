@@ -25,35 +25,43 @@ from update_pipeline import (
     load_master,
     load_state,
 )
-from school_mapper import FACULTY_LOOKUP
+from school_mapper import FACULTY_BY_OAID, FACULTY_BY_FULLNAME
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("quarterly_review")
 
 
 def faculty_gap_check(master: list[dict]) -> list[dict]:
-    """Check every faculty in FACULTY_LOOKUP against the master dataset."""
+    """Check every faculty in the roster against the master dataset."""
     # Build set of BU author names in master
     author_counts = Counter()
     for p in master:
         for name in p.get("bu_author_names", []):
             author_counts[name.lower()] += 1
 
+    # Also index by OAID for papers that have them
+    oaid_counts = Counter()
+    for p in master:
+        for a in p.get("authors", []):
+            oa_id = a.get("openalex_id")
+            if oa_id:
+                oaid_counts[oa_id] += 1
+
     gaps = []
-    for (last, first_initial), (school, _) in sorted(FACULTY_LOOKUP.items()):
-        # Check if any paper has this faculty member
-        found = False
-        count = 0
-        for name, c in author_counts.items():
-            parts = name.split()
-            if len(parts) >= 2 and parts[-1].lower() == last and parts[0][0].lower() == first_initial:
-                found = True
-                count = c
-                break
-        if not found:
-            gaps.append({"name": f"{first_initial.upper()}. {last.title()}", "school": school, "papers": 0})
-        elif count < 3:
-            gaps.append({"name": f"{first_initial.upper()}. {last.title()}", "school": school, "papers": count})
+    seen = set()
+    for oa_id, (name, school, _category) in sorted(FACULTY_BY_OAID.items(), key=lambda x: x[1][1]):
+        if name in seen:
+            continue
+        seen.add(name)
+
+        # Check by OAID first (most reliable), then by name
+        count = oaid_counts.get(oa_id, 0)
+        if count == 0:
+            name_lower = name.lower()
+            count = author_counts.get(name_lower, 0)
+
+        if count < 3:
+            gaps.append({"name": name, "school": school, "papers": count})
 
     return gaps
 
@@ -131,7 +139,7 @@ def generate_report() -> str:
         for g in gaps:
             lines.append(f"- {g['name']} ({g['school']}): {g['papers']} papers")
     else:
-        lines.append("All faculty in FACULTY_LOOKUP have 3+ papers.")
+        lines.append("All roster faculty have 3+ papers.")
     lines.append("")
 
     # 2. Stratified sample for human review
@@ -155,7 +163,7 @@ def generate_report() -> str:
     lines.append("## 4. New Faculty Candidates")
     candidates = detect_new_faculty_candidates(master)
     if candidates:
-        lines.append("BU authors with 5+ AI papers not in FACULTY_LOOKUP:")
+        lines.append("BU authors with 5+ AI papers not in roster:")
         for c in candidates[:15]:
             lines.append(f"- **{c['name']}** — {c['paper_count']} papers")
     else:
