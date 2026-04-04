@@ -308,26 +308,46 @@ def classify_paper(paper: dict) -> dict:
             if oa_result:
                 _, school, category = oa_result
 
-        # Tier 2: Affiliation text regex
+        # Tier 2: Affiliation text regex — only for authors already known to
+        # be BU, or whose affiliation text mentions BU. Prevents matching
+        # "University of Maine School of Law" as BU Law.
         if school is None or school.endswith("(unspecified)"):
             aff = author.get("affiliation", "")
             if aff:
-                result = classify_affiliation(aff)
-                if result:
-                    aff_school, aff_cat = result
-                    if school is None or (
-                        school.endswith("(unspecified)")
-                        and not aff_school.endswith("(unspecified)")
-                    ):
-                        school, category = aff_school, aff_cat
+                aff_lower = aff.lower()
+                is_bu_aff = author.get("is_bu") or (school is not None) or \
+                    "boston university" in aff_lower or re.search(r"\bbu\b", aff_lower)
+                if is_bu_aff:
+                    result = classify_affiliation(aff)
+                    if result:
+                        aff_school, aff_cat = result
+                        if school is None or (
+                            school.endswith("(unspecified)")
+                            and not aff_school.endswith("(unspecified)")
+                        ):
+                            school, category = aff_school, aff_cat
 
         # Tier 3 & 4: Name-based matching — only for BU-affiliated authors,
-        # and skip for CERN-style papers (>30 authors) to avoid false matches
+        # and skip for CERN-style papers (>30 authors) to avoid false matches.
+        # Also skip if author has an OAID that doesn't match the roster entry
+        # (proves they're a different person with the same name).
         is_bu_author = author.get("is_bu") or (school is not None)
         if is_bu_author and not is_big_paper and name:
             if school is None or school.endswith("(unspecified)"):
-                # Tier 3: Full-name roster match
+                # Tier 3: Full-name roster match (with OAID-mismatch guard)
                 name_result = classify_author_by_name(name)
+                if name_result and oa_id:
+                    # Check: does the roster entry for this name have a different OAID?
+                    fkey = _name_key(name)
+                    roster_matches = FACULTY_BY_FULLNAME.get(fkey, [])
+                    # Look up roster OAIDs for this name
+                    roster_oaids = set()
+                    for rschool, rcat in roster_matches:
+                        for rid, (rname, rs, rc) in FACULTY_BY_OAID.items():
+                            if rs == rschool and _name_key(rname) == fkey:
+                                roster_oaids.add(rid)
+                    if roster_oaids and oa_id not in roster_oaids:
+                        name_result = None  # Different person — skip
                 if name_result:
                     school, category = name_result
                 else:

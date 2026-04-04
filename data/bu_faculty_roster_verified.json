@@ -5027,8 +5027,7 @@
     "openalex_id": "https://openalex.org/A5100823394",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 92,
-    "bu_start_year": 2022
+    "openalex_works": 92
   },
   {
     "name": "Zohra Ahmed",
@@ -5048,8 +5047,7 @@
     "openalex_id": "https://openalex.org/A5089720985",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 132,
-    "bu_start_year": 2005
+    "openalex_works": 132
   },
   {
     "name": "Susan M. Akram",
@@ -5259,8 +5257,7 @@
     "openalex_id": "https://openalex.org/A5041133538",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 80,
-    "bu_start_year": 1984
+    "openalex_works": 80
   },
   {
     "name": "James Bessen",
@@ -5270,8 +5267,7 @@
     "openalex_id": "https://openalex.org/A5039127783",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 144,
-    "bu_start_year": 2004
+    "openalex_works": 144
   },
   {
     "name": "Aaron HC Black",
@@ -5691,8 +5687,7 @@
     "openalex_id": "https://openalex.org/A5036882033",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 45,
-    "bu_start_year": 2005
+    "openalex_works": 45
   },
   {
     "name": "Stephen M. Donweber",
@@ -5762,8 +5757,7 @@
     "openalex_id": "https://openalex.org/A5041206447",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 32,
-    "bu_start_year": 2024
+    "openalex_works": 32
   },
   {
     "name": "Lisa Freudenheim",
@@ -5833,8 +5827,7 @@
     "openalex_id": "https://openalex.org/A5003349673",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 105,
-    "bu_start_year": 2022
+    "openalex_works": 105
   },
   {
     "name": "Scott Hirst",
@@ -5864,8 +5857,7 @@
     "openalex_id": "https://openalex.org/A5057960729",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 295,
-    "bu_start_year": 1995
+    "openalex_works": 295
   },
   {
     "name": "Cody Jacobs",
@@ -6035,8 +6027,7 @@
     "openalex_id": "https://openalex.org/A5044053537",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 148,
-    "bu_start_year": 1999
+    "openalex_works": 148
   },
   {
     "name": "Michael J. O'Brien",
@@ -6066,8 +6057,7 @@
     "openalex_id": "https://openalex.org/A5009633275",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 14,
-    "bu_start_year": 2022
+    "openalex_works": 14
   },
   {
     "name": "Ousama M. A’Amar",
@@ -35537,8 +35527,7 @@
     "openalex_id": "https://openalex.org/A5050547091",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 106,
-    "bu_start_year": 2020
+    "openalex_works": 106
   },
   {
     "name": "Peter C. Rockers",
@@ -50178,8 +50167,7 @@
     "openalex_id": "https://openalex.org/A5012043241",
     "openalex_works": 150,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01",
-    "bu_start_year": 2019
+    "scraped_at": "2026-04-01"
   },
   {
     "name": "Yujia Xue",
@@ -51089,8 +51077,7 @@
     "openalex_id": "https://openalex.org/A5114704127",
     "openalex_works": 1,
     "is_rare_name": false,
-    "scraped_at": "2026-04-01",
-    "bu_start_year": 2016
+    "scraped_at": "2026-04-01"
   },
   {
     "name": "John Magee",
@@ -52730,8 +52717,7 @@
     "openalex_id": "https://openalex.org/A5053822908",
     "openalex_works": 88,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01",
-    "bu_start_year": 2021
+    "scraped_at": "2026-04-01"
   },
   {
     "name": "Crystal Schaaf",
@@ -58811,8 +58797,7 @@
     "openalex_id": "https://openalex.org/A5073131392",
     "openalex_works": 12,
     "is_rare_name": true,
-    "scraped_at": "2026-04-01",
-    "bu_start_year": 2016
+    "scraped_at": "2026-04-01"
   },
   {
     "name": "Tiffany Li",
@@ -58942,7 +58927,6 @@
     "openalex_id": "https://openalex.org/A5082988457",
     "openalex_works": 0,
     "is_rare_name": true,
-    "scraped_at": "2026-04-03",
-    "bu_start_year": 1993
+    "scraped_at": "2026-04-03"
   }
 ]
