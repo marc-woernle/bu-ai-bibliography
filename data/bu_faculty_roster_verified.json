@@ -287,7 +287,7 @@
     "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 798
+    "openalex_works": 0
   },
   {
     "name": "Kyle Deeds",
@@ -1114,10 +1114,10 @@
     "title": "Professor",
     "school": "CAS — Mathematics & Statistics",
     "source_url": "https://www.bu.edu/math/people/faculty/",
-    "openalex_id": "https://openalex.org/A5039244520",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 248
+    "openalex_works": 0
   },
   {
     "name": "Timothy Kohl",
@@ -1294,10 +1294,10 @@
     "title": "Affiliated Professor",
     "school": "CAS — Mathematics & Statistics",
     "source_url": "https://www.bu.edu/math/people/faculty/",
-    "openalex_id": "https://openalex.org/A5069354082",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 210
+    "openalex_works": 0
   },
   {
     "name": "David Rohrlich",
@@ -1924,10 +1924,10 @@
     "title": "Master Lecturer",
     "school": "CAS — Economics",
     "source_url": "https://www.bu.edu/econ/people/faculty/",
-    "openalex_id": "https://openalex.org/A5052620448",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 565
+    "openalex_works": 0
   },
   {
     "name": "Zhongjun Qu",
@@ -5154,10 +5154,10 @@
     "title": "",
     "school": "School of Law",
     "source_url": "https://www.bu.edu/law/faculty-research/faculty-profiles/",
-    "openalex_id": "https://openalex.org/A5023125790",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 251
+    "openalex_works": 0
   },
   {
     "name": "Mark Bamford",
@@ -5424,10 +5424,10 @@
     "title": "",
     "school": "School of Law",
     "source_url": "https://www.bu.edu/law/faculty-research/faculty-profiles/",
-    "openalex_id": "https://openalex.org/A5082442398",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1262
+    "openalex_works": 0
   },
   {
     "name": "Laurie Burlingame",
@@ -8894,10 +8894,10 @@
     "title": "",
     "school": "School of Medicine",
     "source_url": "https://www.bumc.bu.edu/camed/about/directory/",
-    "openalex_id": "https://openalex.org/A5044064524",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1736
+    "openalex_works": 0
   },
   {
     "name": "Angela H. Jackson",
@@ -19864,10 +19864,10 @@
     "title": "",
     "school": "School of Medicine",
     "source_url": "https://www.bumc.bu.edu/camed/about/directory/",
-    "openalex_id": "https://openalex.org/A5114377262",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1810
+    "openalex_works": 0
   },
   {
     "name": "Karen E. Lasser",
@@ -33434,10 +33434,10 @@
     "title": "Administration",
     "school": "School of Public Health",
     "source_url": "https://www.bu.edu/sph/about/directory/",
-    "openalex_id": "https://openalex.org/A5070738091",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 769
+    "openalex_works": 0
   },
   {
     "name": "Sandra Dana Deluccia",
@@ -36617,7 +36617,8 @@
     "openalex_id": "https://openalex.org/A5088913516",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 61
+    "openalex_works": 61,
+    "secondary_school": "Questrom School of Business"
   },
   {
     "name": "Ayse D. Lokmanoglu",
@@ -36697,7 +36698,8 @@
     "openalex_id": "https://openalex.org/A5063766667",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 42
+    "openalex_works": 42,
+    "secondary_school": "College of Communication"
   },
   {
     "name": "Marshall Van Alstyne",
@@ -36707,7 +36709,8 @@
     "openalex_id": "https://openalex.org/A5086112254",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 165
+    "openalex_works": 165,
+    "secondary_school": "Questrom School of Business"
   },
   {
     "name": "Seth Villegas",
@@ -36757,7 +36760,8 @@
     "openalex_id": "https://openalex.org/A5044817673",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 199
+    "openalex_works": 199,
+    "secondary_school": "School of Theology"
   },
   {
     "name": "Lisa Wobbes",
@@ -36934,10 +36938,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5071339562",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 243
+    "openalex_works": 0
   },
   {
     "name": "Francisca Rebelo",
@@ -37904,10 +37908,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5109941022",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 346
+    "openalex_works": 0
   },
   {
     "name": "Luis Ballesteros",
@@ -38624,10 +38628,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5038885649",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 667
+    "openalex_works": 0
   },
   {
     "name": "Anita Carson",
@@ -39254,10 +39258,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5103497598",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 222
+    "openalex_works": 0
   },
   {
     "name": "Kabrina Chang",
@@ -39734,10 +39738,10 @@
     "title": "",
     "school": "Questrom School of Business",
     "source_url": "questrom-wp-api",
-    "openalex_id": "https://openalex.org/A5045602329",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 307
+    "openalex_works": 0
   },
   {
     "name": "Jinglong Zhao",
@@ -41944,10 +41948,10 @@
     "title": "",
     "school": "College of Fine Arts",
     "source_url": "https://www.bu.edu/cfa/about/contact-directions/directory/",
-    "openalex_id": "https://openalex.org/A5059729547",
+    "openalex_id": null,
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1475
+    "openalex_works": 0
   },
   {
     "name": "Jorge Arroyo",
@@ -42564,10 +42568,10 @@
     "title": "",
     "school": "College of Fine Arts",
     "source_url": "https://www.bu.edu/cfa/about/contact-directions/directory/",
-    "openalex_id": "https://openalex.org/A5073763243",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1365
+    "openalex_works": 0
   },
   {
     "name": "Paula Fiumara",
@@ -43664,10 +43668,10 @@
     "title": "",
     "school": "College of Fine Arts",
     "source_url": "https://www.bu.edu/cfa/about/contact-directions/directory/",
-    "openalex_id": "https://openalex.org/A5063630764",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2362
+    "openalex_works": 0
   },
   {
     "name": "ANDREEA MUŢ",
@@ -44674,10 +44678,10 @@
     "title": "",
     "school": "College of Fine Arts",
     "source_url": "https://www.bu.edu/cfa/about/contact-directions/directory/",
-    "openalex_id": "https://openalex.org/A5066267152",
+    "openalex_id": null,
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1913
+    "openalex_works": 0
   },
   {
     "name": "Stone Washburn",
@@ -49972,7 +49976,7 @@
   {
     "name": "Mari Ostendorf",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087215613",
     "openalex_works": 445,
@@ -50092,7 +50096,7 @@
   {
     "name": "R. Jarrett Rushmore",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044943177",
     "openalex_works": 95,
@@ -50112,7 +50116,7 @@
   {
     "name": "Massimiliano Versace",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081038130",
     "openalex_works": 35,
@@ -50122,7 +50126,7 @@
   {
     "name": "Elliot Saltzman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009226999",
     "openalex_works": 146,
@@ -50132,7 +50136,7 @@
   {
     "name": "Paolo Gaudiano",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064900199",
     "openalex_works": 69,
@@ -50142,7 +50146,7 @@
   {
     "name": "Temple F. Smith",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113513874",
     "openalex_works": 197,
@@ -50152,7 +50156,7 @@
   {
     "name": "Shengzhi Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027504758",
     "openalex_works": 101,
@@ -50182,7 +50186,7 @@
   {
     "name": "Pierre E. Dupont",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041400572",
     "openalex_works": 264,
@@ -50192,7 +50196,7 @@
   {
     "name": "James J. Collins",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065209470",
     "openalex_works": 587,
@@ -50222,7 +50226,7 @@
   {
     "name": "Emma Lejeune",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071729064",
     "openalex_works": 95,
@@ -50232,7 +50236,7 @@
   {
     "name": "Boran Hao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068903474",
     "openalex_works": 21,
@@ -50242,7 +50246,7 @@
   {
     "name": "Ronald Killiany",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032770351",
     "openalex_works": 326,
@@ -50252,7 +50256,7 @@
   {
     "name": "Shangran Qiu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5049108652",
     "openalex_works": 22,
@@ -50262,7 +50266,7 @@
   {
     "name": "Dan A. Simovici",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072140970",
     "openalex_works": 221,
@@ -50292,7 +50296,7 @@
   {
     "name": "Reza Rawassizadeh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071424921",
     "openalex_works": 145,
@@ -50302,7 +50306,7 @@
   {
     "name": "Anatoli Gorchetchnikov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066319366",
     "openalex_works": 31,
@@ -50312,7 +50316,7 @@
   {
     "name": "Simon K. Warfield",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054913205",
     "openalex_works": 712,
@@ -50322,7 +50326,7 @@
   {
     "name": "Pirooz Vakili",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5002097523",
     "openalex_works": 80,
@@ -50332,7 +50336,7 @@
   {
     "name": "Lou Chitkushev",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090707605",
     "openalex_works": 80,
@@ -50342,7 +50346,7 @@
   {
     "name": "Mac Schwager",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081950488",
     "openalex_works": 307,
@@ -50362,7 +50366,7 @@
   {
     "name": "Vassilis Athitsos",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025213339",
     "openalex_works": 178,
@@ -50372,7 +50376,7 @@
   {
     "name": "Prajakta Joshi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017169616",
     "openalex_works": 44,
@@ -50382,7 +50386,7 @@
   {
     "name": "Chonghua Xue",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086221405",
     "openalex_works": 15,
@@ -50392,7 +50396,7 @@
   {
     "name": "Carol Neidle",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Linguistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051762177",
     "openalex_works": 64,
@@ -50402,7 +50406,7 @@
   {
     "name": "Carlo J. De Luca",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109957638",
     "openalex_works": 163,
@@ -50412,7 +50416,7 @@
   {
     "name": "Andrew Emili",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5124718642",
     "openalex_works": 1,
@@ -50422,7 +50426,7 @@
   {
     "name": "Sarah Adel Bargal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001574028",
     "openalex_works": 81,
@@ -50432,7 +50436,7 @@
   {
     "name": "S. P. Ahlen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075805130",
     "openalex_works": 1560,
@@ -50462,7 +50466,7 @@
   {
     "name": "Heather Ames",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004312489",
     "openalex_works": 80,
@@ -50472,7 +50476,7 @@
   {
     "name": "Dimitar Trajanov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067143303",
     "openalex_works": 126,
@@ -50482,7 +50486,7 @@
   {
     "name": "Taiyao Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079197814",
     "openalex_works": 34,
@@ -50492,7 +50496,7 @@
   {
     "name": "James E. Katz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047607459",
     "openalex_works": 313,
@@ -50512,7 +50516,7 @@
   {
     "name": "Alyssa Pierson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035836760",
     "openalex_works": 43,
@@ -50522,7 +50526,7 @@
   {
     "name": "Dima Kozakov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5060147489",
     "openalex_works": 181,
@@ -50532,7 +50536,7 @@
   {
     "name": "Ajay Joshi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089428659",
     "openalex_works": 199,
@@ -50572,7 +50576,7 @@
   {
     "name": "Julio Collado‐Vides",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079232768",
     "openalex_works": 192,
@@ -50582,7 +50586,7 @@
   {
     "name": "Sandro Galea",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010556254",
     "openalex_works": 1972,
@@ -50592,7 +50596,7 @@
   {
     "name": "Shiyi Cheng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077173304",
     "openalex_works": 30,
@@ -50602,7 +50606,7 @@
   {
     "name": "Alphan Ulusoy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043465357",
     "openalex_works": 29,
@@ -50622,7 +50626,7 @@
   {
     "name": "Xu Chu Ding",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5112111513",
     "openalex_works": 44,
@@ -50632,7 +50636,7 @@
   {
     "name": "Jasmin Léveillé",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113794212",
     "openalex_works": 42,
@@ -50652,7 +50656,7 @@
   {
     "name": "Eladio Rodriguez‐Diaz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5007007075",
     "openalex_works": 60,
@@ -50662,7 +50666,7 @@
   {
     "name": "Sheila Russo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004712705",
     "openalex_works": 48,
@@ -50682,7 +50686,7 @@
   {
     "name": "Thomas D. C. Little",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059257069",
     "openalex_works": 250,
@@ -50692,7 +50696,7 @@
   {
     "name": "Allyn E. Hubbard",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111576442",
     "openalex_works": 1,
@@ -50702,7 +50706,7 @@
   {
     "name": "Jason A. Tourville",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5045455853",
     "openalex_works": 60,
@@ -50722,7 +50726,7 @@
   {
     "name": "Marius Kloetzer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046534630",
     "openalex_works": 101,
@@ -50732,7 +50736,7 @@
   {
     "name": "Matthew I. Miller",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Economics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101060039",
     "openalex_works": 1,
@@ -50742,7 +50746,7 @@
   {
     "name": "Gary H. Chang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027278626",
     "openalex_works": 25,
@@ -50752,7 +50756,7 @@
   {
     "name": "Zhenjun Hu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111956223",
     "openalex_works": 60,
@@ -50772,7 +50776,7 @@
   {
     "name": "Harold S. Park",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5006794186",
     "openalex_works": 286,
@@ -50782,7 +50786,7 @@
   {
     "name": "Ashwin Thangali",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040884013",
     "openalex_works": 15,
@@ -50792,7 +50796,7 @@
   {
     "name": "Wei Ding",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101979242",
     "openalex_works": 20,
@@ -50802,7 +50806,7 @@
   {
     "name": "Virginia Best",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083838542",
     "openalex_works": 186,
@@ -50822,7 +50826,7 @@
   {
     "name": "Guanglan Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5049107377",
     "openalex_works": 102,
@@ -50832,7 +50836,7 @@
   {
     "name": "Samad Amini",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5020927791",
     "openalex_works": 13,
@@ -50842,7 +50846,7 @@
   {
     "name": "Chih‐Ping Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Dental Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025505247",
     "openalex_works": 1187,
@@ -50852,7 +50856,7 @@
   {
     "name": "Yanzhi Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100651384",
     "openalex_works": 721,
@@ -50862,7 +50866,7 @@
   {
     "name": "Bruce M. Cohen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110194384",
     "openalex_works": 415,
@@ -50872,7 +50876,7 @@
   {
     "name": "Megan A. McCrory",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013888119",
     "openalex_works": 197,
@@ -50882,7 +50886,7 @@
   {
     "name": "Sarthak Pattnaik",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069277099",
     "openalex_works": 22,
@@ -50892,7 +50896,7 @@
   {
     "name": "Michele Rucci",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082920973",
     "openalex_works": 223,
@@ -50902,7 +50906,7 @@
   {
     "name": "Joseph Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100668862",
     "openalex_works": 47,
@@ -50912,7 +50916,7 @@
   {
     "name": "Allen M. Waxman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109342527",
     "openalex_works": 114,
@@ -50942,7 +50946,7 @@
   {
     "name": "Tammy Jiang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022914115",
     "openalex_works": 46,
@@ -50952,7 +50956,7 @@
   {
     "name": "Ziming Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048506332",
     "openalex_works": 403,
@@ -50962,7 +50966,7 @@
   {
     "name": "Xiao‐Hua Zhou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5002827290",
     "openalex_works": 872,
@@ -50972,7 +50976,7 @@
   {
     "name": "Xue Lin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043582832",
     "openalex_works": 199,
@@ -50982,7 +50986,7 @@
   {
     "name": "James R. Williamson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074143608",
     "openalex_works": 344,
@@ -50992,7 +50996,7 @@
   {
     "name": "Vivek K Goyal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064518537",
     "openalex_works": 319,
@@ -51002,7 +51006,7 @@
   {
     "name": "Yi Zheng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100672557",
     "openalex_works": 330,
@@ -51012,7 +51016,7 @@
   {
     "name": "Adrian Whitty",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Chemistry",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081618576",
     "openalex_works": 113,
@@ -51022,7 +51026,7 @@
   {
     "name": "Morteza Lahijanian",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069564559",
     "openalex_works": 152,
@@ -51042,7 +51046,7 @@
   {
     "name": "Hua O. Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082136205",
     "openalex_works": 179,
@@ -51052,7 +51056,7 @@
   {
     "name": "Michel A. Kinsy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069200437",
     "openalex_works": 122,
@@ -51062,7 +51066,7 @@
   {
     "name": "Apostolos Ampountolas",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090213109",
     "openalex_works": 44,
@@ -51082,7 +51086,7 @@
   {
     "name": "John Magee",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036285805",
     "openalex_works": 54,
@@ -51092,7 +51096,7 @@
   {
     "name": "Muhammad Usman Ghani",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042506283",
     "openalex_works": 36,
@@ -51102,7 +51106,7 @@
   {
     "name": "Manqi Zhao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101551661",
     "openalex_works": 42,
@@ -51112,7 +51116,7 @@
   {
     "name": "Waleed Tahir",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023037097",
     "openalex_works": 36,
@@ -51122,7 +51126,7 @@
   {
     "name": "Carol Espy-Wilson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078241735",
     "openalex_works": 270,
@@ -51132,7 +51136,7 @@
   {
     "name": "Jadwiga Biénkowska",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066481974",
     "openalex_works": 81,
@@ -51142,7 +51146,7 @@
   {
     "name": "Nanette Veilleux",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014998350",
     "openalex_works": 89,
@@ -51152,7 +51156,7 @@
   {
     "name": "Jonathan Alon",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064809485",
     "openalex_works": 22,
@@ -51162,7 +51166,7 @@
   {
     "name": "Quan Yuan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100742301",
     "openalex_works": 36,
@@ -51172,7 +51176,7 @@
   {
     "name": "Chiara Longoni",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051832390",
     "openalex_works": 56,
@@ -51182,7 +51186,7 @@
   {
     "name": "Serge H. Roy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103573823",
     "openalex_works": 95,
@@ -51202,7 +51206,7 @@
   {
     "name": "Eleanor J. Murray",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016411386",
     "openalex_works": 162,
@@ -51222,7 +51226,7 @@
   {
     "name": "Thomas G. Kincaid",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109333962",
     "openalex_works": 29,
@@ -51232,7 +51236,7 @@
   {
     "name": "Alfonso Nieto-Castañón",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5028329886",
     "openalex_works": 97,
@@ -51262,7 +51266,7 @@
   {
     "name": "Austin Jones",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103266699",
     "openalex_works": 53,
@@ -51272,7 +51276,7 @@
   {
     "name": "Kelsey L. Snapp",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048860929",
     "openalex_works": 21,
@@ -51282,7 +51286,7 @@
   {
     "name": "Ajjen Joshi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079005862",
     "openalex_works": 28,
@@ -51292,7 +51296,7 @@
   {
     "name": "Jian Zhao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034346452",
     "openalex_works": 659,
@@ -51302,7 +51306,7 @@
   {
     "name": "Kevin Leahy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088911621",
     "openalex_works": 43,
@@ -51312,7 +51316,7 @@
   {
     "name": "M. Maria Glymour",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004781553",
     "openalex_works": 819,
@@ -51342,7 +51346,7 @@
   {
     "name": "Xin Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5121396932",
     "openalex_works": 1,
@@ -51352,7 +51356,7 @@
   {
     "name": "Erhan Baki Ermiş",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057610979",
     "openalex_works": 17,
@@ -51362,7 +51366,7 @@
   {
     "name": "Robert A. Weisenseel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063409277",
     "openalex_works": 14,
@@ -51392,7 +51396,7 @@
   {
     "name": "Chiun‐Sheng Huang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027981189",
     "openalex_works": 553,
@@ -51442,7 +51446,7 @@
   {
     "name": "Rachel Pieciak",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067654120",
     "openalex_works": 38,
@@ -51452,7 +51456,7 @@
   {
     "name": "Zexin Sun",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033556419",
     "openalex_works": 10,
@@ -51462,7 +51466,7 @@
   {
     "name": "Jing Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Chemistry",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5115589198",
     "openalex_works": 1833,
@@ -51472,7 +51476,7 @@
   {
     "name": "Mihailo Isakov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088525918",
     "openalex_works": 38,
@@ -51482,7 +51486,7 @@
   {
     "name": "Spencer Low",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014047231",
     "openalex_works": 39,
@@ -51492,7 +51496,7 @@
   {
     "name": "Brenden Meagher",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039570294",
     "openalex_works": 21,
@@ -51502,7 +51506,7 @@
   {
     "name": "John H. Reynolds",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031223249",
     "openalex_works": 269,
@@ -51512,7 +51516,7 @@
   {
     "name": "Shugao Ma",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032460666",
     "openalex_works": 48,
@@ -51522,7 +51526,7 @@
   {
     "name": "Ruidi Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067887830",
     "openalex_works": 35,
@@ -51532,7 +51536,7 @@
   {
     "name": "Joseph G. Ibrahim",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078399867",
     "openalex_works": 647,
@@ -51552,7 +51556,7 @@
   {
     "name": "Aldair E. Gongora",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088506135",
     "openalex_works": 26,
@@ -51562,7 +51566,7 @@
   {
     "name": "Stephen Piccolo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5005005415",
     "openalex_works": 414,
@@ -51572,7 +51576,7 @@
   {
     "name": "Terry D. Ellis",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081103981",
     "openalex_works": 159,
@@ -51582,7 +51586,7 @@
   {
     "name": "Surajit Ray",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5015081295",
     "openalex_works": 84,
@@ -51592,7 +51596,7 @@
   {
     "name": "Uğur M. Erdem",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043247740",
     "openalex_works": 17,
@@ -51602,7 +51606,7 @@
   {
     "name": "Karthik H. Shankar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038794890",
     "openalex_works": 32,
@@ -51612,7 +51616,7 @@
   {
     "name": "Hafsah Shahzad",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014027237",
     "openalex_works": 9,
@@ -51622,7 +51626,7 @@
   {
     "name": "Varuna Jasodanand",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065304551",
     "openalex_works": 23,
@@ -51632,7 +51636,7 @@
   {
     "name": "Iman Haghighi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024915004",
     "openalex_works": 23,
@@ -51642,7 +51646,7 @@
   {
     "name": "Gary Bradski",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035523929",
     "openalex_works": 71,
@@ -51652,7 +51656,7 @@
   {
     "name": "Kaushik Chowdhury",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080483470",
     "openalex_works": 322,
@@ -51662,7 +51666,7 @@
   {
     "name": "Vittorio Giammarino",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075631895",
     "openalex_works": 26,
@@ -51672,7 +51676,7 @@
   {
     "name": "Vitaly Ablavsky",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067669313",
     "openalex_works": 54,
@@ -51692,7 +51696,7 @@
   {
     "name": "Wei Xiao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058590941",
     "openalex_works": 133,
@@ -51702,7 +51706,7 @@
   {
     "name": "Akshara R. Balachandra",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5049635721",
     "openalex_works": 22,
@@ -51712,7 +51716,7 @@
   {
     "name": "Лэй Гуо",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067619601",
     "openalex_works": 114,
@@ -51732,7 +51736,7 @@
   {
     "name": "Yu‐Shan Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032147874",
     "openalex_works": 215,
@@ -51782,7 +51786,7 @@
   {
     "name": "Ahmad S. Khalil",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5121446329",
     "openalex_works": 1,
@@ -51792,7 +51796,7 @@
   {
     "name": "Siegfried Martens",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068683953",
     "openalex_works": 11,
@@ -51802,7 +51806,7 @@
   {
     "name": "Grégory Batt",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051551664",
     "openalex_works": 114,
@@ -51812,7 +51816,7 @@
   {
     "name": "Ebru Aydın Göl",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5029149821",
     "openalex_works": 75,
@@ -51822,7 +51826,7 @@
   {
     "name": "Miriam Leeser",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083047329",
     "openalex_works": 271,
@@ -51842,7 +51846,7 @@
   {
     "name": "Tingting Xu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062549428",
     "openalex_works": 93,
@@ -51852,7 +51856,7 @@
   {
     "name": "Ahmet Tüysüzoğlu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072911123",
     "openalex_works": 28,
@@ -51862,7 +51866,7 @@
   {
     "name": "Xi Yu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101635228",
     "openalex_works": 38,
@@ -51872,7 +51876,7 @@
   {
     "name": "Mertcan Cokbas",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027261240",
     "openalex_works": 14,
@@ -51882,7 +51886,7 @@
   {
     "name": "Cem Aksoylar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044823711",
     "openalex_works": 16,
@@ -51932,7 +51936,7 @@
   {
     "name": "Ali Yousefi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101909915",
     "openalex_works": 55,
@@ -51942,7 +51946,7 @@
   {
     "name": "Weicong Ding",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058433797",
     "openalex_works": 29,
@@ -51952,7 +51956,7 @@
   {
     "name": "Mohammad Hossein Rohban",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041967349",
     "openalex_works": 161,
@@ -51972,7 +51976,7 @@
   {
     "name": "Nabil Bitar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069316970",
     "openalex_works": 70,
@@ -51982,7 +51986,7 @@
   {
     "name": "Dustin Holloway",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111627713",
     "openalex_works": 23,
@@ -51992,7 +51996,7 @@
   {
     "name": "Bipin Indurkhya",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076074691",
     "openalex_works": 237,
@@ -52002,7 +52006,7 @@
   {
     "name": "Gennady Livitz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072600036",
     "openalex_works": 17,
@@ -52012,7 +52016,7 @@
   {
     "name": "N. Andrew Browning",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068423065",
     "openalex_works": 41,
@@ -52022,7 +52026,7 @@
   {
     "name": "Zhixiang Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100689247",
     "openalex_works": 180,
@@ -52032,7 +52036,7 @@
   {
     "name": "José L. Contreras-Vidal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5028200774",
     "openalex_works": 332,
@@ -52042,7 +52046,7 @@
   {
     "name": "Derin B. Keskin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000801624",
     "openalex_works": 269,
@@ -52082,7 +52086,7 @@
   {
     "name": "Damien Sulla‐Menashe",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032477563",
     "openalex_works": 58,
@@ -52092,7 +52096,7 @@
   {
     "name": "David B. Rosen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080449427",
     "openalex_works": 628,
@@ -52102,7 +52106,7 @@
   {
     "name": "Jianming Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100427565",
     "openalex_works": 587,
@@ -52112,7 +52116,7 @@
   {
     "name": "Xiao Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5073944694",
     "openalex_works": 1,
@@ -52122,7 +52126,7 @@
   {
     "name": "Oded Ghitza",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5061415604",
     "openalex_works": 75,
@@ -52132,7 +52136,7 @@
   {
     "name": "Eli Schwartz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107448818",
     "openalex_works": 141,
@@ -52142,7 +52146,7 @@
   {
     "name": "Jean‐Baptiste Lugagne",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5049621342",
     "openalex_works": 41,
@@ -52152,7 +52156,7 @@
   {
     "name": "Joseph M. Massaro",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103713317",
     "openalex_works": 2,
@@ -52162,7 +52166,7 @@
   {
     "name": "Jana Tůmová",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042698317",
     "openalex_works": 223,
@@ -52182,7 +52186,7 @@
   {
     "name": "Tao Wan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041005536",
     "openalex_works": 283,
@@ -52192,7 +52196,7 @@
   {
     "name": "Murat Alanyali",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051809792",
     "openalex_works": 71,
@@ -52222,7 +52226,7 @@
   {
     "name": "Meysam Ahangaran",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064116312",
     "openalex_works": 19,
@@ -52232,7 +52236,7 @@
   {
     "name": "Usman Ghani",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055620452",
     "openalex_works": 154,
@@ -52242,7 +52246,7 @@
   {
     "name": "Shahabeddin Sotudian",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038930734",
     "openalex_works": 25,
@@ -52252,7 +52256,7 @@
   {
     "name": "Zhaodan Kong",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017663923",
     "openalex_works": 120,
@@ -52262,7 +52266,7 @@
   {
     "name": "Charles K. Fisher",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102862663",
     "openalex_works": 80,
@@ -52272,7 +52276,7 @@
   {
     "name": "Omeir Khan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Chemistry",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5125478945",
     "openalex_works": 2,
@@ -52282,7 +52286,7 @@
   {
     "name": "Emre Ateş",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074885535",
     "openalex_works": 26,
@@ -52292,7 +52296,7 @@
   {
     "name": "Bruce Fischl",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022799533",
     "openalex_works": 536,
@@ -52302,7 +52306,7 @@
   {
     "name": "Burak Aksar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067151303",
     "openalex_works": 24,
@@ -52312,7 +52316,7 @@
   {
     "name": "Salomón Wollenstein-Betech",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059679881",
     "openalex_works": 17,
@@ -52332,7 +52336,7 @@
   {
     "name": "Lifu Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5115603648",
     "openalex_works": 369,
@@ -52352,7 +52356,7 @@
   {
     "name": "Cristian-Ioan Vasile",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086654963",
     "openalex_works": 140,
@@ -52362,7 +52366,7 @@
   {
     "name": "Jingmei Yang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076569498",
     "openalex_works": 11,
@@ -52382,7 +52386,7 @@
   {
     "name": "S. Reza Jafarzadeh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083489256",
     "openalex_works": 108,
@@ -52402,7 +52406,7 @@
   {
     "name": "James Chapman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5129898715",
     "openalex_works": 1,
@@ -52422,7 +52426,7 @@
   {
     "name": "Boyan Yordanov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078251798",
     "openalex_works": 66,
@@ -52432,7 +52436,7 @@
   {
     "name": "Bryan T. Cole",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5050513060",
     "openalex_works": 9,
@@ -52442,7 +52446,7 @@
   {
     "name": "Jingbin Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101879018",
     "openalex_works": 119,
@@ -52452,7 +52456,7 @@
   {
     "name": "Tai-Peng Tian",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109225019",
     "openalex_works": 21,
@@ -52472,7 +52476,7 @@
   {
     "name": "Florian Raudies",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067289869",
     "openalex_works": 48,
@@ -52482,7 +52486,7 @@
   {
     "name": "Dimitar Baronov",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080863155",
     "openalex_works": 12,
@@ -52492,7 +52496,7 @@
   {
     "name": "Jeffrey Stoll",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047405654",
     "openalex_works": 20,
@@ -52502,7 +52506,7 @@
   {
     "name": "Nan Feng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101890758",
     "openalex_works": 146,
@@ -52512,7 +52516,7 @@
   {
     "name": "M. Ozan Tezcan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087532628",
     "openalex_works": 15,
@@ -52522,7 +52526,7 @@
   {
     "name": "Jiabei Zhu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091823994",
     "openalex_works": 28,
@@ -52542,7 +52546,7 @@
   {
     "name": "Seho Park",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101483004",
     "openalex_works": 27,
@@ -52552,7 +52556,7 @@
   {
     "name": "Mahroo Bahreinian",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058074218",
     "openalex_works": 18,
@@ -52562,7 +52566,7 @@
   {
     "name": "Jiaming Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016982554",
     "openalex_works": 21,
@@ -52572,7 +52576,7 @@
   {
     "name": "Kavach Shah",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009724736",
     "openalex_works": 7,
@@ -52582,7 +52586,7 @@
   {
     "name": "Zexu Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039916645",
     "openalex_works": 37,
@@ -52592,7 +52596,7 @@
   {
     "name": "Mela Coffey",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003619876",
     "openalex_works": 11,
@@ -52602,7 +52606,7 @@
   {
     "name": "Trevor T. Ashley",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084315282",
     "openalex_works": 14,
@@ -52612,7 +52616,7 @@
   {
     "name": "Robert G. Rogers",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019534541",
     "openalex_works": 89,
@@ -52622,7 +52626,7 @@
   {
     "name": "Scott A. Beardsley",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037815998",
     "openalex_works": 69,
@@ -52632,7 +52636,7 @@
   {
     "name": "Hanyi Ding",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086339662",
     "openalex_works": 166,
@@ -52642,7 +52646,7 @@
   {
     "name": "Zhuang Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100452094",
     "openalex_works": 1217,
@@ -52652,7 +52656,7 @@
   {
     "name": "Tommaso Toffoli",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040128127",
     "openalex_works": 93,
@@ -52662,7 +52666,7 @@
   {
     "name": "Edward Searls",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093724875",
     "openalex_works": 21,
@@ -52672,7 +52676,7 @@
   {
     "name": "Alex Matlock",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5021316989",
     "openalex_works": 66,
@@ -52682,7 +52686,7 @@
   {
     "name": "Shuchin Aeron",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004738943",
     "openalex_works": 187,
@@ -52732,7 +52736,7 @@
   {
     "name": "Boriana L. Milenova",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008597328",
     "openalex_works": 15,
@@ -52742,7 +52746,7 @@
   {
     "name": "Theodora S. Brisimi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071741898",
     "openalex_works": 15,
@@ -52752,7 +52756,7 @@
   {
     "name": "Salva Ardid",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017943413",
     "openalex_works": 97,
@@ -52772,7 +52776,7 @@
   {
     "name": "Jaakko Hintikka",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Philosophy",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034476484",
     "openalex_works": 671,
@@ -52792,7 +52796,7 @@
   {
     "name": "Evelyn Lauren",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012610633",
     "openalex_works": 30,
@@ -52802,7 +52806,7 @@
   {
     "name": "Noushin Mehdipour",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057959618",
     "openalex_works": 30,
@@ -52812,7 +52816,7 @@
   {
     "name": "R. Rosales",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009203493",
     "openalex_works": 4,
@@ -52822,7 +52826,7 @@
   {
     "name": "Xingchao Peng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068469395",
     "openalex_works": 32,
@@ -52832,7 +52836,7 @@
   {
     "name": "Ping Hu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100424736",
     "openalex_works": 85,
@@ -52842,7 +52846,7 @@
   {
     "name": "Sadra Sadraddini",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034408879",
     "openalex_works": 40,
@@ -52852,7 +52856,7 @@
   {
     "name": "Marc Pomplun",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036008539",
     "openalex_works": 181,
@@ -52862,7 +52866,7 @@
   {
     "name": "Paulo Arévalo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5050997630",
     "openalex_works": 39,
@@ -52872,7 +52876,7 @@
   {
     "name": "Osman Berke Güney",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064858088",
     "openalex_works": 16,
@@ -52882,7 +52886,7 @@
   {
     "name": "Israel Desta",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074089514",
     "openalex_works": 65,
@@ -52892,7 +52896,7 @@
   {
     "name": "Nasser Hashemi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046815665",
     "openalex_works": 14,
@@ -52902,7 +52906,7 @@
   {
     "name": "Daniel L. Sussman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042697980",
     "openalex_works": 71,
@@ -52912,7 +52916,7 @@
   {
     "name": "Howard Eichenbaum",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091615509",
     "openalex_works": 489,
@@ -52922,7 +52926,7 @@
   {
     "name": "Kun He",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101939666",
     "openalex_works": 41,
@@ -52932,7 +52936,7 @@
   {
     "name": "Yue Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5015944394",
     "openalex_works": 2,
@@ -52942,7 +52946,7 @@
   {
     "name": "Ahmed M. Youssef",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047223160",
     "openalex_works": 12,
@@ -52952,7 +52956,7 @@
   {
     "name": "Ata Türk",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108270551",
     "openalex_works": 47,
@@ -52962,7 +52966,7 @@
   {
     "name": "Adrian V. Dalca",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091409910",
     "openalex_works": 250,
@@ -52972,7 +52976,7 @@
   {
     "name": "Laura D. Lewis",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077844822",
     "openalex_works": 122,
@@ -52982,7 +52986,7 @@
   {
     "name": "Mengting Song",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103952171",
     "openalex_works": 8,
@@ -52992,7 +52996,7 @@
   {
     "name": "Aman Gupta",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087918614",
     "openalex_works": 148,
@@ -53002,7 +53006,7 @@
   {
     "name": "Jacob Herrmann",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064511632",
     "openalex_works": 117,
@@ -53022,7 +53026,7 @@
   {
     "name": "Qianwan Yang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108136543",
     "openalex_works": 12,
@@ -53052,7 +53056,7 @@
   {
     "name": "Barbara Shinn‐Cunningham",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008184626",
     "openalex_works": 449,
@@ -53062,7 +53066,7 @@
   {
     "name": "Maryan Rizinski",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054465893",
     "openalex_works": 14,
@@ -53092,7 +53096,7 @@
   {
     "name": "Ekaterina Novozhilova",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093739031",
     "openalex_works": 8,
@@ -53102,7 +53106,7 @@
   {
     "name": "Kate K. Mays",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088284930",
     "openalex_works": 39,
@@ -53122,7 +53126,7 @@
   {
     "name": "Peter Cariani",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076187633",
     "openalex_works": 98,
@@ -53132,7 +53136,7 @@
   {
     "name": "Yi Guan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5123934846",
     "openalex_works": 1,
@@ -53142,7 +53146,7 @@
   {
     "name": "Nikos Makris",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012499268",
     "openalex_works": 643,
@@ -53152,7 +53156,7 @@
   {
     "name": "Ming Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100447291",
     "openalex_works": 137,
@@ -53162,7 +53166,7 @@
   {
     "name": "Maria Lazou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5104233305",
     "openalex_works": 13,
@@ -53172,7 +53176,7 @@
   {
     "name": "Anqi Guo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085745642",
     "openalex_works": 18,
@@ -53182,7 +53186,7 @@
   {
     "name": "Yohan J. John",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081510812",
     "openalex_works": 32,
@@ -53192,7 +53196,7 @@
   {
     "name": "Donghyun Kim",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100454683",
     "openalex_works": 179,
@@ -53202,7 +53206,7 @@
   {
     "name": "Swapnil Bhatia",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076963580",
     "openalex_works": 55,
@@ -53232,7 +53236,7 @@
   {
     "name": "Ayse A. Bekar-Cesaretli",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Chemistry",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093765201",
     "openalex_works": 12,
@@ -53242,7 +53246,7 @@
   {
     "name": "Yuze Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100614062",
     "openalex_works": 29,
@@ -53252,7 +53256,7 @@
   {
     "name": "Efe Sencan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008438549",
     "openalex_works": 12,
@@ -53262,7 +53266,7 @@
   {
     "name": "Arash Fazl",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5021120073",
     "openalex_works": 18,
@@ -53282,7 +53286,7 @@
   {
     "name": "Mark A. Rubin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035068594",
     "openalex_works": 1524,
@@ -53302,7 +53306,7 @@
   {
     "name": "Rui Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004764605",
     "openalex_works": 74,
@@ -53312,7 +53316,7 @@
   {
     "name": "Benjamin N. Waber",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063502960",
     "openalex_works": 29,
@@ -53322,7 +53326,7 @@
   {
     "name": "Benjamin Pittman-Polletta",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5028845138",
     "openalex_works": 31,
@@ -53332,7 +53336,7 @@
   {
     "name": "Ye Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100423435",
     "openalex_works": 944,
@@ -53342,7 +53346,7 @@
   {
     "name": "Basilis Zikopoulos",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040764765",
     "openalex_works": 73,
@@ -53362,7 +53366,7 @@
   {
     "name": "Vladimir Brusić",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089063979",
     "openalex_works": 302,
@@ -53372,7 +53376,7 @@
   {
     "name": "Ana B. Pavel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5032965176",
     "openalex_works": 142,
@@ -53412,7 +53416,7 @@
   {
     "name": "Lauren Etter",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113986170",
     "openalex_works": 2,
@@ -53422,7 +53426,7 @@
   {
     "name": "Ehsan Sabouni",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010850913",
     "openalex_works": 22,
@@ -53452,7 +53456,7 @@
   {
     "name": "Lloyd W. Klein",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054084471",
     "openalex_works": 358,
@@ -53462,7 +53466,7 @@
   {
     "name": "Xue Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100372199",
     "openalex_works": 176,
@@ -53472,7 +53476,7 @@
   {
     "name": "A. Yazdanbakhsh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003835592",
     "openalex_works": 34,
@@ -53482,7 +53486,7 @@
   {
     "name": "Anthony Federico",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5007572902",
     "openalex_works": 34,
@@ -53492,7 +53496,7 @@
   {
     "name": "Douglas N. Greve",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065328764",
     "openalex_works": 227,
@@ -53502,7 +53506,7 @@
   {
     "name": "Thomas Debus",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057486127",
     "openalex_works": 12,
@@ -53512,7 +53516,7 @@
   {
     "name": "Kyle Q. Lepage",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5049489756",
     "openalex_works": 40,
@@ -53522,7 +53526,7 @@
   {
     "name": "Colin W. Wightman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089420647",
     "openalex_works": 30,
@@ -53532,7 +53536,7 @@
   {
     "name": "Keyong Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064266913",
     "openalex_works": 119,
@@ -53552,7 +53556,7 @@
   {
     "name": "Ben Chandler",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048357574",
     "openalex_works": 6,
@@ -53572,7 +53576,7 @@
   {
     "name": "Athanasios Tsiligkaridis",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5088931370",
     "openalex_works": 18,
@@ -53582,7 +53586,7 @@
   {
     "name": "Yifan Cheng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016221669",
     "openalex_works": 345,
@@ -53592,7 +53596,7 @@
   {
     "name": "Yancheng Zhu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046530382",
     "openalex_works": 39,
@@ -53602,7 +53606,7 @@
   {
     "name": "Farshid Alizadeh-Shabdiz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084726976",
     "openalex_works": 16,
@@ -53612,7 +53616,7 @@
   {
     "name": "Michael Seibert",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111753398",
     "openalex_works": 34,
@@ -53632,7 +53636,7 @@
   {
     "name": "Andrew J. Worth",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043802959",
     "openalex_works": 188,
@@ -53642,7 +53646,7 @@
   {
     "name": "Robert Marsland",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090252741",
     "openalex_works": 103,
@@ -53712,7 +53716,7 @@
   {
     "name": "Carlos J. Camacho",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023869904",
     "openalex_works": 190,
@@ -53722,7 +53726,7 @@
   {
     "name": "Tanggis Bohnuud",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008164121",
     "openalex_works": 18,
@@ -53732,7 +53736,7 @@
   {
     "name": "Marie Saint‐Hilaire",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103559618",
     "openalex_works": 1,
@@ -53742,7 +53746,7 @@
   {
     "name": "Joseph Lehár",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090425458",
     "openalex_works": 194,
@@ -53762,7 +53766,7 @@
   {
     "name": "Julian Mintseris",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023771959",
     "openalex_works": 60,
@@ -53772,7 +53776,7 @@
   {
     "name": "Tony Vladusich",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022699451",
     "openalex_works": 45,
@@ -53782,7 +53786,7 @@
   {
     "name": "Eric S. Zhou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101796118",
     "openalex_works": 4,
@@ -53792,7 +53796,7 @@
   {
     "name": "Marin N. Gjaja",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082413003",
     "openalex_works": 9,
@@ -53802,7 +53806,7 @@
   {
     "name": "Pontus Olofsson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013421915",
     "openalex_works": 112,
@@ -53812,7 +53816,7 @@
   {
     "name": "Neil Weisenfeld",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110295315",
     "openalex_works": 69,
@@ -53822,7 +53826,7 @@
   {
     "name": "David McIntyre",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042507322",
     "openalex_works": 16,
@@ -53832,7 +53836,7 @@
   {
     "name": "Megan Egbert",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037859245",
     "openalex_works": 19,
@@ -53842,7 +53846,7 @@
   {
     "name": "Yonggang Shi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090261504",
     "openalex_works": 240,
@@ -53852,7 +53856,7 @@
   {
     "name": "Liliana Lo Presti",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056795735",
     "openalex_works": 58,
@@ -53862,7 +53866,7 @@
   {
     "name": "Yuguang Fang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016290340",
     "openalex_works": 827,
@@ -53872,7 +53876,7 @@
   {
     "name": "John Quackenbush",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084245470",
     "openalex_works": 702,
@@ -53882,7 +53886,7 @@
   {
     "name": "Ayumu Yamashita",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063867237",
     "openalex_works": 69,
@@ -53892,7 +53896,7 @@
   {
     "name": "Kathryn A. Porter",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063168842",
     "openalex_works": 23,
@@ -53902,7 +53906,7 @@
   {
     "name": "Danyal Bhutto",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024663752",
     "openalex_works": 12,
@@ -53912,7 +53916,7 @@
   {
     "name": "Sahana S Kowshik",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111249144",
     "openalex_works": 6,
@@ -53922,7 +53926,7 @@
   {
     "name": "Diala Lteif",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072514907",
     "openalex_works": 8,
@@ -53942,7 +53946,7 @@
   {
     "name": "L. Adrienne Cupples",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059560495",
     "openalex_works": 1035,
@@ -53952,7 +53956,7 @@
   {
     "name": "Remus Oşan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031956674",
     "openalex_works": 66,
@@ -53962,7 +53966,7 @@
   {
     "name": "Joe Z. Tsien",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5112390787",
     "openalex_works": 123,
@@ -53972,7 +53976,7 @@
   {
     "name": "Esther Galbrun",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077634700",
     "openalex_works": 53,
@@ -53982,7 +53986,7 @@
   {
     "name": "Meryem A. Yücel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048039627",
     "openalex_works": 122,
@@ -54002,7 +54006,7 @@
   {
     "name": "Zachary Serlin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5007227323",
     "openalex_works": 30,
@@ -54012,7 +54016,7 @@
   {
     "name": "Eric Lee",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001851740",
     "openalex_works": 165,
@@ -54022,7 +54026,7 @@
   {
     "name": "Fatih Çakir",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102763640",
     "openalex_works": 18,
@@ -54032,7 +54036,7 @@
   {
     "name": "Benjamin Chandler",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056243212",
     "openalex_works": 9,
@@ -54042,7 +54046,7 @@
   {
     "name": "Thomas Kunz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Biology",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083570181",
     "openalex_works": 737,
@@ -54052,7 +54056,7 @@
   {
     "name": "Mehrnoosh Sameki",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034204318",
     "openalex_works": 24,
@@ -54062,7 +54066,7 @@
   {
     "name": "Benjamin C. Blum",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5006157054",
     "openalex_works": 44,
@@ -54072,7 +54076,7 @@
   {
     "name": "Ali Tarlani Beris",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5036751467",
     "openalex_works": 10,
@@ -54082,7 +54086,7 @@
   {
     "name": "Ahmed Sanaullah",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034744458",
     "openalex_works": 35,
@@ -54112,7 +54116,7 @@
   {
     "name": "Jason W. Rocks",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038018301",
     "openalex_works": 49,
@@ -54122,7 +54126,7 @@
   {
     "name": "Elham Saraee",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074972992",
     "openalex_works": 12,
@@ -54132,7 +54136,7 @@
   {
     "name": "Jennifer Dy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042038501",
     "openalex_works": 351,
@@ -54142,7 +54146,7 @@
   {
     "name": "Shuyue Jia",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101383489",
     "openalex_works": 18,
@@ -54152,7 +54156,7 @@
   {
     "name": "Konstantin Voevodski",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5015971004",
     "openalex_works": 17,
@@ -54162,7 +54166,7 @@
   {
     "name": "Jiyeong Hong",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108929425",
     "openalex_works": 25,
@@ -54172,7 +54176,7 @@
   {
     "name": "Zahra Zad",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089310836",
     "openalex_works": 9,
@@ -54192,7 +54196,7 @@
   {
     "name": "Saeed Mohammadzadeh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023605156",
     "openalex_works": 11,
@@ -54202,7 +54206,7 @@
   {
     "name": "Sejin Paik",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000067757",
     "openalex_works": 26,
@@ -54222,7 +54226,7 @@
   {
     "name": "Jintong Song",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113308782",
     "openalex_works": 4,
@@ -54242,7 +54246,7 @@
   {
     "name": "Yanyu Zhao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5005223479",
     "openalex_works": 73,
@@ -54252,7 +54256,7 @@
   {
     "name": "Daniel Fulford",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5026166163",
     "openalex_works": 126,
@@ -54262,7 +54266,7 @@
   {
     "name": "Shantanu Ghosh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5021264901",
     "openalex_works": 22,
@@ -54272,7 +54276,7 @@
   {
     "name": "Shuochen Bi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5095821366",
     "openalex_works": 13,
@@ -54292,7 +54296,7 @@
   {
     "name": "Lingyi Xu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Faculty of Computing & Data Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065564472",
     "openalex_works": 52,
@@ -54302,7 +54306,7 @@
   {
     "name": "Kenneth K. Fletcher",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042466369",
     "openalex_works": 46,
@@ -54312,7 +54316,7 @@
   {
     "name": "Michalina F. Jadick",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089652787",
     "openalex_works": 8,
@@ -54322,7 +54326,7 @@
   {
     "name": "Diya A. Nijhawan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076313769",
     "openalex_works": 5,
@@ -54342,7 +54346,7 @@
   {
     "name": "Ziqing Zhao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111083054",
     "openalex_works": 4,
@@ -54352,7 +54356,7 @@
   {
     "name": "M. Patricia Fabian",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055328684",
     "openalex_works": 129,
@@ -54362,7 +54366,7 @@
   {
     "name": "Dongpeng Huang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071242470",
     "openalex_works": 13,
@@ -54382,7 +54386,7 @@
   {
     "name": "Lonce Wyse",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062692118",
     "openalex_works": 104,
@@ -54412,7 +54416,7 @@
   {
     "name": "Rómer Rosales",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111998240",
     "openalex_works": 56,
@@ -54422,7 +54426,7 @@
   {
     "name": "Xiaodong Lan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087586738",
     "openalex_works": 8,
@@ -54442,7 +54446,7 @@
   {
     "name": "Eric A. Zilli",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072955263",
     "openalex_works": 20,
@@ -54452,7 +54456,7 @@
   {
     "name": "Rishabh Iyer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000529247",
     "openalex_works": 157,
@@ -54462,7 +54466,7 @@
   {
     "name": "Adam M Gustafson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058187613",
     "openalex_works": 18,
@@ -54472,7 +54476,7 @@
   {
     "name": "Paolo Bonato",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066700427",
     "openalex_works": 372,
@@ -54482,7 +54486,7 @@
   {
     "name": "Jason W. Bohland",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027240688",
     "openalex_works": 38,
@@ -54492,7 +54496,7 @@
   {
     "name": "Kensuke Arai",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100787255",
     "openalex_works": 68,
@@ -54502,7 +54506,7 @@
   {
     "name": "Zohar Weinstein",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5043587001",
     "openalex_works": 23,
@@ -54512,7 +54516,7 @@
   {
     "name": "Jiameng Fan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039944437",
     "openalex_works": 24,
@@ -54522,7 +54526,7 @@
   {
     "name": "Wuyang Dai",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033349502",
     "openalex_works": 14,
@@ -54532,7 +54536,7 @@
   {
     "name": "Jiawei Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100362822",
     "openalex_works": 218,
@@ -54562,7 +54566,7 @@
   {
     "name": "Gul S. Dalgin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067963394",
     "openalex_works": 33,
@@ -54572,7 +54576,7 @@
   {
     "name": "Ali R. Zomorrodi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5029939895",
     "openalex_works": 61,
@@ -54582,7 +54586,7 @@
   {
     "name": "Martín Steffen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058725359",
     "openalex_works": 205,
@@ -54592,7 +54596,7 @@
   {
     "name": "Gary Zirpoli",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056927935",
     "openalex_works": 195,
@@ -54602,7 +54606,7 @@
   {
     "name": "Jennifer M. Vojtech",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037890839",
     "openalex_works": 25,
@@ -54622,7 +54626,7 @@
   {
     "name": "Samuel C. Pinto",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078852429",
     "openalex_works": 25,
@@ -54632,7 +54636,7 @@
   {
     "name": "Hiba Kobeissi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033766783",
     "openalex_works": 16,
@@ -54662,7 +54666,7 @@
   {
     "name": "G.D. Shen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5030183664",
     "openalex_works": 34,
@@ -54672,7 +54676,7 @@
   {
     "name": "Mengyu Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084233164",
     "openalex_works": 14,
@@ -54682,7 +54686,7 @@
   {
     "name": "Iman Aganj",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5029485281",
     "openalex_works": 108,
@@ -54692,7 +54696,7 @@
   {
     "name": "Anni Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087728660",
     "openalex_works": 53,
@@ -54712,7 +54716,7 @@
   {
     "name": "Rui Cao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039762889",
     "openalex_works": 327,
@@ -54722,7 +54726,7 @@
   {
     "name": "M. Çağatay Karakan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067173043",
     "openalex_works": 27,
@@ -54732,7 +54736,7 @@
   {
     "name": "James J. Cummings",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077672688",
     "openalex_works": 56,
@@ -54742,7 +54746,7 @@
   {
     "name": "Jason Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100762970",
     "openalex_works": 742,
@@ -54752,7 +54756,7 @@
   {
     "name": "Ketan S. Saichandran",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5116128447",
     "openalex_works": 6,
@@ -54762,7 +54766,7 @@
   {
     "name": "Logan E. Beaver",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5029688486",
     "openalex_works": 64,
@@ -54772,7 +54776,7 @@
   {
     "name": "Maria Varkanitsa",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023857061",
     "openalex_works": 37,
@@ -54792,7 +54796,7 @@
   {
     "name": "Nishant Singh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037684734",
     "openalex_works": 53,
@@ -54822,7 +54826,7 @@
   {
     "name": "Jason T. Ritt",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090402475",
     "openalex_works": 37,
@@ -54832,7 +54836,7 @@
   {
     "name": "Joseph G. Kern",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071773421",
     "openalex_works": 17,
@@ -54842,7 +54846,7 @@
   {
     "name": "Roberto Paiella",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5073856253",
     "openalex_works": 201,
@@ -54852,7 +54856,7 @@
   {
     "name": "Ziwei Huang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054038673",
     "openalex_works": 8,
@@ -54862,7 +54866,7 @@
   {
     "name": "Suhail Alsalehi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5065890139",
     "openalex_works": 6,
@@ -54872,7 +54876,7 @@
   {
     "name": "Christopher S. Lynch",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051586876",
     "openalex_works": 331,
@@ -54882,7 +54886,7 @@
   {
     "name": "Giorgio Bonmassar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086166149",
     "openalex_works": 178,
@@ -54902,7 +54906,7 @@
   {
     "name": "V. Sundareswaran",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109906297",
     "openalex_works": 42,
@@ -54922,7 +54926,7 @@
   {
     "name": "Clinton T. Baldwin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107869802",
     "openalex_works": 209,
@@ -54932,7 +54936,7 @@
   {
     "name": "Tingting Ye",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082723913",
     "openalex_works": 188,
@@ -54942,7 +54946,7 @@
   {
     "name": "Claudio Chamon",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5020365252",
     "openalex_works": 341,
@@ -54952,7 +54956,7 @@
   {
     "name": "Mengshu Sun",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083232044",
     "openalex_works": 40,
@@ -54962,7 +54966,7 @@
   {
     "name": "Preeti Sunderaraman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003629176",
     "openalex_works": 90,
@@ -54972,7 +54976,7 @@
   {
     "name": "Traci Hong",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Communication",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087891617",
     "openalex_works": 68,
@@ -54982,7 +54986,7 @@
   {
     "name": "Yuanming Leng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113396512",
     "openalex_works": 5,
@@ -55002,7 +55006,7 @@
   {
     "name": "Reza Moazzez Estanjini",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041751346",
     "openalex_works": 8,
@@ -55012,7 +55016,7 @@
   {
     "name": "William Streilein",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053812687",
     "openalex_works": 58,
@@ -55022,7 +55026,7 @@
   {
     "name": "Samuel Epstein",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5015030364",
     "openalex_works": 36,
@@ -55032,7 +55036,7 @@
   {
     "name": "Julia L. Fleck",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024625828",
     "openalex_works": 37,
@@ -55042,7 +55046,7 @@
   {
     "name": "Igor Cizelj",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056059988",
     "openalex_works": 13,
@@ -55052,7 +55056,7 @@
   {
     "name": "Alan Ehret",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082872841",
     "openalex_works": 21,
@@ -55062,7 +55066,7 @@
   {
     "name": "Boris I. Godoy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035521823",
     "openalex_works": 56,
@@ -55072,7 +55076,7 @@
   {
     "name": "Wenda Qin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085882524",
     "openalex_works": 21,
@@ -55132,7 +55136,7 @@
   {
     "name": "Devlin C. Moyer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Biology",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044759671",
     "openalex_works": 16,
@@ -55142,7 +55146,7 @@
   {
     "name": "Emiliano Dall’Anese",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5060100126",
     "openalex_works": 260,
@@ -55152,7 +55156,7 @@
   {
     "name": "Byron J. Aguilar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068753416",
     "openalex_works": 56,
@@ -55172,7 +55176,7 @@
   {
     "name": "Boris E. Shakhnovich",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056343424",
     "openalex_works": 29,
@@ -55182,7 +55186,7 @@
   {
     "name": "M. Bystrom",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035144701",
     "openalex_works": 56,
@@ -55212,7 +55216,7 @@
   {
     "name": "Ramamurthy Mani",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031484650",
     "openalex_works": 13,
@@ -55222,7 +55226,7 @@
   {
     "name": "Diego F. Wyszynski",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058144024",
     "openalex_works": 135,
@@ -55242,7 +55246,7 @@
   {
     "name": "Seth Benzell",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Economics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014823752",
     "openalex_works": 50,
@@ -55252,7 +55256,7 @@
   {
     "name": "Guillermo Lagarda",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Economics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001241221",
     "openalex_works": 43,
@@ -55262,7 +55266,7 @@
   {
     "name": "Jian Wu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100599435",
     "openalex_works": 11147,
@@ -55272,7 +55276,7 @@
   {
     "name": "Enrico Capobianco",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087254915",
     "openalex_works": 95,
@@ -55312,7 +55316,7 @@
   {
     "name": "Albert Hofman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039611937",
     "openalex_works": 2062,
@@ -55322,7 +55326,7 @@
   {
     "name": "Dimitris Metaxas",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064437234",
     "openalex_works": 358,
@@ -55332,7 +55336,7 @@
   {
     "name": "Tianyu Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100417426",
     "openalex_works": 160,
@@ -55342,7 +55346,7 @@
   {
     "name": "William D. Ross",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103547750",
     "openalex_works": 174,
@@ -55352,7 +55356,7 @@
   {
     "name": "Mona Jalal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038525771",
     "openalex_works": 21,
@@ -55362,7 +55366,7 @@
   {
     "name": "Natalya Markuzon",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5014383966",
     "openalex_works": 6,
@@ -55382,7 +55386,7 @@
   {
     "name": "Boris Hayete",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046360919",
     "openalex_works": 30,
@@ -55402,7 +55406,7 @@
   {
     "name": "Leah Bakst",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009972773",
     "openalex_works": 29,
@@ -55412,7 +55416,7 @@
   {
     "name": "Valerie J. Pasquarella",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040451512",
     "openalex_works": 67,
@@ -55422,7 +55426,7 @@
   {
     "name": "Satrajit Ghosh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5051194003",
     "openalex_works": 347,
@@ -55432,7 +55436,7 @@
   {
     "name": "David Gatchell",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008463914",
     "openalex_works": 36,
@@ -55442,7 +55446,7 @@
   {
     "name": "Bing Xia",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100640260",
     "openalex_works": 524,
@@ -55452,7 +55456,7 @@
   {
     "name": "Zhe Zhu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5006812496",
     "openalex_works": 175,
@@ -55462,7 +55466,7 @@
   {
     "name": "J. J. Patten",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024890858",
     "openalex_works": 43,
@@ -55472,7 +55476,7 @@
   {
     "name": "Shuhan Zhu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5070526166",
     "openalex_works": 63,
@@ -55482,7 +55486,7 @@
   {
     "name": "Michelle Kaku",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5026693418",
     "openalex_works": 54,
@@ -55492,7 +55496,7 @@
   {
     "name": "Jeff Hasty",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5052945096",
     "openalex_works": 190,
@@ -55502,7 +55506,7 @@
   {
     "name": "Hugo J.W.L. Aerts",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001452511",
     "openalex_works": 584,
@@ -55512,7 +55516,7 @@
   {
     "name": "Joanne Luciano",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109267718",
     "openalex_works": 60,
@@ -55522,10 +55526,10 @@
   {
     "name": "Li Fei-Fei",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
-    "openalex_id": "https://openalex.org/A5100450462",
-    "openalex_works": 751,
+    "openalex_id": null,
+    "openalex_works": 0,
     "is_rare_name": false,
     "scraped_at": "2026-04-01"
   },
@@ -55542,7 +55546,7 @@
   {
     "name": "Ulaş Karaöz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053140118",
     "openalex_works": 791,
@@ -55562,7 +55566,7 @@
   {
     "name": "Nazlı İkizler-Cinbiş",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090096127",
     "openalex_works": 62,
@@ -55572,7 +55576,7 @@
   {
     "name": "Jonathan S. Brumberg",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054274806",
     "openalex_works": 51,
@@ -55582,7 +55586,7 @@
   {
     "name": "Henry Lam",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071064725",
     "openalex_works": 244,
@@ -55612,7 +55616,7 @@
   {
     "name": "Bradley J. Rhodes",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046665416",
     "openalex_works": 72,
@@ -55622,7 +55626,7 @@
   {
     "name": "John Murray–Bruce",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090649157",
     "openalex_works": 45,
@@ -55632,7 +55636,7 @@
   {
     "name": "Rushin H. Gindra",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042123787",
     "openalex_works": 14,
@@ -55642,7 +55646,7 @@
   {
     "name": "Emily J. Green",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055038898",
     "openalex_works": 11,
@@ -55652,7 +55656,7 @@
   {
     "name": "Luis Ortiz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066472694",
     "openalex_works": 13,
@@ -55662,7 +55666,7 @@
   {
     "name": "Amanda Wakefield",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062203846",
     "openalex_works": 36,
@@ -55672,7 +55676,7 @@
   {
     "name": "Jui‐Hung Hung",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025474727",
     "openalex_works": 98,
@@ -55702,7 +55706,7 @@
   {
     "name": "Helen Susannah Moat",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062463562",
     "openalex_works": 66,
@@ -55712,7 +55716,7 @@
   {
     "name": "Minyi Zhong",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004246397",
     "openalex_works": 10,
@@ -55722,7 +55726,7 @@
   {
     "name": "David B. Bernstein",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076884495",
     "openalex_works": 34,
@@ -55742,7 +55746,7 @@
   {
     "name": "Lucas Schiffer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5026559291",
     "openalex_works": 23,
@@ -55762,7 +55766,7 @@
   {
     "name": "Xuchao Lin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033235729",
     "openalex_works": 13,
@@ -55782,7 +55786,7 @@
   {
     "name": "David F. Jenkins",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080596276",
     "openalex_works": 132,
@@ -55792,7 +55796,7 @@
   {
     "name": "Solaiappan Manimaran",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025271649",
     "openalex_works": 41,
@@ -55802,7 +55806,7 @@
   {
     "name": "Shinuk Kim",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019165436",
     "openalex_works": 2,
@@ -55812,7 +55816,7 @@
   {
     "name": "Alexander von Lühmann",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063086487",
     "openalex_works": 53,
@@ -55822,7 +55826,7 @@
   {
     "name": "Antonio Ortega‐Martínez",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083738404",
     "openalex_works": 32,
@@ -55832,7 +55836,7 @@
   {
     "name": "Alex Lang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108197044",
     "openalex_works": 47,
@@ -55842,7 +55846,7 @@
   {
     "name": "Qinxun Bai",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000151194",
     "openalex_works": 31,
@@ -55862,7 +55866,7 @@
   {
     "name": "Guang Yang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083166994",
     "openalex_works": 49,
@@ -55882,7 +55886,7 @@
   {
     "name": "Kevin S. Hughes",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025382374",
     "openalex_works": 365,
@@ -55902,7 +55906,7 @@
   {
     "name": "Panagiotis Papapetrou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044999523",
     "openalex_works": 187,
@@ -55912,7 +55916,7 @@
   {
     "name": "Lorenzo Trippa",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5075153453",
     "openalex_works": 348,
@@ -55942,7 +55946,7 @@
   {
     "name": "Jacob Rogatinsky",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071396629",
     "openalex_works": 12,
@@ -55952,7 +55956,7 @@
   {
     "name": "Changjin Hong",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048089609",
     "openalex_works": 109,
@@ -55962,7 +55966,7 @@
   {
     "name": "Sadhna Phanse",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063358488",
     "openalex_works": 88,
@@ -55972,7 +55976,7 @@
   {
     "name": "Ryan Hekman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5020158632",
     "openalex_works": 45,
@@ -55982,7 +55986,7 @@
   {
     "name": "Pierre C. Havugimana",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013820040",
     "openalex_works": 33,
@@ -55992,7 +55996,7 @@
   {
     "name": "Rushi Patel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064882034",
     "openalex_works": 79,
@@ -56002,7 +56006,7 @@
   {
     "name": "Mark E. Glickman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5021257793",
     "openalex_works": 181,
@@ -56012,7 +56016,7 @@
   {
     "name": "Antoni Valero‐Cabré",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085104823",
     "openalex_works": 183,
@@ -56022,7 +56026,7 @@
   {
     "name": "Theodoros Lappas",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003999546",
     "openalex_works": 69,
@@ -56032,7 +56036,7 @@
   {
     "name": "Alexandre G. R. Day",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041940873",
     "openalex_works": 21,
@@ -56072,7 +56076,7 @@
   {
     "name": "Viktoriya Skidanova",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Biology",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079188608",
     "openalex_works": 8,
@@ -56082,7 +56086,7 @@
   {
     "name": "Nicholas Wendel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016233859",
     "openalex_works": 12,
@@ -56092,7 +56096,7 @@
   {
     "name": "Teresa Baker",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077474956",
     "openalex_works": 25,
@@ -56102,7 +56106,7 @@
   {
     "name": "Hua-an Tseng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084887746",
     "openalex_works": 51,
@@ -56112,7 +56116,7 @@
   {
     "name": "Raeef Istfan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5060634970",
     "openalex_works": 18,
@@ -56122,7 +56126,7 @@
   {
     "name": "Zongshun Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034133274",
     "openalex_works": 23,
@@ -56142,7 +56146,7 @@
   {
     "name": "Derya Aksaray",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053550436",
     "openalex_works": 71,
@@ -56152,7 +56156,7 @@
   {
     "name": "Zhengming Ding",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5083458247",
     "openalex_works": 260,
@@ -56162,7 +56166,7 @@
   {
     "name": "Yuying Tan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084779266",
     "openalex_works": 190,
@@ -56172,7 +56176,7 @@
   {
     "name": "Anirudh Wodeyar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022785908",
     "openalex_works": 27,
@@ -56192,7 +56196,7 @@
   {
     "name": "Shang‐Hua Teng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102005063",
     "openalex_works": 292,
@@ -56202,7 +56206,7 @@
   {
     "name": "Ashley N. Collimore",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5005669956",
     "openalex_works": 12,
@@ -56212,7 +56216,7 @@
   {
     "name": "M. King",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041646845",
     "openalex_works": 28,
@@ -56222,7 +56226,7 @@
   {
     "name": "Daniel Van Lewen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072185197",
     "openalex_works": 7,
@@ -56232,7 +56236,7 @@
   {
     "name": "Heidi E. Klumpe",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027194532",
     "openalex_works": 10,
@@ -56252,7 +56256,7 @@
   {
     "name": "Yang Hu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091697861",
     "openalex_works": 146,
@@ -56282,7 +56286,7 @@
   {
     "name": "Chenyu Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113756805",
     "openalex_works": 14,
@@ -56292,7 +56296,7 @@
   {
     "name": "Zhenwei Zhou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037603339",
     "openalex_works": 11,
@@ -56302,7 +56306,7 @@
   {
     "name": "Spencer Hardy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5027291227",
     "openalex_works": 6,
@@ -56312,7 +56316,7 @@
   {
     "name": "Lingxiao Yuan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110661458",
     "openalex_works": 7,
@@ -56322,7 +56326,7 @@
   {
     "name": "Zachary Loschinskey",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093920148",
     "openalex_works": 6,
@@ -56332,7 +56336,7 @@
   {
     "name": "Brian M. Walsh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048651048",
     "openalex_works": 327,
@@ -56342,7 +56346,7 @@
   {
     "name": "Jiarui Yang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074696533",
     "openalex_works": 69,
@@ -56352,7 +56356,7 @@
   {
     "name": "Xingjian Han",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5063135883",
     "openalex_works": 16,
@@ -56362,7 +56366,7 @@
   {
     "name": "James Robson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5011805433",
     "openalex_works": 36,
@@ -56372,7 +56376,7 @@
   {
     "name": "Ezekiel Moroze",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5114684978",
     "openalex_works": 4,
@@ -56382,7 +56386,7 @@
   {
     "name": "Maria Yampolskaya",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040706034",
     "openalex_works": 14,
@@ -56392,7 +56396,7 @@
   {
     "name": "Edward S. Reed",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5044401919",
     "openalex_works": 113,
@@ -56422,7 +56426,7 @@
   {
     "name": "Krishna Rijal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078185299",
     "openalex_works": 18,
@@ -56432,7 +56436,7 @@
   {
     "name": "Can Hankendi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5090612785",
     "openalex_works": 20,
@@ -56442,7 +56446,7 @@
   {
     "name": "Natasya Liew",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5104940138",
     "openalex_works": 6,
@@ -56452,7 +56456,7 @@
   {
     "name": "Ali Ozcan Kures",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5104940139",
     "openalex_works": 3,
@@ -56462,7 +56466,7 @@
   {
     "name": "Marco La Cascia",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001373862",
     "openalex_works": 127,
@@ -56492,7 +56496,7 @@
   {
     "name": "Junchang Ju",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Hariri Institute for Computing",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041193334",
     "openalex_works": 39,
@@ -56502,7 +56506,7 @@
   {
     "name": "Sergey V. Buldyrev",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5033508527",
     "openalex_works": 487,
@@ -56512,7 +56516,7 @@
   {
     "name": "Danna Gurari",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078075505",
     "openalex_works": 88,
@@ -56532,7 +56536,7 @@
   {
     "name": "Demarcus Briers",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062617905",
     "openalex_works": 9,
@@ -56542,7 +56546,7 @@
   {
     "name": "D. Y. Qianli",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5059253214",
     "openalex_works": 12,
@@ -56552,7 +56556,7 @@
   {
     "name": "Vladimir Pavlović",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5020368096",
     "openalex_works": 302,
@@ -56562,7 +56566,7 @@
   {
     "name": "Antonio Ulloa",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016218657",
     "openalex_works": 20,
@@ -56572,7 +56576,7 @@
   {
     "name": "Gyan Bhanot",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018308750",
     "openalex_works": 270,
@@ -56602,7 +56606,7 @@
   {
     "name": "Elena Losina",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019522183",
     "openalex_works": 675,
@@ -56622,7 +56626,7 @@
   {
     "name": "Ed Reznik",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081768872",
     "openalex_works": 289,
@@ -56642,7 +56646,7 @@
   {
     "name": "Brian Eriksson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003848830",
     "openalex_works": 51,
@@ -56652,7 +56656,7 @@
   {
     "name": "Sungho Choi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039184380",
     "openalex_works": 78,
@@ -56662,7 +56666,7 @@
   {
     "name": "Taejin Park",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Earth & Environment",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101511622",
     "openalex_works": 150,
@@ -56672,7 +56676,7 @@
   {
     "name": "Lauren A. Viarengo‐Baker",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Chemistry",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5052632631",
     "openalex_works": 11,
@@ -56682,7 +56686,7 @@
   {
     "name": "Yufan Luo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101032185",
     "openalex_works": 39,
@@ -56712,7 +56716,7 @@
   {
     "name": "Nicholas Roehner",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082955901",
     "openalex_works": 59,
@@ -56722,7 +56726,7 @@
   {
     "name": "Jacob Harer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5030088093",
     "openalex_works": 15,
@@ -56732,7 +56736,7 @@
   {
     "name": "Mengtian Du",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053417868",
     "openalex_works": 17,
@@ -56752,7 +56756,7 @@
   {
     "name": "Burkay Orten",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5085127782",
     "openalex_works": 12,
@@ -56762,7 +56766,7 @@
   {
     "name": "Randal A. Koene",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035193391",
     "openalex_works": 47,
@@ -56772,7 +56776,7 @@
   {
     "name": "Stephen W. Hartley",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025912867",
     "openalex_works": 2,
@@ -56782,7 +56786,7 @@
   {
     "name": "Chaleece Sandberg",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038986086",
     "openalex_works": 55,
@@ -56792,7 +56796,7 @@
   {
     "name": "Jiarui Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100363740",
     "openalex_works": 232,
@@ -56812,7 +56816,7 @@
   {
     "name": "Erfan Aasi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042146883",
     "openalex_works": 18,
@@ -56822,7 +56826,7 @@
   {
     "name": "Christopher Liao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5082713250",
     "openalex_works": 4,
@@ -56832,7 +56836,7 @@
   {
     "name": "Anil Kag",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081874764",
     "openalex_works": 29,
@@ -56842,7 +56846,7 @@
   {
     "name": "Indranil Paul",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5025381118",
     "openalex_works": 30,
@@ -56882,7 +56886,7 @@
   {
     "name": "Robert P. Wotiz",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008616737",
     "openalex_works": 7,
@@ -56902,7 +56906,7 @@
   {
     "name": "Xiaojun Cheng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001449972",
     "openalex_works": 157,
@@ -56932,7 +56936,7 @@
   {
     "name": "Abhishek Bhuva",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102768662",
     "openalex_works": 7,
@@ -56942,7 +56946,7 @@
   {
     "name": "Diane H. Theriault",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110940870",
     "openalex_works": 12,
@@ -56962,7 +56966,7 @@
   {
     "name": "Angus F. Chapman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5061272208",
     "openalex_works": 45,
@@ -56972,7 +56976,7 @@
   {
     "name": "Mieczyslaw M. Kokar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003723197",
     "openalex_works": 176,
@@ -56982,7 +56986,7 @@
   {
     "name": "Lulu Jiang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5084161145",
     "openalex_works": 139,
@@ -56992,7 +56996,7 @@
   {
     "name": "Kenji C. Walker",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022184818",
     "openalex_works": 7,
@@ -57002,7 +57006,7 @@
   {
     "name": "Tommaso Melodia",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054337759",
     "openalex_works": 513,
@@ -57032,7 +57036,7 @@
   {
     "name": "Andrew P. Sabelhaus",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042202916",
     "openalex_works": 51,
@@ -57042,7 +57046,7 @@
   {
     "name": "Nicole Carr",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5039136773",
     "openalex_works": 11,
@@ -57052,7 +57056,7 @@
   {
     "name": "Angel Ayala",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055996958",
     "openalex_works": 26,
@@ -57062,7 +57066,7 @@
   {
     "name": "Audra McMillan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004893242",
     "openalex_works": 36,
@@ -57072,7 +57076,7 @@
   {
     "name": "Robert Munafo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001824174",
     "openalex_works": 5,
@@ -57082,7 +57086,7 @@
   {
     "name": "Xiteng Yao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031814188",
     "openalex_works": 4,
@@ -57092,7 +57096,7 @@
   {
     "name": "Weichao Zhou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5055003391",
     "openalex_works": 27,
@@ -57102,7 +57106,7 @@
   {
     "name": "Claire Cordella",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5078617027",
     "openalex_works": 28,
@@ -57112,7 +57116,7 @@
   {
     "name": "Manuel Jose Marte",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Sargent College of Health & Rehabilitation Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5006636784",
     "openalex_works": 16,
@@ -57122,7 +57126,7 @@
   {
     "name": "Ryan A. Senne",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087615520",
     "openalex_works": 20,
@@ -57132,7 +57136,7 @@
   {
     "name": "Andres S. Chavez Armijos",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074098919",
     "openalex_works": 17,
@@ -57142,7 +57146,7 @@
   {
     "name": "Steven A. Rosenberg",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5046306910",
     "openalex_works": 109,
@@ -57152,7 +57156,7 @@
   {
     "name": "Alina Oprea",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5035574749",
     "openalex_works": 145,
@@ -57162,7 +57166,7 @@
   {
     "name": "Andreas Stang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080262061",
     "openalex_works": 630,
@@ -57172,7 +57176,7 @@
   {
     "name": "Yiyue Jiang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5054033167",
     "openalex_works": 11,
@@ -57192,7 +57196,7 @@
   {
     "name": "Yachen Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101802238",
     "openalex_works": 63,
@@ -57202,7 +57206,7 @@
   {
     "name": "Siddharth Mysore",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5038185726",
     "openalex_works": 13,
@@ -57212,7 +57216,7 @@
   {
     "name": "Peerasait Prachaseree",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047027145",
     "openalex_works": 12,
@@ -57242,7 +57246,7 @@
   {
     "name": "Patrick McNamara",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101449743",
     "openalex_works": 188,
@@ -57262,7 +57266,7 @@
   {
     "name": "Mehrad Sarmashghi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067936718",
     "openalex_works": 7,
@@ -57282,7 +57286,7 @@
   {
     "name": "Leonardo Zamora Yañez",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5023158602",
     "openalex_works": 8,
@@ -57292,7 +57296,7 @@
   {
     "name": "Jonathan J Song",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5121172258",
     "openalex_works": 1,
@@ -57302,7 +57306,7 @@
   {
     "name": "Dana H. Brooks",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079980080",
     "openalex_works": 359,
@@ -57312,7 +57316,7 @@
   {
     "name": "Jia‐Ning Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100785482",
     "openalex_works": 186,
@@ -57322,7 +57326,7 @@
   {
     "name": "Srishti Jain",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012567236",
     "openalex_works": 8,
@@ -57332,7 +57336,7 @@
   {
     "name": "Duc A. Tran",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5121572509",
     "openalex_works": 3,
@@ -57342,7 +57346,7 @@
   {
     "name": "J. L. Raaf",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5107938186",
     "openalex_works": 11,
@@ -57352,7 +57356,7 @@
   {
     "name": "Aubrey R. Odom-Mabey",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004345433",
     "openalex_works": 22,
@@ -57362,7 +57366,7 @@
   {
     "name": "Kamran Vakil",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5093861022",
     "openalex_works": 4,
@@ -57372,7 +57376,7 @@
   {
     "name": "Ningfang Mi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5091825452",
     "openalex_works": 135,
@@ -57392,7 +57396,7 @@
   {
     "name": "Yu Tian Wang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102396217",
     "openalex_works": 11,
@@ -57412,7 +57416,7 @@
   {
     "name": "Shuo Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5120790453",
     "openalex_works": 62,
@@ -57422,7 +57426,7 @@
   {
     "name": "Volker Hovestadt",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074018145",
     "openalex_works": 355,
@@ -57432,7 +57436,7 @@
   {
     "name": "G. Ahanger",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016632625",
     "openalex_works": 17,
@@ -57442,7 +57446,7 @@
   {
     "name": "Christian Mannes",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5057049909",
     "openalex_works": 6,
@@ -57462,7 +57466,7 @@
   {
     "name": "Orith Ronen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5056872199",
     "openalex_works": 7,
@@ -57472,7 +57476,7 @@
   {
     "name": "John C. Fiala",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Biology",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5108544656",
     "openalex_works": 71,
@@ -57482,7 +57486,7 @@
   {
     "name": "John M. Gauch",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5037056346",
     "openalex_works": 84,
@@ -57492,7 +57496,7 @@
   {
     "name": "Can Ozan Tan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5013531627",
     "openalex_works": 175,
@@ -57502,7 +57506,7 @@
   {
     "name": "Mirko Ristivojevic",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5072447631",
     "openalex_works": 6,
@@ -57512,7 +57516,7 @@
   {
     "name": "Kai Guo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079843373",
     "openalex_works": 44,
@@ -57532,7 +57536,7 @@
   {
     "name": "Yang Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100355638",
     "openalex_works": 755,
@@ -57542,7 +57546,7 @@
   {
     "name": "Fabrizio Santini",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5105008512",
     "openalex_works": 12,
@@ -57552,7 +57556,7 @@
   {
     "name": "Xinyi Deng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Mathematics & Statistics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100609330",
     "openalex_works": 61,
@@ -57562,7 +57566,7 @@
   {
     "name": "Christos G. Panayiotou",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5073317773",
     "openalex_works": 448,
@@ -57582,7 +57586,7 @@
   {
     "name": "Richard Ivey",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5001143038",
     "openalex_works": 33,
@@ -57592,7 +57596,7 @@
   {
     "name": "Brent A. Coull",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5045303930",
     "openalex_works": 1087,
@@ -57602,7 +57606,7 @@
   {
     "name": "Michael H. Lev",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031248234",
     "openalex_works": 450,
@@ -57622,7 +57626,7 @@
   {
     "name": "Christy Lin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004494338",
     "openalex_works": 5,
@@ -57642,7 +57646,7 @@
   {
     "name": "David Tuck",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5016816358",
     "openalex_works": 173,
@@ -57652,7 +57656,7 @@
   {
     "name": "K.S. Wesselowski",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5002104548",
     "openalex_works": 4,
@@ -57662,7 +57666,7 @@
   {
     "name": "Randa Elanwar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5073605585",
     "openalex_works": 15,
@@ -57692,7 +57696,7 @@
   {
     "name": "Maxime Taquet",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074189635",
     "openalex_works": 126,
@@ -57702,7 +57706,7 @@
   {
     "name": "Benoît Scherrer",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5066921588",
     "openalex_works": 121,
@@ -57712,7 +57716,7 @@
   {
     "name": "Ken R. Duffy",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5042235507",
     "openalex_works": 275,
@@ -57722,7 +57726,7 @@
   {
     "name": "David C. Sing",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5073697748",
     "openalex_works": 131,
@@ -57732,7 +57736,7 @@
   {
     "name": "Indeevar Beeram",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5040878141",
     "openalex_works": 24,
@@ -57742,7 +57746,7 @@
   {
     "name": "Andrew S. Alexander",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031067593",
     "openalex_works": 43,
@@ -57752,7 +57756,7 @@
   {
     "name": "Zhaoqi Cheng",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Questrom School of Business",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031867224",
     "openalex_works": 47,
@@ -57762,7 +57766,7 @@
   {
     "name": "Stefanos Kourtis",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5071152937",
     "openalex_works": 52,
@@ -57772,7 +57776,7 @@
   {
     "name": "Xuan Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100342886",
     "openalex_works": 1474,
@@ -57792,7 +57796,7 @@
   {
     "name": "Amanda Potasznik",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024463429",
     "openalex_works": 5,
@@ -57802,7 +57806,7 @@
   {
     "name": "Zhengang Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101633365",
     "openalex_works": 93,
@@ -57812,7 +57816,7 @@
   {
     "name": "Erhan Can Ozcan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004665117",
     "openalex_works": 9,
@@ -57822,7 +57826,7 @@
   {
     "name": "Janet Ross",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Sociology",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5112448029",
     "openalex_works": 34,
@@ -57832,7 +57836,7 @@
   {
     "name": "Edgar Zurif",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5058561143",
     "openalex_works": 94,
@@ -57842,7 +57846,7 @@
   {
     "name": "Daniele Micci Barreca",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068024361",
     "openalex_works": 5,
@@ -57852,7 +57856,7 @@
   {
     "name": "A. Kannan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5019823733",
     "openalex_works": 13,
@@ -57882,7 +57886,7 @@
   {
     "name": "Yang Shen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100716873",
     "openalex_works": 228,
@@ -57892,7 +57896,7 @@
   {
     "name": "Gregory W. Lesher",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068434863",
     "openalex_works": 18,
@@ -57902,7 +57906,7 @@
   {
     "name": "Jean Léveillé",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5113818987",
     "openalex_works": 51,
@@ -57912,7 +57916,7 @@
   {
     "name": "Kenric P. Nelson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076806990",
     "openalex_works": 53,
@@ -57922,7 +57926,7 @@
   {
     "name": "Curtis Madsen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5047908665",
     "openalex_works": 50,
@@ -57942,7 +57946,7 @@
   {
     "name": "Pouya Haghi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5067209238",
     "openalex_works": 29,
@@ -57952,7 +57956,7 @@
   {
     "name": "Chunshu Wu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009432979",
     "openalex_works": 40,
@@ -57962,7 +57966,7 @@
   {
     "name": "Nicholas A. Vickers",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5031471702",
     "openalex_works": 28,
@@ -57982,7 +57986,7 @@
   {
     "name": "George Mohler",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080879125",
     "openalex_works": 141,
@@ -57992,7 +57996,7 @@
   {
     "name": "Dana Diaconu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5080045482",
     "openalex_works": 13,
@@ -58012,7 +58016,7 @@
   {
     "name": "Sharon C. Salveter",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077729920",
     "openalex_works": 25,
@@ -58032,7 +58036,7 @@
   {
     "name": "Müjdat Çetin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5017228370",
     "openalex_works": 351,
@@ -58042,7 +58046,7 @@
   {
     "name": "Zhengrong Ying",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102053776",
     "openalex_works": 11,
@@ -58062,7 +58066,7 @@
   {
     "name": "Murat Okatan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5048509636",
     "openalex_works": 35,
@@ -58082,7 +58086,7 @@
   {
     "name": "Manjesh K. Hanawal",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103591718",
     "openalex_works": 3,
@@ -58092,7 +58096,7 @@
   {
     "name": "Raymond H. Mak",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5064724289",
     "openalex_works": 369,
@@ -58102,7 +58106,7 @@
   {
     "name": "Julien M. Hendrickx",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Center for Information & Systems Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003883360",
     "openalex_works": 250,
@@ -58112,7 +58116,7 @@
   {
     "name": "Eleanor D. Brown",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5103158780",
     "openalex_works": 14,
@@ -58122,7 +58126,7 @@
   {
     "name": "Yichi Zhang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Public Health",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100444203",
     "openalex_works": 38,
@@ -58142,7 +58146,7 @@
   {
     "name": "Marc Mitjans",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010174236",
     "openalex_works": 6,
@@ -58152,7 +58156,7 @@
   {
     "name": "Brennan Brodt",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5092397646",
     "openalex_works": 3,
@@ -58162,7 +58166,7 @@
   {
     "name": "Yihong Xu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Physics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5003412921",
     "openalex_works": 4,
@@ -58172,7 +58176,7 @@
   {
     "name": "Daniel Carbonero",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5070792955",
     "openalex_works": 14,
@@ -58182,7 +58186,7 @@
   {
     "name": "Yasaman Khazaeni",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5000690076",
     "openalex_works": 51,
@@ -58192,7 +58196,7 @@
   {
     "name": "Indrajit Kalita",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Faculty of Computing & Data Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5041594648",
     "openalex_works": 28,
@@ -58212,7 +58216,7 @@
   {
     "name": "Anubhab Haldar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5068605533",
     "openalex_works": 36,
@@ -58222,7 +58226,7 @@
   {
     "name": "Peixi Liao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Dental Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5004525528",
     "openalex_works": 9,
@@ -58232,7 +58236,7 @@
   {
     "name": "Reem AwdhE Alasleh",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Dental Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5114275048",
     "openalex_works": 3,
@@ -58242,7 +58246,7 @@
   {
     "name": "Vissuta Khampatee",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Dental Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024798555",
     "openalex_works": 5,
@@ -58252,7 +58256,7 @@
   {
     "name": "Philip Joung",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5087736272",
     "openalex_works": 7,
@@ -58272,7 +58276,7 @@
   {
     "name": "Xiaohong Chen",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5100373745",
     "openalex_works": 19059,
@@ -58292,7 +58296,7 @@
   {
     "name": "Tiffany Bao",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5076987446",
     "openalex_works": 54,
@@ -58302,7 +58306,7 @@
   {
     "name": "Andrzej Niemierko",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5028403057",
     "openalex_works": 477,
@@ -58312,7 +58316,7 @@
   {
     "name": "Kuniaki Saito",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101463446",
     "openalex_works": 93,
@@ -58332,7 +58336,7 @@
   {
     "name": "Xiang Li",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5119272186",
     "openalex_works": 1766,
@@ -58342,7 +58346,7 @@
   {
     "name": "Ping Lu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086054551",
     "openalex_works": 54,
@@ -58352,7 +58356,7 @@
   {
     "name": "Dhawal Priyadarshi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077334587",
     "openalex_works": 6,
@@ -58362,7 +58366,7 @@
   {
     "name": "Qiming Xu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5101005666",
     "openalex_works": 35,
@@ -58382,7 +58386,7 @@
   {
     "name": "Danbing Seto",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5110704992",
     "openalex_works": 20,
@@ -58392,7 +58396,7 @@
   {
     "name": "Andrei Lapets",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062155654",
     "openalex_works": 60,
@@ -58402,7 +58406,7 @@
   {
     "name": "Delaram Motamedvaziri",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5079668940",
     "openalex_works": 5,
@@ -58422,7 +58426,7 @@
   {
     "name": "Andrey Litvin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062849417",
     "openalex_works": 227,
@@ -58432,7 +58436,7 @@
   {
     "name": "Yingwei Lin",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5077369897",
     "openalex_works": 15,
@@ -58442,7 +58446,7 @@
   {
     "name": "Val Nolan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5102712755",
     "openalex_works": 230,
@@ -58452,7 +58456,7 @@
   {
     "name": "Caitlin Bogdan",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5069794239",
     "openalex_works": 7,
@@ -58462,7 +58466,7 @@
   {
     "name": "J. Gregory McDaniel",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5008140309",
     "openalex_works": 214,
@@ -58472,7 +58476,7 @@
   {
     "name": "John Farrell",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5018730262",
     "openalex_works": 182,
@@ -58502,7 +58506,7 @@
   {
     "name": "Wonyl Choi",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5024116603",
     "openalex_works": 6,
@@ -58512,7 +58516,7 @@
   {
     "name": "Daron Acemoğlu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Economics",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5012301204",
     "openalex_works": 1026,
@@ -58522,7 +58526,7 @@
   {
     "name": "Steven Lehar",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5111861158",
     "openalex_works": 25,
@@ -58532,7 +58536,7 @@
   {
     "name": "E. Dorken",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5034749170",
     "openalex_works": 14,
@@ -58542,7 +58546,7 @@
   {
     "name": "H.M. Ahmed",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5009067513",
     "openalex_works": 73,
@@ -58562,7 +58566,7 @@
   {
     "name": "Norbert Kopčo",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5022520373",
     "openalex_works": 82,
@@ -58582,7 +58586,7 @@
   {
     "name": "Oded Maimon",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5109252775",
     "openalex_works": 259,
@@ -58612,7 +58616,7 @@
   {
     "name": "Congcong Zhu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5089202910",
     "openalex_works": 48,
@@ -58622,7 +58626,7 @@
   {
     "name": "Maryellen Gibson",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5005773687",
     "openalex_works": 17,
@@ -58642,7 +58646,7 @@
   {
     "name": "Alexander J. Gray",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5081224112",
     "openalex_works": 11,
@@ -58652,7 +58656,7 @@
   {
     "name": "Daniel Haehn",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5062859783",
     "openalex_works": 84,
@@ -58662,7 +58666,7 @@
   {
     "name": "Kristi Ho",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5074026437",
     "openalex_works": 18,
@@ -58672,7 +58676,7 @@
   {
     "name": "Yi Liu",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "Faculty of Computing & Data Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5125429160",
     "openalex_works": 10,
@@ -58732,7 +58736,7 @@
   {
     "name": "James Queeney",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5026822908",
     "openalex_works": 18,
@@ -58742,7 +58746,7 @@
   {
     "name": "Zhenxun Zhuang",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Computer Science",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086713753",
     "openalex_works": 15,
@@ -58752,7 +58756,7 @@
   {
     "name": "Ali Lashkaripour",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "College of Engineering",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5053587604",
     "openalex_works": 25,
@@ -58762,7 +58766,7 @@
   {
     "name": "Ian Boardman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "CAS — Psychology & Brain Sciences",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5010912658",
     "openalex_works": 13,
@@ -58782,7 +58786,7 @@
   {
     "name": "Salman Rahman",
     "title": "",
-    "school": "Boston University (unspecified)",
+    "school": "School of Medicine",
     "source_url": "openalex_resolve",
     "openalex_id": "https://openalex.org/A5086386539",
     "openalex_works": 3,
@@ -58914,8 +58918,8 @@
     "title": "Director of AI Program, Lecturer",
     "school": "School of Law",
     "source_url": "https://www.bu.edu/law/profile/timothy-duncan/",
-    "openalex_id": "https://openalex.org/A5040476547",
-    "openalex_works": 324,
+    "openalex_id": null,
+    "openalex_works": 0,
     "is_rare_name": true,
     "scraped_at": "2026-04-01"
   },
@@ -58928,5 +58932,35 @@
     "openalex_works": 0,
     "is_rare_name": true,
     "scraped_at": "2026-04-03"
+  },
+  {
+    "name": "Joan Donovan",
+    "title": "Assistant Professor, Journalism",
+    "school": "College of Communication",
+    "openalex_id": "https://openalex.org/A5102771058",
+    "openalex_works": 59,
+    "is_rare_name": true,
+    "source_url": "manual_audit_2026-04-04",
+    "scraped_at": "2026-04-04"
+  },
+  {
+    "name": "Eric Gordon",
+    "title": "Associate Professor, Journalism",
+    "school": "College of Communication",
+    "openalex_id": "https://openalex.org/A5007521335",
+    "openalex_works": 58,
+    "is_rare_name": false,
+    "source_url": "manual_audit_2026-04-04",
+    "scraped_at": "2026-04-04"
+  },
+  {
+    "name": "Jing Yang",
+    "title": "Assistant Professor, Advertising",
+    "school": "College of Communication",
+    "openalex_id": null,
+    "openalex_works": 0,
+    "is_rare_name": false,
+    "source_url": "manual_audit_2026-04-04",
+    "scraped_at": "2026-04-04"
   }
 ]

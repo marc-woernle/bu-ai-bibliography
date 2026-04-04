@@ -37,13 +37,19 @@ SCHOOL_PATTERNS = [
      "School of Law", "LAW"),
 
     # MEDICINE / HEALTH
-    (r"school of medicine|medical school|busm|bumc|medical center|medical campus",
+    (r"school of medicine|medical school|busm|bumc|medical center|medical campus|"
+     r"pharmacology|pathology|biochemistry|surgery|pediatric|radiology|dermatology|"
+     r"psychiatry|neurology|cardiology|nephrology|pulmonary|gastroenter|ophthalmol|"
+     r"anesthesi|oncology|endocrin|geriatric|rheumatol|emergency med|anatomy.*neurobiol|"
+     r"microbiology|immunology|computational biomedicine",
      "School of Medicine", "NON-LAW"),
-    (r"school of public health|sph\b|public health",
+    (r"school of public health|sph\b|public health|epidemiology|biostatistics|"
+     r"environmental health|global health|health law.*ethic|health policy|community health",
      "School of Public Health", "NON-LAW"),
     (r"school of dental medicine|dental|henry m\. goldman",
      "School of Dental Medicine", "NON-LAW"),
-    (r"sargent college|sargent|health.* rehabilitation",
+    (r"sargent college|sargent|health.* rehabilitation|rehabilitation sci|"
+     r"physical therapy|occupational therapy|athletic training|speech.*language.*pathol",
      "Sargent College of Health & Rehabilitation Sciences", "NON-LAW"),
     (r"school of social work|ssw\b|social work",
      "School of Social Work", "NON-LAW"),
@@ -58,31 +64,31 @@ SCHOOL_PATTERNS = [
      "Faculty of Computing & Data Sciences", "NON-LAW"),
 
     # CAS — specific departments first
-    (r"computer science|cs dept|cas.*cs\b",
+    (r"computer science|cs dept|cas.*cs\b|dept.*of cs\b",
      "CAS — Computer Science", "NON-LAW"),
-    (r"mathematics|math dept|statistics.*dept|math.*stat",
+    (r"mathematics|math dept|statistics.*dept|math.*stat|dept.*of math",
      "CAS — Mathematics & Statistics", "NON-LAW"),
-    (r"economics dept|cas.*econ",
+    (r"economics dept|cas.*econ|dept.*of economics|department of economics",
      "CAS — Economics", "NON-LAW"),
-    (r"political sci|polisci|cas.*poli",
+    (r"political sci|polisci|cas.*poli|dept.*of political",
      "CAS — Political Science", "NON-LAW"),
-    (r"philosophy dept|cas.*phil",
+    (r"philosophy dept|cas.*phil|dept.*of philosophy|department of philosophy",
      "CAS — Philosophy", "NON-LAW"),
-    (r"psychology dept|cas.*psych",
+    (r"psychology|brain sci|cognitive.*neural|cas.*psych",
      "CAS — Psychology & Brain Sciences", "NON-LAW"),
-    (r"biology dept|cas.*bio\b",
+    (r"biology dept|cas.*bio\b|dept.*of biology|department of biology|molecular biology",
      "CAS — Biology", "NON-LAW"),
-    (r"physics dept|cas.*phys",
+    (r"physics dept|cas.*phys|dept.*of physics|department of physics",
      "CAS — Physics", "NON-LAW"),
-    (r"chemistry dept|cas.*chem",
+    (r"chemistry dept|cas.*chem|dept.*of chemistry|department of chemistry",
      "CAS — Chemistry", "NON-LAW"),
     (r"linguistics|cas.*ling",
      "CAS — Linguistics", "NON-LAW"),
-    (r"earth.*environment|cas.*earth",
+    (r"earth.*environment|cas.*earth|dept.*of earth",
      "CAS — Earth & Environment", "NON-LAW"),
     (r"international rel|cas.*ir\b",
      "CAS — International Relations", "NON-LAW"),
-    (r"sociology|cas.*soc\b",
+    (r"sociology|cas.*soc\b|dept.*of sociology",
      "CAS — Sociology", "NON-LAW"),
     (r"college of arts.*sciences|cas\b",
      "CAS (unspecified department)", "NON-LAW"),
@@ -142,6 +148,7 @@ _COMPILED_PATTERNS = [
 FACULTY_BY_OAID = {}     # openalex_id → (name, school, category)
 FACULTY_BY_FULLNAME = {} # "last first" → [(school, category)]
 FACULTY_BY_ALTNAME = {}  # normalized_name → (school, category)  [from OpenAlex alt_names cache]
+FACULTY_SECONDARY = {}   # openalex_id → secondary_school (for dual appointments)
 
 # Known false Tier-3 name matches: common names that collide with Dental roster
 # entries. These authors at other institutions share names with BU Dental faculty.
@@ -177,7 +184,7 @@ ALTNAMES_CACHE_PATH = Path("data/openalex_bu_authors_cache.json")
 
 def _load_faculty_roster():
     """Load faculty roster and build lookup indexes."""
-    global FACULTY_BY_OAID, FACULTY_BY_FULLNAME, FACULTY_BY_ALTNAME
+    global FACULTY_BY_OAID, FACULTY_BY_FULLNAME, FACULTY_BY_ALTNAME, FACULTY_SECONDARY
 
     if not ROSTER_PATH.exists():
         logger.warning(f"Roster not found at {ROSTER_PATH}, using empty lookup")
@@ -195,6 +202,11 @@ def _load_faculty_roster():
         # Index by OpenAlex ID
         if oa_id:
             FACULTY_BY_OAID[oa_id] = (name, school, category)
+
+        # Track dual appointments
+        secondary = entry.get("secondary_school")
+        if secondary and oa_id:
+            FACULTY_SECONDARY[oa_id] = secondary
 
         # Index by full normalized name
         fkey = _name_key(name)
@@ -396,6 +408,12 @@ def classify_paper(paper: dict) -> dict:
         if school:
             schools.add(school)
             categories.add(category)
+            # Dual appointments: add secondary school if author matched via OAID
+            if oa_id and oa_id in FACULTY_SECONDARY:
+                sec = FACULTY_SECONDARY[oa_id]
+                schools.add(sec)
+                sec_cat = "LAW" if sec == "School of Law" else "NON-LAW"
+                categories.add(sec_cat)
             author_classifications.append({
                 "name": name,
                 "school": school,

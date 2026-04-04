@@ -3,37 +3,34 @@
 
 ## Numbers
 - **Papers:** 10,456 in `data/sonnet_classification_bu_verified.json`
-- **Roster:** 5,893 entries, 4,492 with OpenAlex IDs, 792 with school = unspecified
-- **School tags:** 0 UNCLASSIFIED, 0 false Dental tags, ~3,900 unspecified-only, ~6,540 with specific school
-- **Dental papers:** 41
-- **Economics papers:** 44
-- **Law papers:** 196
+- **Roster:** 5,896 entries, 141 with school = unspecified (was 792)
+- **Unspecified-only papers:** 3,110 (was 3,861)
+- **Validation:** 0 failures, 35 warnings
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
-- **Validation:** 0 failures, 47 warnings
 
 ## This session
-- Investigated underrepresented schools (Theology 0.03 P/F, Social Work 0.04, Pardee 0.05) — genuinely thin on AI, not harvesting failures
-- Harvested 669 NBER papers via OpenAlex → 0 new AI-relevant (existing pipeline already captures them via published journal versions)
-- Added 5 papers: Ireland CHCD dataset (Theology), Muroff 2016 ICIP + 2025 EUSIPCO (Social Work), 2 SSRN Econ/Questrom
-- Fixed 6 false Dental tags via NAME_MATCH_BLOCKLIST in school_mapper.py (Bing Liu, Claire Chang, Li Liu, Andrew Miller, Rashi Sharma)
-- Fixed Woodward (Pardee) roster — had wrong OpenAlex ID (a chemist). Cleared OAID.
-- Fixed stale FACULTY_LOOKUP import in update_pipeline.py — replaced with FACULTY_BY_FULLNAME
-- Updated CLAUDE.md (6 stale items fixed, added STATUS.md format spec)
-- Updated README.md (counts, source table, file structure, school classification description)
-- Updated GitHub repo description and homepage URL
-- Added Scholarly Commons to web app footer source list
+- Audited database against ground truths: papers/faculty ratios, source coverage, faculty OAIDs
+- Harvested 669 NBER papers via OpenAlex → 0 new AI-relevant (already captured via journal versions)
+- Added 5 papers: Ireland CHCD (Theology), Muroff 2016+2025 (Social Work), 2 SSRN Econ/Questrom
+- Fixed 6 false Dental tags via NAME_MATCH_BLOCKLIST in school_mapper.py
+- Cleared 19 wrong OpenAlex IDs on roster entries (name collisions with researchers at other institutions)
+- Resolved 651 of 785 unspecified roster entries via OpenAlex raw_affiliation_strings
+- Extended SCHOOL_PATTERNS with 30+ department-level patterns (economics, psychology, physics, medical departments, etc.)
+- Added 3 COM faculty (Donovan, Gordon, Jing Yang)
+- Implemented dual appointments via secondary_school field (Wildman→STH, DK Lee→Questrom, Van Alstyne→Questrom, Su→COM)
+- Fixed stale FACULTY_LOOKUP import in update_pipeline.py
+- Updated README, CLAUDE.md, STATUS.md, GitHub repo description
 
 ## TODO
-1. Fix 792 unspecified roster entries — main lever for reducing ~3,900 unspecified papers
-2. Handle dual appointments (e.g., Wildman is STH + CDS — currently only tagged CDS)
-3. Add Woodward's RAND biometrics publications manually (no DOIs, not in OpenAlex)
-4. Test auto-update pipeline end-to-end (`python update_weekly.py --dry-run`)
-5. Investigate roster_coverage warnings — 47 faculty with many OpenAlex works but 0 papers
+1. Investigate remaining 35 validation warnings — all genuine (non-AI faculty with many publications, or school coverage thresholds)
+2. Add DBLP + OpenReview as sources (fills conference paper gap — OpenAlex undercounts CS conferences)
+3. Handle remaining 141 unspecified roster entries (ambiguous affiliations or left BU)
+4. Clean CFA roster of non-faculty (305 entries includes staff/artists — needs title field scraping)
+5. Test auto-update pipeline end-to-end (`python update_weekly.py --dry-run`)
 
 ## Known issues
-- ~3,900 papers tagged "Boston University (unspecified)" — authors not in roster or roster entry lacks school
+- ~3,110 papers tagged "Boston University (unspecified)" — remaining authors not in roster or roster entry still unspecified
 - OpenBU metadata bug: all authors get "Boston University" affiliation regardless
-- Tim Duncan (Law): practitioner, zero publications expected — not a gap
-- Bernard Chao: not BU (Denver), is_bu=False
 - Scholarly Commons uploads full back-catalog — no date filtering applied
-- OpenAlex not exhaustive — must cross-reference with other sources
+- resolve_openalex_ids.py uses last-name-only matching — causes wrong OAID assignments for common names
+- Some SPH roster entries are Harvard/BWH adjuncts (Buring, Chibnik, Huybrechts, etc.) — correct OAIDs but primarily publish under other affiliations
