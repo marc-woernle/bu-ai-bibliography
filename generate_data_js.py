@@ -100,10 +100,14 @@ def paper_to_compact(paper: dict, include_abstract: bool = False) -> dict:
 def build_metadata(papers: list[dict]) -> dict:
     """Build metadata object for the web app."""
     from datetime import date
+    sources = set()
+    for p in papers:
+        for s in p.get("all_sources", []):
+            sources.add(s)
     return {
         "updated": date.today().isoformat(),
         "paper_count": len(papers),
-        "sources": 10,
+        "sources": len(sources),
     }
 
 
