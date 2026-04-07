@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **10,456 papers** across 24 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,870 papers** across 24 schools and departments.
 
 **Live site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
