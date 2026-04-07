@@ -90,15 +90,18 @@ def derived_fields(paper: dict) -> dict:
         if a.get("is_bu")
     ]
 
-    # Best URL: DOI link > pdf_url > url
+    # Best URL: prefer readable/OA versions over DOI (often paywalled)
+    # Priority: pdf_url (OA) > non-DOI url (repos, arxiv) > DOI fallback
     doi = paper.get("doi")
+    pdf_url = paper.get("pdf_url")
+    url = paper.get("url")
     best_url = None
-    if doi:
+    if pdf_url:
+        best_url = pdf_url
+    elif url and "openalex.org" not in url:
+        best_url = url
+    elif doi:
         best_url = f"https://doi.org/{doi}"
-    elif paper.get("pdf_url"):
-        best_url = paper["pdf_url"]
-    elif paper.get("url"):
-        best_url = paper["url"]
 
     # Open access flag
     extra = paper.get("extra", {}) or {}
