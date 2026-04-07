@@ -878,6 +878,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       searchTimeout = setTimeout(() => { searchQuery = val; applyFilters(); render(); }, 250);
     },
     searchAuthor(name) {
+      filterCategory = 'all'; filterSchool = 'all';
+      filterRelevance = 'all'; filterOA = false;
+      yearMin = dataYearMin; yearMax = dataYearMax;
+      selectedDomains.clear(); selectedSubfields.clear();
+      sortBy = 'year'; groupBy = 'none';
       searchQuery = name;
       document.getElementById('search-input').value = name;
       applyFilters();
