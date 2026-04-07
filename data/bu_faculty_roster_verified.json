@@ -474,10 +474,10 @@
     "title": "PT Lecturer",
     "school": "CAS — Computer Science",
     "source_url": "https://www.bu.edu/cs/people/faculty/",
-    "openalex_id": "https://openalex.org/A5031586225",
+    "openalex_id": null,
     "is_rare_name": true,
-    "scraped_at": "2026-03-31",
-    "openalex_works": 51
+    "scraped_at": "2026-04-07",
+    "openalex_works": 0
   },
   {
     "name": "Shereif El-Sheikh",

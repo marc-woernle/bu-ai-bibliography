@@ -258,7 +258,7 @@ def harvest_pubmed_incremental(since_date: str) -> list[dict]:
     # Build AI query with BU affiliation
     ai_terms = " OR ".join(
         [f'"{t}"[MeSH Terms]' for t in PUBMED_MESH_TERMS]
-        + [f'"{kw}"[Title/Abstract]' for kw in AI_KEYWORDS_PRIMARY[:10]]
+        + [f'"{kw}"[Title/Abstract]' for kw in AI_KEYWORDS_PRIMARY]
     )
     query = f'("Boston University"[Affiliation]) AND ({ai_terms})'
 
@@ -282,7 +282,9 @@ def harvest_pubmed_incremental(since_date: str) -> list[dict]:
 
         # Fetch PMIDs with date filter
         pmids = []
-        for offset in range(0, min(total, 2000), 500):
+        if total > 5000:
+            logger.warning(f"PubMed returned {total} results -- unusually high, verify query")
+        for offset in range(0, total, 500):
             rl.wait()
             r = requests.get(esearch_url, params={
                 "db": "pubmed", "term": query, "retmax": 500, "retstart": offset,
