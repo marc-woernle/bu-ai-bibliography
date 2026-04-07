@@ -137,7 +137,13 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
 .linkedin-text { font-family: var(--sans); font-size: 12px; white-space: pre-wrap; color: #333; line-height: 1.5; }
 .linkedin-copy { margin-top: 8px; background: #0a66c2; color: #fff; border: none; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
 .cite-box { margin-top: 10px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e5e7eb; }
+.cite-format-toggle { display: flex; gap: 0; margin-bottom: 8px; }
+.cite-format-btn { background: #fff; border: 1px solid #ccc; color: #555; padding: 3px 12px; cursor: pointer; font-size: 11px; font-weight: 500; font-family: var(--sans); }
+.cite-format-btn:first-child { border-radius: 4px 0 0 4px; }
+.cite-format-btn:last-child { border-radius: 0 4px 4px 0; border-left: none; }
+.cite-format-btn.active { background: #555; color: #fff; border-color: #555; }
 .cite-text { font-family: var(--sans); font-size: 12px; color: #333; line-height: 1.5; }
+.cite-text.bibtex { font-family: var(--mono); font-size: 11px; white-space: pre-wrap; }
 .cite-copy { margin-top: 8px; background: #555; color: #fff; border: none; padding: 4px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500; font-family: var(--sans); }
 .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 24px; font-family: var(--sans); font-size: 13px; flex-wrap: wrap; }
 .page-btn { padding: 6px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; font-family: var(--sans); font-size: 13px; }
@@ -266,6 +272,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   let expandedIdx = null;
   let linkedinIdx = null;
   let citeIdx = null;
+  let citeFormat = 'apa';
   let currentPage = 1;
   const PAGE_SIZE = 25;
 
@@ -484,14 +491,35 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     return `\u{1F52C} ${catLabel} AI Research Spotlight\n\n"${p.t}" (${p.y || 'forthcoming'})\n\nBy ${p.a}\nPublished in ${p.v || 'Unpublished'}\n\n${p.s || ''}\n\n${p.n || ''}\n\n${p.oa ? '\u{1F4D6} Open Access \u2014 read it here:' : '\u{1F517} Read more:'} ${p.u || ''}\n\n${(p.dom||[]).map(d => '#' + d.replace(/[^a-zA-Z0-9]/g,'')).join(' ')} #BostonUniversity #AIResearch`;
   }
 
-  function generateCitation(p) {
-    // APA-ish format
+  function generateCitationApa(p) {
     const authors = p.a || 'Unknown';
     const year = p.y ? ` (${p.y})` : ' (n.d.)';
     const title = p.t || 'Untitled';
     const venue = p.v ? ` ${p.v}.` : '';
     const doi = p.doi ? ` https://doi.org/${p.doi}` : (p.u ? ` ${p.u}` : '');
     return `${authors}${year}. ${title}.${venue}${doi}`;
+  }
+
+  function generateCitationBibtex(p) {
+    const authors = p.a || 'Unknown';
+    const firstAuthor = authors.split(',')[0].trim().split(' ').pop() || 'unknown';
+    const year = p.y || 'n.d.';
+    const key = firstAuthor.toLowerCase().replace(/[^a-z]/g, '') + year;
+    const type = (p.v && /conference|proc|workshop|symposium|icml|neurips|cvpr|aaai|acl|emnlp|iclr|icra|iccv|eccv/i.test(p.v)) ? 'inproceedings' : 'article';
+    const venueField = type === 'inproceedings' ? 'booktitle' : 'journal';
+    let bib = `@${type}{${key},\n`;
+    bib += `  author    = {${authors}},\n`;
+    bib += `  title     = {${p.t || 'Untitled'}},\n`;
+    if (p.v) bib += `  ${venueField.padEnd(10)}= {${p.v}},\n`;
+    bib += `  year      = {${year}}`;
+    if (p.doi) bib += `,\n  doi       = {${p.doi}}`;
+    if (p.u) bib += `,\n  url       = {${p.u}}`;
+    bib += `\n}`;
+    return bib;
+  }
+
+  function generateCitation(p) {
+    return citeFormat === 'bibtex' ? generateCitationBibtex(p) : generateCitationApa(p);
   }
 
   function renderMultiSelect(id, label, options, selected) {
@@ -785,9 +813,14 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
         // Citation box
         if (citeIdx === globalIdx) {
           const cite = generateCitation(p);
+          const isBib = citeFormat === 'bibtex';
           h += `<div class="cite-box">
-            <div class="cite-text">${escHtml(cite)}</div>
-            <button class="cite-copy" onclick="app.copyCite(${globalIdx})">Copy citation</button>
+            <div class="cite-format-toggle">
+              <button class="cite-format-btn${!isBib ? ' active' : ''}" onclick="app.setCiteFormat('apa')">APA</button>
+              <button class="cite-format-btn${isBib ? ' active' : ''}" onclick="app.setCiteFormat('bibtex')">BibTeX</button>
+            </div>
+            <div class="cite-text${isBib ? ' bibtex' : ''}">${escHtml(cite)}</div>
+            <button class="cite-copy" onclick="app.copyCite(${globalIdx})">Copy</button>
           </div>`;
         }
 
@@ -953,6 +986,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     },
     toggleLinkedin(idx) { linkedinIdx = linkedinIdx === idx ? null : idx; citeIdx = null; render(); },
     toggleCite(idx) { citeIdx = citeIdx === idx ? null : idx; linkedinIdx = null; render(); },
+    setCiteFormat(fmt) { citeFormat = fmt; render(); },
     copyLinkedin(idx) {
       const p = filteredPapers[idx];
       navigator.clipboard.writeText(generateLinkedIn(p));
