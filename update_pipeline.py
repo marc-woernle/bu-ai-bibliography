@@ -179,6 +179,87 @@ def build_dedup_index(master: list[dict]) -> tuple[set, set]:
 
 
 # ═══════════════════════════════════════════════════════════════════════════
+# FACULTY ROSTER REFRESH
+# ═══════════════════════════════════════════════════════════════════════════
+
+def refresh_faculty_roster() -> dict:
+    """Rebuild faculty roster: scrape -> merge -> resolve OAIDs -> enrich unspecified.
+    Returns report dict with keys: added, warnings, oaids_resolved, enriched, error.
+    """
+    import shutil
+    from school_mapper import reload_roster
+
+    report = {"added": 0, "warnings": [], "oaids_resolved": 0, "enriched": 0, "error": None}
+    roster_path = "data/bu_faculty_roster_verified.json"
+
+    # Backup
+    backup_path = f"data/bu_faculty_roster_verified.backup_{date.today().strftime('%Y%m%d')}.json"
+    if os.path.exists(roster_path):
+        shutil.copy2(roster_path, backup_path)
+        logger.info(f"Roster backed up to {backup_path}")
+
+    # Load existing roster
+    existing_roster = []
+    if os.path.exists(roster_path):
+        with open(roster_path) as f:
+            existing_roster = json.load(f)
+    old_count = len(existing_roster)
+
+    # Phase 1: Scrape departments
+    try:
+        from build_faculty_roster import scrape_all_departments, merge_with_existing
+        scraped, school_counts = scrape_all_departments()
+        logger.info(f"Scraped {len(scraped)} faculty from department pages")
+    except Exception as e:
+        report["error"] = f"Scrape failed: {e}"
+        report["warnings"].append(f"Faculty scrape failed ({e}), using existing roster")
+        logger.error(f"Faculty scrape failed: {e}")
+        return report
+
+    # Phase 2: Safe merge with regression protection
+    try:
+        merged, merge_warnings = merge_with_existing(scraped, existing_roster, school_counts)
+        report["warnings"].extend(merge_warnings)
+        report["added"] = max(0, len(merged) - old_count)
+        logger.info(f"Merged roster: {old_count} -> {len(merged)} entries")
+    except Exception as e:
+        report["error"] = f"Merge failed: {e}"
+        logger.error(f"Roster merge failed: {e}")
+        return report
+
+    # Phase 3: Resolve OpenAlex IDs for new entries (those without OAIDs)
+    try:
+        from resolve_openalex_ids import resolve_batch
+        merged, resolved_count = resolve_batch(merged)
+        report["oaids_resolved"] = resolved_count
+        logger.info(f"Resolved {resolved_count} new OpenAlex IDs")
+    except Exception as e:
+        report["warnings"].append(f"OAID resolution failed: {e}")
+        logger.error(f"OAID resolution failed: {e}")
+
+    # Phase 4: Enrich unspecified entries
+    try:
+        from enrich_unspecified_roster import enrich_unspecified
+        merged, enriched_count = enrich_unspecified(merged)
+        report["enriched"] = enriched_count
+        logger.info(f"Enriched {enriched_count} unspecified entries")
+    except Exception as e:
+        report["warnings"].append(f"Enrichment failed: {e}")
+        logger.error(f"Enrichment failed: {e}")
+
+    # Save updated roster
+    with open(roster_path, "w") as f:
+        json.dump(merged, f, indent=2, ensure_ascii=False)
+    logger.info(f"Saved updated roster: {len(merged)} entries")
+
+    # Reload school_mapper indexes
+    reload_roster()
+    logger.info("Reloaded school_mapper indexes")
+
+    return report
+
+
+# ═══════════════════════════════════════════════════════════════════════════
 # INCREMENTAL HARVESTING
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -404,6 +485,210 @@ def harvest_ssrn_by_faculty() -> list[dict]:
 
     logger.info(f"SSRN: {len(papers)} papers harvested")
     return papers
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# DBLP DUMP DOWNLOAD
+# ═══════════════════════════════════════════════════════════════════════════
+
+DBLP_DUMP_PATH = Path("data/dblp-latest.xml.gz")
+DBLP_DTD_PATH = Path("data/dblp.dtd")
+DBLP_URLS = [
+    "https://dblp.org/xml/dblp.xml.gz",
+    "https://dblp.dagstuhl.de/xml/dblp.xml.gz",
+]
+DBLP_DTD_URLS = [
+    "https://dblp.org/xml/dblp.dtd",
+    "https://dblp.dagstuhl.de/xml/dblp.dtd",
+]
+
+
+def download_dblp_dump(dest: Path = DBLP_DUMP_PATH) -> Path | None:
+    """Download DBLP XML dump. Skips if recent file (<35 days) exists.
+    Returns path on success, None on failure.
+    """
+    # Check for recent dump
+    if dest.exists():
+        age_days = (time.time() - dest.stat().st_mtime) / 86400
+        if age_days < 35:
+            logger.info(f"DBLP dump exists and is {age_days:.0f} days old, skipping download")
+            return dest
+        logger.info(f"DBLP dump is {age_days:.0f} days old, re-downloading")
+
+    # Download DTD first (needed for entity resolution)
+    dtd_dest = dest.parent / "dblp.dtd"
+    if not dtd_dest.exists():
+        for dtd_url in DBLP_DTD_URLS:
+            try:
+                logger.info(f"Downloading DBLP DTD from {dtd_url}...")
+                resp = requests.get(dtd_url, timeout=30)
+                resp.raise_for_status()
+                dtd_dest.write_bytes(resp.content)
+                logger.info(f"DTD saved to {dtd_dest}")
+                break
+            except Exception as e:
+                logger.warning(f"DTD download failed from {dtd_url}: {e}")
+
+    # Download dump
+    for url in DBLP_URLS:
+        try:
+            logger.info(f"Downloading DBLP dump from {url} (~1.3 GB)...")
+            resp = requests.get(url, stream=True, timeout=600)
+            resp.raise_for_status()
+
+            tmp = str(dest) + ".tmp"
+            downloaded = 0
+            with open(tmp, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=8192 * 128):
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    if downloaded % (100 * 1024 * 1024) == 0:
+                        logger.info(f"  Downloaded {downloaded / (1024*1024):.0f} MB...")
+
+            os.rename(tmp, str(dest))
+            logger.info(f"DBLP dump saved to {dest} ({downloaded / (1024*1024):.0f} MB)")
+            return dest
+
+        except Exception as e:
+            logger.warning(f"DBLP download failed from {url}: {e}")
+            # Clean up partial download
+            tmp = str(dest) + ".tmp"
+            if os.path.exists(tmp):
+                os.remove(tmp)
+
+    logger.error("All DBLP download URLs failed")
+    return None
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# UNIFIED HARVEST
+# ═══════════════════════════════════════════════════════════════════════════
+
+def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict]:
+    """Run all source harvesters with fault isolation.
+    Returns (all_papers, source_report) where source_report maps source_name to
+    {"count": int, "status": str, "error": str|None, "duration_s": float}
+    """
+    all_papers = []
+    source_report = {}
+
+    def _run_source(name: str, harvester, critical: bool = False):
+        t0 = time.time()
+        try:
+            papers = harvester()
+            all_papers.extend(papers)
+            source_report[name] = {
+                "count": len(papers),
+                "status": "ok",
+                "error": None,
+                "duration_s": round(time.time() - t0, 1),
+            }
+            logger.info(f"  {name}: {len(papers)} papers ({time.time()-t0:.0f}s)")
+        except Exception as e:
+            source_report[name] = {
+                "count": 0,
+                "status": "FAILED",
+                "error": str(e)[:200],
+                "duration_s": round(time.time() - t0, 1),
+            }
+            level = "CRITICAL" if critical else "WARNING"
+            logger.error(f"  {name}: FAILED ({level}) - {e}")
+
+    # ── Core sources (always run) ──
+    from source_openalex import _parse_work
+    _run_source("openalex",
+                lambda: harvest_openalex_incremental("from_publication_date", since_12m),
+                critical=True)
+
+    _run_source("pubmed",
+                lambda: harvest_pubmed_incremental(since_3m),
+                critical=True)
+
+    _run_source("biorxiv",
+                lambda: harvest_crossref_biorxiv_incremental(since_3m))
+
+    _run_source("ssrn",
+                lambda: harvest_ssrn_by_faculty())
+
+    # ── Monthly-only sources ──
+    from source_in_progress import harvest_nih_reporter, harvest_nsf_awards
+    _run_source("nih_reporter", harvest_nih_reporter)
+    _run_source("nsf_awards", harvest_nsf_awards)
+
+    from source_openbu import harvest as harvest_openbu
+    _run_source("openbu", harvest_openbu)
+
+    from source_scholarly_commons import harvest as harvest_sc
+    _run_source("scholarly_commons", harvest_sc)
+
+    from source_arxiv import harvest as harvest_arxiv
+    _run_source("arxiv", harvest_arxiv)
+
+    from source_crossref import harvest as harvest_crossref
+    _run_source("crossref", harvest_crossref)
+
+    # Semantic Scholar (optional, needs API key)
+    try:
+        from source_semantic_scholar import harvest as harvest_s2
+        _run_source("semantic_scholar", harvest_s2)
+    except Exception as e:
+        source_report["semantic_scholar"] = {
+            "count": 0, "status": "skipped", "error": str(e)[:200], "duration_s": 0,
+        }
+        logger.info(f"  semantic_scholar: skipped ({e})")
+
+    # NBER via OpenAlex
+    try:
+        from harvest_nber import harvest_nber_from_openalex
+        _run_source("nber", harvest_nber_from_openalex)
+    except Exception as e:
+        source_report["nber"] = {
+            "count": 0, "status": "skipped", "error": str(e)[:200], "duration_s": 0,
+        }
+
+    # DBLP dump (download -> parse -> verify)
+    dblp_dump = download_dblp_dump()
+    if dblp_dump:
+        try:
+            from harvest_dblp_dump import harvest_dump
+            _run_source("dblp", lambda: harvest_dump(dump_path=str(dblp_dump)))
+            # Clean up dump to save disk space
+            try:
+                os.remove(str(dblp_dump))
+                logger.info("Deleted DBLP dump to free disk space")
+            except OSError:
+                pass
+        except Exception as e:
+            source_report["dblp"] = {
+                "count": 0, "status": "FAILED", "error": str(e)[:200], "duration_s": 0,
+            }
+            logger.error(f"  dblp dump parse failed: {e}")
+            # Fallback: try API-based DBLP
+            try:
+                from source_dblp import harvest as harvest_dblp_api
+                _run_source("dblp", harvest_dblp_api)
+            except Exception as e2:
+                source_report["dblp"] = {
+                    "count": 0, "status": "FAILED",
+                    "error": f"Dump: {source_report.get('dblp',{}).get('error','')}; API: {e2}",
+                    "duration_s": 0,
+                }
+    else:
+        # Dump download failed, try API fallback
+        try:
+            from source_dblp import harvest as harvest_dblp_api
+            _run_source("dblp", harvest_dblp_api)
+        except Exception as e:
+            source_report["dblp"] = {
+                "count": 0, "status": "FAILED", "error": f"Download failed; API: {e}", "duration_s": 0,
+            }
+
+    total = sum(r["count"] for r in source_report.values())
+    ok = sum(1 for r in source_report.values() if r["status"] == "ok")
+    failed = sum(1 for r in source_report.values() if r["status"] == "FAILED")
+    logger.info(f"Harvest complete: {total} papers from {ok} sources ({failed} failed)")
+
+    return all_papers, source_report
 
 
 # ═══════════════════════════════════════════════════════════════════════════

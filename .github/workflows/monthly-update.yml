@@ -2,8 +2,8 @@ name: Monthly Bibliography Update
 
 on:
   schedule:
-    - cron: '0 8 1 * *'  # 1st of month 8am UTC = 4am ET
-  workflow_dispatch:
+    - cron: '0 8 1 * *'  # 1st of month, 8am UTC = 4am ET
+  workflow_dispatch:       # Manual trigger
 
 permissions:
   contents: write
@@ -12,13 +12,28 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Cache DBLP dump
+        uses: actions/cache@v4
+        with:
+          path: data/dblp-latest.xml.gz
+          key: dblp-dump-${{ github.run_id }}
+          restore-keys: dblp-dump-
+
+      - name: Cache OpenAlex author data
+        uses: actions/cache@v4
+        with:
+          path: data/openalex_bu_authors_cache.json
+          key: openalex-authors-${{ github.run_id }}
+          restore-keys: openalex-authors-
 
       - name: Install dependencies
         run: pip install -r requirements-ci.txt
@@ -27,16 +42,24 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           S2_API_KEY: ${{ secrets.S2_API_KEY }}
+          CI: "true"
         run: |
-          mkdir -p logs
-          python update_monthly.py 2>&1 | tee logs/monthly_ci.log
+          mkdir -p logs output
+          python update_monthly.py --ci 2>&1 | tee logs/monthly_ci.log
 
-      - name: Create issue on failure
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monthly-update-logs-${{ github.run_id }}
+          path: logs/
+
+      - name: Create issue on pipeline failure
         if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh issue create \
-            --title "Monthly update failed ($(date +%Y-%m-%d))" \
-            --body "The automated monthly update failed. Check the [workflow run](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) for details." \
+            --title "ALERT: Monthly update failed ($(date +%Y-%m-%d))" \
+            --body "The automated monthly update pipeline failed. Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details." \
             --label "alert"

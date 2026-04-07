@@ -246,6 +246,17 @@ def _load_faculty_roster():
 _load_faculty_roster()
 
 
+def reload_roster():
+    """Re-read roster from disk and rebuild all lookup indexes.
+    Call this after updating bu_faculty_roster_verified.json mid-run."""
+    global FACULTY_BY_OAID, FACULTY_BY_FULLNAME, FACULTY_BY_ALTNAME, FACULTY_SECONDARY
+    FACULTY_BY_OAID = {}
+    FACULTY_BY_FULLNAME = {}
+    FACULTY_BY_ALTNAME = {}
+    FACULTY_SECONDARY = {}
+    _load_faculty_roster()
+
+
 # ── Classification Functions ──────────────────────────────────────────────────
 
 def classify_affiliation(affiliation_text: str) -> tuple[str, str] | None:

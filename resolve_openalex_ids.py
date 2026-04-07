@@ -199,6 +199,38 @@ def match_faculty(roster: list[dict], index: dict) -> list[dict]:
     return updated, matched, ambiguous, no_match
 
 
+def resolve_batch(roster: list[dict], cache_path: Path = CACHE_PATH) -> tuple[list[dict], int]:
+    """Resolve OpenAlex IDs for roster entries that don't have one.
+    Returns (updated_roster, count_resolved).
+    Uses cached author list if available, otherwise fetches from OpenAlex.
+    """
+    needs_resolution = [f for f in roster if not f.get("openalex_id")]
+    if not needs_resolution:
+        return roster, 0
+
+    # Temporarily override cache path if provided
+    global CACHE_PATH
+    old_cache = CACHE_PATH
+    CACHE_PATH = cache_path
+
+    authors = fetch_all_bu_authors()
+    index = build_openalex_index(authors)
+    _, matched, _, _ = match_faculty(needs_resolution, index)
+
+    # Merge back: entries that already had OAIDs stay unchanged
+    updated = []
+    needs_iter = iter(needs_resolution)
+    resolved_entry = {f["name"].lower(): f for f in needs_resolution}
+    for f in roster:
+        if not f.get("openalex_id") and f["name"].lower() in resolved_entry:
+            updated.append(resolved_entry[f["name"].lower()])
+        else:
+            updated.append(f)
+
+    CACHE_PATH = old_cache
+    return updated, matched
+
+
 def main():
     # Load roster
     with open(ROSTER_PATH) as f:

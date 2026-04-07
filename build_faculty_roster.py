@@ -326,31 +326,14 @@ def check_name_rarity(name: str, all_bu_authors: set) -> bool:
     return count <= 3
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Build BU faculty roster")
-    parser.add_argument("--skip-openalex", action="store_true", help="Skip OpenAlex ID resolution")
-    args = parser.parse_args()
-
-    # Load existing roster for cross-reference
-    existing = {}
-    if os.path.exists(EXISTING_ROSTER_PATH):
-        with open(EXISTING_ROSTER_PATH) as f:
-            for entry in json.load(f):
-                existing[entry["name"].lower()] = entry.get("department", "")
-
-    # Load BU author names for rarity check
-    bu_author_names = set()
-    if os.path.exists("data/bu_authors_from_openalex.json"):
-        with open("data/bu_authors_from_openalex.json") as f:
-            for a in json.load(f):
-                if a.get("name"):
-                    bu_author_names.add(a["name"].lower())
-
+def scrape_all_departments() -> tuple[list[dict], dict]:
+    """Scrape all BU department pages for faculty.
+    Returns (faculty_list, school_counts) where each entry has name, title, school, source_url.
+    """
     all_faculty = []
     school_counts = {}
 
     for school, urls in DEPARTMENT_URLS.items():
-        logger.info(f"\n{'='*60}")
         logger.info(f"Scraping: {school}")
         school_faculty = []
 
@@ -392,7 +375,6 @@ def main():
                 if page_num == 1:
                     page_url = url
                 elif pag_style == "num":
-                    # Keep trailing slash before query param (some BU sites need it)
                     if not url.endswith('/'):
                         url_base = url + '/'
                     else:
@@ -405,11 +387,11 @@ def main():
 
                 soup = fetch_page(page_url)
                 if not soup:
-                    break  # No more pages
+                    break
 
                 found = extract_faculty_generic(soup, page_url)
                 if not found and page_num > 3:
-                    break  # End of pagination (allow a few empty pages)
+                    break
 
                 for f in found:
                     f["school"] = school
@@ -422,7 +404,7 @@ def main():
                     logger.info(f"    Page {page_num}/{max_pages}...")
 
                 if max_pages > 1:
-                    time.sleep(0.3)  # Be polite with paginated scraping
+                    time.sleep(0.3)
 
         # Dedup within school
         seen = set()
@@ -437,49 +419,7 @@ def main():
         all_faculty.extend(deduped)
         logger.info(f"  Total for {school}: {len(deduped)} unique faculty")
 
-    # Supplement from existing roster for schools with 0 scraped faculty
-    scraped_schools = {s for s, c in school_counts.items() if c > 0}
-    if os.path.exists(EXISTING_ROSTER_PATH):
-        with open(EXISTING_ROSTER_PATH) as f:
-            existing_roster = json.load(f)
-        supplemented = 0
-        for entry in existing_roster:
-            name = entry.get("name", "")
-            dept = entry.get("department", "")
-            # Map existing roster department names to our school names
-            school = None
-            for s in DEPARTMENT_URLS:
-                if s.lower() in dept.lower() or dept.lower() in s.lower():
-                    school = s
-                    break
-            if not school:
-                # Try partial matches
-                for s in DEPARTMENT_URLS:
-                    s_short = s.split(" — ")[-1].split(" - ")[-1].lower()
-                    d_short = dept.split(" — ")[-1].split(" - ")[-1].lower()
-                    if s_short in d_short or d_short in s_short:
-                        school = s
-                        break
-            if school and school not in scraped_schools:
-                all_faculty.append({
-                    "name": name,
-                    "title": "",
-                    "school": school,
-                    "source_url": "bu_faculty_roster.json",
-                })
-                supplemented += 1
-            elif not school and dept:
-                # Add with the department name as-is
-                all_faculty.append({
-                    "name": name,
-                    "title": "",
-                    "school": dept,
-                    "source_url": "bu_faculty_roster.json",
-                })
-                supplemented += 1
-        logger.info(f"Supplemented from existing roster: {supplemented} faculty for unscraped schools")
-
-    # Global dedup (some faculty in multiple departments)
+    # Global dedup
     seen = set()
     unique = []
     for f in all_faculty:
@@ -487,7 +427,83 @@ def main():
         if key not in seen:
             seen.add(key)
             unique.append(f)
-    logger.info(f"\nTotal unique faculty (scraped + supplemented): {len(unique)}")
+    logger.info(f"Total unique faculty scraped: {len(unique)}")
+
+    return unique, school_counts
+
+
+def merge_with_existing(scraped: list[dict], existing_roster: list[dict], school_counts: dict) -> list[dict]:
+    """Safely merge scraped faculty with existing roster.
+    Regression protection: if a school's scrape returns <50% of previous count,
+    keep old entries for that school.
+    Returns merged roster (without OAIDs, those are resolved separately).
+    """
+    # Count existing per school
+    existing_school_counts = {}
+    for e in existing_roster:
+        s = e.get("school", "")
+        existing_school_counts[s] = existing_school_counts.get(s, 0) + 1
+
+    warnings = []
+    # Check for regressions
+    protected_schools = set()
+    for school, old_count in existing_school_counts.items():
+        new_count = school_counts.get(school, 0)
+        if old_count > 10 and new_count < old_count * 0.5:
+            warnings.append(f"{school}: scraped {new_count} vs existing {old_count}, keeping old entries")
+            logger.warning(f"Regression protection: {school} scraped {new_count} vs existing {old_count}")
+            protected_schools.add(school)
+
+    # Build merged list: scraped faculty + old entries for protected schools
+    merged = list(scraped)
+    scraped_names = {f["name"].lower() for f in scraped}
+
+    for entry in existing_roster:
+        school = entry.get("school", "")
+        name_lower = entry["name"].lower()
+        # Add from protected schools if not already scraped
+        if school in protected_schools and name_lower not in scraped_names:
+            merged.append(entry)
+            scraped_names.add(name_lower)
+        # Also keep entries from schools we didn't scrape at all
+        if school not in school_counts and name_lower not in scraped_names:
+            merged.append(entry)
+            scraped_names.add(name_lower)
+
+    logger.info(f"Merged roster: {len(merged)} entries ({len(warnings)} regression warnings)")
+    return merged, warnings
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Build BU faculty roster")
+    parser.add_argument("--skip-openalex", action="store_true", help="Skip OpenAlex ID resolution")
+    args = parser.parse_args()
+
+    # Load existing roster for cross-reference
+    existing = {}
+    if os.path.exists(EXISTING_ROSTER_PATH):
+        with open(EXISTING_ROSTER_PATH) as f:
+            for entry in json.load(f):
+                existing[entry["name"].lower()] = entry.get("department", "")
+
+    # Load BU author names for rarity check
+    bu_author_names = set()
+    if os.path.exists("data/bu_authors_from_openalex.json"):
+        with open("data/bu_authors_from_openalex.json") as f:
+            for a in json.load(f):
+                if a.get("name"):
+                    bu_author_names.add(a["name"].lower())
+
+    # Scrape
+    scraped, school_counts = scrape_all_departments()
+
+    # Load existing verified roster for merge
+    existing_roster = []
+    if os.path.exists(OUTPUT_PATH):
+        with open(OUTPUT_PATH) as f:
+            existing_roster = json.load(f)
+
+    unique, merge_warnings = merge_with_existing(scraped, existing_roster, school_counts)
 
     # Cross-reference with existing roster
     in_existing = sum(1 for f in unique if f["name"].lower() in existing)
@@ -498,6 +514,9 @@ def main():
         logger.info(f"\nResolving OpenAlex IDs for {len(unique)} faculty...")
         resolved = 0
         for i, f in enumerate(unique):
+            if f.get("openalex_id"):
+                resolved += 1
+                continue
             result = resolve_openalex_id(f["name"])
             if result:
                 f["openalex_id"] = result["openalex_id"]
@@ -507,9 +526,8 @@ def main():
                 resolved += 1
             else:
                 f["openalex_id"] = None
-                f["works_count"] = 0
+                f["works_count"] = f.get("works_count", 0)
 
-            # Check name rarity
             f["is_rare_name"] = check_name_rarity(f["name"], bu_author_names)
 
             if (i + 1) % 50 == 0:
@@ -518,7 +536,8 @@ def main():
         logger.info(f"OpenAlex IDs resolved: {resolved}/{len(unique)}")
     else:
         for f in unique:
-            f["openalex_id"] = None
+            if not f.get("openalex_id"):
+                f["openalex_id"] = None
             f["is_rare_name"] = check_name_rarity(f["name"], bu_author_names)
 
     # Add metadata
