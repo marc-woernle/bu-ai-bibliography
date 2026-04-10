@@ -1,6 +1,10 @@
 > Always read STATUS.md at the start of every session for current project state.
 > When asked to "update status", rewrite STATUS.md following the format below.
 
+## Git commits
+- Never add Co-Authored-By trailers or any attribution to Claude/Anthropic in commit messages.
+- All commits must be authored by the user (Marc Woernle), never by Claude or any AI identity.
+
 ## STATUS.md format
 
 STATUS.md is a **snapshot of now**, not a log. Each update **replaces** the whole file. Git history keeps the old versions.

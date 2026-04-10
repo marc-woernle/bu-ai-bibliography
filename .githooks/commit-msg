@@ -1,0 +1,21 @@
+#!/bin/sh
+# Reject any commit that credits Claude/Anthropic.
+# Tracked copy of the commit-msg hook. To activate it in a fresh clone:
+#
+#   git config core.hooksPath .githooks
+#
+# Or symlink: ln -sf ../../.githooks/commit-msg .git/hooks/commit-msg
+#
+# Do not remove unless you've decided you want AI attribution in your git
+# history again.
+
+msg_file="$1"
+
+if grep -qiE 'co-authored-by:.*claude|noreply@anthropic\.com|@anthropic\.com' "$msg_file"; then
+  echo "ERROR: commit message contains a Claude/Anthropic attribution trailer."
+  echo "       Strip the 'Co-Authored-By' line and try again."
+  echo "       (commit-msg hook at .githooks/commit-msg)"
+  exit 1
+fi
+
+exit 0
