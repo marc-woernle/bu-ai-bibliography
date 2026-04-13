@@ -739,9 +739,13 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       const MAX_AUTHORS = 8;
       const truncated = authorNames.length > MAX_AUTHORS;
       const shownAuthors = truncated ? authorNames.slice(0, MAX_AUTHORS) : authorNames;
-      const buBeyondCut = truncated ? authorNames.slice(MAX_AUTHORS).filter(name =>
-        buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name))
-      ) : [];
+      const searchTerms = searchQuery.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+      const beyondCut = truncated ? authorNames.slice(MAX_AUTHORS).filter(name => {
+        const nl = name.toLowerCase();
+        const isBu = buSet.has(nl) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
+        const isSearchMatch = searchTerms.length > 0 && searchTerms.some(t => nl.includes(t));
+        return isBu || isSearchMatch;
+      }) : [];
       const formatAuthor = (name) => {
         const isbu = buSet.has(name.toLowerCase()) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
         const safe = escHtml(name).replace(/'/g, "\\'");
@@ -751,9 +755,9 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
           : `<a class="author-link" onclick="event.stopPropagation();app.searchAuthor('${safe}')">${display}</a>`;
       };
       let authorHtml = shownAuthors.map(formatAuthor).join(', ');
-      if (buBeyondCut.length) authorHtml += ', ' + buBeyondCut.map(formatAuthor).join(', ');
+      if (beyondCut.length) authorHtml += ', ' + beyondCut.map(formatAuthor).join(', ');
       if (truncated) {
-        const remaining = authorNames.length - MAX_AUTHORS - buBeyondCut.length;
+        const remaining = authorNames.length - MAX_AUTHORS - beyondCut.length;
         if (remaining > 0) authorHtml += ` <span style="color:#aaa">+${remaining} more</span>`;
       }
 
