@@ -1,33 +1,35 @@
 # BU AI Bibliography -- Status
-**Updated:** 2026-04-07
+**Updated:** 2026-04-13
 
 ## Numbers
-- **Papers:** 11,870 in `data/sonnet_classification_bu_verified.json`
-- **Sources:** 11 (OpenAlex, PubMed, DBLP, SSRN, Scholarly Commons, OpenBU, NIH, NSF, arXiv, CrossRef, bioRxiv)
-- **Roster:** 5,896 entries, 141 with school = unspecified
+- **Papers:** 11,879 in `data/sonnet_classification_bu_verified.json`
+- **Sources:** 13 (OpenAlex, PubMed, DBLP, SSRN, NBER, Scholarly Commons, OpenBU, NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv)
+- **Roster:** 5,896 entries, 141 with school = unspecified, 4,473 with OpenAlex IDs
 - **Validation:** 0 failures, 32 warnings (all genuine, non-actionable)
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
 
 ## This session
-- DBLP XML dump integration: 8,946 harvested, enriched via OpenAlex (7,263 got abstracts), 1,537 passed keyword + embedding + BU filters, 1,432 classified by Sonnet ($8.28), 1,372 merged after dedup (1,275 primary + 125 methodological, 32 dropped). Dominated by Engineering (754) and CS (555).
-- Improved paper links: 3,899 URLs upgraded from paywalled doi.org to readable versions (arxiv +1,255, PubMed/PMC +1,576, institutional repos). Updated `derived_fields` logic to prefer OA/readable URLs for future papers.
-- Fixed source count in data.js metadata: was hardcoded to 10, now dynamically computed (11).
-- Updated README throughout: DBLP source added, source table with current counts, paper count 11,870, file structure updated.
-- Updated GitHub repo description to reflect current numbers.
-- Added BibTeX citation format: Cite button now toggles between APA and BibTeX with copy support.
+- Rewrote README to reflect current state (13 sources, unified monthly pipeline, accurate limitations)
+- Fixed author search display bug: authors matching search query but hidden beyond the 8-author truncation cut are now surfaced and highlighted
+- Removed Claude from GitHub contributors by stripping Co-Authored-By trailers from 19 commits (history rewrite + force push)
+- Updated repo description to "13 sources"
+
+## Previous session (Apr 7)
+- DBLP integration: +1,372 papers (10,498 -> 11,870)
+- Improved paper links: 3,899 URLs upgraded to readable versions (arxiv, PubMed, repos)
+- Added BibTeX citation format toggle
+- Built unified monthly pipeline (6 phases, all 13 sources, auto roster refresh, DBLP dump download, fault isolation, GitHub Issue reports)
 
 ## TODO
-1. Pipeline hardening: make monthly optional sources required (no silent failures), add CrossRef + DBLP to monthly, add quarterly_review.yml workflow, expand source_health tracking
-2. End-to-end source coverage audit after pipeline hardening
-3. Clean CFA roster (305 entries includes staff/artists, needs title field scraping)
-4. 141 roster entries still "Boston University (unspecified)"
+1. **Trigger monthly workflow on GitHub to CI-test** -- Go to Actions -> Monthly Bibliography Update -> Run workflow. Must confirm it works before deleting weekly.
+2. **Delete weekly pipeline** after monthly CI test passes -- remove update_weekly.py and .github/workflows/weekly-update.yml
+3. Update STATUS.md TODO list to reflect post-pipeline-hardening priorities (141 unspecified roster entries, CFA roster cleanup)
 
 ## Known issues
-- ~3,110 papers tagged "Boston University (unspecified)", mostly authors not in roster
+- ~3,128 papers tagged "Boston University (unspecified)", mostly authors not in roster
 - ~6,950 papers still link to doi.org (no OA version found in OpenAlex)
+- 141 roster entries still "Boston University (unspecified)"
 - OpenBU metadata bug: all authors get "Boston University" affiliation regardless
 - Scholarly Commons uploads full back-catalog, no date filtering
-- Some SPH roster entries are Harvard/BWH adjuncts with correct OAIDs but primarily publish under other affiliations
-- Weekly pipeline covers 4 of 11 sources; monthly covers 10 but optional ones fail silently
 - update_log.csv has only 1 row
-- source_dblp.py exists but is untested (DBLP API was down 2026-04-07)
+- Weekly pipeline still exists (pending deletion after monthly CI test)
