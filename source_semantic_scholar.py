@@ -1,29 +1,41 @@
 """
-BU AI Bibliography Harvester — Semantic Scholar Source
+BU AI Bibliography Harvester -- Semantic Scholar Source
 =======================================================
 Supplements OpenAlex with S2's strong CS/ML paper coverage.
-Uses the public API (no key needed, 1 req/sec).
+Uses the public API with optional API key.
 """
 
 import logging
 import os
-import requests
 import time
-from config import AI_KEYWORDS_PRIMARY, SEMANTIC_SCHOLAR_RATE_LIMIT
-from utils import RateLimiter, make_paper_record, save_checkpoint
+from config import SEMANTIC_SCHOLAR_RATE_LIMIT
+from utils import (
+    HarvestBudgetExceeded,
+    RateLimiter,
+    make_paper_record,
+    resilient_get,
+    save_checkpoint,
+)
 
 logger = logging.getLogger("bu_bib.semantic_scholar")
 BASE_URL = "https://api.semanticscholar.org/graph/v1"
 rate_limiter = RateLimiter(SEMANTIC_SCHOLAR_RATE_LIMIT)
 
-# S2 doesn't support direct institution filtering, so we combine
-# keyword search with BU affiliation check in post-processing.
-# We can also search for known BU faculty by author ID.
-
 FIELDS = (
     "title,authors,year,externalIds,abstract,venue,citationCount,"
     "publicationTypes,openAccessPdf,s2FieldsOfStudy,url"
 )
+
+# Core AI keywords only. The old list of 13 had massive overlap
+# (e.g. "deep learning" and "neural network" return 80%+ the same papers).
+SEARCH_KEYWORDS = [
+    "artificial intelligence",
+    "machine learning",
+    "deep learning",
+    "natural language processing",
+    "computer vision",
+    "large language model",
+]
 
 
 def _parse_paper(paper: dict) -> dict | None:
@@ -72,36 +84,60 @@ def _parse_paper(paper: dict) -> dict | None:
     )
 
 
-def search_papers(query: str, limit: int = 1000) -> list[dict]:
-    """Search S2 for papers matching a query."""
+def search_papers(
+    query: str,
+    limit: int = 200,
+    year_range: str | None = None,
+    deadline: float | None = None,
+    _partial: list[dict] | None = None,
+) -> list[dict]:
+    """Search S2 for papers matching a query.
+
+    Args:
+        year_range: e.g. "2025-" for 2025 onwards, "2024-2026" for range
+        deadline: absolute time.time() cutoff
+        _partial: shared list to append results for partial recovery
+    """
     papers = []
     offset = 0
-    batch_size = 100  # S2 max per request
+    batch_size = 100
+
+    headers = {}
+    api_key = os.environ.get("S2_API_KEY", "")
+    if api_key:
+        headers["x-api-key"] = api_key
 
     while offset < limit:
-        rate_limiter.wait()
+        if deadline and time.time() > deadline:
+            raise HarvestBudgetExceeded(f"S2 deadline exceeded at offset {offset}")
+
+        params = {
+            "query": query,
+            "offset": offset,
+            "limit": min(batch_size, limit - offset),
+            "fields": FIELDS,
+        }
+        if year_range:
+            params["year"] = year_range
+
         try:
-            resp = requests.get(
+            resp = resilient_get(
                 f"{BASE_URL}/paper/search",
-                headers={"x-api-key": os.environ.get("S2_API_KEY", "")},
-                params={
-                    "query": query,
-                    "offset": offset,
-                    "limit": min(batch_size, limit - offset),
-                    "fields": FIELDS,
-                },
+                params=params,
+                headers=headers,
+                rate_limiter=rate_limiter,
+                max_retries=3,
+                base_delay=10.0,
+                max_delay=120.0,
                 timeout=30,
+                deadline=deadline,
             )
-            if resp.status_code == 429:
-                logger.warning("Rate limited by S2, waiting 60s...")
-                time.sleep(60)
-                continue
-            resp.raise_for_status()
             data = resp.json()
-        except requests.exceptions.RequestException as e:
-            logger.error(f"S2 request failed: {e}")
-            time.sleep(10)
-            continue
+        except HarvestBudgetExceeded:
+            raise
+        except Exception as e:
+            logger.error(f"S2 search failed for '{query}' at offset {offset}: {e}")
+            break
 
         results = data.get("data", [])
         if not results:
@@ -111,6 +147,8 @@ def search_papers(query: str, limit: int = 1000) -> list[dict]:
             parsed = _parse_paper(p)
             if parsed:
                 papers.append(parsed)
+                if _partial is not None:
+                    _partial.append(parsed)
 
         offset += len(results)
         total = data.get("total", "?")
@@ -122,41 +160,41 @@ def search_papers(query: str, limit: int = 1000) -> list[dict]:
     return papers
 
 
-def harvest() -> list[dict]:
-    """
-    Search S2 for AI papers by BU authors.
-    
-    Strategy: Search for "Boston University" + AI keywords.
-    S2's search is full-text, so this catches papers mentioning BU in affiliations.
+def harvest(
+    since_date: str | None = None,
+    deadline: float | None = None,
+    _partial: list[dict] | None = None,
+) -> list[dict]:
+    """Search S2 for AI papers by BU authors.
+
+    Args:
+        since_date: ISO date string like "2025-01-01". Filters to papers from that year onwards.
+        deadline: absolute time.time() cutoff for time budgets.
+        _partial: shared list for partial result recovery.
     """
     logger.info("=== Semantic Scholar harvest ===")
+
+    # Build year range from since_date
+    year_range = None
+    if since_date:
+        year = since_date[:4]
+        year_range = f"{year}-"
+        logger.info(f"  Date filter: year >= {year}")
+
     all_papers = []
     seen_ids = set()
 
-    # Combine institution name with AI keywords for targeted search
-    search_queries = [
-        f'"Boston University" {kw}'
-        for kw in [
-            "artificial intelligence",
-            "machine learning",
-            "deep learning",
-            "neural network",
-            "natural language processing",
-            "computer vision",
-            "reinforcement learning",
-            "large language model",
-            "robotics",
-            "AI ethics",
-            "AI policy",
-            "algorithmic",
-            "automated",
-            "computational",
-        ]
-    ]
+    search_queries = [f'"Boston University" {kw}' for kw in SEARCH_KEYWORDS]
 
     for query in search_queries:
+        if deadline and time.time() > deadline:
+            raise HarvestBudgetExceeded(f"S2 deadline exceeded before query: {query}")
+
         logger.info(f"  Querying: {query}")
-        papers = search_papers(query, limit=500)
+        papers = search_papers(
+            query, limit=200, year_range=year_range,
+            deadline=deadline, _partial=_partial,
+        )
         new_count = 0
         for p in papers:
             s2_id = p.get("source_id", "")
@@ -164,7 +202,7 @@ def harvest() -> list[dict]:
                 seen_ids.add(s2_id)
                 all_papers.append(p)
                 new_count += 1
-        logger.info(f"    → {new_count} new papers")
+        logger.info(f"    -> {new_count} new papers")
 
     logger.info(f"Semantic Scholar total: {len(all_papers)} papers")
     save_checkpoint(all_papers, "semantic_scholar")

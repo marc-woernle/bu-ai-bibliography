@@ -1,15 +1,19 @@
 """
 BU AI Bibliography Harvester — Utilities
 =========================================
-Shared helpers: rate limiting, deduplication, text normalization, persistence.
+Shared helpers: rate limiting, deduplication, text normalization, persistence,
+resilient HTTP requests.
 """
 
 import json
+import signal
 import time
 import hashlib
 import re
 import os
 import logging
+import threading
+import requests
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
@@ -32,6 +36,129 @@ class RateLimiter:
         if elapsed < self.min_interval:
             time.sleep(self.min_interval - elapsed)
         self.last_call = time.time()
+
+
+# ── Resilient HTTP Requests ───────────────────────────────────────────────────
+
+class HarvestBudgetExceeded(Exception):
+    """Raised when a source exceeds its time budget."""
+    pass
+
+
+def resilient_get(
+    url: str,
+    params: dict | None = None,
+    headers: dict | None = None,
+    *,
+    rate_limiter: RateLimiter | None = None,
+    max_retries: int = 5,
+    base_delay: float = 5.0,
+    max_delay: float = 120.0,
+    timeout: float = 30.0,
+    deadline: float | None = None,
+) -> requests.Response:
+    """HTTP GET with exponential backoff, retry classification, and time budget.
+
+    Args:
+        deadline: absolute time.time() after which HarvestBudgetExceeded is raised.
+
+    Retries on: 429, 500, 502, 503, 504, ConnectionError, Timeout.
+    Does NOT retry on: 400, 401, 403, 404 (client errors are not transient).
+    """
+    last_exc = None
+    for attempt in range(max_retries + 1):
+        if deadline and time.time() > deadline:
+            raise HarvestBudgetExceeded(f"Time budget exceeded after {attempt} attempts")
+
+        if rate_limiter:
+            rate_limiter.wait()
+
+        try:
+            resp = requests.get(url, params=params, headers=headers, timeout=timeout)
+
+            if resp.status_code == 429:
+                delay = min(base_delay * (2 ** attempt), max_delay)
+                retry_after = resp.headers.get("Retry-After")
+                if retry_after and retry_after.isdigit():
+                    delay = max(delay, min(int(retry_after), max_delay))
+                logger.warning(f"429 rate limited, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+                time.sleep(delay)
+                continue
+
+            if resp.status_code >= 500:
+                delay = min(base_delay * (2 ** attempt), max_delay)
+                logger.warning(f"HTTP {resp.status_code}, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+                time.sleep(delay)
+                continue
+
+            resp.raise_for_status()
+            return resp
+
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            last_exc = e
+            delay = min(base_delay * (2 ** attempt), max_delay)
+            logger.warning(f"Network error: {e}, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+            time.sleep(delay)
+            continue
+        except requests.exceptions.HTTPError:
+            raise
+
+    raise requests.exceptions.RetryError(
+        f"Failed after {max_retries + 1} attempts: {last_exc or 'rate limited'}"
+    )
+
+
+def resilient_post(
+    url: str,
+    json_body: dict | None = None,
+    headers: dict | None = None,
+    *,
+    rate_limiter: RateLimiter | None = None,
+    max_retries: int = 5,
+    base_delay: float = 5.0,
+    max_delay: float = 120.0,
+    timeout: float = 30.0,
+    deadline: float | None = None,
+) -> requests.Response:
+    """HTTP POST with exponential backoff. Same retry logic as resilient_get."""
+    last_exc = None
+    for attempt in range(max_retries + 1):
+        if deadline and time.time() > deadline:
+            raise HarvestBudgetExceeded(f"Time budget exceeded after {attempt} attempts")
+
+        if rate_limiter:
+            rate_limiter.wait()
+
+        try:
+            resp = requests.post(url, json=json_body, headers=headers, timeout=timeout)
+
+            if resp.status_code == 429:
+                delay = min(base_delay * (2 ** attempt), max_delay)
+                logger.warning(f"429 rate limited, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+                time.sleep(delay)
+                continue
+
+            if resp.status_code >= 500:
+                delay = min(base_delay * (2 ** attempt), max_delay)
+                logger.warning(f"HTTP {resp.status_code}, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+                time.sleep(delay)
+                continue
+
+            resp.raise_for_status()
+            return resp
+
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            last_exc = e
+            delay = min(base_delay * (2 ** attempt), max_delay)
+            logger.warning(f"Network error: {e}, backoff {delay:.0f}s (attempt {attempt + 1}/{max_retries + 1})")
+            time.sleep(delay)
+            continue
+        except requests.exceptions.HTTPError:
+            raise
+
+    raise requests.exceptions.RetryError(
+        f"Failed after {max_retries + 1} attempts: {last_exc or 'rate limited'}"
+    )
 
 
 # ── Text Normalization ────────────────────────────────────────────────────────

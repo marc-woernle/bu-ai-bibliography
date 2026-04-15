@@ -177,12 +177,13 @@ def _load_target_faculty(schools: set | None = None) -> list[dict]:
     ]
 
 
-def harvest(test_limit: int = 0) -> list[dict]:
+def harvest(test_limit: int = 0, since_year: int | None = None) -> list[dict]:
     """
     Main entry point: search DBLP for publications by BU CS/Engineering faculty.
 
     Args:
         test_limit: If >0, only search this many faculty (for testing).
+        since_year: If provided, skip papers with year < since_year (client-side filter).
     """
     logger.info("=== DBLP harvest ===")
     faculty = _load_target_faculty()
@@ -201,6 +202,9 @@ def harvest(test_limit: int = 0) -> list[dict]:
 
         new_count = 0
         for p in papers:
+            # Client-side date filter (DBLP API has no date param)
+            if since_year and p.get("year") and p["year"] < since_year:
+                continue
             key = p.get("extra", {}).get("dblp_key", "")
             if key and key not in seen_keys:
                 seen_keys.add(key)

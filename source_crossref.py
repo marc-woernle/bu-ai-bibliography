@@ -12,6 +12,7 @@ import re
 import time
 from config import CROSSREF_RATE_LIMIT, CONTACT_EMAIL
 from utils import RateLimiter, make_paper_record, save_checkpoint
+from utils import HarvestBudgetExceeded, resilient_get
 
 logger = logging.getLogger("bu_bib.crossref")
 BASE_URL = "https://api.crossref.org/works"
@@ -73,13 +74,18 @@ def _parse_item(item: dict) -> dict | None:
     )
 
 
-def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True) -> list[dict]:
+def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True,
+            filter_str: str | None = None,
+            deadline: float | None = None,
+            _partial: list[dict] | None = None) -> list[dict]:
     """Search CrossRef for papers matching query."""
     papers = []
     offset = 0
     rows = 100
 
     while offset < max_results:
+        if deadline is not None and time.time() >= deadline:
+            raise HarvestBudgetExceeded("CrossRef harvest exceeded time budget")
         rate_limiter.wait()
         try:
             params = {
@@ -90,18 +96,24 @@ def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True) -> li
                           "abstract,URL,is-referenced-by-count,type,subject,"
                           "container-title,created,ISSN",
             }
-            resp = requests.get(
+            if filter_str:
+                params["filter"] = filter_str
+            resp = resilient_get(
                 BASE_URL,
                 params=params,
                 headers=_headers(),
                 timeout=30,
+                rate_limiter=rate_limiter,
+                max_retries=3,
+                deadline=deadline,
             )
             resp.raise_for_status()
             data = resp.json()
-        except requests.exceptions.RequestException as e:
+        except HarvestBudgetExceeded:
+            raise
+        except Exception as e:
             logger.error(f"CrossRef request failed: {e}")
-            time.sleep(5)
-            continue
+            break  # resilient_get already retried; don't loop on a dead API
 
         items = data.get("message", {}).get("items", [])
         if not items:
@@ -115,6 +127,8 @@ def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True) -> li
             paper = _parse_item(item)
             if paper:
                 papers.append(paper)
+                if _partial is not None:
+                    _partial.append(paper)
 
         offset += len(items)
         total = data.get("message", {}).get("total-results", 0)
@@ -126,11 +140,19 @@ def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True) -> li
     return papers
 
 
-def harvest() -> list[dict]:
+def harvest(since_date: str | None = None,
+            deadline: float | None = None,
+            _partial: list[dict] | None = None) -> list[dict]:
     """Search CrossRef for BU AI papers not found via SSRN."""
     logger.info("=== CrossRef harvest ===")
     all_papers = []
     seen_dois = set()
+
+    # Build filter string for date filtering
+    filter_str = None
+    if since_date:
+        filter_str = f"from-pub-date:{since_date}"
+        logger.info(f"  CrossRef date filter: {filter_str}")
 
     queries = [
         '"Boston University" "artificial intelligence"',
@@ -150,8 +172,11 @@ def harvest() -> list[dict]:
     ]
 
     for query in queries:
+        if deadline is not None and time.time() >= deadline:
+            raise HarvestBudgetExceeded("CrossRef harvest exceeded time budget")
         logger.info(f"  CrossRef query: {query}")
-        papers = _search(query, max_results=500)
+        papers = _search(query, max_results=500, filter_str=filter_str,
+                         deadline=deadline, _partial=_partial)
         new = 0
         for p in papers:
             doi = p.get("doi", "")

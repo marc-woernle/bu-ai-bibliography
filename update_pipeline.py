@@ -31,9 +31,12 @@ from config import (
 )
 from utils import (
     Deduplicator,
+    HarvestBudgetExceeded,
     RateLimiter,
     make_paper_record,
     normalize_doi,
+    resilient_get,
+    resilient_post,
     title_fingerprint,
 )
 from classify_papers import MODEL, SYSTEM_PROMPT, derived_fields, paper_to_prompt_text
@@ -565,17 +568,26 @@ def download_dblp_dump(dest: Path = DBLP_DUMP_PATH) -> Path | None:
 # ═══════════════════════════════════════════════════════════════════════════
 
 def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict]:
-    """Run all source harvesters with fault isolation.
+    """Run all source harvesters with fault isolation, time budgets, and partial result capture.
+
     Returns (all_papers, source_report) where source_report maps source_name to
     {"count": int, "status": str, "error": str|None, "duration_s": float}
     """
     all_papers = []
     source_report = {}
 
-    def _run_source(name: str, harvester, critical: bool = False):
+    # Shared collector: harvesters append here so partial results survive exceptions
+    _partial_results: list[dict] = []
+
+    def _run_source(name: str, harvester, critical: bool = False, max_minutes: float = 15):
+        """Run a harvester with fault isolation, time budget, and partial result capture."""
+        nonlocal _partial_results
+        _partial_results = []
         t0 = time.time()
+        deadline = t0 + max_minutes * 60
+
         try:
-            papers = harvester()
+            papers = harvester(deadline=deadline)
             all_papers.extend(papers)
             source_report[name] = {
                 "count": len(papers),
@@ -584,64 +596,107 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
                 "duration_s": round(time.time() - t0, 1),
             }
             logger.info(f"  {name}: {len(papers)} papers ({time.time()-t0:.0f}s)")
-        except Exception as e:
+
+        except HarvestBudgetExceeded:
+            # Time budget hit: use whatever was collected
+            partial = _partial_results
+            if partial:
+                all_papers.extend(partial)
             source_report[name] = {
-                "count": 0,
-                "status": "FAILED",
-                "error": str(e)[:200],
+                "count": len(partial),
+                "status": "PARTIAL_TIMEOUT",
+                "error": f"Time budget ({max_minutes}m) exceeded, kept {len(partial)} papers",
                 "duration_s": round(time.time() - t0, 1),
             }
-            level = "CRITICAL" if critical else "WARNING"
-            logger.error(f"  {name}: FAILED ({level}) - {e}")
+            logger.warning(f"  {name}: TIMEOUT after {max_minutes}m, kept {len(partial)} partial results")
 
-    # ── Core sources (always run) ──
-    from source_openalex import _parse_work
+        except Exception as e:
+            # Crash: try to salvage partial results
+            partial = _partial_results
+            if partial:
+                all_papers.extend(partial)
+                source_report[name] = {
+                    "count": len(partial),
+                    "status": "PARTIAL_ERROR",
+                    "error": str(e)[:200],
+                    "duration_s": round(time.time() - t0, 1),
+                }
+                logger.warning(f"  {name}: PARTIAL ({len(partial)} papers salvaged) - {e}")
+            else:
+                source_report[name] = {
+                    "count": 0,
+                    "status": "FAILED",
+                    "error": str(e)[:200],
+                    "duration_s": round(time.time() - t0, 1),
+                }
+                level = "CRITICAL" if critical else "WARNING"
+                logger.error(f"  {name}: FAILED ({level}) - {e}")
+
+    # Helper: wraps a legacy harvester (no deadline param) to work with _run_source
+    def _legacy_wrap(harvest_fn, *args, **kwargs):
+        """Wrap a harvest function that doesn't accept deadline."""
+        def wrapper(deadline=None):
+            return harvest_fn(*args, **kwargs)
+        return wrapper
+
+    # ── Core sources (always run, have incremental versions) ──
     _run_source("openalex",
-                lambda: harvest_openalex_incremental("from_publication_date", since_12m),
-                critical=True)
+                lambda deadline=None: harvest_openalex_incremental("from_publication_date", since_12m),
+                critical=True, max_minutes=20)
 
     _run_source("pubmed",
-                lambda: harvest_pubmed_incremental(since_3m),
-                critical=True)
+                lambda deadline=None: harvest_pubmed_incremental(since_3m),
+                critical=True, max_minutes=10)
 
     _run_source("biorxiv",
-                lambda: harvest_crossref_biorxiv_incremental(since_3m))
+                lambda deadline=None: harvest_crossref_biorxiv_incremental(since_3m),
+                max_minutes=5)
 
     _run_source("ssrn",
-                lambda: harvest_ssrn_by_faculty())
+                lambda deadline=None: harvest_ssrn_by_faculty(),
+                max_minutes=10)
 
-    # ── Monthly-only sources ──
-    from source_in_progress import harvest_nih_reporter, harvest_nsf_awards
-    _run_source("nih_reporter", harvest_nih_reporter)
-    _run_source("nsf_awards", harvest_nsf_awards)
-
-    from source_openbu import harvest as harvest_openbu
-    _run_source("openbu", harvest_openbu)
-
-    from source_scholarly_commons import harvest as harvest_sc
-    _run_source("scholarly_commons", harvest_sc)
-
-    from source_arxiv import harvest as harvest_arxiv
-    _run_source("arxiv", harvest_arxiv)
+    # ── Sources with since_date support ──
+    from source_semantic_scholar import harvest as harvest_s2
+    _run_source("semantic_scholar",
+                lambda deadline=None: harvest_s2(since_date=since_12m, deadline=deadline, _partial=_partial_results),
+                max_minutes=10)
 
     from source_crossref import harvest as harvest_crossref
-    _run_source("crossref", harvest_crossref)
+    _run_source("crossref",
+                lambda deadline=None: harvest_crossref(since_date=since_12m, deadline=deadline, _partial=_partial_results),
+                max_minutes=10)
 
-    # Semantic Scholar (optional, needs API key)
-    try:
-        from source_semantic_scholar import harvest as harvest_s2
-        _run_source("semantic_scholar", harvest_s2)
-    except Exception as e:
-        source_report["semantic_scholar"] = {
-            "count": 0, "status": "skipped", "error": str(e)[:200], "duration_s": 0,
-        }
-        logger.info(f"  semantic_scholar: skipped ({e})")
+    from source_arxiv import harvest as harvest_arxiv
+    _run_source("arxiv",
+                lambda deadline=None: harvest_arxiv(since_date=since_12m, deadline=deadline, _partial=_partial_results),
+                max_minutes=10)
+
+    from source_in_progress import harvest_nih_reporter, harvest_nsf_awards
+    _run_source("nih_reporter",
+                lambda deadline=None: harvest_nih_reporter(since_date=since_12m),
+                max_minutes=5)
+    _run_source("nsf_awards",
+                lambda deadline=None: harvest_nsf_awards(since_date=since_12m),
+                max_minutes=5)
+
+    from source_openbu import harvest as harvest_openbu
+    _run_source("openbu",
+                lambda deadline=None: harvest_openbu(since_year=int(since_12m[:4])),
+                max_minutes=10)
+
+    from source_scholarly_commons import harvest as harvest_sc
+    _run_source("scholarly_commons",
+                lambda deadline=None: harvest_sc(since_year=int(since_12m[:4])),
+                max_minutes=10)
 
     # NBER via OpenAlex
     try:
         from harvest_nber import harvest_nber_from_openalex
-        _run_source("nber", harvest_nber_from_openalex)
-    except Exception as e:
+        _run_source("nber",
+                    lambda deadline=None: harvest_nber_from_openalex(since_date=since_12m),
+                    max_minutes=5)
+    except ImportError as e:
         source_report["nber"] = {
             "count": 0, "status": "skipped", "error": str(e)[:200], "duration_s": 0,
         }
@@ -651,8 +706,9 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
     if dblp_dump:
         try:
             from harvest_dblp_dump import harvest_dump
-            _run_source("dblp", lambda: harvest_dump(dump_path=str(dblp_dump)))
-            # Clean up dump to save disk space
+            _run_source("dblp",
+                        lambda deadline=None: harvest_dump(dump_path=str(dblp_dump), since_year=int(since_12m[:4])),
+                        max_minutes=15)
             try:
                 os.remove(str(dblp_dump))
                 logger.info("Deleted DBLP dump to free disk space")
@@ -663,10 +719,11 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
                 "count": 0, "status": "FAILED", "error": str(e)[:200], "duration_s": 0,
             }
             logger.error(f"  dblp dump parse failed: {e}")
-            # Fallback: try API-based DBLP
             try:
                 from source_dblp import harvest as harvest_dblp_api
-                _run_source("dblp", harvest_dblp_api)
+                _run_source("dblp",
+                            lambda deadline=None: harvest_dblp_api(since_year=int(since_12m[:4])),
+                            max_minutes=10)
             except Exception as e2:
                 source_report["dblp"] = {
                     "count": 0, "status": "FAILED",
@@ -674,10 +731,11 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
                     "duration_s": 0,
                 }
     else:
-        # Dump download failed, try API fallback
         try:
             from source_dblp import harvest as harvest_dblp_api
-            _run_source("dblp", harvest_dblp_api)
+            _run_source("dblp",
+                        lambda deadline=None: harvest_dblp_api(since_year=int(since_12m[:4])),
+                        max_minutes=10)
         except Exception as e:
             source_report["dblp"] = {
                 "count": 0, "status": "FAILED", "error": f"Download failed; API: {e}", "duration_s": 0,
@@ -686,7 +744,8 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
     total = sum(r["count"] for r in source_report.values())
     ok = sum(1 for r in source_report.values() if r["status"] == "ok")
     failed = sum(1 for r in source_report.values() if r["status"] == "FAILED")
-    logger.info(f"Harvest complete: {total} papers from {ok} sources ({failed} failed)")
+    partial = sum(1 for r in source_report.values() if r["status"].startswith("PARTIAL"))
+    logger.info(f"Harvest complete: {total} papers from {ok} sources ({partial} partial, {failed} failed)")
 
     return all_papers, source_report
 

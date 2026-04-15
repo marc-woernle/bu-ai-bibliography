@@ -23,6 +23,7 @@ import sys
 import time
 from datetime import date, datetime, timedelta
 
+from config import BU_ROR_ID, CONTACT_EMAIL, OPENALEX_RATE_LIMIT
 from update_pipeline import (
     acquire_lock,
     append_log,
@@ -56,6 +57,7 @@ from update_pipeline import (
     validate_before_push,
     verify_bu_authors,
 )
+from utils import RateLimiter, resilient_get
 from school_mapper import classify_all
 
 logging.basicConfig(
@@ -175,11 +177,18 @@ def generate_report(data: dict) -> str:
         lines.append("")
 
     # Source health alerts
-    failed_sources = [n for n, r in source_report.items() if r.get("status") == "FAILED"]
-    if failed_sources:
+    alert_sources = [
+        (n, r) for n, r in source_report.items()
+        if r.get("status") in ("FAILED", "CRITICAL", "DEGRADED", "PARTIAL_TIMEOUT", "PARTIAL_ERROR")
+    ]
+    if alert_sources:
         lines.append("## Alerts")
-        for n in failed_sources:
-            lines.append(f"- SOURCE FAILED: {n} - {source_report[n].get('error', '')[:100]}")
+        for n, r in alert_sources:
+            lines.append(f"- **{r['status']}**: {n} - {r.get('error', '')[:100]}")
+        lines.append("")
+
+    if data.get("full_sweep"):
+        lines.append("*This was a quarterly full sweep (no date filters).*")
         lines.append("")
 
     if data.get("validation_errors"):
@@ -192,10 +201,59 @@ def generate_report(data: dict) -> str:
     return "\n".join(lines)
 
 
+def _backfill_new_faculty(faculty_names: list[str]) -> list[dict]:
+    """Full-history search for newly added faculty members.
+
+    Searches OpenAlex by name (no date restriction) to pick up their entire
+    publication history. Only runs for a small number of new faculty per month.
+    """
+    from source_openalex import _parse_work
+    papers = []
+    _openalex_rl = RateLimiter(OPENALEX_RATE_LIMIT)
+
+    for name in faculty_names[:20]:  # Cap at 20 to avoid runaway
+        logger.info(f"  Backfill: {name}")
+        try:
+            cursor = "*"
+            while cursor:
+                _openalex_rl.wait()
+                resp = resilient_get(
+                    "https://api.openalex.org/works",
+                    params={
+                        "filter": f"authorships.institutions.ror:{BU_ROR_ID},"
+                                  f"authorships.author.display_name.search:{name}",
+                        "per_page": 200,
+                        "cursor": cursor,
+                    },
+                    headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"},
+                    rate_limiter=_openalex_rl,
+                    max_retries=3,
+                    timeout=30,
+                )
+                data = resp.json()
+                for work in data.get("results", []):
+                    try:
+                        p = _parse_work(work)
+                        if p:
+                            papers.append(p)
+                    except Exception:
+                        pass
+                cursor = data.get("meta", {}).get("next_cursor")
+                if not cursor or not data.get("results"):
+                    break
+        except Exception as e:
+            logger.warning(f"  Backfill failed for {name}: {e}")
+            continue
+
+    logger.info(f"  Backfill total: {len(papers)} papers for {len(faculty_names)} faculty")
+    return papers
+
+
 def main():
     parser = argparse.ArgumentParser(description="Monthly BU AI Bibliography update")
     parser.add_argument("--dry-run", action="store_true", help="Show what would happen")
     parser.add_argument("--ci", action="store_true", help="CI mode: no interactive gates")
+    parser.add_argument("--full", action="store_true", help="Force quarterly full sweep (no date filters)")
     args = parser.parse_args()
 
     start_time = time.time()
@@ -235,12 +293,42 @@ def _run(args, start_time):
     old_count = len(master)
     master_dois, master_fps = build_dedup_index(master)
 
-    since_12m = (date.today() - timedelta(days=365)).isoformat()
+    # 18-month lookback (not 12) to catch late-indexed papers
+    since_18m = (date.today() - timedelta(days=548)).isoformat()
     since_3m = (date.today() - timedelta(days=90)).isoformat()
 
-    all_harvested, source_report = harvest_all_sources(since_12m, since_3m)
+    # Check if quarterly full sweep is due
+    last_full = state.get("last_full_sweep", "2026-01-01")
+    days_since_full = (date.today() - date.fromisoformat(last_full)).days
+    is_full_sweep = days_since_full >= 90 or getattr(args, "full", False)
+
+    if is_full_sweep:
+        logger.info(f"QUARTERLY FULL SWEEP (last: {last_full}, {days_since_full} days ago)")
+        # No date filter: harvest everything
+        all_harvested, source_report = harvest_all_sources(
+            since_12m="1990-01-01", since_3m="1990-01-01"
+        )
+        report_data["full_sweep"] = True
+    else:
+        logger.info(f"Incremental harvest (since {since_18m})")
+        all_harvested, source_report = harvest_all_sources(since_18m, since_3m)
+        report_data["full_sweep"] = False
+
     report_data["source_report"] = source_report
     report_data["harvested"] = len(all_harvested)
+
+    # New faculty backfill: full-history search for faculty added this session
+    new_faculty_added = report_data.get("roster", {}).get("new_faculty_names", [])
+    if new_faculty_added and not args.dry_run:
+        logger.info(f"Backfilling {len(new_faculty_added)} new faculty (full history)")
+        try:
+            backfill = _backfill_new_faculty(new_faculty_added)
+            all_harvested.extend(backfill)
+            report_data["backfill_count"] = len(backfill)
+            logger.info(f"  Backfill: {len(backfill)} papers for new faculty")
+        except Exception as e:
+            logger.error(f"  Backfill failed: {e}")
+            report_data["backfill_count"] = 0
 
     # ── Phase 3: Filter + Classify ──
     logger.info("=" * 40 + " PHASE 3: FILTER + CLASSIFY " + "=" * 40)
@@ -396,21 +484,45 @@ def _run(args, start_time):
     state["last_monthly_run"] = datetime.now().isoformat()
     state["master_paper_count"] = len(master)
     state["total_api_cost_usd"] = state.get("total_api_cost_usd", 0) + actual_cost
+    if report_data.get("full_sweep"):
+        state["last_full_sweep"] = date.today().isoformat()
 
-    # Track source health
+    # Track source health with historical counts and degradation detection
     for name, info in source_report.items():
-        health = state.setdefault("source_health", {}).get(name, {})
-        if info["status"] == "ok":
-            state.setdefault("source_health", {})[name] = {
+        health = state.setdefault("source_health", {}).setdefault(name, {})
+        count = info["count"]
+        status = info["status"]
+
+        # Update historical average (rolling average of last 6 runs)
+        history = health.get("count_history", [])
+        history.append(count)
+        history = history[-6:]  # Keep last 6
+
+        if status == "ok" or status.startswith("PARTIAL"):
+            avg = sum(history[:-1]) / len(history[:-1]) if len(history) > 1 else count
+            degraded = count < avg * 0.1 and avg > 10  # <10% of avg, and avg is meaningful
+            health.update({
                 "last_success": date.today().isoformat(),
+                "last_count": count,
+                "count_history": history,
                 "consecutive_failures": 0,
-            }
-        elif info["status"] == "FAILED":
+                "degraded": degraded,
+            })
+            if degraded:
+                logger.warning(f"  {name}: DEGRADED - {count} papers vs avg {avg:.0f}")
+                info["status"] = "DEGRADED"
+                info["error"] = f"Only {count} papers (avg: {avg:.0f})"
+        elif status == "FAILED":
             failures = health.get("consecutive_failures", 0) + 1
-            state.setdefault("source_health", {})[name] = {
+            health.update({
                 "last_success": health.get("last_success", "unknown"),
+                "last_count": 0,
+                "count_history": history,
                 "consecutive_failures": failures,
-            }
+            })
+            if failures >= 3:
+                logger.error(f"  {name}: CRITICAL - {failures} consecutive failures")
+                info["status"] = "CRITICAL"
 
     save_state(state)
 

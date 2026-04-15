@@ -129,11 +129,14 @@ def _parse_search_result(result: dict) -> dict | None:
     )
 
 
-def harvest() -> list[dict]:
+def harvest(since_year: int | None = None) -> list[dict]:
     """Search OpenBU for AI-related items."""
     logger.info("=== OpenBU harvest ===")
+    if since_year:
+        logger.info(f"  Filtering to papers from {since_year} onward")
     all_papers = []
     seen_uuids = set()
+    filtered_by_year = 0
 
     queries = [
         "artificial intelligence",
@@ -177,6 +180,9 @@ def harvest() -> list[dict]:
             for result in results:
                 paper = _parse_search_result(result)
                 if paper and paper.get("source_id") not in seen_uuids:
+                    if since_year and paper.get("year") and paper["year"] < since_year:
+                        filtered_by_year += 1
+                        continue
                     seen_uuids.add(paper["source_id"])
                     all_papers.append(paper)
                     query_papers += 1
@@ -190,6 +196,8 @@ def harvest() -> list[dict]:
 
         logger.info(f"    → '{query}': {query_papers} new items")
 
+    if filtered_by_year:
+        logger.info(f"OpenBU: {filtered_by_year} items filtered (year < {since_year})")
     logger.info(f"OpenBU total: {len(all_papers)} items")
     save_checkpoint(all_papers, "openbu")
     return all_papers

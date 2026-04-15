@@ -14,6 +14,7 @@ import requests
 import logging
 import time
 import re
+from datetime import date
 from utils import RateLimiter, make_paper_record, save_checkpoint
 
 logger = logging.getLogger("bu_bib.in_progress")
@@ -22,11 +23,14 @@ rate_limiter = RateLimiter(2)
 
 # ── NIH Reporter ─────────────────────────────────────────────────────────────
 
-def harvest_nih_reporter() -> list[dict]:
+def harvest_nih_reporter(since_date: str | None = None) -> list[dict]:
     """
     Search NIH Reporter for active/recent BU grants related to AI.
     NIH Reporter has a proper JSON API.
     https://api.reporter.nih.gov/
+
+    Args:
+        since_date: If provided (YYYY-MM-DD), only return projects starting on or after this date.
     """
     logger.info("=== NIH Reporter harvest ===")
     all_records = []
@@ -56,17 +60,26 @@ def harvest_nih_reporter() -> list[dict]:
         rate_limiter.wait()
 
         try:
+            criteria = {
+                "org_names": ["BOSTON UNIVERSITY"],
+                "advanced_text_search": {
+                    "operator": "and",
+                    "search_field": "projecttitle,terms",
+                    "search_text": term,
+                },
+            }
+            if since_date:
+                # NIH Reporter expects MM/DD/YYYY
+                d = date.fromisoformat(since_date)
+                today = date.today()
+                criteria["project_start_date"] = {
+                    "from_date": d.strftime("%m/%d/%Y"),
+                    "to_date": today.strftime("%m/%d/%Y"),
+                }
             resp = requests.post(
                 "https://api.reporter.nih.gov/v2/projects/search",
                 json={
-                    "criteria": {
-                        "org_names": ["BOSTON UNIVERSITY"],
-                        "advanced_text_search": {
-                            "operator": "and",
-                            "search_field": "projecttitle,terms",
-                            "search_text": term,
-                        },
-                    },
+                    "criteria": criteria,
                     "offset": 0,
                     "limit": 500,
                     "sort_field": "project_start_date",
@@ -176,7 +189,7 @@ def _is_ai_relevant(title: str, abstract: str) -> bool:
     return any(kw.lower() in text for kw in ALL_AI_KEYWORDS)
 
 
-def harvest_nsf_awards() -> list[dict]:
+def harvest_nsf_awards(since_date: str | None = None) -> list[dict]:
     """
     Search NSF Award Search API for BU AI-related awards.
     https://www.research.gov/awardapi-service/v1/awards.json
@@ -185,6 +198,9 @@ def harvest_nsf_awards() -> list[dict]:
     so we filter strictly client-side), then keep only AI-relevant ones.
     This is much faster than running 12 keyword queries that each return
     thousands of nationwide results.
+
+    Args:
+        since_date: If provided (YYYY-MM-DD), only return awards starting on or after this date.
     """
     logger.info("=== NSF Awards harvest ===")
     all_records = []
@@ -195,17 +211,22 @@ def harvest_nsf_awards() -> list[dict]:
     while True:
         rate_limiter.wait()
         try:
+            nsf_params = {
+                "awardeeName": "Boston University",
+                "printFields": "id,title,abstractText,piFirstName,piLastName,"
+                               "piEmail,startDate,expDate,awardeeName,fundProgramName,"
+                               "awardeeCity,awardeeStateCode,fundsObligatedAmt,"
+                               "primaryProgram,poName",
+                "offset": offset,
+                "rpp": 25,
+            }
+            if since_date:
+                # NSF expects MM/dd/yyyy
+                d = date.fromisoformat(since_date)
+                nsf_params["startDateStart"] = d.strftime("%m/%d/%Y")
             resp = requests.get(
                 "https://api.nsf.gov/services/v1/awards.json",
-                params={
-                    "awardeeName": "Boston University",
-                    "printFields": "id,title,abstractText,piFirstName,piLastName,"
-                                   "piEmail,startDate,expDate,awardeeName,fundProgramName,"
-                                   "awardeeCity,awardeeStateCode,fundsObligatedAmt,"
-                                   "primaryProgram,poName",
-                    "offset": offset,
-                    "rpp": 25,
-                },
+                params=nsf_params,
                 timeout=30,
             )
             resp.raise_for_status()

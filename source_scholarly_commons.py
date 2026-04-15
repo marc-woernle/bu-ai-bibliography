@@ -97,11 +97,15 @@ def _parse_paper_page(url: str) -> dict | None:
     )
 
 
-def harvest(max_pages: int = 200) -> list[dict]:
+def harvest(max_pages: int = 200, since_year: int | None = None) -> list[dict]:
     """Harvest all faculty scholarship from BU Law Scholarly Commons."""
     logger.info("=== Scholarly Commons harvest ===")
+    if since_year:
+        logger.info(f"  Filtering to papers from {since_year} onward")
     papers = []
     seen_titles = set()
+    filtered_by_year = 0
+    consecutive_old_pages = 0
 
     for page in range(1, max_pages + 1):
         url = BASE_URL if page == 1 else f"{BASE_URL}index.{page}.html"
@@ -116,6 +120,7 @@ def harvest(max_pages: int = 200) -> list[dict]:
             break
 
         new_count = 0
+        page_had_recent = False
         for art in articles:
             link = art.select_one("a")
             if not link:
@@ -136,13 +141,29 @@ def harvest(max_pages: int = 200) -> list[dict]:
             time.sleep(0.3)
             paper = _parse_paper_page(href)
             if paper:
+                if since_year and paper.get("year") and paper["year"] < since_year:
+                    filtered_by_year += 1
+                    continue
+                page_had_recent = True
                 papers.append(paper)
 
         if new_count == 0:
             break
 
+        # Early termination: if 3 consecutive pages had no recent papers, stop
+        if since_year:
+            if not page_had_recent:
+                consecutive_old_pages += 1
+                if consecutive_old_pages >= 3:
+                    logger.info(f"  3 consecutive pages with no papers >= {since_year}, stopping early at page {page}")
+                    break
+            else:
+                consecutive_old_pages = 0
+
         if page % 20 == 0:
             logger.info(f"  Scholarly Commons page {page}: {len(papers)} papers")
 
+    if filtered_by_year:
+        logger.info(f"Scholarly Commons: {filtered_by_year} papers filtered (year < {since_year})")
     logger.info(f"Scholarly Commons: {len(papers)} papers harvested")
     return papers
