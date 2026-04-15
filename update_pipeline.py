@@ -62,6 +62,7 @@ LOG_PATH = "data/update_log.csv"
 LOCK_PATH = "data/.update_lock"
 BU_AUTHORS_PATH = "data/bu_authors_from_openalex.json"
 BU_ROSTER_PATH = "data/bu_faculty_roster.json"
+REJECTED_PATH = "data/rejected_papers_index.json"
 
 # ── Cost constants (Sonnet standard API pricing) ────────────────────────────
 COST_PER_INPUT_MTOK = 3.0    # $/MTok
@@ -754,18 +755,67 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
 # DEDUPLICATION & FILTERING
 # ═══════════════════════════════════════════════════════════════════════════
 
+def load_rejected_index() -> tuple[set, set]:
+    """Load DOIs and title fingerprints of previously rejected papers."""
+    if os.path.exists(REJECTED_PATH):
+        with open(REJECTED_PATH) as f:
+            data = json.load(f)
+        return set(data.get("dois", [])), set(data.get("fingerprints", []))
+    return set(), set()
+
+
+def save_rejected_index(dois: set, fingerprints: set):
+    """Save rejected papers index to disk."""
+    with open(REJECTED_PATH, "w") as f:
+        json.dump({"dois": sorted(dois), "fingerprints": sorted(fingerprints)}, f)
+    logger.info(f"Rejected index saved: {len(dois)} DOIs, {len(fingerprints)} fingerprints")
+
+
+def record_rejections(papers: list[dict]):
+    """Add papers classified as not_relevant to the rejection index."""
+    dois, fps = load_rejected_index()
+    added = 0
+    for p in papers:
+        doi = normalize_doi(p.get("doi", ""))
+        fp = title_fingerprint(p.get("title", ""))
+        if doi and doi not in dois:
+            dois.add(doi)
+            added += 1
+        if fp and fp not in fps:
+            fps.add(fp)
+            added += 1
+    if added:
+        save_rejected_index(dois, fps)
+    logger.info(f"Recorded {len(papers)} rejections ({added} new index entries)")
+
+
 def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: set) -> list[dict]:
-    """Filter new_papers to only those not already in the master dataset."""
+    """Filter new_papers against master dataset AND rejected papers index."""
+    rejected_dois, rejected_fps = load_rejected_index()
+    all_dois = master_dois | rejected_dois
+    all_fps = master_fps | rejected_fps
+
     unique = []
+    skipped_master = 0
+    skipped_rejected = 0
     for p in new_papers:
         doi = normalize_doi(p.get("doi", ""))
-        if doi and doi in master_dois:
-            continue
         fp = title_fingerprint(p.get("title", ""))
+        if doi and doi in master_dois:
+            skipped_master += 1
+            continue
         if fp and fp in master_fps:
+            skipped_master += 1
+            continue
+        if doi and doi in rejected_dois:
+            skipped_rejected += 1
+            continue
+        if fp and fp in rejected_fps:
+            skipped_rejected += 1
             continue
         unique.append(p)
-    logger.info(f"Dedup: {len(new_papers)} → {len(unique)} new")
+    logger.info(f"Dedup: {len(new_papers)} → {len(unique)} new "
+                f"({skipped_master} in master, {skipped_rejected} previously rejected)")
     return unique
 
 

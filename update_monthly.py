@@ -54,6 +54,7 @@ from update_pipeline import (
     save_master,
     save_state,
     track_preprint_publications,
+    record_rejections,
     validate_before_push,
     verify_bu_authors,
 )
@@ -375,8 +376,13 @@ def _run(args, start_time):
     actual_cost = 0.0
     if len(new_papers) > 0:
         classified, actual_cost = classify_via_sonnet(new_papers, hard_cap_usd=hard_cap)
+        # Record rejections so we don't re-classify them next month
+        rejected = [p for p in classified if p.get("ai_relevance") == "not_relevant"]
+        if rejected:
+            record_rejections(rejected)
         classified = [p for p in classified if p.get("ai_relevance") != "not_relevant"]
         report_data["classified"] = len(classified)
+        report_data["rejected"] = len(rejected)
 
         verified = verify_bu_authors(classified)
         report_data["verified"] = len(verified)
