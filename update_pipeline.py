@@ -906,6 +906,26 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
             logger.debug(f"  [{i+1}/{len(papers)}] {paper.get('title', '')[:60]}... → {paper['ai_relevance']}")
 
         except Exception as e:
+            error_str = str(e)
+            # Detect fatal errors that won't resolve by retrying the next paper
+            if "credit balance" in error_str or "billing" in error_str.lower():
+                logger.error(f"BILLING ERROR - aborting classification: {e}")
+                break
+            if "authentication" in error_str.lower() or "api key" in error_str.lower():
+                logger.error(f"AUTH ERROR - aborting classification: {e}")
+                break
+            if "invalid_request_error" in error_str and "400" in error_str:
+                logger.error(f"API request error: {e}")
+                # Count consecutive failures to detect systemic issues
+                if not hasattr(classify_via_sonnet, '_consecutive_errors'):
+                    classify_via_sonnet._consecutive_errors = 0
+                classify_via_sonnet._consecutive_errors += 1
+                if classify_via_sonnet._consecutive_errors >= 5:
+                    logger.error(f"5 consecutive API errors - aborting classification")
+                    break
+                continue
+            # Transient error (rate limit, network, etc.) - skip this paper
+            classify_via_sonnet._consecutive_errors = 0
             logger.error(f"Classification error: {e}")
             continue
 
