@@ -1,5 +1,5 @@
 # BU AI Bibliography -- Status
-**Updated:** 2026-04-15
+**Updated:** 2026-04-16
 
 ## Numbers
 - **Papers:** 11,879 in `data/sonnet_classification_bu_verified.json`
@@ -9,20 +9,24 @@
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
 - **Classification model:** Sonnet 4.6 (claude-sonnet-4-6-20250514)
 
-## This session
+## In progress
+- **Monthly CI run triggered Apr 16** (run 24528812356). API credits topped up. Expecting ~3,825 papers to classify (~$20 one-time backlog). This builds the rejection index so future runs cost ~$1. Check results at GitHub Actions or look for a GitHub Issue (posted automatically on completion).
+
+## Previous session (Apr 14-16)
 - Pipeline resilience overhaul: resilient_get with exponential backoff, per-source time budgets (10-20 min), partial result capture, 18-month date filtering, quarterly full sweep logic
 - S2 harvester: trimmed 13 keyword queries to 6, per-query limit 200 (was 500). Went from timing out to 28s on CI.
-- CI run Apr 15: harvest phase passed (22,137 papers, 13/13 sources, 0 failures). Classification blocked by Anthropic API error (likely outage, not empty credits). Fixed classify_via_sonnet to abort on billing/auth errors instead of looping.
-- Added rejected papers index (`data/rejected_papers_index.json`): stores DOI/fingerprint of papers Sonnet classified as not_relevant, so they are never re-classified. Prevents wasting ~$20/month re-classifying known junk.
+- Two CI runs (Apr 15): harvest passed perfectly (13/13 sources, 0 failures). Classification blocked by Anthropic API credits/outage. Fixed classify_via_sonnet to abort on billing/auth errors instead of looping forever.
+- Added rejected papers index (`data/rejected_papers_index.json`): dedup against previously rejected papers to avoid re-classifying known junk every month.
 - Upgraded classification model to Sonnet 4.6
 - Added GitHub profile link button to site header and footer
-- Updated repo description to "11,879 papers, monthly, 13 sources"
+- Updated repo description
 
 ## TODO
-1. **Re-trigger monthly workflow** when Anthropic API is stable. First run will classify ~3,800 backlog candidates (~$20 one-time), then build the rejection index. Future runs: dozens of papers, ~$1.
+1. **Check CI run results** (should complete within ~2 hours of trigger)
 2. **Delete weekly pipeline** after monthly CI test passes (remove update_weekly.py and .github/workflows/weekly-update.yml)
 3. **Site search improvements**: quoted exact match, smarter search UX (planned, not started)
 4. 141 unspecified roster entries, CFA roster cleanup
+5. Claude still showing as GitHub contributor (cache not cleared after 2+ days, likely needs repo nuke)
 
 ## Known issues
 - ~3,128 papers tagged "Boston University (unspecified)", mostly authors not in roster
