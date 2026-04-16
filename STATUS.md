@@ -7,13 +7,14 @@
 - **Roster:** 5,896 entries, 141 with school = unspecified, 4,473 with OpenAlex IDs
 - **Validation:** 0 failures, 32 warnings (all genuine, non-actionable)
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
-- **Classification model:** Sonnet 4.6 (claude-sonnet-4-6-20250514)
+- **Classification model:** Sonnet 4.6 (claude-sonnet-4-6)
 
 ## In progress
-- **Monthly CI run triggered Apr 16** (run 24528812356). API credits topped up. Expecting ~3,825 papers to classify (~$20 one-time backlog). This builds the rejection index so future runs cost ~$1. Check results at GitHub Actions or look for a GitHub Issue (posted automatically on completion).
+- **Monthly CI run re-triggered Apr 16** (run 24534333871). Previous run 24528812356 burned its entire 2h budget looping on 404s because the MODEL constant was "claude-sonnet-4-6-20250514" (snapshot ID that does not exist); now fixed to "claude-sonnet-4-6". No API credits charged by the 404s. Expecting ~3,825 papers to classify (~$20 one-time backlog). Check results at GitHub Actions or look for a GitHub Issue (posted automatically on completion).
 
 ## This session (Apr 16)
 - Site search upgrades shipped to docs/index.html and output/bibliography_app/index.html. Added phrase matching (quoted strings match adjacent words, previously broke to zero results), word-boundary matching for short tokens (RAG, LLM, GAN no longer match paragraph/storage/etc.), negation syntax (-term, -"phrase"), venue added to the searchable hay, and relevance ranking that overrides the sort dropdown while a query is active (title hits rank above summary hits above author/venue hits). Impact on real data: RAG went from 917 false positives to 8 true matches, GAN from 908 to 42, quoted "machine learning" from 0 (broken) to 3,973. Search time stays 7-15ms per query over 11,879 papers, no new deps.
+- Classifier fixes: corrected MODEL constant in classify_papers.py and added not_found_error / 404 to the abort list in update_pipeline.py so a bad MODEL constant fails fast instead of burning 2h.
 
 ## Previous session (Apr 14-16)
 - Pipeline resilience overhaul: resilient_get with exponential backoff, per-source time budgets (10-20 min), partial result capture, 18-month date filtering, quarterly full sweep logic
