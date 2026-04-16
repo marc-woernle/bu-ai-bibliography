@@ -964,6 +964,9 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
             if "authentication" in error_str.lower() or "api key" in error_str.lower():
                 logger.error(f"AUTH ERROR - aborting classification: {e}")
                 break
+            if "not_found_error" in error_str or ("404" in error_str and "model" in error_str.lower()):
+                logger.error(f"MODEL NOT FOUND - aborting classification (bad MODEL constant?): {e}")
+                break
             if "invalid_request_error" in error_str and "400" in error_str:
                 logger.error(f"API request error: {e}")
                 # Count consecutive failures to detect systemic issues

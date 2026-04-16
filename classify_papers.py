@@ -34,7 +34,7 @@ RESULTS_FILE = "data/sonnet_classification_results.json"
 
 # ── Model & Pricing ─────────────────────────────────────────────────────────
 
-MODEL = "claude-sonnet-4-6-20250514"
+MODEL = "claude-sonnet-4-6"
 # Batch API = 50% of standard pricing
 PRICE_INPUT = 1.50    # $/MTok
 PRICE_OUTPUT = 7.50   # $/MTok
