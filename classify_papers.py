@@ -403,9 +403,22 @@ COMMANDS = {
 }
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
-        print(f"Usage: python classify_papers.py <command>")
+    # Optional --input=PATH flag lets the batch CLI target a specific candidates file
+    # instead of the default ai_prefiltered_27k.json. The corresponding batch file,
+    # batch-id file, and results file are derived from the input stem so you can run
+    # parallel batches without clobbering each other.
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = {a.split("=", 1)[0][2:]: a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--") and "=" in a}
+    if "input" in flags:
+        INPUT_FILE = flags["input"]
+        stem = Path(INPUT_FILE).stem
+        BATCH_FILE = f"data/{stem}_batch_requests.jsonl"
+        BATCH_ID_FILE = f"data/{stem}_batch_id.txt"
+        RESULTS_FILE = f"data/{stem}_results.json"
+
+    if not args or args[0] not in COMMANDS:
+        print(f"Usage: python classify_papers.py <command> [--input=PATH]")
         print(f"Commands: {', '.join(COMMANDS.keys())}")
         sys.exit(1)
 
-    COMMANDS[sys.argv[1]]()
+    COMMANDS[args[0]]()

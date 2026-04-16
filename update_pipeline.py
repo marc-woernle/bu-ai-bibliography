@@ -898,7 +898,7 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
     client = anthropic.Anthropic()
     classified = []
     total_cost = 0.0
-    rl = RateLimiter(1)  # 1 call/sec
+    rl = RateLimiter(5)  # 5 calls/sec; tier 2 Anthropic accounts can safely run at this rate
 
     for i, paper in enumerate(papers):
         if total_cost >= hard_cap_usd:

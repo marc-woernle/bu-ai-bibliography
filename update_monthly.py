@@ -255,6 +255,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Show what would happen")
     parser.add_argument("--ci", action="store_true", help="CI mode: no interactive gates")
     parser.add_argument("--full", action="store_true", help="Force quarterly full sweep (no date filters)")
+    parser.add_argument("--save-candidates", type=str, default=None, help="After filter phase, write unclassified candidates to this JSON path and exit (use for Batch API backlog runs)")
     args = parser.parse_args()
 
     start_time = time.time()
@@ -342,6 +343,15 @@ def _run(args, start_time):
 
     new_papers = embedding_prefilter(new_papers)
     report_data["embedding_filtered"] = len(new_papers)
+
+    # Batch API offramp: write filtered candidates and exit before classification
+    if args.save_candidates:
+        import json as _json
+        with open(args.save_candidates, "w") as f:
+            _json.dump(new_papers, f, ensure_ascii=False)
+        logger.info(f"Saved {len(new_papers)} candidates to {args.save_candidates}")
+        logger.info(f"Next: python classify_papers.py estimate --input={args.save_candidates}")
+        return
 
     est_cost = estimate_cost(len(new_papers))
     logger.info(f"Estimated cost: ${est_cost:.2f} ({len(new_papers)} papers)")
