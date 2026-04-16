@@ -416,14 +416,22 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     }
     if (selectedDomains.size > 0) result = result.filter(p => (p.dom || []).some(d => selectedDomains.has(d)));
     if (selectedSubfields.size > 0) result = result.filter(p => (p.sub || []).some(s => selectedSubfields.has(s)));
+    let searchScores = null;
     if (searchQuery.trim()) {
-      const terms = searchQuery.toLowerCase().trim().split(/\s+/);
-      result = result.filter(p => {
-        const hay = [p.t, p.a, p.n, p.s].join(' ').toLowerCase();
-        return terms.every(term => hay.includes(term));
-      });
+      const q = parseQuery(searchQuery);
+      if (!queryIsEmpty(q)) {
+        searchScores = new Map();
+        result = result.filter(p => {
+          const s = scoreDoc(p, q);
+          if (s < 0) return false;
+          searchScores.set(p, s);
+          return true;
+        });
+      }
     }
-    if (sortBy === 'year') result.sort((a, b) => (b.y || 0) - (a.y || 0));
+    if (searchScores) {
+      result.sort((a, b) => (searchScores.get(b) - searchScores.get(a)) || (b.y || 0) - (a.y || 0));
+    } else if (sortBy === 'year') result.sort((a, b) => (b.y || 0) - (a.y || 0));
     else if (sortBy === 'citations') result.sort((a, b) => (b.c || 0) - (a.c || 0));
     else if (sortBy === 'title') result.sort((a, b) => (a.t || '').localeCompare(b.t || ''));
     filteredPapers = result;
@@ -442,33 +450,105 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // Search term highlighting
+  // Parse search query into phrases, terms, and negations.
+  // Supports "quoted phrases", -negation, and -"negated phrases".
+  function parseQuery(raw) {
+    const phrases = [], terms = [], negPhrases = [], negTerms = [];
+    const q = (raw || '').toLowerCase();
+    let i = 0;
+    while (i < q.length) {
+      while (i < q.length && /\s/.test(q[i])) i++;
+      if (i >= q.length) break;
+      let negate = false;
+      if (q[i] === '-') { negate = true; i++; if (i >= q.length) break; }
+      if (q[i] === '"') {
+        i++;
+        const start = i;
+        while (i < q.length && q[i] !== '"') i++;
+        const phrase = q.slice(start, i).trim();
+        if (i < q.length) i++;
+        if (phrase) (negate ? negPhrases : phrases).push(phrase);
+      } else {
+        const start = i;
+        while (i < q.length && !/\s/.test(q[i])) i++;
+        const term = q.slice(start, i);
+        if (term) (negate ? negTerms : terms).push(term);
+      }
+    }
+    return { phrases, terms, negPhrases, negTerms };
+  }
+
+  function queryIsEmpty(q) {
+    return !q.phrases.length && !q.terms.length && !q.negPhrases.length && !q.negTerms.length;
+  }
+
+  // Short tokens (<=4 chars, e.g. RAG, LLM, GAN) use word boundaries to avoid
+  // matching inside unrelated words like "paragraph" or "storage". Longer tokens
+  // stay as substring matches for backward compatibility.
+  function matchTerm(hay, term) {
+    if (term.length <= 4) {
+      return new RegExp('\\b' + escRegex(term) + '\\b').test(hay);
+    }
+    return hay.indexOf(term) !== -1;
+  }
+  function matchPhrase(hay, phrase) { return hay.indexOf(phrase) !== -1; }
+
+  // Returns a score >= 0 if the paper matches, or -1 if it fails to match or is excluded.
+  // Title hits rank highest, then summary/annotation, then authors/venue.
+  function scoreDoc(p, q) {
+    const title = (p.t || '').toLowerCase();
+    const authors = (p.a || '').toLowerCase();
+    const summary = ((p.s || '') + ' ' + (p.n || '')).toLowerCase();
+    const venue = (p.v || '').toLowerCase();
+    const hay = title + ' ' + authors + ' ' + summary + ' ' + venue;
+    for (const np of q.negPhrases) if (matchPhrase(hay, np)) return -1;
+    for (const nt of q.negTerms) if (matchTerm(hay, nt)) return -1;
+    let score = 0;
+    for (const ph of q.phrases) {
+      if (!matchPhrase(hay, ph)) return -1;
+      if (matchPhrase(title, ph)) score += 5;
+      else if (matchPhrase(summary, ph)) score += 3;
+      else score += 2;
+    }
+    for (const t of q.terms) {
+      if (!matchTerm(hay, t)) return -1;
+      if (matchTerm(title, t)) score += 3;
+      else if (matchTerm(summary, t)) score += 1;
+      else score += 0.5;
+    }
+    if (p.y) score += Math.min((p.y - 2000) * 0.001, 0.03);
+    return score;
+  }
+
+  // Build a single regex that highlights every phrase and positive term from the query.
+  // Short tokens get word boundaries to match the search behavior. Negations are not highlighted.
+  function buildHighlightRegex() {
+    if (!searchQuery.trim()) return null;
+    const q = parseQuery(searchQuery);
+    if (queryIsEmpty(q)) return null;
+    const patterns = [];
+    for (const ph of q.phrases) if (ph.length >= 2) patterns.push(escRegex(ph));
+    for (const t of q.terms) {
+      if (t.length < 2) continue;
+      if (t.length <= 4) patterns.push('\\b' + escRegex(t) + '\\b');
+      else patterns.push(escRegex(t));
+    }
+    if (!patterns.length) return null;
+    return new RegExp('(' + patterns.join('|') + ')', 'gi');
+  }
+
   function hl(text) {
-    if (!searchQuery.trim()) return text;
+    const re = buildHighlightRegex();
     const escaped = escHtml(text);
-    const terms = searchQuery.trim().split(/\s+/);
-    let result = escaped;
-    terms.forEach(term => {
-      if (term.length < 2) return;
-      const re = new RegExp('(' + escRegex(term) + ')', 'gi');
-      result = result.replace(re, '<mark>$1</mark>');
-    });
-    return result;
+    if (!re) return escaped;
+    return escaped.replace(re, '<mark>$1</mark>');
   }
 
   function hlRaw(html) {
-    // Highlight within already-built HTML, skipping tags
-    if (!searchQuery.trim()) return html;
-    const terms = searchQuery.trim().split(/\s+/).filter(t => t.length >= 2);
-    if (!terms.length) return html;
-    // Split on tags, highlight only text nodes
+    const re = buildHighlightRegex();
+    if (!re) return html;
     return html.replace(/([^<>]+)(?=<|$)/g, function(text) {
-      let r = text;
-      terms.forEach(term => {
-        const re = new RegExp('(' + escRegex(term) + ')', 'gi');
-        r = r.replace(re, '<mark>$1</mark>');
-      });
-      return r;
+      return text.replace(re, '<mark>$1</mark>');
     });
   }
 
@@ -744,7 +824,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       const MAX_AUTHORS = 8;
       const truncated = authorNames.length > MAX_AUTHORS;
       const shownAuthors = truncated ? authorNames.slice(0, MAX_AUTHORS) : authorNames;
-      const searchTerms = searchQuery.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+      const searchTerms = (function() {
+        if (!searchQuery.trim()) return [];
+        const pq = parseQuery(searchQuery);
+        return [...pq.phrases, ...pq.terms].filter(t => t.length >= 2);
+      })();
       const beyondCut = truncated ? authorNames.slice(MAX_AUTHORS).filter(name => {
         const nl = name.toLowerCase();
         const isBu = buSet.has(nl) || (p.bu || []).some(bn => name.includes(bn) || bn.includes(name));
