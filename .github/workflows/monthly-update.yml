@@ -3,7 +3,12 @@ name: Monthly Bibliography Update
 on:
   schedule:
     - cron: '0 8 1 * *'  # 1st of month, 8am UTC = 4am ET
-  workflow_dispatch:       # Manual trigger
+  workflow_dispatch:
+    inputs:
+      save_candidates:
+        description: 'Harvest + dedup + filter only, upload candidates as artifact (skip classification). Use this to feed the Batch API for large backlogs.'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -44,8 +49,19 @@ jobs:
           S2_API_KEY: ${{ secrets.S2_API_KEY }}
           CI: "true"
         run: |
-          mkdir -p logs output
-          python update_monthly.py --ci 2>&1 | tee logs/monthly_ci.log
+          mkdir -p logs output data
+          if [ "${{ inputs.save_candidates }}" = "true" ]; then
+            python update_monthly.py --ci --save-candidates=data/backlog_candidates.json 2>&1 | tee logs/monthly_ci.log
+          else
+            python update_monthly.py --ci 2>&1 | tee logs/monthly_ci.log
+          fi
+
+      - name: Upload candidates artifact
+        if: ${{ inputs.save_candidates == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: backlog-candidates-${{ github.run_id }}
+          path: data/backlog_candidates.json
 
       - name: Upload logs
         if: always()
