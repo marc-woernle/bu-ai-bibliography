@@ -63,6 +63,7 @@ LOCK_PATH = "data/.update_lock"
 BU_AUTHORS_PATH = "data/bu_authors_from_openalex.json"
 BU_ROSTER_PATH = "data/bu_faculty_roster.json"
 REJECTED_PATH = "data/rejected_papers_index.json"
+NON_BU_AI_PATH = "data/non_bu_ai_index.json"
 
 # ── Cost constants (Sonnet standard API pricing) ────────────────────────────
 COST_PER_INPUT_MTOK = 3.0    # $/MTok
@@ -789,15 +790,49 @@ def record_rejections(papers: list[dict]):
     logger.info(f"Recorded {len(papers)} rejections ({added} new index entries)")
 
 
+def load_non_bu_ai_index() -> tuple[set, set]:
+    """Load DOIs and title fingerprints of papers that were AI-relevant but failed BU verification."""
+    if os.path.exists(NON_BU_AI_PATH):
+        with open(NON_BU_AI_PATH) as f:
+            data = json.load(f)
+        return set(data.get("dois", [])), set(data.get("fingerprints", []))
+    return set(), set()
+
+
+def save_non_bu_ai_index(dois: set, fingerprints: set):
+    with open(NON_BU_AI_PATH, "w") as f:
+        json.dump({"dois": sorted(dois), "fingerprints": sorted(fingerprints)}, f)
+    logger.info(f"Non-BU AI index saved: {len(dois)} DOIs, {len(fingerprints)} fingerprints")
+
+
+def record_non_bu_ai(papers: list[dict]):
+    """Add papers that classified as AI-relevant but didn't pass BU verification.
+    Saves ~$10/month by skipping them on future harvests (they'd just fail BU verification again)."""
+    dois, fps = load_non_bu_ai_index()
+    added = 0
+    for p in papers:
+        doi = normalize_doi(p.get("doi", ""))
+        fp = title_fingerprint(p.get("title", ""))
+        if doi and doi not in dois:
+            dois.add(doi)
+            added += 1
+        if fp and fp not in fps:
+            fps.add(fp)
+            added += 1
+    if added:
+        save_non_bu_ai_index(dois, fps)
+    logger.info(f"Recorded {len(papers)} non-BU AI papers ({added} new index entries)")
+
+
 def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: set) -> list[dict]:
-    """Filter new_papers against master dataset AND rejected papers index."""
+    """Filter new_papers against master dataset, rejection index, and non-BU AI index."""
     rejected_dois, rejected_fps = load_rejected_index()
-    all_dois = master_dois | rejected_dois
-    all_fps = master_fps | rejected_fps
+    non_bu_dois, non_bu_fps = load_non_bu_ai_index()
 
     unique = []
     skipped_master = 0
     skipped_rejected = 0
+    skipped_non_bu = 0
     for p in new_papers:
         doi = normalize_doi(p.get("doi", ""))
         fp = title_fingerprint(p.get("title", ""))
@@ -813,9 +848,15 @@ def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: s
         if fp and fp in rejected_fps:
             skipped_rejected += 1
             continue
+        if doi and doi in non_bu_dois:
+            skipped_non_bu += 1
+            continue
+        if fp and fp in non_bu_fps:
+            skipped_non_bu += 1
+            continue
         unique.append(p)
     logger.info(f"Dedup: {len(new_papers)} → {len(unique)} new "
-                f"({skipped_master} in master, {skipped_rejected} previously rejected)")
+                f"({skipped_master} in master, {skipped_rejected} previously rejected, {skipped_non_bu} previously non-BU)")
     return unique
 
 

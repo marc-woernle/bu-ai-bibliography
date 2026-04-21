@@ -22,6 +22,7 @@ from pathlib import Path
 from update_pipeline import (
     load_master,
     merge_into_master,
+    record_non_bu_ai,
     record_rejections,
     regenerate_all_outputs,
     save_master,
@@ -79,6 +80,10 @@ def main():
     verified = verify_bu_authors(kept)
     logger.info(f"  BU-verified:             {len(verified)}")
 
+    verified_keys = {id(p) for p in verified}
+    non_bu = [p for p in kept if id(p) not in verified_keys]
+    logger.info(f"  Non-BU (AI but not BU): {len(non_bu)}")
+
     if verified:
         classify_all(verified)
 
@@ -89,6 +94,10 @@ def main():
     if rejected:
         record_rejections(rejected)
         logger.info(f"Recorded {len(rejected)} rejections to rejection index")
+
+    if non_bu:
+        record_non_bu_ai(non_bu)
+        logger.info(f"Recorded {len(non_bu)} non-BU AI papers to non-BU index")
 
     if verified:
         master = load_master()

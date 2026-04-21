@@ -54,6 +54,7 @@ from update_pipeline import (
     save_master,
     save_state,
     track_preprint_publications,
+    record_non_bu_ai,
     record_rejections,
     validate_before_push,
     verify_bu_authors,
@@ -396,6 +397,13 @@ def _run(args, start_time):
 
         verified = verify_bu_authors(classified)
         report_data["verified"] = len(verified)
+
+        # Record non-BU AI papers so next harvest skips them (saves ~$10/month in re-classification)
+        verified_ids = {id(p) for p in verified}
+        non_bu = [p for p in classified if id(p) not in verified_ids]
+        if non_bu:
+            record_non_bu_ai(non_bu)
+        report_data["non_bu_ai"] = len(non_bu)
 
         if verified:
             classify_all(verified)
