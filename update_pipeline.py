@@ -1192,9 +1192,12 @@ def git_commit_and_push(message: str) -> bool:
         subprocess.run(["git", "config", "user.name", "Marc Woernle"], capture_output=True)
         subprocess.run(["git", "config", "user.email", "marcwho13@gmail.com"], capture_output=True)
 
-        # Stage data files only
+        # Stage data files only. The two indexes are critical: if they aren't committed,
+        # each CI run starts from a stale copy and rediscovers the same rejections/non-BU
+        # papers every month.
         files_to_stage = [
             MASTER_PATH, STATE_PATH, LOG_PATH,
+            REJECTED_PATH, NON_BU_AI_PATH,
             "output/bibliography_app/data.js",
             "output/bibliography_app/data_private.js",
             "docs/data.js",
