@@ -2,8 +2,8 @@
 """
 Shared pipeline functions for the BU AI Bibliography auto-update system.
 
-Used by update_weekly.py, update_monthly.py, and quarterly_review.py.
-Imports from existing pipeline code — never modifies those files.
+Used by update_monthly.py and quarterly_review.py.
+Imports from existing pipeline code, never modifies those files.
 """
 
 import csv

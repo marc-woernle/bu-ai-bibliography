@@ -38,7 +38,7 @@ Rules:
 
 ## What this is
 
-A bibliography of every AI-related paper by Boston University faculty. 10,451 papers classified by Sonnet, displayed in a static web app at GitHub Pages. Auto-updated weekly/monthly via GitHub Actions.
+A bibliography of every AI-related paper by Boston University faculty. ~12,000 papers classified by Sonnet, displayed in a static web app at GitHub Pages. Auto-updated monthly via GitHub Actions.
 
 ## Key files — don't break these
 

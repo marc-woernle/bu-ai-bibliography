@@ -51,7 +51,7 @@ The bibliography stays current via a single monthly GitHub Actions workflow that
 
 1. **Faculty roster refresh** -- scrape 24+ department pages, resolve new OpenAlex IDs, enrich unspecified entries (with regression protection)
 2. **Harvest all 13 sources** -- fault-isolated, each source reports status independently
-3. **Filter + classify** -- dedup, keyword filter, embedding filter, Sonnet classification ($15 cap)
+3. **Filter + classify** -- dedup against master, rejection index, and non-BU AI index; keyword filter; embedding filter; Sonnet classification ($15 cap). Rejected papers and kept-but-not-BU papers feed their respective indexes so future runs skip them.
 4. **Maintenance** -- citation refresh, preprint-to-publication tracking, broken URL detection, domain trend analysis, new faculty candidate detection
 5. **Validate + push** -- ground truth checks, paper count gates, data.js regeneration
 6. **Report** -- full markdown report posted as GitHub Issue with source-by-source breakdown, school distribution, citation milestones, alerts
@@ -76,7 +76,7 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 11,879 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 12,165 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
