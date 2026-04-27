@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,879 papers** across 24 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **12,168 papers** across 27 schools and departments.
 
 **Live site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
@@ -35,7 +35,7 @@ BU authorship is verified against a faculty roster of 5,896 entries scraped from
 
 ## Limitations and known issues
 
-**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,372 papers.
+**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,587 papers.
 
 **Author disambiguation.** OpenAlex sometimes merges different people under a single author ID, especially for common names. We maintain a blocklist for known false matches and have cleared 19+ wrong IDs from the roster, but more may exist.
 
@@ -62,21 +62,21 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 
 | Source | Mentions | What it catches | Affiliation filter |
 |--------|----------|----------------|-------------------|
-| **OpenAlex** | 15,461 | Primary source, 250M+ works | BU ROR ID (exact) |
-| **OpenBU** | 1,470 | Theses, dissertations, tech reports | Native (all BU) |
-| **PubMed** | 1,461 | Biomedical AI work | Affiliation + MeSH terms |
-| **DBLP** | 1,372 | CS conference proceedings | Faculty name match + OpenAlex verification |
-| **NIH Reporter** | 349 | Federal grants | Organization name |
-| **Semantic Scholar** | 223 | CS/ML papers | Text search |
+| **OpenAlex** | 15,470 | Primary source, 250M+ works | BU ROR ID (exact) |
+| **DBLP** | 1,587 | CS conference proceedings | Faculty name match + OpenAlex verification |
+| **OpenBU** | 1,474 | Theses, dissertations, tech reports | Native (all BU) |
+| **PubMed** | 1,465 | Biomedical AI work | Affiliation + MeSH terms |
+| **NIH Reporter** | 350 | Federal grants | Organization name |
+| **Semantic Scholar** | 246 | CS/ML papers | Text search |
 | **SSRN** | 179 | Law/policy/business working papers | Faculty name search via CrossRef |
 | **Scholarly Commons** | 139 | BU Law faculty scholarship | Native (BU Law) |
-| **CrossRef** | 90 | Journal articles catch-all | Text search |
-| **NSF Awards** | 13 | NSF-funded AI research | Awardee name |
+| **CrossRef** | 121 | Journal articles catch-all | Text search |
+| **NSF Awards** | 15 | NSF-funded AI research | Awardee name |
 | **bioRxiv/medRxiv** | 7 | Biomedical preprints | CrossRef DOI prefix |
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 12,165 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 12,168 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
@@ -133,7 +133,7 @@ bu-ai-bibliography/
 |
 |- Data
 |- data/
-|   |- sonnet_classification_bu_verified.json  # Master dataset (11,879 papers)
+|   |- sonnet_classification_bu_verified.json  # Master dataset (12,168 papers)
 |   |- bu_faculty_roster_verified.json         # Faculty roster (5,896 entries)
 |   |- openalex_bu_authors_cache.json          # 98K OpenAlex author profiles (local)
 |   |- update_state.json                       # Auto-update state + source health
@@ -152,4 +152,4 @@ bu-ai-bibliography/
 
 ## Built with
 
-Classification via **Claude Sonnet 4** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`). Development assisted by [Claude Code](https://claude.ai/code).
+Classification via **Claude Sonnet 4.6** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`). Development assisted by [Claude Code](https://claude.ai/code).
