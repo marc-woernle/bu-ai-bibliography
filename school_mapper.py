@@ -208,9 +208,12 @@ def _load_faculty_roster():
         if secondary and oa_id:
             FACULTY_SECONDARY[oa_id] = secondary
 
-        # Index by full normalized name
+        # Index by full normalized name. Skip non-Latin names (Cyrillic, Greek, CJK,
+        # etc.) whose normalized form is empty/whitespace — they would otherwise act
+        # as a magnet for any non-Latin paper author (the "Lei Guo trojan").
         fkey = _name_key(name)
-        FACULTY_BY_FULLNAME.setdefault(fkey, []).append((school, category))
+        if fkey.strip():
+            FACULTY_BY_FULLNAME.setdefault(fkey, []).append((school, category))
 
     # Build alt_names index from OpenAlex cache (unambiguous roster matches only)
     if ALTNAMES_CACHE_PATH.exists():
@@ -223,7 +226,7 @@ def _load_faculty_roster():
             oa_id = entry.get("id", "")
             for alt in entry.get("alt_names", []):
                 norm = _normalize_name(alt)
-                if norm:
+                if norm and norm.strip():
                     name_to_oaids[norm].add(oa_id)
 
         # Only keep: one OAID per name, and that OAID must be in roster

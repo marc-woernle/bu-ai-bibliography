@@ -1055,9 +1055,14 @@ def verify_bu_authors(papers: list[dict]) -> list[dict]:
                 has_bu = True
                 continue
 
-            # Tier 3: full-name match only (no initial fallback)
+            # Tier 3: full-name match only (no initial fallback).
+            # Skip empty/whitespace keys: non-Latin names normalize to ' ' or '' under
+            # _normalize_name's [^a-z\s-] strip, and would otherwise collide with any
+            # similarly-stripped roster entry (the "Lei Guo trojan" pattern).
             name = author.get("name", "")
             fkey = _name_key(name)
+            if not fkey.strip():
+                continue
             matches = FACULTY_BY_FULLNAME.get(fkey, [])
             if len(matches) == 1:
                 author["is_bu"] = True
