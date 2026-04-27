@@ -34,13 +34,16 @@ To prevent recurrence: added `_verify_bu_in_affiliations` live-check to `resolve
 - 141 roster entries still "Boston University (unspecified)"
 - OpenBU metadata bug: all authors get "Boston University" affiliation regardless
 - Scholarly Commons uploads full back-catalog, no date filtering
-- `openalex_resolve` produced ~897 roster entries with auto-resolved OAIDs; not all OAIDs are guaranteed BU. Audit pending.
+- OpenAlex de-merge events can quietly invalidate a previously-resolved OAID. The new `_verify_bu_in_affiliations` check at resolve time catches most cases; re-run `audit_openalex_resolve.py` periodically (quarterly) to catch any that drift after assignment.
 
 ## Layout
 - Monthly CI workflow: `.github/workflows/monthly-update.yml` (timeout 120 min, triggered 1st of month 8am UTC, also `workflow_dispatch` with optional `save_candidates=true` for Batch API runs)
 - Entry point: `update_monthly.py` (phases 1-6: roster, harvest, filter+classify, merge+maintenance, validate+push, report)
 - Shared pipeline: `update_pipeline.py` (harvest orchestration, dedup, classification, BU verification, merge, regen, propagate, git push)
-- Counts propagation: `propagate_counts.py` (called from `regenerate_all_outputs`; patches README + GitHub description)
+- Counts propagation: `propagate_counts.py` (called from `regenerate_all_outputs`; patches README + GitHub description from master)
+- Source/model truth: `config.DATA_SOURCES` (canonical 13), `config.CLASSIFIER_DISPLAY_NAME` ('Sonnet 4.6'). Site reads these via `data.js` meta.
+- OAID resolver: `resolve_openalex_ids.py` (live BU-affiliation verification on every assignment)
+- OAID audit: `audit_openalex_resolve.py` (quarterly check for stale OAIDs; report at `data/openalex_resolve_audit.json`)
 - Batch CLI: `classify_papers.py` (`estimate`/`submit`/`status`/`collect` with `--input=PATH`)
 - Batch merge: `merge_batch_results.py`
 - Quarterly audit: `quarterly_review.py`
