@@ -152,4 +152,4 @@ bu-ai-bibliography/
 
 ## Built with
 
-Classification via **Claude Sonnet 4.6** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`). Development assisted by [Claude Code](https://claude.ai/code).
+Classification via **Claude Sonnet 4.6** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`). Development assisted by Claude Code.
