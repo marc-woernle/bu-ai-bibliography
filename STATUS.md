@@ -1,13 +1,13 @@
 # BU AI Bibliography -- Status
-**Updated:** 2026-04-25
+**Updated:** 2026-04-26
 
 ## Numbers
-- **Papers:** 11,877 in `data/sonnet_classification_bu_verified.json`
+- **Papers:** 11,876 in `data/sonnet_classification_bu_verified.json`
 - **Sources:** 13 canonical (OpenAlex, PubMed, DBLP, SSRN, NBER, Scholarly Commons, OpenBU, NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv). 11 distinct source tags in data (NBER and arXiv harvest via OpenAlex filters)
 - **Schools:** 27 named schools/departments
-- **Roster:** 5,896 entries, 4,473 with OpenAlex IDs
+- **Roster:** 5,888 entries, 4,465 with OpenAlex IDs (8 wrong-OAID entries dropped this session)
 - **Rejection index:** 46 DOIs + 51 fingerprints
-- **Non-BU AI index:** 3,737 DOIs + 3,625 fingerprints (added 284+291 this session)
+- **Non-BU AI index:** 3,738 DOIs + 3,626 fingerprints
 - **Validation:** 0 failures, 31 warnings (all pre-existing)
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
 - **Classifier:** Sonnet 4.6 (`claude-sonnet-4-6`)
@@ -19,11 +19,14 @@
 
 **Auto-propagation pipeline.** Added `config.DATA_SOURCES` (canonical 13) and `config.CLASSIFIER_DISPLAY_NAME` ('Sonnet 4.6'). `generate_data_js.py:build_metadata` now writes `paper_count`, `sources`, `sources_list`, and `model` to `data.js`. Site (docs + output) reads model and source list from meta with sensible fallbacks. Footer source list is now meta-driven (not hardcoded 11 names). Header "Spanning 1962" replaced with `${dataYearMin}` (computed from data). New `propagate_counts.py` patches README.md (paper count, school count, source mention table, DBLP papers count, master-dataset line, roster line) and updates the GitHub repo description via `gh repo edit`. Hooked into `update_pipeline.regenerate_all_outputs` so every monthly run keeps README + repo description + site in sync automatically.
 
+**OAID audit + resolver hardening.** Walked all 897 `openalex_resolve` roster entries against OpenAlex's full affiliations history (`audit_openalex_resolve.py`). 879 confirmed BU (current or former), 8 wrong (no BU history at all): Rasheed Zakaria (Alder Hey Hospital UK), Nan Feng (Beijing), Jiyeong Hong (Korea/GEOMAR), Monica Chang (Alameda/CMU), Eunah Chung (Cincinnati Children's), Yuqing Zhang (MGH, 1 work), Chenyu Wang (MGH/Wuhan), Sanket Kaushik (AIIMS India). Dropped all 8 from roster (5,896 → 5,888). 1 paper in master depended on a wrong OAID with no other BU evidence (Hybrid Vision-Force Control via Nan Feng wrong OAID); removed and added to non_bu_ai_index. The other 4 papers had real "Boston University" affiliation strings on the wrong-OAID author so kept (those Sanket Kaushik / Eunah Chung / Rasheed Zakaria / Chenyu Wang names are real BU-affiliated authors with currently-unknown OAIDs).
+
+To prevent recurrence: added `_verify_bu_in_affiliations` live-check to `resolve_openalex_ids.match_faculty`. Every resolved candidate is now re-queried against OpenAlex's full affiliations list and rejected if BU's ROR doesn't appear. Catches stale-cache cases where OpenAlex has de-merged a wrongly-merged author profile after our cache was built. One extra API call per resolution (~10 calls/month), polite-rate paced.
+
 ## TODO
-1. **Next monthly run (May 1)**: verify (a) indexes persist across CI runs, (b) propagate_counts runs successfully end-to-end. CI runner needs `gh` CLI installed for the description update; if missing, README still updates.
-2. **Wrong-OAID audit**: 387 of 897 `openalex_resolve` roster entries have a non-BU `last_institution` in the OpenAlex cache. Some are legit (ex-BU faculty who moved), some are wrong assignments (Henry Lam→Columbia, Christos Panayiotou→Cyprus). Walk all 897, query OpenAlex for full institutions list, drop entries with no BU institutional history. Separate from n3.
-3. **141 unspecified roster entries, CFA roster cleanup**.
-4. **Optional Scope 2 search improvements** (Marc said he would tackle these): field-scoped queries, better tiebreaker ranking.
+1. **Next monthly run (May 1)**: verify (a) indexes persist across CI runs, (b) propagate_counts runs end-to-end (CI runner needs `gh` CLI for the description update; if missing, README still updates), (c) the new resolver verification step (`_verify_bu_in_affiliations`) works on any newly-resolved faculty.
+2. **141 unspecified roster entries, CFA roster cleanup**.
+3. **Optional Scope 2 search improvements** (Marc said he would tackle these): field-scoped queries, better tiebreaker ranking.
 
 ## Known issues
 - ~3,100 papers tagged "Boston University (unspecified)", mostly authors not in roster

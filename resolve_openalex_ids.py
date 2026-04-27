@@ -48,6 +48,30 @@ def name_key_initial(name: str) -> str:
     return f"{last} {first[0]}" if first else last
 
 
+def _verify_bu_in_affiliations(oa_id: str) -> bool:
+    """Live-query OpenAlex to confirm BU's ROR appears in the author's
+    affiliations history. Catches stale-cache cases where the cached author
+    set was assembled before OpenAlex de-merged a wrongly-merged profile.
+    Returns True on confirmed BU history, False on no-BU or any error.
+    """
+    short = oa_id.rsplit("/", 1)[-1]
+    try:
+        r = requests.get(
+            f"https://api.openalex.org/authors/{short}?mailto={EMAIL}",
+            headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{EMAIL})"},
+            timeout=15,
+        )
+        if r.status_code != 200:
+            return False
+        for a in r.json().get("affiliations") or []:
+            inst = a.get("institution") or {}
+            if (inst.get("ror") or "") == BU_ROR:
+                return True
+    except requests.RequestException:
+        return False
+    return False
+
+
 def fetch_all_bu_authors() -> list[dict]:
     """Fetch all BU-affiliated authors from OpenAlex using cursor pagination."""
     if CACHE_PATH.exists():
@@ -155,39 +179,48 @@ def match_faculty(roster: list[dict], index: dict) -> list[dict]:
             # Try initial-only match
             candidates = index["initial"].get(fikey, [])
 
+        chosen = None
+        chosen_rare = None
+        chosen_ambiguous = False
+
         if len(candidates) == 1:
-            # Unique match
-            c = candidates[0]
-            fac["openalex_id"] = c["id"]
-            fac["openalex_works"] = c["works_count"]
-            fac["is_rare_name"] = True
-            matched += 1
+            chosen = candidates[0]
+            chosen_rare = True
         elif len(candidates) > 1:
-            # Multiple matches - pick the one with most works at BU
-            # Prefer someone whose last_institution is BU
+            # Multiple matches - pick the one with most works at BU.
+            # Prefer someone whose last_institution is BU.
             bu_cands = [c for c in candidates if "boston university" in c.get("last_institution", "").lower()]
             if len(bu_cands) == 1:
-                c = bu_cands[0]
-                fac["openalex_id"] = c["id"]
-                fac["openalex_works"] = c["works_count"]
-                fac["is_rare_name"] = False  # Common name, multiple matches
-                matched += 1
+                chosen = bu_cands[0]
+                chosen_rare = False  # Common name, multiple matches
             elif bu_cands:
-                # Multiple still at BU - pick highest works count
-                c = max(bu_cands, key=lambda x: x["works_count"])
-                fac["openalex_id"] = c["id"]
-                fac["openalex_works"] = c["works_count"]
-                fac["is_rare_name"] = False
-                matched += 1
-                ambiguous += 1
+                chosen = max(bu_cands, key=lambda x: x["works_count"])
+                chosen_rare = False
+                chosen_ambiguous = True
             else:
-                # None currently at BU - pick highest works count
-                c = max(candidates, key=lambda x: x["works_count"])
-                fac["openalex_id"] = c["id"]
-                fac["openalex_works"] = c["works_count"]
-                fac["is_rare_name"] = False
+                chosen = max(candidates, key=lambda x: x["works_count"])
+                chosen_rare = False
+                chosen_ambiguous = True
+
+        if chosen is not None:
+            # Live-verify BU presence in affiliations. Cached candidate sets can be
+            # stale (OpenAlex periodically de-merges wrongly-merged author profiles),
+            # so re-check before assigning. Without this, a small fraction of OAIDs
+            # end up pointing at non-BU authors who happen to share a name
+            # (Apr 2026 audit found 8 such cases out of 897 prior assignments).
+            if _verify_bu_in_affiliations(chosen["id"]):
+                fac["openalex_id"] = chosen["id"]
+                fac["openalex_works"] = chosen["works_count"]
+                fac["is_rare_name"] = chosen_rare
                 matched += 1
-                ambiguous += 1
+                if chosen_ambiguous:
+                    ambiguous += 1
+            else:
+                fac["openalex_id"] = None
+                fac["openalex_works"] = 0
+                fac["is_rare_name"] = None
+                no_match += 1
+            time.sleep(0.1)  # Polite pacing for the verification call.
         else:
             fac["openalex_id"] = None
             fac["openalex_works"] = 0

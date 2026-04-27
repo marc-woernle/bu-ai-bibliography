@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,877 papers** across 27 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,876 papers** across 27 schools and departments.
 
 **Static site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
@@ -14,7 +14,7 @@ A multi-source pipeline for harvesting, deduplicating, classifying, and annotati
   -> keyword pre-filter (187 AI terms in title/abstract)
   -> embedding pre-filter (sentence-transformers semantic similarity)
   -> Claude Sonnet classification (relevance tier, domains, subfields, annotation)
-  -> BU author verification (5,896-entry faculty roster with OpenAlex IDs)
+  -> BU author verification (5,888-entry faculty roster with OpenAlex IDs)
   -> school/department classification (4-tier OAID-first matching)
   -> merge into master dataset
   -> generate static web app
@@ -31,11 +31,11 @@ Papers are collected from 13 sources covering journals, conferences, preprints, 
 Raw harvests go through three stages of filtering. A keyword pre-filter checks for 187 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.25, intentionally permissive). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a one-line summary. Papers classified as not_relevant are excluded. The initial dataset was classified via the Anthropic Batch API (~$0.003/paper at 50% discount); monthly updates use the standard API.
 
 ### Author matching and school classification
-BU authorship is verified against a faculty roster of 5,896 entries scraped from 24+ BU department web pages, with OpenAlex author IDs resolved for ~4,500 faculty. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
+BU authorship is verified against a faculty roster of 5,888 entries scraped from 24+ BU department web pages, with OpenAlex author IDs resolved for ~4,500 faculty. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
 
 ## Limitations and known issues
 
-**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,587 papers.
+**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,586 papers.
 
 **Author disambiguation.** OpenAlex sometimes merges different people under a single author ID, especially for common names. We maintain a blocklist for known false matches and have cleared 19+ wrong IDs from the roster, but more may exist.
 
@@ -63,7 +63,7 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 | Source | Mentions | What it catches | Affiliation filter |
 |--------|----------|----------------|-------------------|
 | **OpenAlex** | 15,466 | Primary source, 250M+ works | BU ROR ID (exact) |
-| **DBLP** | 1,587 | CS conference proceedings | Faculty name match + OpenAlex verification |
+| **DBLP** | 1,586 | CS conference proceedings | Faculty name match + OpenAlex verification |
 | **OpenBU** | 1,474 | Theses, dissertations, tech reports | Native (all BU) |
 | **PubMed** | 1,465 | Biomedical AI work | Affiliation + MeSH terms |
 | **NIH Reporter** | 345 | Federal grants | Organization name |
@@ -76,7 +76,7 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 11,877 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 11,876 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
@@ -133,8 +133,8 @@ bu-ai-bibliography/
 |
 |- Data
 |- data/
-|   |- sonnet_classification_bu_verified.json  # Master dataset (11,877 papers)
-|   |- bu_faculty_roster_verified.json         # Faculty roster (5,896 entries)
+|   |- sonnet_classification_bu_verified.json  # Master dataset (11,876 papers)
+|   |- bu_faculty_roster_verified.json         # Faculty roster (5,888 entries)
 |   |- openalex_bu_authors_cache.json          # 98K OpenAlex author profiles (local)
 |   |- update_state.json                       # Auto-update state + source health
 |   |- update_log.csv                          # Run history
