@@ -60,7 +60,8 @@ Sources (OpenAlex, PubMed, SSRN, Scholarly Commons, OpenBU, NIH, NSF, bioRxiv)
   → BU author verification (roster + affiliation check)
   → school classification (school_mapper.py from roster)
   → merge into master
-  → generate_data_js.py → data.js files
+  → generate_data_js.py → data.js files (paper_count, sources, sources_list, model)
+  → propagate_counts.py → README.md + GitHub repo description (called from regenerate_all_outputs)
   → validate_dataset.py → ground truth checks
   → git push
 ```
@@ -77,6 +78,12 @@ Calculate total calls needed. If >200, find a bulk endpoint. OpenAlex bulk: `fil
 - Papers with ≤30 authors: 4-tier OAID-first matching (see school_mapper.py). No initial matching.
 - Papers with >30 authors (CERN-style): Tier 1 (OAID) + Tier 2 (affiliation regex) only. No name matching.
 - OpenBU papers: all authors get "Boston University" affiliation as a metadata bug. Verify per-paper.
+- `_normalize_name` strips non-Latin characters (Cyrillic/Greek/CJK) to whitespace. Empty/whitespace name keys are NOT indexed in `FACULTY_BY_FULLNAME` or `FACULTY_BY_ALTNAME`, and Tier 3 verification skips them. This prevents the "Lei Guo trojan": any single non-Latin roster entry would otherwise act as a magnet for every non-Latin-named paper author. Don't remove the empty-key guards.
+
+### Counts displayed publicly
+- Site reads counts dynamically from `data.js` meta (`paper_count`, `sources`, `sources_list`, `model`). No code changes needed when the data changes.
+- `README.md` and the GitHub repo description are static — `propagate_counts.py` patches them after every master regen. Hooked into `regenerate_all_outputs`. Run manually with `python propagate_counts.py` if needed.
+- Single source of truth for sources list and model name: `config.DATA_SOURCES` and `config.CLASSIFIER_DISPLAY_NAME`. Update there, not at call sites.
 
 ### Name consistency
 Author names must be identical in `authors[].name` and `bu_author_names[]`. The web app highlights by exact string match. Run the name consolidation (normalize accents, middle initials) after any merge.

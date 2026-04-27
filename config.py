@@ -9,6 +9,30 @@ BU_ROR_ID = "https://ror.org/05qwgg493"
 BU_GRID_ID = "grid.189504.1"
 BU_OPENALEX_INSTITUTION_ID = "I40120149"  # OpenAlex ID for Boston University
 
+# ── Canonical Data Sources ────────────────────────────────────────────────────
+# Single source of truth for sources displayed on the site, README, and GitHub
+# repo description. NBER and arXiv are harvested via OpenAlex filters so they
+# don't get distinct source tags in the data (count of `all_sources` tags = 11).
+# This list (13) is the authoritative project-level count.
+DATA_SOURCES = [
+    "OpenAlex",
+    "PubMed",
+    "DBLP",
+    "SSRN",
+    "NBER",
+    "Scholarly Commons",
+    "OpenBU",
+    "NIH Reporter",
+    "NSF Awards",
+    "arXiv",
+    "CrossRef",
+    "Semantic Scholar",
+    "bioRxiv",
+]
+
+# ── Classification Model (display name) ───────────────────────────────────────
+CLASSIFIER_DISPLAY_NAME = "Sonnet 4.6"
+
 # ── OpenAlex AI-Related Concept IDs ───────────────────────────────────────────
 # These are OpenAlex concept IDs covering AI broadly + key application domains.
 # We cast a VERY wide net here — classification happens downstream.

@@ -98,16 +98,19 @@ def paper_to_compact(paper: dict, include_abstract: bool = False) -> dict:
 
 
 def build_metadata(papers: list[dict]) -> dict:
-    """Build metadata object for the web app."""
+    """Build metadata object for the web app.
+
+    Source count and list come from config.DATA_SOURCES (canonical 13), not
+    from `all_sources` tags in data (only 11; NBER/arXiv merge into openalex).
+    """
     from datetime import date
-    sources = set()
-    for p in papers:
-        for s in p.get("all_sources", []):
-            sources.add(s)
+    from config import DATA_SOURCES, CLASSIFIER_DISPLAY_NAME
     return {
         "updated": date.today().isoformat(),
         "paper_count": len(papers),
-        "sources": len(sources),
+        "sources": len(DATA_SOURCES),
+        "sources_list": DATA_SOURCES,
+        "model": CLASSIFIER_DISPLAY_NAME,
     }
 
 

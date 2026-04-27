@@ -1104,12 +1104,37 @@ def merge_into_master(master: list[dict], new_papers: list[dict]) -> list[dict]:
 
 
 def regenerate_all_outputs(master_path: str = MASTER_PATH):
-    """Regenerate all data.js files from master dataset."""
+    """Regenerate all data.js files from master dataset, then propagate counts
+    to README.md and the GitHub repo description so the public artifacts stay
+    in sync. Site reads counts dynamically from data.js; README and the repo
+    description are static and need this propagation step.
+    """
     result = generate_all(master_path)
     logger.info(
         f"Regenerated data.js: {result['paper_count']} papers, "
         f"public={result['public_size_mb']}MB, private={result['private_size_mb']}MB"
     )
+
+    # Propagate paper count, source mentions, and roster size to README +
+    # GitHub repo description. Best-effort: log and continue if `gh` isn't
+    # available (e.g., in a CI runner without the CLI installed).
+    try:
+        import propagate_counts
+        master = json.loads(open(master_path).read())
+        roster = json.loads(open("data/bu_faculty_roster_verified.json").read())
+        counts = propagate_counts.compute_counts(master, roster)
+        old = open("README.md").read()
+        new = propagate_counts.update_readme(old, counts)
+        if new != old:
+            with open("README.md", "w") as f:
+                f.write(new)
+            logger.info("README.md: counts updated")
+        desc = propagate_counts.make_repo_description(counts)
+        if propagate_counts.update_gh_description(desc):
+            logger.info("GitHub repo description updated")
+    except Exception as e:
+        logger.warning(f"propagate_counts failed (non-fatal): {e}")
+
     return result
 
 

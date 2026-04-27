@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **12,168 papers** across 27 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,877 papers** across 27 schools and departments.
 
 **Static site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
@@ -62,21 +62,21 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 
 | Source | Mentions | What it catches | Affiliation filter |
 |--------|----------|----------------|-------------------|
-| **OpenAlex** | 15,470 | Primary source, 250M+ works | BU ROR ID (exact) |
+| **OpenAlex** | 15,466 | Primary source, 250M+ works | BU ROR ID (exact) |
 | **DBLP** | 1,587 | CS conference proceedings | Faculty name match + OpenAlex verification |
 | **OpenBU** | 1,474 | Theses, dissertations, tech reports | Native (all BU) |
 | **PubMed** | 1,465 | Biomedical AI work | Affiliation + MeSH terms |
-| **NIH Reporter** | 350 | Federal grants | Organization name |
-| **Semantic Scholar** | 246 | CS/ML papers | Text search |
-| **SSRN** | 179 | Law/policy/business working papers | Faculty name search via CrossRef |
+| **NIH Reporter** | 345 | Federal grants | Organization name |
+| **Semantic Scholar** | 102 | CS/ML papers | Text search |
+| **SSRN** | 57 | Law/policy/business working papers | Faculty name search via CrossRef |
 | **Scholarly Commons** | 139 | BU Law faculty scholarship | Native (BU Law) |
-| **CrossRef** | 121 | Journal articles catch-all | Text search |
+| **CrossRef** | 97 | Journal articles catch-all | Text search |
 | **NSF Awards** | 15 | NSF-funded AI research | Awardee name |
-| **bioRxiv/medRxiv** | 7 | Biomedical preprints | CrossRef DOI prefix |
+| **bioRxiv/medRxiv** | 3 | Biomedical preprints | CrossRef DOI prefix |
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 12,168 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 11,877 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
@@ -133,7 +133,7 @@ bu-ai-bibliography/
 |
 |- Data
 |- data/
-|   |- sonnet_classification_bu_verified.json  # Master dataset (12,168 papers)
+|   |- sonnet_classification_bu_verified.json  # Master dataset (11,877 papers)
 |   |- bu_faculty_roster_verified.json         # Faculty roster (5,896 entries)
 |   |- openalex_bu_authors_cache.json          # 98K OpenAlex author profiles (local)
 |   |- update_state.json                       # Auto-update state + source health
