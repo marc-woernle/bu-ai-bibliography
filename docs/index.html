@@ -1094,8 +1094,16 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       yearMin = dataYearMin; yearMax = dataYearMax;
       selectedDomains.clear(); selectedSubfields.clear();
       sortBy = 'year'; groupBy = 'none';
-      searchQuery = name;
-      document.getElementById('search-input').value = name;
+      // Use the field-scoped author syntax so the per-author matcher kicks
+      // in. Without it, clicking 'Christopher T. Robertson' falls back to
+      // free-text substring AND, which matches any paper where 'christopher'
+      // and 'robertson' both appear anywhere — even when they're different
+      // people in the same long author list (S H Robertson + some Christopher
+      // co-author, etc.). Field-scoped author matches per-author with prefix
+      // tolerance, which is what 'click an author' should do.
+      const q = 'author:"' + name.replace(/"/g, '') + '"';
+      searchQuery = q;
+      document.getElementById('search-input').value = q;
       applyFilters();
       render();
       window.scrollTo({ top: 0, behavior: 'smooth' });
