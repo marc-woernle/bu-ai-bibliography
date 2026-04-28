@@ -1082,6 +1082,27 @@ def verify_bu_authors(papers: list[dict]) -> list[dict]:
 
 def merge_into_master(master: list[dict], new_papers: list[dict]) -> list[dict]:
     """Append new papers to master, derive fields, reindex."""
+    # Resolve real journal/book venues for SSRN and Scholarly Commons entries
+    # before they hit master. Repository platforms return "SSRN Electronic
+    # Journal" or empty venue; this looks up CrossRef by title+author and
+    # patches the venue when the work has actually been published in a real
+    # journal. Best-effort: failures don't block the merge.
+    try:
+        import resolve_repository_venues as _rrv
+        import requests as _requests
+        sess = _requests.Session()
+        n_fixed = 0
+        for paper in new_papers:
+            if _rrv.needs_lookup(paper):
+                result = _rrv.find_real_venue(paper, sess)
+                if result:
+                    paper["venue"] = result[0]
+                    n_fixed += 1
+        if n_fixed:
+            logger.info(f"Repository venues resolved: {n_fixed}")
+    except Exception as e:
+        logger.warning(f"Repository venue resolution failed (non-fatal): {e}")
+
     for paper in new_papers:
         # Derive fields (same as classify_papers.py)
         d = derived_fields(paper)
