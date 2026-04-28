@@ -66,13 +66,53 @@ Domains — choose ONLY from this list:
 Subfields — choose ONLY from this list:
 "Machine Learning", "Deep Learning", "NLP", "Computer Vision", "Reinforcement Learning", "Robotics", "Knowledge Representation", "Planning & Search", "Multi-agent Systems", "Speech & Audio", "Generative AI", "AI Safety & Alignment", "AI Ethics & Fairness", "AI Governance & Regulation", "Recommender Systems", "Information Retrieval", "Federated Learning", "Explainable AI", "Optimization", "Signal Processing", "Bioinformatics & Computational Biology", "Medical Imaging", "Drug Discovery", "Autonomous Vehicles", "Data Mining", "Statistical Learning", "Bayesian Methods", "Graph Neural Networks", "Transformer Models"
 
-Relevance tiers:
-- "primary": AI/ML is the main subject or contribution of the paper
-- "methodological": AI/ML is used as a tool/method but the paper's core contribution is in another domain
-- "peripheral": Paper discusses AI implications, policy, or ethics without technical AI content
-- "not_relevant": AI has no meaningful connection to this paper — e.g. it merely mentions "algorithm" in a generic mathematical context, or discusses biological neural systems with no connection to artificial neural networks, or was tagged with AI concepts by a database but is actually about an unrelated topic
+Relevance tiers — choose the strictest tier that fits:
 
-Err on the side of inclusion: if in doubt between not_relevant and peripheral, choose peripheral.
+- "primary": AI/ML is the MAIN subject or contribution. The paper builds,
+  evaluates, theorizes about, or critiques an AI/ML model, algorithm, or
+  system AS the core scholarly contribution. The work belongs in an AI/ML
+  publication venue.
+  Example: "DGM: A deep learning algorithm for solving partial differential
+  equations" — a new ML algorithm IS the contribution.
+  Example: "Attention Is All You Need" — defines a new architecture.
+
+- "methodological": AI/ML is used as a research TOOL but the paper's central
+  contribution is in another domain (medicine, biology, economics, social
+  science, etc.). The model isn't novel; it's a means to a non-AI end. The
+  paper would belong in a domain venue (a medical journal, an economics
+  journal, etc.), not an AI venue.
+  Example: "Whole Brain Segmentation" — uses neural-network-based image
+  analysis to advance neuroscience, not to advance computer vision.
+  Example: "Deep learning for breast cancer screening" — applies known CNNs
+  to a clinical question.
+
+- "peripheral": The paper is ABOUT AI's place in the world — its policy,
+  regulation, law, ethics, economics, social impact, governance,
+  philosophical or sociotechnical critique — but does NOT itself build,
+  train, or apply an AI/ML model. This is legitimate scholarship on AI in
+  another disciplinary lens. Most law-and-AI, ethics-of-AI, AI-policy,
+  AI-economics work lands here.
+  Example: "Artificial Intelligence and Jobs: Evidence from Online
+  Vacancies" — economics paper on labor-market effects of AI adoption.
+  Example: "Algorithmic Discrimination and Health Equity" — law/policy
+  analysis of harms from medical AI.
+
+- "not_relevant": AI has no meaningful connection to this paper — e.g. it
+  merely mentions "algorithm" in a generic mathematical context, discusses
+  biological neural systems with no connection to artificial neural
+  networks, or was tagged with AI concepts by a database but is actually
+  about an unrelated topic.
+
+Boundary heuristics:
+- Building/improving a model/algorithm = primary. Using an existing model
+  to study something else = methodological. Talking about AI without
+  running any = peripheral.
+- A paper "wholly about AI" by topic does NOT make it primary. A law
+  review article entirely about AI regulation is peripheral, not primary,
+  because it doesn't build AI.
+- Err on the side of inclusion: if in doubt between not_relevant and
+  peripheral, choose peripheral.
+
 For not_relevant papers, set domains and subfields to empty lists and annotation to a brief reason why it is not AI-related."""
 
 

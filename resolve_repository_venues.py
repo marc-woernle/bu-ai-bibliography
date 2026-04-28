@@ -93,14 +93,27 @@ def needs_lookup(paper: dict) -> bool:
     return not v.strip() or _is_platform_venue(v)
 
 
-def find_real_venue(paper: dict, session: requests.Session) -> tuple[str, dict] | None:
-    """Search CrossRef by title; return (venue, evidence) on confident match."""
-    title = (paper.get("title") or "").strip()
-    if not title:
+def _accept_match(our_title: str, our_year, our_surnames,
+                  cand_title: str, cand_year, cand_surnames) -> float | None:
+    """Shared scoring used by all three lookups. Returns score >= 0.85 on
+    confident match, or None to reject."""
+    sim = _title_similarity(our_title, cand_title)
+    if sim < 0.85:
         return None
-    year = paper.get("year")
-    our_surnames = _author_surnames(paper)
+    if our_year and cand_year and abs(our_year - cand_year) > 1:
+        return None
+    if our_surnames and cand_surnames and not (our_surnames & cand_surnames):
+        return None
+    score = sim
+    if our_year and cand_year and our_year == cand_year:
+        score += 0.1
+    if our_surnames and cand_surnames and (our_surnames & cand_surnames):
+        score += 0.05
+    return score
 
+
+def _query_crossref(title: str, year, our_surnames,
+                    session: requests.Session) -> tuple[str, dict] | None:
     params = {
         "query.bibliographic": title,
         "rows": 8,
@@ -114,53 +127,144 @@ def find_real_venue(paper: dict, session: requests.Session) -> tuple[str, dict] 
         return None
     if r.status_code != 200:
         return None
-
     items = (r.json().get("message") or {}).get("items") or []
-    best: tuple[float, str, dict] | None = None  # (score, venue, candidate)
+    best: tuple[float, str, dict] | None = None
     for it in items:
         ctitle_arr = it.get("container-title") or []
         ctitle = ctitle_arr[0] if ctitle_arr else ""
         if not ctitle or _is_platform_venue(ctitle):
             continue
-
-        # Title similarity
         cand_titles = it.get("title") or []
-        sim = max((_title_similarity(title, t) for t in cand_titles), default=0)
-        if sim < 0.85:
-            continue
-
-        # Year proximity (±1, or accept if either side missing)
+        cand_title = cand_titles[0] if cand_titles else ""
         cand_year = None
         issued = (it.get("issued") or {}).get("date-parts") or []
         if issued and issued[0]:
             cand_year = issued[0][0]
-        if year and cand_year and abs(year - cand_year) > 1:
-            continue
-
-        # Author overlap
         cand_surnames = set()
         for a in it.get("author") or []:
             sn = _surname(a.get("family") or a.get("name") or "")
             if sn:
                 cand_surnames.add(sn)
-        if our_surnames and cand_surnames and not (our_surnames & cand_surnames):
+        score = _accept_match(title, year, our_surnames,
+                              cand_title, cand_year, cand_surnames)
+        if score is None:
             continue
-
-        score = sim
-        if year and cand_year and year == cand_year:
-            score += 0.1
-        if our_surnames and cand_surnames and (our_surnames & cand_surnames):
-            score += 0.05
         if best is None or score > best[0]:
             best = (score, ctitle, it)
-
     if best:
-        score, venue, cand = best
-        return sanitize_inline_text(venue), {
-            "score": round(score, 3),
-            "doi": cand.get("DOI"),
-            "type": cand.get("type"),
+        return sanitize_inline_text(best[1]), {
+            "source": "crossref", "score": round(best[0], 3),
+            "doi": best[2].get("DOI"), "type": best[2].get("type"),
         }
+    return None
+
+
+def _query_openalex(title: str, year, our_surnames,
+                    session: requests.Session) -> tuple[str, dict] | None:
+    params = {
+        "search": title,
+        "per-page": 8,
+        "select": "id,doi,title,publication_year,primary_location,host_venue,authorships,type",
+        "mailto": CONTACT_EMAIL,
+    }
+    try:
+        r = session.get("https://api.openalex.org/works", params=params,
+                        headers=HEADERS, timeout=20)
+    except requests.RequestException:
+        return None
+    if r.status_code != 200:
+        return None
+    items = r.json().get("results") or []
+    best: tuple[float, str, dict] | None = None
+    for it in items:
+        loc = it.get("primary_location") or {}
+        src = loc.get("source") or {}
+        venue = src.get("display_name") or (it.get("host_venue") or {}).get("display_name") or ""
+        if not venue or _is_platform_venue(venue):
+            continue
+        cand_title = it.get("title") or ""
+        cand_year = it.get("publication_year")
+        cand_surnames = set()
+        for a in it.get("authorships") or []:
+            au = a.get("author") or {}
+            sn = _surname(au.get("display_name") or "")
+            if sn:
+                cand_surnames.add(sn)
+        score = _accept_match(title, year, our_surnames,
+                              cand_title, cand_year, cand_surnames)
+        if score is None:
+            continue
+        if best is None or score > best[0]:
+            best = (score, venue, it)
+    if best:
+        return sanitize_inline_text(best[1]), {
+            "source": "openalex", "score": round(best[0], 3),
+            "doi": best[2].get("doi"), "type": best[2].get("type"),
+        }
+    return None
+
+
+def _query_semantic_scholar(title: str, year, our_surnames,
+                            session: requests.Session) -> tuple[str, dict] | None:
+    """Semantic Scholar Graph API. No auth needed; rate-limited to ~1 req/s."""
+    try:
+        r = session.get(
+            "https://api.semanticscholar.org/graph/v1/paper/search",
+            params={
+                "query": title,
+                "limit": 8,
+                "fields": "title,venue,year,authors,externalIds,publicationVenue",
+            },
+            headers=HEADERS,
+            timeout=20,
+        )
+    except requests.RequestException:
+        return None
+    if r.status_code != 200:
+        return None
+    items = (r.json() or {}).get("data") or []
+    best: tuple[float, str, dict] | None = None
+    for it in items:
+        # Prefer publicationVenue.name; fall back to flat venue field
+        pv = it.get("publicationVenue") or {}
+        venue = pv.get("name") or it.get("venue") or ""
+        if not venue or _is_platform_venue(venue):
+            continue
+        cand_title = it.get("title") or ""
+        cand_year = it.get("year")
+        cand_surnames = set()
+        for a in it.get("authors") or []:
+            sn = _surname(a.get("name") or "")
+            if sn:
+                cand_surnames.add(sn)
+        score = _accept_match(title, year, our_surnames,
+                              cand_title, cand_year, cand_surnames)
+        if score is None:
+            continue
+        if best is None or score > best[0]:
+            best = (score, venue, it)
+    if best:
+        return sanitize_inline_text(best[1]), {
+            "source": "semantic_scholar", "score": round(best[0], 3),
+            "doi": (best[2].get("externalIds") or {}).get("DOI"),
+        }
+    return None
+
+
+def find_real_venue(paper: dict, session: requests.Session) -> tuple[str, dict] | None:
+    """Search CrossRef -> OpenAlex -> Semantic Scholar; first confident match wins."""
+    title = (paper.get("title") or "").strip()
+    if not title:
+        return None
+    year = paper.get("year")
+    our_surnames = _author_surnames(paper)
+
+    for fn in (_query_crossref, _query_openalex, _query_semantic_scholar):
+        result = fn(title, year, our_surnames, session)
+        if result:
+            return result
+        # Polite pacing between sources, especially for SS
+        time.sleep(0.05)
     return None
 
 

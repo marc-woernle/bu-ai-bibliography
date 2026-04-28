@@ -225,7 +225,10 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   <div id="app-header"></div>
   <div id="sticky-bar">
     <div class="search-row" id="search-row" style="display:none">
-      <input class="search-input" id="search-input" type="text" placeholder="Try &quot;machine learning&quot;, &quot;Robertson&quot;, or &quot;computer vision&quot;&hellip;" oninput="app.search(this.value)">
+      <input class="search-input" id="search-input" type="text"
+             placeholder="Try &quot;machine learning&quot;, author:Robertson, venue:JAMA year:2024..2026&hellip;"
+             title="Search syntax:&#10;  free-text terms: regulating ai&#10;  exact phrase: &quot;machine learning&quot;&#10;  negation: -term  -&quot;phrase&quot;&#10;  fields: author:Robertson  venue:JAMA  school:Law  domain:Healthcare  subfield:&quot;Medical Imaging&quot;&#10;  year range: year:2024..2026  year:2024&#10;  combine freely: author:Robertson venue:JAMA year:2024..2026"
+             oninput="app.search(this.value)">
     </div>
     <div id="desktop-filter-toggle" style="display:none">
       <button class="desktop-collapse-btn" id="desktop-collapse-btn" onclick="app.toggleDesktopFilters()">
@@ -301,7 +304,7 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   let allSubfields = [];
   let filteredPapers = [];
 
-  const REL_LABELS = { primary: 'Core AI', methodological: 'AI Methods', peripheral: 'AI-Adjacent' };
+  const REL_LABELS = { primary: 'Core AI', methodological: 'Applied AI', peripheral: 'AI Studies' };
 
   // ---- Sticky bar scroll detection + mobile filter auto-collapse ----
   const stickyBar = document.getElementById('sticky-bar');
@@ -450,10 +453,18 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // Parse search query into phrases, terms, and negations.
-  // Supports "quoted phrases", -negation, and -"negated phrases".
+  // Parse search query into phrases, terms, negations, and field-scoped queries.
+  // Supports:
+  //   "quoted phrases"
+  //   -negation, -"negated phrases"
+  //   field:value, field:"quoted value"
+  //   field:YYYY..YYYY for year ranges
+  //   -field:value (negated field)
+  // Recognized fields: author, venue, year, school, domain, subfield.
+  const FIELD_NAMES = new Set(['author', 'venue', 'year', 'school', 'domain', 'subfield']);
   function parseQuery(raw) {
     const phrases = [], terms = [], negPhrases = [], negTerms = [];
+    const fields = []; // {field, value, isPhrase, negate}
     const q = (raw || '').toLowerCase();
     let i = 0;
     while (i < q.length) {
@@ -461,25 +472,41 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       if (i >= q.length) break;
       let negate = false;
       if (q[i] === '-') { negate = true; i++; if (i >= q.length) break; }
+      // Detect field:value prefix
+      let fieldName = null;
+      const colonIdx = q.indexOf(':', i);
+      if (colonIdx !== -1) {
+        const candidate = q.slice(i, colonIdx);
+        if (FIELD_NAMES.has(candidate) && colonIdx + 1 < q.length && !/\s/.test(q[colonIdx + 1])) {
+          fieldName = candidate;
+          i = colonIdx + 1;
+        }
+      }
       if (q[i] === '"') {
         i++;
         const start = i;
         while (i < q.length && q[i] !== '"') i++;
         const phrase = q.slice(start, i).trim();
         if (i < q.length) i++;
-        if (phrase) (negate ? negPhrases : phrases).push(phrase);
+        if (phrase) {
+          if (fieldName) fields.push({ field: fieldName, value: phrase, isPhrase: true, negate });
+          else (negate ? negPhrases : phrases).push(phrase);
+        }
       } else {
         const start = i;
         while (i < q.length && !/\s/.test(q[i])) i++;
         const term = q.slice(start, i);
-        if (term) (negate ? negTerms : terms).push(term);
+        if (term) {
+          if (fieldName) fields.push({ field: fieldName, value: term, isPhrase: false, negate });
+          else (negate ? negTerms : terms).push(term);
+        }
       }
     }
-    return { phrases, terms, negPhrases, negTerms };
+    return { phrases, terms, negPhrases, negTerms, fields };
   }
 
   function queryIsEmpty(q) {
-    return !q.phrases.length && !q.terms.length && !q.negPhrases.length && !q.negTerms.length;
+    return !q.phrases.length && !q.terms.length && !q.negPhrases.length && !q.negTerms.length && !(q.fields && q.fields.length);
   }
 
   // Short tokens (<=4 chars, e.g. RAG, LLM, GAN) use word boundaries to avoid
@@ -497,6 +524,53 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   }
   function matchPhrase(hay, phrase) { return hay.indexOf(phrase) !== -1; }
 
+  // Match a field-scoped query against a paper. Returns true on match.
+  // For author:, expands first-name prefixes so "Chris" finds "Christopher T."
+  function matchField(p, fieldQ) {
+    const value = fieldQ.value;
+    if (fieldQ.field === 'year') {
+      // Accept YYYY or YYYY..YYYY
+      const m = value.match(/^(\d{4})(?:\.\.(\d{4}))?$/);
+      if (!m) return false;
+      const lo = parseInt(m[1], 10);
+      const hi = m[2] ? parseInt(m[2], 10) : lo;
+      return p.y && p.y >= lo && p.y <= hi;
+    }
+    if (fieldQ.field === 'author') {
+      const authors = (p.a || '').toLowerCase();
+      if (authors.indexOf(value) !== -1) return true;
+      // Author fuzzy: split the comma-separated author list, allow either token
+      // of an author's name to start with the query token (after stripping
+      // trailing punctuation). Catches "Chris" -> "Christopher T.",
+      // "C. Robertson" -> "Christopher T. Robertson", "Robertson" -> any
+      // Robertson paper.
+      const stripPunct = s => s.replace(/[^a-z0-9]/g, '');
+      const queryTokens = value.split(/\s+/).map(stripPunct).filter(Boolean);
+      const authorList = authors.split(/,\s*/).map(s => s.trim()).filter(Boolean);
+      for (const aFull of authorList) {
+        const aTokens = aFull.split(/\s+/).map(stripPunct).filter(Boolean);
+        const allMatch = queryTokens.every(qt =>
+          aTokens.some(at => at.startsWith(qt) || qt.startsWith(at))
+        );
+        if (allMatch) return true;
+      }
+      return false;
+    }
+    if (fieldQ.field === 'venue') {
+      return (p.v || '').toLowerCase().indexOf(value) !== -1;
+    }
+    if (fieldQ.field === 'school') {
+      return (p.sch || []).some(s => s.toLowerCase().indexOf(value) !== -1);
+    }
+    if (fieldQ.field === 'domain') {
+      return (p.dom || []).some(d => d.toLowerCase().indexOf(value) !== -1);
+    }
+    if (fieldQ.field === 'subfield') {
+      return (p.sub || []).some(s => s.toLowerCase().indexOf(value) !== -1);
+    }
+    return false;
+  }
+
   // Returns a score >= 0 if the paper matches, or -1 if it fails to match or is excluded.
   // Title hits rank highest, then summary/annotation, then authors/venue.
   function scoreDoc(p, q) {
@@ -507,6 +581,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     const hay = title + ' ' + authors + ' ' + summary + ' ' + venue;
     for (const np of q.negPhrases) if (matchPhrase(hay, np)) return -1;
     for (const nt of q.negTerms) if (matchTerm(hay, nt)) return -1;
+    // Field-scoped queries: positive must match, negative must not
+    for (const fq of (q.fields || [])) {
+      const hit = matchField(p, fq);
+      if (fq.negate ? hit : !hit) return -1;
+    }
     let score = 0;
     for (const ph of q.phrases) {
       if (!matchPhrase(hay, ph)) return -1;
@@ -520,6 +599,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
       else if (matchTerm(summary, t)) score += 1;
       else score += 0.5;
     }
+    // Field queries each contribute a small score so docs that match many fields rank higher
+    if (q.fields) score += q.fields.filter(fq => !fq.negate).length * 0.5;
     if (p.y) score += Math.min((p.y - 2000) * 0.001, 0.03);
     return score;
   }
@@ -699,11 +780,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     // Intro line
     fh += `<div class="intro-line">Browse and search AI-related research published by Boston University faculty across all schools and departments.</div>`;
 
-    // Color legend
+    // Color legend with hover-explanations of each tier
     fh += `<div class="color-legend">
-      <span><span class="dot" style="background:var(--blue)"></span> Core AI</span>
-      <span><span class="dot" style="background:var(--purple)"></span> AI Methods</span>
-      <span><span class="dot" style="background:var(--gray)"></span> AI-Adjacent</span>
+      <span title="AI/ML is the main contribution. The paper builds, evaluates, or theorizes about a model, algorithm, or system. Example: a new deep-learning architecture."><span class="dot" style="background:var(--blue)"></span> Core AI</span>
+      <span title="AI/ML is used as a research tool to advance another field. The model isn't novel; it's a means to a non-AI end. Example: using a CNN to segment medical images."><span class="dot" style="background:var(--purple)"></span> Applied AI</span>
+      <span title="The paper is about AI's place in the world: policy, regulation, law, ethics, economics, social impact. It studies AI rather than building it. Example: a law review article on AI accountability."><span class="dot" style="background:var(--gray)"></span> AI Studies</span>
     </div>`;
 
     // Quick filter chips
@@ -736,8 +817,8 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
     fh += `<div class="filter-group"><label>AI Relevance</label><select onchange="app.setFilter('relevance',this.value)">
       <option value="all"${filterRelevance==='all'?' selected':''}>All</option>
       <option value="primary"${filterRelevance==='primary'?' selected':''}>Core AI (${relCounts.primary.toLocaleString()})</option>
-      <option value="methodological"${filterRelevance==='methodological'?' selected':''}>AI Methods (${relCounts.methodological.toLocaleString()})</option>
-      <option value="peripheral"${filterRelevance==='peripheral'?' selected':''}>AI-Adjacent (${relCounts.peripheral.toLocaleString()})</option>
+      <option value="methodological"${filterRelevance==='methodological'?' selected':''}>Applied AI (${relCounts.methodological.toLocaleString()})</option>
+      <option value="peripheral"${filterRelevance==='peripheral'?' selected':''}>AI Studies (${relCounts.peripheral.toLocaleString()})</option>
     </select></div>`;
     fh += `<div class="filter-group"><label>Sort</label><select onchange="app.setFilter('sort',this.value)">
       <option value="year"${sortBy==='year'?' selected':''}>Year (newest)</option>

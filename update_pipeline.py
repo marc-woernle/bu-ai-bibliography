@@ -433,6 +433,126 @@ def harvest_crossref_biorxiv_incremental(since_date: str) -> list[dict]:
     return unique
 
 
+def harvest_crossref_per_faculty(since_date: str) -> list[dict]:
+    """Per-faculty CrossRef search for high-impact venues that the BU-ROR
+    harvest sometimes misses.
+
+    The institution-wide harvest (filter=affiliations.institution.ror:<BU>)
+    misses faculty whose OpenAlex profile has been split or whose recent
+    JAMA / NEJM / Lancet / etc. papers haven't yet been indexed under their
+    BU-affiliated profile. This loops faculty in clinically-and-legally-
+    active schools and pulls their recent works from a curated set of
+    high-impact venues, regardless of OpenAlex affiliation status.
+
+    The result is fed into the same dedup + classify + BU-verify pipeline,
+    so anything already in master gets skipped, and anything new gets the
+    full classification treatment.
+    """
+    logger.info("CrossRef per-faculty: searching high-impact venues")
+
+    HIGH_IMPACT_VENUES = {
+        # Top medical
+        "jama", "the lancet", "lancet", "new england journal of medicine",
+        "nejm", "nature", "science", "cell", "nature medicine",
+        "nature human behaviour", "nature digital medicine", "npj digital medicine",
+        "bmj", "the bmj", "annals of internal medicine",
+        "jama internal medicine", "jama network open", "jama oncology",
+        "jama pediatrics", "jama neurology", "jama psychiatry",
+        "jama health forum", "jama dermatology", "jama cardiology",
+        "jama ophthalmology", "jama otolaryngology", "jama surgery",
+        # Top law (a curated short list; full coverage would explode the query budget)
+        "harvard law review", "yale law journal", "stanford law review",
+        "columbia law review", "university of pennsylvania law review",
+        "virginia law review", "michigan law review", "california law review",
+        "boston university law review", "boston college law review",
+        "wisconsin law review",
+    }
+
+    target_schools = {
+        "School of Medicine", "School of Public Health", "School of Law",
+        "Sargent College of Health & Rehabilitation Sciences",
+        "Wheelock College of Education & Human Development",
+        "Faculty of Computing & Data Sciences",
+    }
+
+    # Build target faculty list from current roster
+    try:
+        with open("data/bu_faculty_roster_verified.json") as f:
+            roster = json.load(f)
+    except Exception as e:
+        logger.warning(f"  could not load roster: {e}")
+        return []
+    targets = [r for r in roster
+               if r.get("name") and r.get("school") in target_schools]
+    logger.info(f"  {len(targets)} faculty in target schools")
+
+    seen_dois = set()
+    papers = []
+    for fac in targets:
+        name = fac["name"]
+        # Query: per-author, recent, journal articles only
+        _crossref_rl.wait()
+        try:
+            resp = requests.get(
+                "https://api.crossref.org/works",
+                params={
+                    "query.author": name,
+                    "filter": f"from-pub-date:{since_date},type:journal-article",
+                    "rows": 50,
+                    "select": "DOI,title,author,published-print,published-online,"
+                              "abstract,URL,is-referenced-by-count,type,subject,"
+                              "container-title",
+                },
+                headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"},
+                timeout=15,
+            )
+            if resp.status_code == 429:
+                time.sleep(5)
+                continue
+            if resp.status_code != 200:
+                continue
+            items = resp.json().get("message", {}).get("items", [])
+        except Exception as e:
+            logger.debug(f"  CrossRef per-faculty error for {name}: {e}")
+            continue
+
+        for item in items:
+            ctitle_arr = item.get("container-title") or []
+            ctitle_raw = ctitle_arr[0] if ctitle_arr else ""
+            ctitle = ctitle_raw.lower()
+            if ctitle not in HIGH_IMPACT_VENUES:
+                continue
+            parsed = _parse_crossref_item(item)
+            if not parsed:
+                continue
+            doi = normalize_doi(parsed.get("doi", ""))
+            if not doi or doi in seen_dois:
+                continue
+            # Verify the faculty's name actually appears in authors
+            authors_str = ", ".join(
+                a.get("name", "") for a in parsed.get("authors", [])
+            ).lower()
+            last = name.split()[-1].lower()
+            if last not in authors_str:
+                continue
+            seen_dois.add(doi)
+            # _parse_crossref_item is tuned for SSRN: it hardcodes source="ssrn"
+            # and venue="SSRN Electronic Journal". Override both since these
+            # papers are from JAMA / NEJM / Lancet / etc., not SSRN.
+            parsed["source"] = "crossref"
+            parsed["venue"] = ctitle_raw
+            # Mark BU on the matching author so verify_bu_authors keeps it
+            for a in parsed.get("authors", []):
+                if last in (a.get("name") or "").lower():
+                    a["is_bu"] = True
+                    a["affiliation"] = a.get("affiliation") or "Boston University"
+                    break
+            papers.append(parsed)
+
+    logger.info(f"CrossRef per-faculty: {len(papers)} papers harvested")
+    return papers
+
+
 def harvest_ssrn_by_faculty() -> list[dict]:
     """Search SSRN for papers by known BU Law faculty ONLY.
 
@@ -657,6 +777,14 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
     _run_source("ssrn",
                 lambda deadline=None: harvest_ssrn_by_faculty(),
                 max_minutes=10)
+
+    # Per-faculty CrossRef back-fill for high-impact venues. Catches faculty
+    # whose OpenAlex profile is split, or whose recent JAMA/NEJM/Lancet papers
+    # the OpenAlex BU-ROR filter hasn't picked up yet (the missing-Robertson-
+    # JAMA-papers scenario).
+    _run_source("crossref_per_faculty",
+                lambda deadline=None: harvest_crossref_per_faculty(since_12m),
+                max_minutes=15)
 
     # ── Sources with since_date support ──
     from source_semantic_scholar import harvest as harvest_s2

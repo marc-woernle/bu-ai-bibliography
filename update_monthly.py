@@ -113,6 +113,24 @@ def generate_report(data: dict) -> str:
             if status == "FAILED":
                 status = f"FAILED: {info.get('error', '')[:60]}"
             lines.append(f"| {name} | {info.get('count', 0)} | {status} | {info.get('duration_s', 0):.0f}s |")
+        lines.append("")
+
+    # Completeness audit (runs after harvest, flags coverage gaps)
+    audit = data.get("completeness_audit", {})
+    flagged = (audit.get("flagged") or [])
+    if flagged:
+        lines.append("## Faculty Coverage Gaps (CrossRef vs. our master, last 24mo)")
+        lines.append(f"Flagged {len(flagged)} faculty with material coverage gap. Top 15:")
+        lines.append("")
+        lines.append("| Faculty | School | Ours | CrossRef AI | Ratio |")
+        lines.append("|---|---|---:|---:|---:|")
+        for f in sorted(flagged, key=lambda x: x.get("ratio", 1.0))[:15]:
+            lines.append(
+                f"| {f.get('name','')} | {f.get('school','')} "
+                f"| {f.get('master_count_24m',0)} | {f.get('crossref_ai_count_24m',0)} "
+                f"| {f.get('ratio',0):.2f} |"
+            )
+        lines.append("")
         total_harvested = sum(r.get("count", 0) for r in source_report.values())
         lines.append(f"\n**Total harvested:** {total_harvested}")
         lines.append("")
@@ -487,6 +505,20 @@ def _run(args, start_time):
 
     duration = (time.time() - start_time) / 60
     report_data["duration_m"] = duration
+
+    # Faculty completeness audit: flag faculty whose master coverage looks
+    # materially smaller than CrossRef thinks they should have. Output goes
+    # into the report so any drift is visible early.
+    try:
+        import subprocess
+        subprocess.run(["python", "audit_faculty_completeness.py"],
+                       check=False, timeout=600)
+        from pathlib import Path as _P
+        audit_file = _P("data/faculty_completeness_audit.json")
+        if audit_file.exists():
+            report_data["completeness_audit"] = json.loads(audit_file.read_text())
+    except Exception as e:
+        logger.warning(f"completeness audit failed (non-fatal): {e}")
 
     report_md = generate_report(report_data)
 

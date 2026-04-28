@@ -17,7 +17,10 @@
     "openalex_id": "https://openalex.org/A5103066327",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 122
+    "openalex_works": 122,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103526099"
+    ]
   },
   {
     "name": "Ran Canetti",
@@ -127,7 +130,10 @@
     "openalex_id": "https://openalex.org/A5075906727",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 374
+    "openalex_works": 374,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103184418"
+    ]
   },
   {
     "name": "Stan Sclaroff",
@@ -147,7 +153,10 @@
     "openalex_id": "https://openalex.org/A5079131956",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 304
+    "openalex_works": 304,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5074728200"
+    ]
   },
   {
     "name": "Evimaria Terzi",
@@ -567,7 +576,11 @@
     "openalex_id": "https://openalex.org/A5102926058",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 24
+    "openalex_works": 24,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5028478656",
+      "https://openalex.org/A5038200894"
+    ]
   },
   {
     "name": "Andrew W. Wood",
@@ -587,7 +600,10 @@
     "openalex_id": "https://openalex.org/A5058798782",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 289
+    "openalex_works": 289,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5098435324"
+    ]
   },
   {
     "name": "Sang Chin",
@@ -667,7 +683,10 @@
     "openalex_id": "https://openalex.org/A5128680920",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5051096462"
+    ]
   },
   {
     "name": "Prakash Ishwar",
@@ -767,7 +786,10 @@
     "openalex_id": "https://openalex.org/A5005863931",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 174
+    "openalex_works": 174,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5112449095"
+    ]
   },
   {
     "name": "Krzysztof Onak",
@@ -847,7 +869,10 @@
     "openalex_id": "https://openalex.org/A5002529174",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 4
+    "openalex_works": 4,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5078526061"
+    ]
   },
   {
     "name": "Georgios Zervas",
@@ -857,7 +882,10 @@
     "openalex_id": "https://openalex.org/A5044981310",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 287
+    "openalex_works": 287,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102989133"
+    ]
   },
   {
     "name": "Xuezhou Zhang",
@@ -887,7 +915,10 @@
     "openalex_id": "https://openalex.org/A5056165227",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 5
+    "openalex_works": 5,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5070206514"
+    ]
   },
   {
     "name": "Jennifer Balakrishnan",
@@ -947,7 +978,10 @@
     "openalex_id": "https://openalex.org/A5037140250",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 68
+    "openalex_works": 68,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5062113350"
+    ]
   },
   {
     "name": "Julio Castrillon",
@@ -1027,7 +1061,10 @@
     "openalex_id": "https://openalex.org/A5031726692",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 104
+    "openalex_works": 104,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5003551841"
+    ]
   },
   {
     "name": "Isaac Fried",
@@ -1097,7 +1134,10 @@
     "openalex_id": "https://openalex.org/A5112547333",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 107
+    "openalex_works": 107,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5050426319"
+    ]
   },
   {
     "name": "Tasso Kaper",
@@ -1107,7 +1147,10 @@
     "openalex_id": "https://openalex.org/A5087776335",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 116
+    "openalex_works": 116,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5108139159"
+    ]
   },
   {
     "name": "Takashi Kimura",
@@ -1157,7 +1200,11 @@
     "openalex_id": "https://openalex.org/A5077516931",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 227
+    "openalex_works": 227,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5022994404",
+      "https://openalex.org/A5081573164"
+    ]
   },
   {
     "name": "Mark Kramer",
@@ -1337,7 +1384,10 @@
     "openalex_id": "https://openalex.org/A5103169334",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 153
+    "openalex_works": 153,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5073501417"
+    ]
   },
   {
     "name": "Padmavathi Srinivasan",
@@ -1367,7 +1417,10 @@
     "openalex_id": "https://openalex.org/A5121053230",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5113678604"
+    ]
   },
   {
     "name": "Maciej Szczesny",
@@ -1387,7 +1440,10 @@
     "openalex_id": "https://openalex.org/A5018409007",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 444
+    "openalex_works": 444,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5073089988"
+    ]
   },
   {
     "name": "Jared Weinstein",
@@ -1547,7 +1603,10 @@
     "openalex_id": "https://openalex.org/A5023360173",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 66
+    "openalex_works": 66,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5063176842"
+    ]
   },
   {
     "name": "Ivan Fernandez-Val",
@@ -1707,7 +1766,10 @@
     "openalex_id": "https://openalex.org/A5111108528",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5090236686"
+    ]
   },
   {
     "name": "E. Nilay Kafali",
@@ -1737,7 +1799,10 @@
     "openalex_id": "https://openalex.org/A5051608927",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 429
+    "openalex_works": 429,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5108752323"
+    ]
   },
   {
     "name": "Benjamin Koskinen",
@@ -1827,7 +1892,10 @@
     "openalex_id": "https://openalex.org/A5129436055",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103170831"
+    ]
   },
   {
     "name": "Yuhei Miyauchi",
@@ -2217,7 +2285,10 @@
     "openalex_id": "https://openalex.org/A5075338955",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 23
+    "openalex_works": 23,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5087556038"
+    ]
   },
   {
     "name": "Christine Slaughter",
@@ -2607,7 +2678,10 @@
     "openalex_id": "https://openalex.org/A5076064322",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 366
+    "openalex_works": 366,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5003078833"
+    ]
   },
   {
     "name": "Chloe Jordan",
@@ -2677,7 +2751,10 @@
     "openalex_id": "https://openalex.org/A5028760133",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 123
+    "openalex_works": 123,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5026749870"
+    ]
   },
   {
     "name": "Wendy Lippe",
@@ -2697,7 +2774,10 @@
     "openalex_id": "https://openalex.org/A5102792089",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 93
+    "openalex_works": 93,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5035374122"
+    ]
   },
   {
     "name": "Kristin Long",
@@ -2887,7 +2967,10 @@
     "openalex_id": "https://openalex.org/A5079880645",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 499
+    "openalex_works": 499,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5027666885"
+    ]
   },
   {
     "name": "Margaret Ross",
@@ -2907,7 +2990,10 @@
     "openalex_id": "https://openalex.org/A5024043597",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5049196055"
+    ]
   },
   {
     "name": "Benjamin B. Scott",
@@ -3037,7 +3123,11 @@
     "openalex_id": "https://openalex.org/A5059959857",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 855
+    "openalex_works": 855,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102967220",
+      "https://openalex.org/A5104059349"
+    ]
   },
   {
     "name": "Deborah Belle",
@@ -3077,7 +3167,10 @@
     "openalex_id": "https://openalex.org/A5042282723",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 12
+    "openalex_works": 12,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5101686683"
+    ]
   },
   {
     "name": "Jean Berko Gleason",
@@ -3097,7 +3190,10 @@
     "openalex_id": "https://openalex.org/A5080971897",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 719
+    "openalex_works": 719,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110339347"
+    ]
   },
   {
     "name": "Frances Grossman",
@@ -3487,7 +3583,10 @@
     "openalex_id": "https://openalex.org/A5055326297",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 5
+    "openalex_works": 5,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5075934249"
+    ]
   },
   {
     "name": "Mario Muscedere",
@@ -3757,7 +3856,10 @@
     "openalex_id": "https://openalex.org/A5016693607",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 237
+    "openalex_works": 237,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5067639617"
+    ]
   },
   {
     "name": "Shelley J. Russek",
@@ -3787,7 +3889,10 @@
     "openalex_id": "https://openalex.org/A5103991685",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 170
+    "openalex_works": 170,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5060870443"
+    ]
   },
   {
     "name": "Elizabeth Coppock",
@@ -3917,7 +4022,11 @@
     "openalex_id": "https://openalex.org/A5105586624",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 33
+    "openalex_works": 33,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5063560944",
+      "https://openalex.org/A5107899622"
+    ]
   },
   {
     "name": "Andrew Duffy",
@@ -3947,7 +4056,11 @@
     "openalex_id": "https://openalex.org/A5052615082",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 96
+    "openalex_works": 96,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5115590649",
+      "https://openalex.org/A5066413534"
+    ]
   },
   {
     "name": "Andrew Liam Fitzpatrick",
@@ -4017,7 +4130,10 @@
     "openalex_id": "https://openalex.org/A5126474925",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5107943433"
+    ]
   },
   {
     "name": "Emanuel Katz",
@@ -4147,7 +4263,13 @@
     "openalex_id": "https://openalex.org/A5105586626",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 10
+    "openalex_works": 10,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5026306531",
+      "https://openalex.org/A5107859330",
+      "https://openalex.org/A5107885712",
+      "https://openalex.org/A5105184593"
+    ]
   },
   {
     "name": "Andrei E. Ruckenstein",
@@ -4197,7 +4319,10 @@
     "openalex_id": "https://openalex.org/A5069597606",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 4
+    "openalex_works": 4,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5018816741"
+    ]
   },
   {
     "name": "David Sperka",
@@ -4207,7 +4332,13 @@
     "openalex_id": "https://openalex.org/A5107882337",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 42
+    "openalex_works": 42,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5084742401",
+      "https://openalex.org/A5107830265",
+      "https://openalex.org/A5107883319",
+      "https://openalex.org/A5106825233"
+    ]
   },
   {
     "name": "Indara Suarez",
@@ -4217,7 +4348,10 @@
     "openalex_id": "https://openalex.org/A5105187835",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 32
+    "openalex_works": 32,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5038874491"
+    ]
   },
   {
     "name": "Lawrence R. Sulak",
@@ -4267,7 +4401,10 @@
     "openalex_id": "https://openalex.org/A5029521419",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 320
+    "openalex_works": 320,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5071796741"
+    ]
   },
   {
     "name": "Ken Brecher",
@@ -4297,7 +4434,10 @@
     "openalex_id": "https://openalex.org/A5059809609",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 328
+    "openalex_works": 328,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5066102468"
+    ]
   },
   {
     "name": "Keith A. Brown",
@@ -4327,7 +4467,10 @@
     "openalex_id": "https://openalex.org/A5086153927",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 730
+    "openalex_works": 730,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5111969968"
+    ]
   },
   {
     "name": "David Coker",
@@ -4357,7 +4500,10 @@
     "openalex_id": "https://openalex.org/A5062206009",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 421
+    "openalex_works": 421,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5108250502"
+    ]
   },
   {
     "name": "Charles DeLisi",
@@ -4417,7 +4563,10 @@
     "openalex_id": "https://openalex.org/A5042279154",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 285
+    "openalex_works": 285,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5108207045"
+    ]
   },
   {
     "name": "Siddharth Mishra-Sharma",
@@ -4437,7 +4586,10 @@
     "openalex_id": "https://openalex.org/A5051664887",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 95
+    "openalex_works": 95,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5013915463"
+    ]
   },
   {
     "name": "Siddharth Ramachandran",
@@ -4697,7 +4849,10 @@
     "openalex_id": "https://openalex.org/A5033401385",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 5
+    "openalex_works": 5,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5005834311"
+    ]
   },
   {
     "name": "Sucharita Gopal",
@@ -4707,7 +4862,10 @@
     "openalex_id": "https://openalex.org/A5008773651",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 22
+    "openalex_works": 22,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5049608457"
+    ]
   },
   {
     "name": "Robert K. Kaufmann",
@@ -4777,7 +4935,10 @@
     "openalex_id": "https://openalex.org/A5026511688",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 5
+    "openalex_works": 5,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5029258860"
+    ]
   },
   {
     "name": "Xiaozhou Ruan",
@@ -5917,7 +6078,11 @@
     "openalex_id": "https://openalex.org/A5121356809",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5041923525",
+      "https://openalex.org/A5033279415"
+    ]
   },
   {
     "name": "Gerald F. Leonard",
@@ -5977,7 +6142,10 @@
     "openalex_id": "https://openalex.org/A5039758029",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 63
+    "openalex_works": 63,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102956320"
+    ]
   },
   {
     "name": "Pierluigi Matera",
@@ -6037,7 +6205,11 @@
     "openalex_id": "https://openalex.org/A5102031007",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 3
+    "openalex_works": 3,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5082109888",
+      "https://openalex.org/A5055697077"
+    ]
   },
   {
     "name": "Maureen A. O’Rourke",
@@ -6487,7 +6659,10 @@
     "openalex_id": "https://openalex.org/A5077237376",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 215
+    "openalex_works": 215,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5101468417"
+    ]
   },
   {
     "name": "Robert A. Brown",
@@ -6497,7 +6672,10 @@
     "openalex_id": "https://openalex.org/A5102982237",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 511
+    "openalex_works": 511,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5054721642"
+    ]
   },
   {
     "name": "Xin Brown",
@@ -6587,7 +6765,10 @@
     "openalex_id": "https://openalex.org/A5001316327",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 38
+    "openalex_works": 38,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5008892922"
+    ]
   },
   {
     "name": "Anna Devor",
@@ -6657,7 +6838,10 @@
     "openalex_id": "https://openalex.org/A5110014563",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 92
+    "openalex_works": 92,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110131375"
+    ]
   },
   {
     "name": "James E. Galagan",
@@ -6697,7 +6881,10 @@
     "openalex_id": "https://openalex.org/A5100627392",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 272
+    "openalex_works": 272,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5079443136"
+    ]
   },
   {
     "name": "Liangliang Hao",
@@ -6937,7 +7124,12 @@
     "openalex_id": "https://openalex.org/A5101758579",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 80
+    "openalex_works": 80,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5101782915",
+      "https://openalex.org/A5110177740",
+      "https://openalex.org/A5101695001"
+    ]
   },
   {
     "name": "Dimitrije Stamenovic",
@@ -6977,7 +7169,12 @@
     "openalex_id": "https://openalex.org/A5069601786",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 766
+    "openalex_works": 766,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103144581",
+      "https://openalex.org/A5074724507",
+      "https://openalex.org/A5109570397"
+    ]
   },
   {
     "name": "Shannon Stott",
@@ -7027,7 +7224,10 @@
     "openalex_id": "https://openalex.org/A5013887346",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 427
+    "openalex_works": 427,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5089969477"
+    ]
   },
   {
     "name": "Joe Tien",
@@ -7207,7 +7407,11 @@
     "openalex_id": "https://openalex.org/A5009310546",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 331
+    "openalex_works": 331,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110898518",
+      "https://openalex.org/A5110424378"
+    ]
   },
   {
     "name": "Abhishek Pratap",
@@ -7287,7 +7491,10 @@
     "openalex_id": "https://openalex.org/A5124705927",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5036456839"
+    ]
   },
   {
     "name": "Adam Lerner",
@@ -7597,7 +7804,10 @@
     "openalex_id": "https://openalex.org/A5022320995",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 118
+    "openalex_works": 118,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5099598335"
+    ]
   },
   {
     "name": "Alec J. Uy",
@@ -7667,7 +7877,10 @@
     "openalex_id": "https://openalex.org/A5111979237",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 59
+    "openalex_works": 59,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102957751"
+    ]
   },
   {
     "name": "Alexa S. Beiser",
@@ -7677,7 +7890,10 @@
     "openalex_id": "https://openalex.org/A5063754448",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 668
+    "openalex_works": 668,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5112400096"
+    ]
   },
   {
     "name": "Alexander Braun",
@@ -7767,7 +7983,10 @@
     "openalex_id": "https://openalex.org/A5063188015",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 59
+    "openalex_works": 59,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5058629060"
+    ]
   },
   {
     "name": "Alexandra Leong Mattern",
@@ -7867,7 +8086,10 @@
     "openalex_id": "https://openalex.org/A5011617075",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 29
+    "openalex_works": 29,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5111436769"
+    ]
   },
   {
     "name": "Alfredo J. Selim",
@@ -7897,7 +8119,10 @@
     "openalex_id": "https://openalex.org/A5069018938",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1184
+    "openalex_works": 1184,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5134339269"
+    ]
   },
   {
     "name": "Ali Niakosari",
@@ -7927,7 +8152,10 @@
     "openalex_id": "https://openalex.org/A5031070551",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 858
+    "openalex_works": 858,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5113993149"
+    ]
   },
   {
     "name": "Alice F. Murray",
@@ -7967,7 +8195,10 @@
     "openalex_id": "https://openalex.org/A5110912747",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 8
+    "openalex_works": 8,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5024384519"
+    ]
   },
   {
     "name": "Aline Hutner",
@@ -8087,7 +8318,10 @@
     "openalex_id": "https://openalex.org/A5106277076",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5019282506"
+    ]
   },
   {
     "name": "Allan J. Walkey",
@@ -8407,7 +8641,10 @@
     "openalex_id": "https://openalex.org/A5046303718",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 7
+    "openalex_works": 7,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5034046294"
+    ]
   },
   {
     "name": "Amy Gottlieb",
@@ -8757,7 +8994,10 @@
     "openalex_id": "https://openalex.org/A5058734327",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 91
+    "openalex_works": 91,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5022511526"
+    ]
   },
   {
     "name": "Andrew J. Kompel",
@@ -8867,7 +9107,10 @@
     "openalex_id": "https://openalex.org/A5055280629",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 108
+    "openalex_works": 108,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5002454546"
+    ]
   },
   {
     "name": "Andy M. Lee",
@@ -9297,7 +9540,10 @@
     "openalex_id": "https://openalex.org/A5103027175",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 34
+    "openalex_works": 34,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5051004100"
+    ]
   },
   {
     "name": "Anthony J. Mell",
@@ -9337,7 +9583,10 @@
     "openalex_id": "https://openalex.org/A5014623393",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5062823151"
+    ]
   },
   {
     "name": "Antreas Charidimou",
@@ -9347,7 +9596,10 @@
     "openalex_id": "https://openalex.org/A5031126927",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 8
+    "openalex_works": 8,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5001829677"
+    ]
   },
   {
     "name": "Anuka Das",
@@ -9407,7 +9659,10 @@
     "openalex_id": "https://openalex.org/A5122791761",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 4
+    "openalex_works": 4,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5029899036"
+    ]
   },
   {
     "name": "Ari Damla",
@@ -9487,7 +9742,10 @@
     "openalex_id": "https://openalex.org/A5044042294",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 117
+    "openalex_works": 117,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5088296097"
+    ]
   },
   {
     "name": "Arlene Dermovsesian",
@@ -9607,7 +9865,10 @@
     "openalex_id": "https://openalex.org/A5123791517",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5073553216"
+    ]
   },
   {
     "name": "Ashita Gurnani",
@@ -10327,7 +10588,10 @@
     "openalex_id": "https://openalex.org/A5125750799",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 4
+    "openalex_works": 4,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5012228380"
+    ]
   },
   {
     "name": "Boris Burmistrovich",
@@ -10477,7 +10741,10 @@
     "openalex_id": "https://openalex.org/A5103020688",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 128
+    "openalex_works": 128,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103713368"
+    ]
   },
   {
     "name": "Brian S. Kim",
@@ -10547,7 +10814,10 @@
     "openalex_id": "https://openalex.org/A5063426870",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 862
+    "openalex_works": 862,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5028547631"
+    ]
   },
   {
     "name": "Brian Wall",
@@ -10617,7 +10887,10 @@
     "openalex_id": "https://openalex.org/A5109906479",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 36
+    "openalex_works": 36,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5020624155"
+    ]
   },
   {
     "name": "Britta Lassmann",
@@ -10687,7 +10960,10 @@
     "openalex_id": "https://openalex.org/A5111360952",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5031904918"
+    ]
   },
   {
     "name": "Bryan J. Gendron",
@@ -10707,7 +10983,10 @@
     "openalex_id": "https://openalex.org/A5111185116",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 10
+    "openalex_works": 10,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5032968972"
+    ]
   },
   {
     "name": "Charles R Horsburgh",
@@ -10967,7 +11246,10 @@
     "openalex_id": "https://openalex.org/A5022112585",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 286
+    "openalex_works": 286,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5112329881"
+    ]
   },
   {
     "name": "Caroline Eyvazzadeh",
@@ -11117,7 +11399,10 @@
     "openalex_id": "https://openalex.org/A5126946912",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5077232072"
+    ]
   },
   {
     "name": "Catherine Hamel",
@@ -11357,7 +11642,10 @@
     "openalex_id": "https://openalex.org/A5071833496",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5068199332"
+    ]
   },
   {
     "name": "Charles E. Gaudet",
@@ -11407,7 +11695,10 @@
     "openalex_id": "https://openalex.org/A5089196941",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 406
+    "openalex_works": 406,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5084265274"
+    ]
   },
   {
     "name": "Charlotte Solmssen",
@@ -11677,7 +11968,10 @@
     "openalex_id": "https://openalex.org/A5042716267",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 247
+    "openalex_works": 247,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5113657735"
+    ]
   },
   {
     "name": "Christine Prifti",
@@ -11787,7 +12081,10 @@
     "openalex_id": "https://openalex.org/A5119048855",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5073569663"
+    ]
   },
   {
     "name": "Christopher V. Gabel",
@@ -11837,7 +12134,10 @@
     "openalex_id": "https://openalex.org/A5035235334",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5016584121"
+    ]
   },
   {
     "name": "Christopher Kearney",
@@ -12007,7 +12307,10 @@
     "openalex_id": "https://openalex.org/A5057415079",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 353
+    "openalex_works": 353,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5025656608"
+    ]
   },
   {
     "name": "Clare A. Dimaunahan",
@@ -12087,7 +12390,10 @@
     "openalex_id": "https://openalex.org/A5063972129",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 273
+    "openalex_works": 273,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103721501"
+    ]
   },
   {
     "name": "Cliff Yu",
@@ -12287,7 +12593,10 @@
     "openalex_id": "https://openalex.org/A5118804931",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5002316459"
+    ]
   },
   {
     "name": "Crisanto Torres",
@@ -12477,7 +12786,10 @@
     "openalex_id": "https://openalex.org/A5100696404",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 759
+    "openalex_works": 759,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5016614846"
+    ]
   },
   {
     "name": "Daniel Cifuentes",
@@ -12527,7 +12839,10 @@
     "openalex_id": "https://openalex.org/A5074117194",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1546
+    "openalex_works": 1546,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102991923"
+    ]
   },
   {
     "name": "Daniel Lindstrom",
@@ -12857,7 +13172,10 @@
     "openalex_id": "https://openalex.org/A5123776013",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5023227957"
+    ]
   },
   {
     "name": "David Flynn",
@@ -12867,7 +13185,11 @@
     "openalex_id": "https://openalex.org/A5111402834",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 67
+    "openalex_works": 67,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5067883791",
+      "https://openalex.org/A5000673199"
+    ]
   },
   {
     "name": "David Freccero",
@@ -12897,7 +13219,10 @@
     "openalex_id": "https://openalex.org/A5073498622",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 627
+    "openalex_works": 627,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5032268015"
+    ]
   },
   {
     "name": "David M. Gunther",
@@ -12997,7 +13322,10 @@
     "openalex_id": "https://openalex.org/A5103853724",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5009703625"
+    ]
   },
   {
     "name": "David McIntosh",
@@ -13037,7 +13365,10 @@
     "openalex_id": "https://openalex.org/A5111649971",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103541585"
+    ]
   },
   {
     "name": "David M. Ozonoff",
@@ -13397,7 +13728,10 @@
     "openalex_id": "https://openalex.org/A5053790248",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 58
+    "openalex_works": 58,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110966456"
+    ]
   },
   {
     "name": "Derin Tugal",
@@ -13597,7 +13931,10 @@
     "openalex_id": "https://openalex.org/A5045158010",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 86
+    "openalex_works": 86,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5024882855"
+    ]
   },
   {
     "name": "Douglas I. Katz",
@@ -13737,7 +14074,10 @@
     "openalex_id": "https://openalex.org/A5101849259",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 171
+    "openalex_works": 171,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5065890640"
+    ]
   },
   {
     "name": "Edward Bernstein",
@@ -13747,7 +14087,10 @@
     "openalex_id": "https://openalex.org/A5124346499",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5025473901"
+    ]
   },
   {
     "name": "Edward Brewer",
@@ -13887,7 +14230,11 @@
     "openalex_id": "https://openalex.org/A5109650817",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 43
+    "openalex_works": 43,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5109607697",
+      "https://openalex.org/A5050787316"
+    ]
   },
   {
     "name": "Elaine M. Hylek",
@@ -13977,7 +14324,10 @@
     "openalex_id": "https://openalex.org/A5049382686",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 97
+    "openalex_works": 97,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103016975"
+    ]
   },
   {
     "name": "Elissa M. Schechter-Perkins",
@@ -14007,7 +14357,10 @@
     "openalex_id": "https://openalex.org/A5052788580",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 36
+    "openalex_works": 36,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103212482"
+    ]
   },
   {
     "name": "Elizabeth D. Barnett",
@@ -14377,7 +14730,10 @@
     "openalex_id": "https://openalex.org/A5004656494",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1866
+    "openalex_works": 1866,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5064309113"
+    ]
   },
   {
     "name": "Emilie R. Gerber-Kunicka",
@@ -14787,7 +15143,10 @@
     "openalex_id": "https://openalex.org/A5102705719",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 23
+    "openalex_works": 23,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5000137328"
+    ]
   },
   {
     "name": "Erica R. Mintzer",
@@ -14867,7 +15226,10 @@
     "openalex_id": "https://openalex.org/A5016770042",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 51
+    "openalex_works": 51,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5123348108"
+    ]
   },
   {
     "name": "Erin Stefely",
@@ -15057,7 +15419,10 @@
     "openalex_id": "https://openalex.org/A5001334189",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 866
+    "openalex_works": 866,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5029875296"
+    ]
   },
   {
     "name": "Fabio Petrocca",
@@ -15217,7 +15582,10 @@
     "openalex_id": "https://openalex.org/A5087833942",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 188
+    "openalex_works": 188,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5113446059"
+    ]
   },
   {
     "name": "Frances M. Searle",
@@ -15387,7 +15755,10 @@
     "openalex_id": "https://openalex.org/A5034399119",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5109273706"
+    ]
   },
   {
     "name": "Gabrielle A. VanSpeybroeck",
@@ -15437,7 +15808,12 @@
     "openalex_id": "https://openalex.org/A5100412404",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 200
+    "openalex_works": 200,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5100412482",
+      "https://openalex.org/A5085574064",
+      "https://openalex.org/A5101698769"
+    ]
   },
   {
     "name": "Gareth J. Morgan",
@@ -15597,7 +15973,10 @@
     "openalex_id": "https://openalex.org/A5113987545",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 54
+    "openalex_works": 54,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5062891826"
+    ]
   },
   {
     "name": "George T. O'Connor",
@@ -15977,7 +16356,10 @@
     "openalex_id": "https://openalex.org/A5035614830",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 182
+    "openalex_works": 182,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110553591"
+    ]
   },
   {
     "name": "H. Berk Degirmenci",
@@ -16227,7 +16609,10 @@
     "openalex_id": "https://openalex.org/A5067926399",
     "is_rare_name": true,
     "scraped_at": "2026-03-31",
-    "openalex_works": 86
+    "openalex_works": 86,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5017418373"
+    ]
   },
   {
     "name": "Heather H. Miselis",
@@ -16387,7 +16772,10 @@
     "openalex_id": "https://openalex.org/A5109205206",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 3
+    "openalex_works": 3,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5069694476"
+    ]
   },
   {
     "name": "Hilana H. Scott",
@@ -16517,7 +16905,10 @@
     "openalex_id": "https://openalex.org/A5034467077",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 883
+    "openalex_works": 883,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5102922727"
+    ]
   },
   {
     "name": "Howard Lanney",
@@ -16577,7 +16968,11 @@
     "openalex_id": "https://openalex.org/A5100685759",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 140
+    "openalex_works": 140,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5100685758",
+      "https://openalex.org/A5034307533"
+    ]
   },
   {
     "name": "Huitong Ding",
@@ -16847,7 +17242,12 @@
     "openalex_id": "https://openalex.org/A5130331374",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5012460833",
+      "https://openalex.org/A5108125367",
+      "https://openalex.org/A5091592837"
+    ]
   },
   {
     "name": "J. P. Noordzij",
@@ -16867,7 +17267,10 @@
     "openalex_id": "https://openalex.org/A5072257104",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 730
+    "openalex_works": 730,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5079334024"
+    ]
   },
   {
     "name": "J. Stephen Heisel",
@@ -17027,7 +17430,10 @@
     "openalex_id": "https://openalex.org/A5067342478",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 160
+    "openalex_works": 160,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5054382710"
+    ]
   },
   {
     "name": "James Borders",
@@ -17177,7 +17583,10 @@
     "openalex_id": "https://openalex.org/A5110297212",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 158
+    "openalex_works": 158,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5113613141"
+    ]
   },
   {
     "name": "Janet Lloyd",
@@ -17237,7 +17646,10 @@
     "openalex_id": "https://openalex.org/A5126052063",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103381506"
+    ]
   },
   {
     "name": "Jaroslaw N. Tkacz",
@@ -17527,7 +17939,10 @@
     "openalex_id": "https://openalex.org/A5087623707",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 5
+    "openalex_works": 5,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5028430310"
+    ]
   },
   {
     "name": "Jeffrey R. Moore",
@@ -17557,7 +17972,10 @@
     "openalex_id": "https://openalex.org/A5104684511",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5045368376"
+    ]
   },
   {
     "name": "Jeffrey I. Schneider",
@@ -17567,7 +17985,10 @@
     "openalex_id": "https://openalex.org/A5017325473",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 256
+    "openalex_works": 256,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5044814557"
+    ]
   },
   {
     "name": "Jeffrey J. Siracuse",
@@ -17577,7 +17998,10 @@
     "openalex_id": "https://openalex.org/A5110931487",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 10
+    "openalex_works": 10,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5030077235"
+    ]
   },
   {
     "name": "Jeffrey H. Spiegel",
@@ -17777,7 +18201,10 @@
     "openalex_id": "https://openalex.org/A5036095513",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 72
+    "openalex_works": 72,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5068970171"
+    ]
   },
   {
     "name": "Jennifer L. Pfau",
@@ -17857,7 +18284,11 @@
     "openalex_id": "https://openalex.org/A5010925643",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 247
+    "openalex_works": 247,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5101471751",
+      "https://openalex.org/A5101471750"
+    ]
   },
   {
     "name": "Jennifer J. Vanderweele",
@@ -17977,7 +18408,10 @@
     "openalex_id": "https://openalex.org/A5126698811",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5017375628"
+    ]
   },
   {
     "name": "Jessica Kwan",
@@ -17997,7 +18431,10 @@
     "openalex_id": "https://openalex.org/A5008310375",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 203
+    "openalex_works": 203,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5111087257"
+    ]
   },
   {
     "name": "Jessica Lewczyk",
@@ -18117,7 +18554,10 @@
     "openalex_id": "https://openalex.org/A5100436618",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 569
+    "openalex_works": 569,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5111034625"
+    ]
   },
   {
     "name": "Jieun Lee",
@@ -18437,7 +18877,10 @@
     "openalex_id": "https://openalex.org/A5107466073",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5013526416"
+    ]
   },
   {
     "name": "John Dashe",
@@ -18577,7 +19020,10 @@
     "openalex_id": "https://openalex.org/A5001122693",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 493
+    "openalex_works": 493,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5110623396"
+    ]
   },
   {
     "name": "John A. Ragucci",
@@ -18627,7 +19073,12 @@
     "openalex_id": "https://openalex.org/A5042482253",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 647
+    "openalex_works": 647,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5032878842",
+      "https://openalex.org/A5111543762",
+      "https://openalex.org/A5103493939"
+    ]
   },
   {
     "name": "John A. Stoukides",
@@ -18947,7 +19398,10 @@
     "openalex_id": "https://openalex.org/A5040070345",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 530
+    "openalex_works": 530,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5006676605"
+    ]
   },
   {
     "name": "Joseph K. Carpenter",
@@ -18977,7 +19431,10 @@
     "openalex_id": "https://openalex.org/A5108678628",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 84
+    "openalex_works": 84,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5001536613"
+    ]
   },
   {
     "name": "Joseph Kaserman",
@@ -19157,7 +19614,11 @@
     "openalex_id": "https://openalex.org/A5086442215",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 42
+    "openalex_works": 42,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5057597328",
+      "https://openalex.org/A5113769851"
+    ]
   },
   {
     "name": "Joshua Davies",
@@ -19357,7 +19818,10 @@
     "openalex_id": "https://openalex.org/A5078870613",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 2
+    "openalex_works": 2,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5108269649"
+    ]
   },
   {
     "name": "Julia Kelly",
@@ -19397,7 +19861,10 @@
     "openalex_id": "https://openalex.org/A5001384171",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 55
+    "openalex_works": 55,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5055274527"
+    ]
   },
   {
     "name": "Julian R. Gonzalez",
@@ -19607,7 +20074,11 @@
     "openalex_id": "https://openalex.org/A5100435064",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 328
+    "openalex_works": 328,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5100435060",
+      "https://openalex.org/A5103708368"
+    ]
   },
   {
     "name": "Jussi J. Saukkonen",
@@ -19727,7 +20198,10 @@
     "openalex_id": "https://openalex.org/A5076156293",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 322
+    "openalex_works": 322,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5112043808"
+    ]
   },
   {
     "name": "Kamal M. Itani",
@@ -19887,7 +20361,10 @@
     "openalex_id": "https://openalex.org/A5080183405",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 260
+    "openalex_works": 260,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5008151639"
+    ]
   },
   {
     "name": "Karen Quillen",
@@ -19897,7 +20374,10 @@
     "openalex_id": "https://openalex.org/A5119530554",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 1
+    "openalex_works": 1,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5011412033"
+    ]
   },
   {
     "name": "Karen Symes",
@@ -19997,7 +20477,10 @@
     "openalex_id": "https://openalex.org/A5020559671",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 322
+    "openalex_works": 322,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5103798863"
+    ]
   },
   {
     "name": "Karla Talledo Thais",
@@ -20887,7 +21370,10 @@
     "openalex_id": "https://openalex.org/A5007540007",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 28
+    "openalex_works": 28,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5062711999"
+    ]
   },
   {
     "name": "Kevin M. Monahan",
@@ -20897,7 +21383,10 @@
     "openalex_id": "https://openalex.org/A5037980905",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 113
+    "openalex_works": 113,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5111718111"
+    ]
   },
   {
     "name": "Kevin C. Thomas",
@@ -20917,7 +21406,10 @@
     "openalex_id": "https://openalex.org/A5069301909",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 387
+    "openalex_works": 387,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5046688173"
+    ]
   },
   {
     "name": "Khamidulla Bakhadirov",
@@ -21367,7 +21859,10 @@
     "openalex_id": "https://openalex.org/A5020304753",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 52
+    "openalex_works": 52,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5107978440"
+    ]
   },
   {
     "name": "Laura L. Stonestreet",
@@ -21687,7 +22182,12 @@
     "openalex_id": "https://openalex.org/A5060498828",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 312
+    "openalex_works": 312,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5040599820",
+      "https://openalex.org/A5103171579",
+      "https://openalex.org/A5073868540"
+    ]
   },
   {
     "name": "Leon Castaneda",
@@ -21977,7 +22477,10 @@
     "openalex_id": "https://openalex.org/A5105308913",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 12
+    "openalex_works": 12,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5038477961"
+    ]
   },
   {
     "name": "Lindsey Mahoney",
@@ -22047,7 +22550,10 @@
     "openalex_id": "https://openalex.org/A5085060131",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 43
+    "openalex_works": 43,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5065112951"
+    ]
   },
   {
     "name": "Lizabeth Cline",
@@ -22437,7 +22943,10 @@
     "openalex_id": "https://openalex.org/A5110242243",
     "is_rare_name": false,
     "scraped_at": "2026-03-31",
-    "openalex_works": 35
+    "openalex_works": 35,
+    "alternate_openalex_ids": [
+      "https://openalex.org/A5007524412"
+    ]
   },
   {
     "name": "Maneet Kaur",

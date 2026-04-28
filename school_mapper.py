@@ -199,14 +199,25 @@ def _load_faculty_roster():
         category = "LAW" if school == "School of Law" else "NON-LAW"
         oa_id = entry.get("openalex_id")
 
-        # Index by OpenAlex ID
+        # Index by OpenAlex ID. Plus any alternate_openalex_ids for faculty
+        # whose OpenAlex profile has been split across multiple IDs (a known
+        # OpenAlex data quality issue — Christopher T. Robertson is the
+        # canonical case: A5050547091 and A5016962908 both belong to him).
+        all_oaids = []
         if oa_id:
-            FACULTY_BY_OAID[oa_id] = (name, school, category)
+            all_oaids.append(oa_id)
+        for alt in entry.get("alternate_openalex_ids") or []:
+            if alt and alt not in all_oaids:
+                all_oaids.append(alt)
+        for oid in all_oaids:
+            FACULTY_BY_OAID[oid] = (name, school, category)
 
-        # Track dual appointments
+        # Track dual appointments. Apply the secondary school to every OAID
+        # we know for this faculty member.
         secondary = entry.get("secondary_school")
-        if secondary and oa_id:
-            FACULTY_SECONDARY[oa_id] = secondary
+        if secondary:
+            for oid in all_oaids:
+                FACULTY_SECONDARY[oid] = secondary
 
         # Index by full normalized name. Skip non-Latin names (Cyrillic, Greek, CJK,
         # etc.) whose normalized form is empty/whitespace — they would otherwise act
