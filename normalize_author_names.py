@@ -210,8 +210,10 @@ def main():
         print(f"Unique BU author names: {len(all_bu_names)} (was 9,364)")
 
         print(f"\nSaving {MASTER_PATH}...")
+        # Keep the master in compact JSON to match the rest of the pipeline
+        # and avoid blowing up git diffs.
         with open(MASTER_PATH, "w") as f:
-            json.dump(papers, f, indent=2, ensure_ascii=False)
+            json.dump(papers, f, ensure_ascii=False, separators=(",", ":"))
         print("Done.")
     else:
         print("\n(dry run — no changes saved)")
