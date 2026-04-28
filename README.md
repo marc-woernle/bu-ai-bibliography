@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,877 papers** across 27 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,903 papers** across 27 schools and departments.
 
 **Static site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
@@ -70,13 +70,13 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 | **Semantic Scholar** | 102 | CS/ML papers | Text search |
 | **SSRN** | 57 | Law/policy/business working papers | Faculty name search via CrossRef |
 | **Scholarly Commons** | 139 | BU Law faculty scholarship | Native (BU Law) |
-| **CrossRef** | 98 | Journal articles catch-all | Text search |
+| **CrossRef** | 124 | Journal articles catch-all | Text search |
 | **NSF Awards** | 15 | NSF-funded AI research | Awardee name |
 | **bioRxiv/medRxiv** | 3 | Biomedical preprints | CrossRef DOI prefix |
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 11,877 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 11,903 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
@@ -133,7 +133,7 @@ bu-ai-bibliography/
 |
 |- Data
 |- data/
-|   |- sonnet_classification_bu_verified.json  # Master dataset (11,877 papers)
+|   |- sonnet_classification_bu_verified.json  # Master dataset (11,903 papers)
 |   |- bu_faculty_roster_verified.json         # Faculty roster (5,888 entries)
 |   |- openalex_bu_authors_cache.json          # 98K OpenAlex author profiles (local)
 |   |- update_state.json                       # Auto-update state + source health
