@@ -1,32 +1,49 @@
 # BU AI Bibliography -- Status
-**Updated:** 2026-04-26
+**Updated:** 2026-04-28
 
 ## Numbers
-- **Papers:** 11,876 in `data/sonnet_classification_bu_verified.json`
-- **Sources:** 13 canonical (OpenAlex, PubMed, DBLP, SSRN, NBER, Scholarly Commons, OpenBU, NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv). 11 distinct source tags in data (NBER and arXiv harvest via OpenAlex filters)
+- **Papers:** 11,877 in `data/sonnet_classification_bu_verified.json`
+- **Sources:** 13 canonical (OpenAlex, PubMed, DBLP, SSRN, NBER, Scholarly Commons, OpenBU, NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv). 11 distinct source tags in data; NBER and arXiv harvest via OpenAlex
 - **Schools:** 27 named schools/departments
-- **Roster:** 5,888 entries, 4,465 with OpenAlex IDs (8 wrong-OAID entries dropped this session)
+- **Roster:** 5,888 entries, 4,465 with OpenAlex IDs. 159 entries now carry `alternate_openalex_ids` for known split profiles; Robertson manually patched
 - **Rejection index:** 46 DOIs + 51 fingerprints
 - **Non-BU AI index:** 3,738 DOIs + 3,626 fingerprints
 - **Validation:** 0 failures, 31 warnings (all pre-existing)
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
 - **Classifier:** Sonnet 4.6 (`claude-sonnet-4-6`)
+- **Relevance labels (user-facing):** Core AI / Applied AI / AI Studies (internal values still primary/methodological/peripheral)
 
-## This session (Apr 25-26)
-**n3 root-caused: the "Lei Guo trojan" in name verification.** `school_mapper._normalize_name` strips non-Latin characters via `re.sub(r"[^a-z\s-]", "", ...)`, collapsing any Cyrillic/Greek/CJK string to `''` or `' '`. The roster contained one entry whose normalized form was `' '` (Cyrillic 'Лэй Гуо' from `openalex_resolve`), so `FACULTY_BY_FULLNAME[' ']` had exactly one match. Every paper with a non-Latin author hit Tier 3 unique-match and was tagged BU. Fixed in `school_mapper.py:_load_faculty_roster` (don't index empty/whitespace keys into `FACULTY_BY_FULLNAME` or `FACULTY_BY_ALTNAME`) and `update_pipeline.py:verify_bu_authors` Tier 3 (skip empty/whitespace fkeys). Defense in depth at producer and consumer. Future non-Latin roster entries cannot create the same trojan.
+## This session (Apr 28)
+**Robust harvest — pipeline upgrades.**
+- Roster gained `alternate_openalex_ids` field; `school_mapper._load_faculty_roster` indexes every alt OAID into `FACULTY_BY_OAID` so split-profile faculty (Robertson: A5050547091 + A5016962908) tag correctly.
+- New `audit_split_profiles.py`: queries OpenAlex by name + BU ROR, identifies candidate alternate profiles, requires Boston-area `last_known_institutions` for auto-apply. Shipped 159 alternates.
+- New `harvest_crossref_per_faculty` (`update_pipeline.py`): for every faculty in Med / SPH / Law / Sargent / Wheelock / CDS, query CrossRef by author for high-impact venues (JAMA, NEJM, Lancet, Nature, Science, top law reviews). Hooked into `harvest_all_sources` so every monthly run does the back-fill. Catches papers the OpenAlex-ROR-only harvest misses when faculty have split profiles or recent papers haven't yet been ROR-linked.
+- Bug fix in the new harvester: `_parse_crossref_item` is tuned for SSRN and hardcodes `venue="SSRN Electronic Journal"` and `source="ssrn"`. Override both with the actual CrossRef container-title and `source="crossref"`.
+- New `audit_faculty_completeness.py`: monthly post-harvest audit, queries CrossRef counts by faculty for the last 24 months filtered to AI keywords, compares to master, flags >30% coverage gaps. Hooked into `update_monthly.generate_report` so the GitHub Issue post-monthly surfaces drift.
 
-**Master cleanup: 291 trojan-era false positives removed.** Audit replayed verify_bu_authors against master with the new logic + reset of cached `is_bu` flags. 291 papers had no legitimate BU evidence (no roster OAID, no BU affiliation string, no non-empty unique name match). Sources: semantic_scholar 144, ssrn 106, crossref 24, biorxiv 4, openalex 4, others. Spot-checked OpenAlex ones: confirmed FPs (authors at Boston College, USC, Emory, Stanford, Univ of Arkansas). Backup at `data/sonnet_classification_bu_verified.backup_trojan_cleanup_20260425.json`. Master: 12,168 → 11,877. DOIs/fingerprints added to non_bu_ai_index so they don't re-harvest.
+**Robertson recovery (one-shot).**
+- Manually added Robertson's confirmed alt OAID `A5016962908` to roster (audit's auto-filter requires Boston-area last_known and his alt's last_known is "Boston Public Schools" — too broad to auto-accept).
+- Pulled "The First AI Drug Prescriber" (`10.1001/jama.2026.3533`) via the new per-faculty harvester, classified by Sonnet as `peripheral` (AI Studies tier — research about an AI prescribing system, not building one), tagged School of Law via name match, merged. Master: 11,876 → 11,877.
+- "A New Legal Standard for Medical Malpractice" (`10.1001/jama.2025.0097`) classified `not_relevant` by Sonnet (no actual AI content despite the title); not added.
 
-**Auto-propagation pipeline.** Added `config.DATA_SOURCES` (canonical 13) and `config.CLASSIFIER_DISPLAY_NAME` ('Sonnet 4.6'). `generate_data_js.py:build_metadata` now writes `paper_count`, `sources`, `sources_list`, and `model` to `data.js`. Site (docs + output) reads model and source list from meta with sensible fallbacks. Footer source list is now meta-driven (not hardcoded 11 names). Header "Spanning 1962" replaced with `${dataYearMin}` (computed from data). New `propagate_counts.py` patches README.md (paper count, school count, source mention table, DBLP papers count, master-dataset line, roster line) and updates the GitHub repo description via `gh repo edit`. Hooked into `update_pipeline.regenerate_all_outputs` so every monthly run keeps README + repo description + site in sync automatically.
+**Classification clarity (Track B).**
+- Tightened the Sonnet system prompt with worked examples for each tier and an explicit boundary heuristic: "a paper wholly about AI by topic does NOT make it primary. A law review article entirely about AI regulation is peripheral, not primary, because it doesn't build AI." Sharpens the methods-vs-studies boundary.
+- Renamed user-facing labels: methodological → "Applied AI", peripheral → "AI Studies". Internal `ai_relevance` values unchanged. Legend dots have hover-tooltips with one-line definitions and example titles for each tier.
+- No bulk re-classification — current peripheral tags are correct per the new prompt; just relabeled to be more dignifying for AI-policy / AI-law / AI-ethics work.
 
-**OAID audit + resolver hardening.** Walked all 897 `openalex_resolve` roster entries against OpenAlex's full affiliations history (`audit_openalex_resolve.py`). 879 confirmed BU (current or former), 8 wrong (no BU history at all): Rasheed Zakaria (Alder Hey Hospital UK), Nan Feng (Beijing), Jiyeong Hong (Korea/GEOMAR), Monica Chang (Alameda/CMU), Eunah Chung (Cincinnati Children's), Yuqing Zhang (MGH, 1 work), Chenyu Wang (MGH/Wuhan), Sanket Kaushik (AIIMS India). Dropped all 8 from roster (5,896 → 5,888). 1 paper in master depended on a wrong OAID with no other BU evidence (Hybrid Vision-Force Control via Nan Feng wrong OAID); removed and added to non_bu_ai_index. The other 4 papers had real "Boston University" affiliation strings on the wrong-OAID author so kept (those Sanket Kaushik / Eunah Chung / Rasheed Zakaria / Chenyu Wang names are real BU-affiliated authors with currently-unknown OAIDs).
+**Search v2 (Track C).**
+- Field-scoped queries: `author:Robertson`, `venue:JAMA`, `year:2024..2026`, `school:Law`, `domain:Healthcare`, `subfield:"Medical Imaging"`. Negation `-author:X` works. Search box `title=` attribute documents the syntax.
+- Author fuzzy: strips punctuation, matches first-name prefixes. `Chris` finds `Christopher T.`, `C. Robertson` finds him too.
+- Stemming/typo tolerance and global search rebuild deliberately deferred — small ROI at 12k papers, revisit when dataset grows.
 
-To prevent recurrence: added `_verify_bu_in_affiliations` live-check to `resolve_openalex_ids.match_faculty`. Every resolved candidate is now re-queried against OpenAlex's full affiliations list and rejected if BU's ROR doesn't appear. Catches stale-cache cases where OpenAlex has de-merged a wrongly-merged author profile after our cache was built. One extra API call per resolution (~10 calls/month), polite-rate paced.
+**Venue resolution (Track D).**
+- `resolve_repository_venues.py` now chains CrossRef → OpenAlex → Semantic Scholar with shared scoring (title sim ≥0.85, year ±1, author surname overlap). First confident match wins. SS ran on the 74 still-unmatched SSRN/SC papers and confirmed they're true working papers — none have a real journal version in any of the three databases.
 
 ## TODO
-1. **Next monthly run (May 1)**: verify (a) indexes persist across CI runs, (b) propagate_counts runs end-to-end (CI runner needs `gh` CLI for the description update; if missing, README still updates), (c) the new resolver verification step (`_verify_bu_in_affiliations`) works on any newly-resolved faculty.
+1. **Next monthly run (May 1)** verifies end-to-end: per-faculty CrossRef back-fill harvests new high-impact-venue papers, completeness audit posts to the Issue, propagate_counts updates README + repo description, the relabeled legend ships to GitHub Pages.
 2. **141 unspecified roster entries, CFA roster cleanup**.
-3. **Optional Scope 2 search improvements** (Marc said he would tackle these): field-scoped queries, better tiebreaker ranking.
+3. **Re-classification under tightened prompt** — deferred. Re-evaluate if specific cases keep mis-tagging.
+4. **Global search rebuild** — Marc tabled; revisit after current rollout.
 
 ## Known issues
 - ~3,100 papers tagged "Boston University (unspecified)", mostly authors not in roster
@@ -34,16 +51,20 @@ To prevent recurrence: added `_verify_bu_in_affiliations` live-check to `resolve
 - 141 roster entries still "Boston University (unspecified)"
 - OpenBU metadata bug: all authors get "Boston University" affiliation regardless
 - Scholarly Commons uploads full back-catalog, no date filtering
-- OpenAlex de-merge events can quietly invalidate a previously-resolved OAID. The new `_verify_bu_in_affiliations` check at resolve time catches most cases; re-run `audit_openalex_resolve.py` periodically (quarterly) to catch any that drift after assignment.
+- OpenAlex de-merge events can invalidate previously-resolved OAIDs; `_verify_bu_in_affiliations` catches most. Re-run `audit_openalex_resolve.py` and `audit_split_profiles.py` quarterly.
+- 74 SSRN/Scholarly Commons papers have no real journal venue across any of CrossRef/OpenAlex/SS — confirmed working papers
+- Per-faculty CrossRef harvest uses last-name match for BU verification on results; for very common names (Smith, Wang, etc.) some non-BU papers may slip through. Mitigated by Sonnet's relevance gate, but worth periodic spot-checking.
 
 ## Layout
-- Monthly CI workflow: `.github/workflows/monthly-update.yml` (timeout 120 min, triggered 1st of month 8am UTC, also `workflow_dispatch` with optional `save_candidates=true` for Batch API runs)
+- Monthly CI workflow: `.github/workflows/monthly-update.yml` (timeout 120 min, triggered 1st of month 8am UTC)
 - Entry point: `update_monthly.py` (phases 1-6: roster, harvest, filter+classify, merge+maintenance, validate+push, report)
 - Shared pipeline: `update_pipeline.py` (harvest orchestration, dedup, classification, BU verification, merge, regen, propagate, git push)
-- Counts propagation: `propagate_counts.py` (called from `regenerate_all_outputs`; patches README + GitHub description from master)
-- Source/model truth: `config.DATA_SOURCES` (canonical 13), `config.CLASSIFIER_DISPLAY_NAME` ('Sonnet 4.6'). Site reads these via `data.js` meta.
+- Per-faculty back-fill: `harvest_crossref_per_faculty` in `update_pipeline.py` (high-impact venues for clinical and legal schools)
+- Counts propagation: `propagate_counts.py` (called from `regenerate_all_outputs`; patches README + GitHub description)
+- Source/model truth: `config.DATA_SOURCES` (canonical 13), `config.CLASSIFIER_DISPLAY_NAME` ('Sonnet 4.6')
 - OAID resolver: `resolve_openalex_ids.py` (live BU-affiliation verification on every assignment)
-- OAID audit: `audit_openalex_resolve.py` (quarterly check for stale OAIDs; report at `data/openalex_resolve_audit.json`)
-- Batch CLI: `classify_papers.py` (`estimate`/`submit`/`status`/`collect` with `--input=PATH`)
+- Audits (run quarterly or post-monthly): `audit_openalex_resolve.py`, `audit_split_profiles.py`, `audit_faculty_completeness.py`
+- Venue resolver: `resolve_repository_venues.py` (CrossRef → OpenAlex → Semantic Scholar fallback chain)
+- Batch CLI: `classify_papers.py` (`estimate`/`submit`/`status`/`collect`)
 - Batch merge: `merge_batch_results.py`
 - Quarterly audit: `quarterly_review.py`
