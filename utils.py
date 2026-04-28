@@ -163,11 +163,37 @@ def resilient_post(
 
 # ── Text Normalization ────────────────────────────────────────────────────────
 
+# Inline JATS / MathML / HTML tags that some publishers leave embedded in
+# title/abstract/venue strings. CrossRef and OpenAlex pass these through verbatim
+# (sometimes also HTML-entity-encoded), which the web app then renders as
+# literal "<i>foo</i>" or "&lt;i&gt;foo&lt;/i&gt;" garbage. Stripping the tags
+# but keeping their text is the safe fix — italicized words remain plain text.
+_INLINE_TAGS_RE = re.compile(
+    r'</?(?:title|p|i|b|em|strong|sub|sup|scp|sc|small|span|br|hr|'
+    r'jats:[a-zA-Z\-]+|mml:[a-zA-Z\-]+|tex-math)\s*[^>]*>',
+    re.IGNORECASE,
+)
+
+
+def sanitize_inline_text(text: str) -> str:
+    """Strip embedded JATS/HTML tags and decode HTML entities. Used on
+    title/venue/abstract before they enter the master dataset so the web app
+    can render them safely without extra escaping (the well-known Matera
+    'Caremark' garbled-tag pattern). Idempotent and preserves text content."""
+    import html as _html
+    if not text:
+        return text
+    s = _html.unescape(text)
+    s = _INLINE_TAGS_RE.sub('', s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+
 def normalize_title(title: str) -> str:
     """Normalize a paper title for dedup comparison."""
     if not title:
         return ""
-    t = title.lower().strip()
+    # Sanitize first so dedup keys agree across source-format variants.
+    t = sanitize_inline_text(title).lower().strip()
     t = re.sub(r'[^\w\s]', '', t)       # remove punctuation
     t = re.sub(r'\s+', ' ', t)          # collapse whitespace
     return t
@@ -210,6 +236,11 @@ def make_paper_record(
     extra: dict | None = None,    # source-specific metadata
 ) -> dict:
     """Create a standardized paper record."""
+    # Sanitize incoming text fields so future runs can't re-import the
+    # JATS/HTML-tag and entity garbage that earlier harvests let through.
+    title = sanitize_inline_text(title)
+    abstract = sanitize_inline_text(abstract) if abstract else abstract
+    venue = sanitize_inline_text(venue) if venue else venue
     return {
         "title": title,
         "title_normalized": normalize_title(title),

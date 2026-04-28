@@ -395,17 +395,26 @@ def classify_paper(paper: dict) -> dict:
                         if "dental" not in aff:
                             name_result = None
                 if name_result and oa_id:
-                    # Check: does the roster entry for this name have a different OAID?
+                    # Guard against OpenAlex name collisions where a different
+                    # BU faculty shares the name (e.g., the Bing Liu / Claire
+                    # Chang Dental cases). Only suppress the name match when
+                    # the paper's OAID points at a *different* BU faculty in
+                    # the roster — that proves they're not the same person.
+                    # If the OAID isn't in the roster at all, it may simply
+                    # be an alternate OpenAlex profile of the same person
+                    # (the Christopher T. Robertson case: OpenAlex split his
+                    # career across A5050547091 and A5016962908). Keep the
+                    # name match in that scenario.
                     fkey = _name_key(name)
                     roster_matches = FACULTY_BY_FULLNAME.get(fkey, [])
-                    # Look up roster OAIDs for this name
                     roster_oaids = set()
                     for rschool, rcat in roster_matches:
                         for rid, (rname, rs, rc) in FACULTY_BY_OAID.items():
                             if rs == rschool and _name_key(rname) == fkey:
                                 roster_oaids.add(rid)
-                    if roster_oaids and oa_id not in roster_oaids:
-                        name_result = None  # Different person — skip
+                    if (roster_oaids and oa_id not in roster_oaids
+                            and oa_id in FACULTY_BY_OAID):
+                        name_result = None  # Different BU faculty, same name
                 if name_result:
                     school, category = name_result
                 else:

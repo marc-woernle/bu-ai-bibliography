@@ -486,7 +486,11 @@ mark { background: #fef08a; color: inherit; padding: 0 1px; border-radius: 2px; 
   // matching inside unrelated words like "paragraph" or "storage". Longer tokens
   // stay as substring matches for backward compatibility.
   function matchTerm(hay, term) {
-    if (term.length <= 4) {
+    // Word-boundary match only when the short token is purely alphanumeric
+    // (e.g. RAG, LLM, GAN). Tokens with punctuation (like 'T.' from
+    // 'Christopher T. Robertson') break \b at the trailing non-word char,
+    // so fall through to substring match.
+    if (term.length <= 4 && /^[a-z0-9]+$/i.test(term)) {
       return new RegExp('\\b' + escRegex(term) + '\\b').test(hay);
     }
     return hay.indexOf(term) !== -1;
