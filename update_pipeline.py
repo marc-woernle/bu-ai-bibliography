@@ -1248,6 +1248,31 @@ def merge_into_master(master: list[dict], new_papers: list[dict]) -> list[dict]:
     for i, p in enumerate(master):
         p["index"] = i
 
+    # Canonical-name pass: BU author names from upstream sources are inconsistent
+    # ("Christopher Robertson" vs "Christopher T. Robertson", missing periods,
+    # truncated middle initials). Run normalize_author_names so every BU author
+    # appears with their roster-canonical form site-wide. Best-effort.
+    try:
+        import normalize_author_names as _nan
+        try:
+            with open("data/bu_faculty_roster_verified.json") as f:
+                roster = json.load(f)
+            with open("data/openalex_bu_authors_cache.json") as f:
+                altnames_cache = json.load(f)
+        except FileNotFoundError as e:
+            logger.warning(f"Skipping name normalization: {e}")
+        else:
+            canonical, stats = _nan.build_canonical_map(master, roster, altnames_cache)
+            if stats.get("names_changed", 0):
+                _nan.apply_canonical_names(master, canonical)
+                logger.info(
+                    f"Author names normalized: {stats['names_changed']} changes "
+                    f"(OAID={stats['matched_oaid']}, alt={stats['matched_altnames']}, "
+                    f"name={stats['matched_fullname']})"
+                )
+    except Exception as e:
+        logger.warning(f"Name normalization failed (non-fatal): {e}")
+
     logger.info(f"Merged: +{len(new_papers)} → {len(master)} total")
     return master
 
