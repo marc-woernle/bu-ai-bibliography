@@ -74,7 +74,7 @@ def _parse_item(item: dict) -> dict | None:
     )
 
 
-def _search(query: str, max_results: int = 500, exclude_ssrn: bool = True,
+def _search(query: str, max_results: int = 2000, exclude_ssrn: bool = True,
             filter_str: str | None = None,
             deadline: float | None = None,
             _partial: list[dict] | None = None) -> list[dict]:
@@ -175,7 +175,7 @@ def harvest(since_date: str | None = None,
         if deadline is not None and time.time() >= deadline:
             raise HarvestBudgetExceeded("CrossRef harvest exceeded time budget")
         logger.info(f"  CrossRef query: {query}")
-        papers = _search(query, max_results=500, filter_str=filter_str,
+        papers = _search(query, max_results=2000, filter_str=filter_str,
                          deadline=deadline, _partial=_partial)
         new = 0
         for p in papers:

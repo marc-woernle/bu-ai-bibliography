@@ -21,7 +21,14 @@ rate_limiter = RateLimiter(PUBMED_RATE_LIMIT)
 def _build_query() -> str:
     """Build PubMed query for BU-affiliated AI papers."""
     # Affiliation filter
-    affil = '("Boston University"[Affiliation])'
+    # BU's medical campus does not consistently say "Boston University" in the
+    # affiliation string. Its teaching hospital is Boston Medical Center, its
+    # medical school is the Chobanian & Avedisian School of Medicine, and many
+    # SoM faculty publish under VA Boston. Measured against PubMed for AI papers
+    # since 2024: "Boston University" alone returns 681; the union returns 743
+    # (+62, +9%). Downstream BU verification still has to pass, so widening the
+    # affiliation net costs precision nothing.
+    affil = '( "Boston University"[Affiliation] OR "Boston Medical Center"[Affiliation] OR "Chobanian"[Affiliation] OR "VA Boston"[Affiliation] OR "Boston VA"[Affiliation] )'
 
     # AI subject filter: MeSH terms OR text words
     mesh_parts = [f'"{term}"[MeSH Terms]' for term in PUBMED_MESH_TERMS]

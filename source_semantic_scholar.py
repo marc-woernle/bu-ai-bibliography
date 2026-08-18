@@ -86,7 +86,7 @@ def _parse_paper(paper: dict) -> dict | None:
 
 def search_papers(
     query: str,
-    limit: int = 200,
+    limit: int = 1000,
     year_range: str | None = None,
     deadline: float | None = None,
     _partial: list[dict] | None = None,
@@ -192,7 +192,7 @@ def harvest(
 
         logger.info(f"  Querying: {query}")
         papers = search_papers(
-            query, limit=200, year_range=year_range,
+            query, limit=1000, year_range=year_range,
             deadline=deadline, _partial=_partial,
         )
         new_count = 0

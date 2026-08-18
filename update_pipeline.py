@@ -448,7 +448,10 @@ def harvest_pubmed_incremental(since_date: str) -> list[dict]:
         [f'"{t}"[MeSH Terms]' for t in PUBMED_MESH_TERMS]
         + [f'"{kw}"[Title/Abstract]' for kw in AI_KEYWORDS_PRIMARY]
     )
-    query = f'("Boston University"[Affiliation]) AND ({ai_terms})'
+    # See source_pubmed for why: BU's medical campus publishes under Boston
+    # Medical Center, Chobanian & Avedisian, and VA Boston. Measured +9% on AI
+    # papers since 2024.
+    query = f'( "Boston University"[Affiliation] OR "Boston Medical Center"[Affiliation] OR "Chobanian"[Affiliation] OR "VA Boston"[Affiliation] OR "Boston VA"[Affiliation] ) AND ({ai_terms})'
 
     try:
         # Override _search_pmids to add date filter
@@ -560,7 +563,7 @@ def harvest_ssrn_by_faculty() -> list[dict]:
                 params={
                     "query": f'"{name}" "Boston University"',
                     "filter": "prefix:10.2139",
-                    "rows": 25,
+                    "rows": 100,
                     "select": "DOI,title,author,published-print,published-online,"
                               "abstract,URL,is-referenced-by-count,type,subject",
                 },
