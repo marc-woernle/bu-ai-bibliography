@@ -76,30 +76,52 @@ def harvest_nih_reporter(since_date: str | None = None) -> list[dict]:
                     "from_date": d.strftime("%m/%d/%Y"),
                     "to_date": today.strftime("%m/%d/%Y"),
                 }
-            resp = requests.post(
-                "https://api.reporter.nih.gov/v2/projects/search",
-                json={
-                    "criteria": criteria,
-                    "offset": 0,
-                    "limit": 500,
-                    "sort_field": "project_start_date",
-                    "sort_order": "desc",
-                },
-                timeout=30,
-            )
-            resp.raise_for_status()
-            data = resp.json()
+            # Paginate. This used to be a single offset:0 / limit:500 request,
+            # so any term with more than 500 BU projects was silently cut off at
+            # exactly 500. On the 2026-08-18 full sweep, five terms came back at
+            # exactly 500 -- 'computational', 'bioinformatics', 'medical
+            # imaging', 'data science', 'neural network' -- which is the
+            # signature of truncation, not of a result set that happens to land
+            # on a round number.
+            results = []
+            offset = 0
+            total = None
+            while True:
+                resp = requests.post(
+                    "https://api.reporter.nih.gov/v2/projects/search",
+                    json={
+                        "criteria": criteria,
+                        "offset": offset,
+                        "limit": 500,
+                        "sort_field": "project_start_date",
+                        "sort_order": "desc",
+                    },
+                    timeout=30,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                page = data.get("results", [])
+                if total is None:
+                    total = data.get("meta", {}).get("total")
+                results.extend(page)
+                offset += len(page)
+                # NIH Reporter caps offset at 14,999.
+                if not page or len(page) < 500 or offset >= min(total or 0, 14999):
+                    break
+                time.sleep(0.5)
         except requests.exceptions.RequestException as e:
             logger.error(f"NIH Reporter request failed: {e}")
             continue
 
-        results = data.get("results", [])
         for project in results:
             record = _parse_nih_project(project)
             if record:
                 all_records.append(record)
 
-        logger.info(f"    → {len(results)} projects")
+        note = ""
+        if total and len(results) < total:
+            note = f" (of {total} reported - offset cap reached)"
+        logger.info(f"    → {len(results)} projects{note}")
 
     # Deduplicate by project number
     seen = set()
