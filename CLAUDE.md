@@ -4,7 +4,9 @@
 ## Git commits
 - Never add Co-Authored-By trailers or any attribution to Claude/Anthropic in commit messages.
 - All commits must be authored by the user (Marc Woernle), never by Claude or any AI identity.
-- This is enforced three ways. Run `./scripts/setup-hooks.sh` once in every clone:
+- This is enforced three ways. Run `sh scripts/setup-hooks.sh` once in every clone
+  (`sh` rather than `./` because files committed through GitHub's web UI lose the
+  executable bit; the script chmods the hooks itself):
   - `.githooks/commit-msg` rejects attribution trailers and "Generated with" footers
   - `.githooks/pre-commit` rejects commits whose AUTHOR is a Claude/Anthropic
     identity. This is the case the message check misses: a Claude Code sandbox
