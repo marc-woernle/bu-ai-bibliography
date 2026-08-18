@@ -18,19 +18,34 @@ BASE_URL = "https://open.bu.edu/server/api"
 rate_limiter = RateLimiter(2)  # Be polite to BU's servers
 
 
-def _search_openbu(query: str, page: int = 0, size: int = 100) -> dict:
-    """Search OpenBU using DSpace discovery API."""
+def _search_openbu(query: str, page: int = 0, size: int = 100,
+                   since_year: int | None = None) -> dict:
+    """Search OpenBU using DSpace discovery API.
+
+    When since_year is given the date filter is applied server-side via
+    f.dateIssued and results are sorted newest-first. This used to be a
+    client-side year check applied after fetching every page of every query,
+    which meant the "incremental" harvest walked the entire repository every
+    month: 1,485 pages across the 22 queries, roughly 74 minutes, to keep a
+    handful of recent items. Server-side, 'machine learning' alone drops from
+    372 pages to 32.
+    """
+    params = {
+        "query": query,
+        "dsoType": "item",
+        "page": page,
+        "size": size,
+    }
+    if since_year:
+        params["f.dateIssued"] = f"[{since_year} TO 2100],equals"
+        params["sort"] = "dc.date.issued,DESC"
+
     while True:
         rate_limiter.wait()
         try:
             resp = requests.get(
                 f"{BASE_URL}/discover/search/objects",
-                params={
-                    "query": query,
-                    "dsoType": "item",
-                    "page": page,
-                    "size": size,
-                },
+                params=params,
                 headers={"Accept": "application/json"},
                 timeout=30,
             )
@@ -169,7 +184,7 @@ def harvest(since_year: int | None = None) -> list[dict]:
         query_papers = 0
 
         while True:
-            data = _search_openbu(query, page=page, size=100)
+            data = _search_openbu(query, page=page, size=100, since_year=since_year)
             
             embedded = data.get("_embedded", {})
             results = embedded.get("searchResult", {}).get("_embedded", {}).get("objects", [])

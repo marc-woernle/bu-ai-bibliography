@@ -17,6 +17,7 @@ Usage:
 """
 
 import argparse
+import json
 import logging
 import os
 import sys
@@ -35,16 +36,14 @@ from update_pipeline import (
     dedup_against_master,
     detect_domain_trends,
     detect_new_faculty_candidates,
-    embedding_prefilter,
     estimate_cost,
     git_commit_and_push,
     harvest_all_sources,
-    keyword_prefilter,
+    ai_prefilter,
     load_master,
     load_state,
     merge_into_master,
     notify_macos,
-    refresh_bu_authors,
     refresh_citations,
     refresh_faculty_roster,
     refresh_metadata_sample,
@@ -199,7 +198,8 @@ def generate_report(data: dict) -> str:
     # Source health alerts
     alert_sources = [
         (n, r) for n, r in source_report.items()
-        if r.get("status") in ("FAILED", "CRITICAL", "DEGRADED", "PARTIAL_TIMEOUT", "PARTIAL_ERROR")
+        if r.get("status") in ("FAILED", "CRITICAL", "DEGRADED", "PARTIAL_TIMEOUT",
+                               "PARTIAL_ERROR", "EMPTY", "SKIPPED_NO_TIME")
     ]
     if alert_sources:
         lines.append("## Alerts")
@@ -338,6 +338,19 @@ def _run(args, start_time):
     report_data["source_report"] = source_report
     report_data["harvested"] = len(all_harvested)
 
+    # Checkpoint the sweep marker the moment harvest finishes, not at the end of
+    # the run. State used to be written only after phases 3-6 completed, so a run
+    # killed by the CI timeout never recorded that the sweep had happened -- which
+    # is what put the pipeline into a permanent full-sweep loop from July 2026 on
+    # (full sweep is ~3x too slow to finish, and only a finished run could clear
+    # the flag). Writing it here breaks that loop.
+    if not args.dry_run:
+        state["last_monthly_run"] = datetime.now().isoformat()
+        if is_full_sweep:
+            state["last_full_sweep"] = date.today().isoformat()
+        save_state(state)
+        logger.info(f"State checkpointed after harvest (full_sweep={is_full_sweep})")
+
     # New faculty backfill: full-history search for faculty added this session
     new_faculty_added = report_data.get("roster", {}).get("new_faculty_names", [])
     if new_faculty_added and not args.dry_run:
@@ -357,10 +370,10 @@ def _run(args, start_time):
     new_papers = dedup_against_master(all_harvested, master_dois, master_fps)
     report_data["deduped"] = len(new_papers)
 
-    new_papers = keyword_prefilter(new_papers)
+    new_papers, prefilter_stats = ai_prefilter(new_papers)
+    report_data["prefilter"] = prefilter_stats
+    # Both keys kept: the report template and the update_log.csv schema read them.
     report_data["keyword_filtered"] = len(new_papers)
-
-    new_papers = embedding_prefilter(new_papers)
     report_data["embedding_filtered"] = len(new_papers)
 
     # Batch API offramp: write filtered candidates and exit before classification
@@ -461,10 +474,12 @@ def _run(args, start_time):
     broken = check_broken_urls(master)
     report_data["broken_urls"] = broken
 
-    # BU author refresh
-    logger.info("Refreshing BU author list...")
-    new_authors = refresh_bu_authors()
-    report_data["new_bu_authors"] = new_authors
+    # BU author refresh: removed from the monthly run. It cursor-paged every
+    # BU-affiliated author in OpenAlex -- 101,544 records, 508 pages, ~7.8 GB
+    # per run -- and wrote data/bu_authors_from_openalex.json, which is
+    # gitignored (so it never survived the runner) and is read only by
+    # build_faculty_roster's standalone CLI. The function is still there for
+    # that CLI; it just no longer costs the pipeline an hour a month.
 
     # Domain trends
     current_snapshot = compute_domain_snapshot(master)
@@ -486,6 +501,22 @@ def _run(args, start_time):
 
     errors = validate_before_push(old_count, len(master))
     report_data["validation_errors"] = errors
+
+    # Ground-truth sanity checks (anchor faculty, data consistency, suspicious
+    # patterns, source-failure streaks). This was written, imported and then never
+    # called, so the README's claim that ground-truth checks gate the push was not
+    # true. Alerts are surfaced in the report; they do not block the push, because
+    # a soft alert on a 12k-paper dataset should not strand a month of harvesting.
+    sanity_alerts = run_sanity_checks(
+        new_count=len(verified),
+        state=state,
+        cost=actual_cost,
+        source_errors=state.get("source_health", {}),
+        run_type="monthly",
+    )
+    report_data["sanity_alerts"] = sanity_alerts
+    for a in sanity_alerts:
+        logger.warning(f"SANITY: {a}")
 
     if errors:
         for e in errors:
@@ -554,7 +585,7 @@ def _run(args, start_time):
         history.append(count)
         history = history[-6:]  # Keep last 6
 
-        if status == "ok" or status.startswith("PARTIAL"):
+        if status in ("ok", "EMPTY") or status.startswith("PARTIAL"):
             avg = sum(history[:-1]) / len(history[:-1]) if len(history) > 1 else count
             degraded = count < avg * 0.1 and avg > 10  # <10% of avg, and avg is meaningful
             health.update({

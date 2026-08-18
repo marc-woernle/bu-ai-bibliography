@@ -11,7 +11,7 @@ A multi-source pipeline for harvesting, deduplicating, classifying, and annotati
             NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv)
   -> harvest by BU ROR ID + keyword/concept filters + faculty name matching
   -> dedup by DOI + title fingerprint
-  -> keyword pre-filter (187 AI terms in title/abstract)
+  -> keyword pre-filter (172 AI terms in title/abstract)
   -> embedding pre-filter (sentence-transformers semantic similarity)
   -> Claude Sonnet classification (relevance tier, domains, subfields, annotation)
   -> BU author verification (5,888-entry faculty roster with OpenAlex IDs)
@@ -28,7 +28,7 @@ A multi-source pipeline for harvesting, deduplicating, classifying, and annotati
 Papers are collected from 13 sources covering journals, conferences, preprints, grants, and institutional repositories. OpenAlex is the primary source, queried by BU's ROR identifier for exact institutional matching. DBLP covers CS conference proceedings (the main gap in OpenAlex) via monthly XML dump processing with two-tier name matching and OpenAlex verification. PubMed handles biomedical literature via MeSH terms. SSRN and NBER cover working papers in law, business, and economics. Remaining sources fill niche gaps: arXiv for preprints, Scholarly Commons for BU Law, OpenBU for theses, NIH/NSF for grant-linked work.
 
 ### Filtering and classification
-Raw harvests go through three stages of filtering. A keyword pre-filter checks for 187 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.25, intentionally permissive). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a one-line summary. Papers classified as not_relevant are excluded. The initial dataset was classified via the Anthropic Batch API (~$0.003/paper at 50% discount); monthly updates use the standard API.
+Raw harvests go through three stages of filtering. A keyword pre-filter checks for 172 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.30). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a one-line summary. Papers classified as not_relevant are excluded. The initial dataset was classified via the Anthropic Batch API (~$0.003/paper at 50% discount); monthly updates use the standard API.
 
 ### Author matching and school classification
 BU authorship is verified against a faculty roster of 5,888 entries scraped from 24+ BU department web pages, with OpenAlex author IDs resolved for ~4,500 faculty. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
@@ -101,7 +101,7 @@ python validate_dataset.py            # Ground truth validation
 bu-ai-bibliography/
 |
 |- Pipeline
-|- config.py                    # Constants: ROR ID, 187 AI keywords, rate limits
+|- config.py                    # Constants: ROR ID, 172 AI keywords, rate limits
 |- utils.py                     # Deduplication, rate limiter, paper record factory
 |- update_pipeline.py           # Shared functions: harvest, filter, classify, merge, validate
 |- update_monthly.py            # Monthly auto-update orchestrator (6-phase pipeline)
@@ -152,4 +152,4 @@ bu-ai-bibliography/
 
 ## Built with
 
-Classification via **Claude Sonnet 4.6** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`). Development assisted by Claude Code.
+Classification via **Claude Sonnet 4.6** (Batch API for bulk, standard API for monthly updates). Embedding pre-filter via **sentence-transformers** (`all-MiniLM-L6-v2`).

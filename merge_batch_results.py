@@ -67,10 +67,22 @@ def main():
     papers = load_batch_results(args.input)
     logger.info(f"Loaded {len(papers)} batch results from {args.input}")
 
-    parse_errors = [p for p in papers if p.get("_parse_error")]
-    if parse_errors:
-        logger.warning(f"{len(parse_errors)} papers had parse errors; skipping them")
-        papers = [p for p in papers if not p.get("_parse_error")]
+    # Quarantine anything whose tier is not one of the four real ones. Parse
+    # failures and API errors now carry sentinel tiers instead of masquerading
+    # as "peripheral" or "unknown"; they must never reach master, because once
+    # a paper is in master its DOI is in the dedup index and it can never be
+    # re-harvested or re-classified.
+    VALID = {"primary", "methodological", "peripheral", "not_relevant"}
+    quarantined = [p for p in papers if p.get("ai_relevance") not in VALID]
+    if quarantined:
+        qpath = Path(args.input).with_name(Path(args.input).stem + "_quarantined.json")
+        qpath.write_text(json.dumps(quarantined, ensure_ascii=False, indent=2))
+        logger.warning(
+            f"{len(quarantined)} papers quarantined (parse error / API error / "
+            f"off-list tier), written to {qpath}. Re-classify these; they are "
+            f"NOT in master and NOT in any index."
+        )
+        papers = [p for p in papers if p.get("ai_relevance") in VALID]
 
     rejected = [p for p in papers if p.get("ai_relevance") == "not_relevant"]
     kept = [p for p in papers if p.get("ai_relevance") != "not_relevant"]
