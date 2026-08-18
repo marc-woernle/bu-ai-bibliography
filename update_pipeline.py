@@ -74,6 +74,7 @@ BU_AUTHORS_PATH = "data/bu_authors_from_openalex.json"
 BU_ROSTER_PATH = "data/bu_faculty_roster.json"
 REJECTED_PATH = "data/rejected_papers_index.json"
 NON_BU_AI_PATH = "data/non_bu_ai_index.json"
+PREFILTER_SEEN_PATH = "data/prefilter_seen_index.json"
 
 # ── Cost constants (Sonnet standard API pricing) ────────────────────────────
 COST_PER_INPUT_MTOK = 3.0    # $/MTok
@@ -287,21 +288,55 @@ def refresh_faculty_roster() -> dict:
 # INCREMENTAL HARVESTING
 # ═══════════════════════════════════════════════════════════════════════════
 
-def harvest_openalex_incremental(date_field: str, since_date: str) -> list[dict]:
+def harvest_openalex_incremental(date_field: str, since_date: str,
+                                 deadline: float | None = None,
+                                 _partial: list | None = None) -> list[dict]:
     """Harvest BU papers from OpenAlex with a date filter.
 
+    OpenAlex is the primary source -- roughly two thirds of the corpus -- so a
+    truncated OpenAlex harvest is the single largest recall hole in the
+    pipeline, and it used to fail silently.
+
+    On the 2026-08-18 full sweep this returned 21,200 papers and stopped,
+    because one request came back 504 Gateway Timeout and `except HTTPError:
+    break` treated a transient server hiccup as the end of the result set. The
+    run then logged "OpenAlex: 21200 papers harvested" and _run_source recorded
+    status "ok" -- against a BU work count in the low hundreds of thousands.
+    Nothing anywhere said the harvest had been cut off.
+
+    Two changes:
+      * 5xx responses are retried against the SAME cursor with backoff. Cursors
+        are stable, so re-requesting is correct and loses nothing.
+      * meta.count is captured on the first page and compared to what actually
+        arrived, so an incomplete harvest is reported as TRUNCATED instead of
+        passing as a clean run.
+
     Args:
-        date_field: "from_created_date" (weekly) or "from_publication_date" (monthly)
+        date_field: "from_created_date" or "from_publication_date"
         since_date: ISO date string like "2026-03-01"
+        deadline: unix timestamp; raises HarvestBudgetExceeded when passed
+        _partial: shared list so _run_source can salvage results on timeout
     """
     logger.info(f"OpenAlex: {date_field}={since_date}")
     papers = []
     cursor = "*"
     base_url = "https://api.openalex.org/works"
 
+    expected = None
+    pages = 0
     retries = 0
-    max_retries = 5
+    max_retries = 8
+    truncated_reason = None
+
     while cursor:
+        if deadline is not None and time.time() >= deadline:
+            truncated_reason = "time budget"
+            if _partial is not None:
+                _partial.extend(papers)
+            raise HarvestBudgetExceeded(
+                f"OpenAlex exceeded its time budget after {len(papers)} papers"
+            )
+
         _openalex_rl.wait()
         params = {
             "filter": f"authorships.institutions.ror:{BU_ROR_ID},{date_field}:{since_date}",
@@ -310,25 +345,53 @@ def harvest_openalex_incremental(date_field: str, since_date: str) -> list[dict]
         }
         headers = openalex_headers()
         try:
-            resp = requests.get(base_url, params=params, headers=headers, timeout=30)
-            if resp.status_code == 429:
+            resp = requests.get(base_url, params=params, headers=headers, timeout=60)
+
+            # 429 and 5xx are both transient: back off and retry the SAME cursor.
+            if resp.status_code == 429 or resp.status_code >= 500:
                 retries += 1
                 if retries > max_retries:
-                    logger.error(f"OpenAlex: {max_retries} consecutive 429s, giving up")
+                    truncated_reason = f"{max_retries} consecutive {resp.status_code}s"
+                    logger.error(f"OpenAlex: giving up after {truncated_reason}")
                     break
-                wait = min(10 * (2 ** (retries - 1)), 120)
-                logger.warning(f"OpenAlex 429, backoff {wait}s (attempt {retries}/{max_retries})")
+                wait = min(5 * (2 ** (retries - 1)), 120)
+                logger.warning(
+                    f"OpenAlex {resp.status_code}, retrying same cursor in {wait}s "
+                    f"(attempt {retries}/{max_retries}, {len(papers)} papers so far)"
+                )
                 time.sleep(wait)
                 continue
+
             resp.raise_for_status()
-            retries = 0  # Reset on success
+            retries = 0
             data = resp.json()
+
+        except HarvestBudgetExceeded:
+            raise
         except requests.exceptions.HTTPError as e:
-            logger.error(f"OpenAlex HTTP error: {e}")
+            # A genuine 4xx (bad filter, auth) will not fix itself.
+            truncated_reason = f"HTTP error: {e}"
+            logger.error(f"OpenAlex fatal HTTP error, stopping: {e}")
             break
         except Exception as e:
-            logger.error(f"OpenAlex error: {e}")
-            break
+            # Network blip, JSON decode, read timeout: also worth retrying.
+            retries += 1
+            if retries > max_retries:
+                truncated_reason = f"{max_retries} consecutive errors ({e})"
+                logger.error(f"OpenAlex: giving up after {truncated_reason}")
+                break
+            wait = min(5 * (2 ** (retries - 1)), 120)
+            logger.warning(
+                f"OpenAlex request failed ({type(e).__name__}: {e}), "
+                f"retrying same cursor in {wait}s (attempt {retries}/{max_retries})"
+            )
+            time.sleep(wait)
+            continue
+
+        if expected is None:
+            expected = data.get("meta", {}).get("count")
+            if expected:
+                logger.info(f"OpenAlex reports {expected:,} matching works")
 
         results = data.get("results", [])
         if not results:
@@ -342,11 +405,31 @@ def harvest_openalex_incremental(date_field: str, since_date: str) -> list[dict]
             except Exception as e:
                 logger.debug(f"Parse error: {e}")
 
+        pages += 1
+        if pages % 25 == 0:
+            logger.info(f"  OpenAlex page {pages}: {len(papers):,} papers so far")
+
         cursor = data.get("meta", {}).get("next_cursor")
         if not cursor:
             break
 
-    logger.info(f"OpenAlex: {len(papers)} papers harvested")
+    if _partial is not None:
+        _partial.extend(papers)
+
+    # Completeness check. Parsing legitimately drops a few records, so allow a
+    # small margin before calling it truncated.
+    if expected and len(papers) < expected * 0.90:
+        logger.error(
+            f"OpenAlex TRUNCATED: harvested {len(papers):,} of {expected:,} "
+            f"reported works ({100*len(papers)/expected:.0f}%)"
+            + (f" - {truncated_reason}" if truncated_reason else "")
+        )
+    elif truncated_reason:
+        logger.warning(f"OpenAlex ended early ({truncated_reason}) with {len(papers):,} papers")
+    else:
+        logger.info(f"OpenAlex: {len(papers):,} papers harvested"
+                    + (f" of {expected:,} reported" if expected else ""))
+
     return papers
 
 
@@ -732,8 +815,10 @@ def harvest_all_sources(since_12m: str, since_3m: str,
 
     # ── Core sources (always run, have incremental versions) ──
     _run_source("openalex",
-                lambda deadline=None: harvest_openalex_incremental("from_publication_date", since_12m),
-                critical=True, max_minutes=20)
+                lambda deadline=None: harvest_openalex_incremental(
+                    "from_publication_date", since_12m,
+                    deadline=deadline, _partial=_partial_results),
+                critical=True, max_minutes=25)
 
     _run_source("pubmed",
                 lambda deadline=None: harvest_pubmed_incremental(since_3m),
@@ -866,6 +951,120 @@ def harvest_all_sources(since_12m: str, since_3m: str,
 # DEDUPLICATION & FILTERING
 # ═══════════════════════════════════════════════════════════════════════════
 
+# A title fingerprint is only a safe identity when the title is distinctive.
+# The non-BU index currently contains the fingerprints of "Machine Learning" and
+# "Deep Learning" (verified by membership check), which means any future
+# BU-authored book chapter or review with either of those exact titles is
+# silently dropped before classification, forever. 188 papers in master already
+# have normalized titles under 25 characters, so the collision surface is real.
+MIN_FINGERPRINT_TITLE_LEN = 30
+
+
+def safe_fingerprint(title: str) -> str:
+    """Title fingerprint, but only for titles distinctive enough to identify a
+    paper. Returns "" for short titles so they are never used as a blocklist
+    key. Reading is unaffected; this guards what we WRITE."""
+    fp = title_fingerprint(title or "")
+    normalized = "".join(c for c in (title or "").lower() if c.isalnum())
+    if len(normalized) < MIN_FINGERPRINT_TITLE_LEN:
+        return ""
+    return fp
+
+
+def prefilter_version() -> str:
+    """Short hash of everything that determines a pre-filter verdict.
+
+    This is what makes it safe to remember pre-filter rejections. A paper the
+    filter dropped is skipped on future runs ONLY while the filter is unchanged;
+    touch the keyword list, the reference texts or the threshold and the version
+    changes, every remembered rejection is invalidated, and the papers get
+    re-evaluated automatically.
+
+    Without this, remembering rejections would permanently entomb whatever the
+    filter got wrong -- which is exactly how the old stack's 53% loss rate would
+    have become unrecoverable.
+    """
+    basis = json.dumps({
+        "keywords": sorted(ALL_AI_KEYWORDS),
+        "refs": AI_REFERENCE_TEXTS,
+        "threshold": EMBEDDING_THRESHOLD,
+    }, sort_keys=True)
+    return hashlib.sha1(basis.encode("utf-8")).hexdigest()[:12]
+
+
+def load_prefilter_seen() -> dict:
+    if os.path.exists(PREFILTER_SEEN_PATH):
+        try:
+            with open(PREFILTER_SEEN_PATH) as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not read pre-filter seen index: {e}")
+    return {"entries": {}}
+
+
+def prefilter_seen_keys() -> set:
+    """Keys rejected by the CURRENT filter configuration. Entries recorded under
+    a different filter version are ignored, so they get another chance."""
+    version = prefilter_version()
+    data = load_prefilter_seen()
+    keys = {k for k, v in data.get("entries", {}).items() if v.get("v") == version}
+    stale = len(data.get("entries", {})) - len(keys)
+    if keys or stale:
+        logger.info(
+            f"Pre-filter memory: {len(keys):,} papers rejected under the current "
+            f"filter ({version})"
+            + (f"; {stale:,} entries from older filter versions will be re-evaluated"
+               if stale else "")
+        )
+    return keys
+
+
+def record_prefilter_drops(dropped: list[dict]):
+    """Remember papers the pre-filter rejected, so later runs skip the embedding
+    pass and the Sonnet call instead of re-deciding them from scratch.
+
+    Run #12 dropped 16,020 candidates. Without this every subsequent run
+    re-harvests them, re-fetches their abstracts, re-embeds them and re-reaches
+    the same verdict. Entries are stamped with the filter version so the memory
+    is invalidated the moment the filter changes.
+    """
+    if not dropped:
+        return {"added": 0, "total": 0}
+
+    version = prefilter_version()
+    data = load_prefilter_seen()
+    entries = data.setdefault("entries", {})
+    stamp = date.today().strftime("%Y-%m")
+    added = 0
+
+    for d in dropped:
+        doi = normalize_doi(d.get("doi") or "")
+        key = doi or safe_fingerprint(d.get("title") or "")
+        if not key:
+            continue
+        if entries.get(key, {}).get("v") == version:
+            continue
+        entries[key] = {
+            "v": version,
+            "s": d.get("embedding_score"),
+            "t": (d.get("title") or "")[:120],
+            "d": stamp,
+        }
+        added += 1
+
+    data["filter_version"] = version
+    try:
+        with open(PREFILTER_SEEN_PATH, "w") as f:
+            json.dump(data, f, separators=(",", ":"))
+        logger.info(
+            f"Pre-filter memory: +{added:,} rejections recorded "
+            f"({len(entries):,} total, filter {version})"
+        )
+    except Exception as e:
+        logger.warning(f"Could not write pre-filter seen index: {e}")
+    return {"added": added, "total": len(entries)}
+
+
 def load_rejected_index() -> tuple[set, set]:
     """Load DOIs and title fingerprints of previously rejected papers."""
     if os.path.exists(REJECTED_PATH):
@@ -888,7 +1087,7 @@ def record_rejections(papers: list[dict]):
     added = 0
     for p in papers:
         doi = normalize_doi(p.get("doi", ""))
-        fp = title_fingerprint(p.get("title", ""))
+        fp = safe_fingerprint(p.get("title", ""))
         if doi and doi not in dois:
             dois.add(doi)
             added += 1
@@ -922,7 +1121,7 @@ def record_non_bu_ai(papers: list[dict]):
     added = 0
     for p in papers:
         doi = normalize_doi(p.get("doi", ""))
-        fp = title_fingerprint(p.get("title", ""))
+        fp = safe_fingerprint(p.get("title", ""))
         if doi and doi not in dois:
             dois.add(doi)
             added += 1
@@ -938,14 +1137,34 @@ def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: s
     """Filter new_papers against master dataset, rejection index, and non-BU AI index."""
     rejected_dois, rejected_fps = load_rejected_index()
     non_bu_dois, non_bu_fps = load_non_bu_ai_index()
+    prefilter_rejected = prefilter_seen_keys()
 
     unique = []
     skipped_master = 0
     skipped_rejected = 0
     skipped_non_bu = 0
+    skipped_prefilter = 0
+    seen_this_run = set()
+    dupes_within_run = 0
     for p in new_papers:
         doi = normalize_doi(p.get("doi", ""))
         fp = title_fingerprint(p.get("title", ""))
+
+        # Within-run dedup. Every harvester extends one shared list, so a paper
+        # found by OpenAlex AND PubMed AND DBLP in the same sweep was embedded
+        # and classified once per source. Master already carries 6 duplicate
+        # DOIs and 42 duplicate title fingerprints from exactly this.
+        run_key = doi or fp
+        if run_key:
+            if run_key in seen_this_run:
+                dupes_within_run += 1
+                continue
+            seen_this_run.add(run_key)
+
+        # Already judged not-AI by this exact filter configuration.
+        if (doi and doi in prefilter_rejected) or (fp and fp in prefilter_rejected):
+            skipped_prefilter += 1
+            continue
         if doi and doi in master_dois:
             skipped_master += 1
             continue
@@ -965,8 +1184,13 @@ def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: s
             skipped_non_bu += 1
             continue
         unique.append(p)
-    logger.info(f"Dedup: {len(new_papers)} → {len(unique)} new "
-                f"({skipped_master} in master, {skipped_rejected} previously rejected, {skipped_non_bu} previously non-BU)")
+    logger.info(
+        f"Dedup: {len(new_papers):,} → {len(unique):,} new "
+        f"({skipped_master:,} in master, {dupes_within_run:,} duplicates within this run, "
+        f"{skipped_prefilter:,} already rejected by this filter version, "
+        f"{skipped_rejected:,} previously rejected by Sonnet, "
+        f"{skipped_non_bu:,} previously non-BU)"
+    )
     return unique
 
 
@@ -1231,9 +1455,12 @@ def ai_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHOLD) -> 
             f"{title_only_kw} ({100*title_only_kw/len(title_only):.0f}%) match an AI keyword on the title alone"
         )
 
-    # Log what was dropped. Both filters used to log counts only -- no title, no
-    # DOI, no score -- so "what did we lose last month?" was unanswerable, which
-    # is how a >50% loss rate stayed invisible for months.
+    # Remember the rejections so later runs skip them entirely, and log them in
+    # full so "what did we lose last month?" is answerable. Both filters used to
+    # log counts only -- no title, no DOI, no score -- which is how a >50% loss
+    # rate stayed invisible for months.
+    if dropped:
+        stats["memory"] = record_prefilter_drops(dropped)
     if dropped:
         try:
             os.makedirs("logs", exist_ok=True)
@@ -1641,6 +1868,10 @@ def git_commit_and_push(message: str) -> bool:
         files_to_stage = [
             MASTER_PATH, STATE_PATH, LOG_PATH,
             REJECTED_PATH, NON_BU_AI_PATH,
+            # The pre-filter memory is only worth keeping if it is committed;
+            # otherwise every CI run starts blank and re-decides the same
+            # tens of thousands of papers.
+            PREFILTER_SEEN_PATH,
             "output/bibliography_app/data.js",
             "output/bibliography_app/data_private.js",
             "docs/data.js",
