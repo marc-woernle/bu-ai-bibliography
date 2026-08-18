@@ -17,7 +17,12 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # 300, not 120. The old ceiling was the proximate cause of five months of
+    # dead runs, and on a public repo Actions minutes are free, so the only
+    # thing 120 was buying was lost papers. The harvest phase has its own
+    # 180-minute global budget and every source has a hard per-source cutoff
+    # inside that, so this is a backstop rather than the active constraint.
+    timeout-minutes: 300
 
     steps:
       - uses: actions/checkout@v4
