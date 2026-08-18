@@ -187,6 +187,109 @@ def estimate_tokens(text: str) -> int:
     return len(text) // 4
 
 
+# ── Response validation ──────────────────────────────────────────────────────
+# The prompt fixes these vocabularies but nothing ever checked the response
+# against them. Measured in the current master: 387 papers carry an off-list
+# domain (25 distinct values, mostly subfield names leaking into the domain
+# slot), 411 carry an off-list subfield (113 distinct, including case-variant
+# duplicates like "Pattern Recognition" vs "Pattern recognition" that fragment
+# the site's facets), and 7 have confidence: "high" -- a string where the schema
+# says 0.0-1.0, which is what makes quarterly_review.py crash on sort.
+
+VALID_TIERS = {"primary", "methodological", "peripheral", "not_relevant"}
+
+VALID_DOMAINS = {
+    "Medicine & Health", "Computer Science", "Engineering", "Law & Policy",
+    "Business & Economics", "Social Sciences", "Natural Sciences",
+    "Mathematics & Statistics", "Education", "Humanities", "Communication & Media",
+    "Public Health", "Neuroscience", "Biology", "Physics", "Chemistry",
+    "Environmental Science", "Psychology",
+}
+
+VALID_STATUSES = {
+    "published", "preprint", "working_paper", "conference_paper",
+    "book_chapter", "thesis", "dissertation", "technical_report",
+    "grant", "other",
+}
+
+
+def _coerce_confidence(v):
+    """Confidence must be a float. The model sometimes answers 'high'."""
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, str):
+        try:
+            return float(v)
+        except ValueError:
+            return {"high": 0.9, "medium": 0.6, "low": 0.3}.get(v.strip().lower(), 0.5)
+    return 0.5
+
+
+def _normalize_vocab(values, allowed=None):
+    """Trim, title-case-normalize and de-duplicate a list of tags.
+
+    Off-list values are kept rather than dropped -- they are often meaningful,
+    just not in the enum -- but case variants are collapsed so the site's facets
+    stop fragmenting. `allowed` maps a lowercased form back to its canonical
+    spelling.
+    """
+    if not isinstance(values, list):
+        return []
+    canon = {a.lower(): a for a in (allowed or set())}
+    out, seen = [], set()
+    for v in values:
+        if not isinstance(v, str):
+            continue
+        v = " ".join(v.split())
+        if not v:
+            continue
+        v = canon.get(v.lower(), v)
+        if v.lower() not in seen:
+            seen.add(v.lower())
+            out.append(v)
+    return out
+
+
+def validate_classification(parsed: dict) -> tuple[dict, list[str]]:
+    """Coerce a parsed model response into schema. Returns (parsed, warnings)."""
+    warnings = []
+    tier = parsed.get("ai_relevance")
+    if tier not in VALID_TIERS:
+        warnings.append(f"off-list ai_relevance: {tier!r}")
+        parsed["ai_relevance"] = "parse_error"
+    parsed["confidence"] = _coerce_confidence(parsed.get("confidence"))
+    parsed["domains"] = _normalize_vocab(parsed.get("domains"), VALID_DOMAINS)
+    parsed["subfields"] = _normalize_vocab(parsed.get("subfields"))
+    for d in parsed["domains"]:
+        if d not in VALID_DOMAINS:
+            warnings.append(f"off-list domain: {d!r}")
+    if parsed.get("publication_status") not in VALID_STATUSES:
+        parsed["publication_status"] = "other"
+    return parsed, warnings
+
+
+def _content_key(paper: dict) -> str:
+    """Short stable hash of a paper's identity, embedded in the batch custom_id
+    so collect can prove a result landed on the paper it was built from."""
+    import hashlib
+    basis = (paper.get("doi") or paper.get("title") or "").strip().lower()
+    return hashlib.md5(basis.encode("utf-8")).hexdigest()[:10]
+
+
+def _system_block():
+    """System prompt as a cached block.
+
+    The prompt is ~1,230 tokens and was re-sent uncached on every request --
+    about 85% of the input tokens for a paper. Caching it roughly halves
+    classification cost (a 5,000-paper batch goes from ~$17.70 to ~$9).
+    """
+    return [{
+        "type": "text",
+        "text": SYSTEM_PROMPT,
+        "cache_control": {"type": "ephemeral"},
+    }]
+
+
 # ── Build batch ──────────────────────────────────────────────────────────────
 
 def build_batch():
@@ -200,13 +303,20 @@ def build_batch():
             user_text = paper_to_prompt_text(paper)
             total_input_tokens += system_tokens + estimate_tokens(user_text)
 
+            # custom_id carries a content key, not just a position. The join on
+            # collect was purely positional against a regenerable, gitignored
+            # input file -- if that file changed between submit and collect (a
+            # re-run of estimate, a CI --save-candidates dispatch, a batch left
+            # for a day), every classification would land on the wrong paper
+            # with nothing detecting it, because each result record copies its
+            # title and DOI from papers[idx] and stays internally consistent.
             req = {
-                "custom_id": f"p_{i}_{paper.get('source', 'unk')}",
+                "custom_id": f"p_{i}_{_content_key(paper)}",
                 "params": {
                     "model": MODEL,
                     "max_tokens": 512,
                     "temperature": 0.0,
-                    "system": SYSTEM_PROMPT,
+                    "system": _system_block(),
                     "messages": [{"role": "user", "content": user_text}],
                 },
             }
@@ -321,29 +431,62 @@ def collect():
     results = {}
     errors = 0
 
+    mismatches = []
+    vocab_warnings = 0
+
     print("Downloading results...")
     for result in client.messages.batches.results(batch_id):
         custom_id = result.custom_id
-        idx = int(custom_id.split("_")[1])
+        parts = custom_id.split("_")
+        idx = int(parts[1])
         paper = papers[idx]
+
+        # Prove the positional join still holds. Old batches (custom_id carried
+        # the source tag, not a content hash) simply skip this check.
+        if len(parts) > 2 and len(parts[2]) == 10:
+            if parts[2] != _content_key(paper):
+                mismatches.append(custom_id)
+                continue
 
         if result.result.type == "succeeded":
             msg = result.result.message
             text = msg.content[0].text if msg.content else "{}"
-            # Strip markdown fences if present
-            clean = text.strip()
-            if clean.startswith("```"):
-                clean = clean.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+            parsed = None
             try:
+                # Fence stripping used to sit outside the try. A response like
+                # ```json{...}``` with no newline made split("\n", 1) return one
+                # element -> IndexError -> the exception escaped the download
+                # loop, and since RESULTS_FILE is only written after the loop,
+                # a single malformed response destroyed the entire collected
+                # batch.
+                clean = text.strip()
+                if clean.startswith("```"):
+                    clean = clean.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
                 parsed = json.loads(clean)
-            except json.JSONDecodeError:
+            except Exception:
+                parsed = None
+
+            if parsed is None:
+                # The old fallback labelled a parse failure "peripheral" with
+                # confidence 0.5 and put 300 chars of raw model output in the
+                # annotation field, then dropped the _parse_error flag when
+                # building the record -- so merge_batch_results' parse-error
+                # filter could never fire and these shipped to the public site
+                # as AI Studies papers. The tier is now a sentinel that the
+                # merge step refuses.
                 parsed = {
-                    "ai_relevance": "peripheral",
+                    "ai_relevance": "parse_error",
+                    "confidence": 0.0,
                     "domains": [], "subfields": [],
-                    "annotation": text[:300],
+                    "annotation": "",
+                    "one_line_summary": "",
                     "_parse_error": True,
+                    "_raw_response": text[:500],
                 }
                 errors += 1
+            else:
+                parsed, warns = validate_classification(parsed)
+                vocab_warnings += len(warns)
 
             results[idx] = {
                 "index": idx,
@@ -367,6 +510,11 @@ def collect():
                 "domains": parsed.get("domains", []),
                 "subfields": parsed.get("subfields", []),
                 "annotation": parsed.get("annotation", ""),
+                # Persisted, unlike before: the fallback set _parse_error but the
+                # record builder copied only named keys, so the flag never
+                # reached disk and the downstream filter was dead code.
+                "_parse_error": parsed.get("_parse_error", False),
+                "_raw_response": parsed.get("_raw_response"),
                 # ── BU institutional ──
                 "bu_category": paper.get("bu_category", ""),
                 "bu_schools": paper.get("bu_schools", []),
@@ -391,7 +539,14 @@ def collect():
                 "source": paper_err.get("source", ""),
                 "source_id": paper_err.get("source_id", ""),
                 "all_sources": paper_err.get("all_sources", [paper_err.get("source", "")]),
-                "ai_relevance": "unknown",
+                # Was "unknown", which merge_batch_results happily let through
+                # (it only filters not_relevant), so an expired or errored
+                # request became a master record the web app renders with a raw
+                # "unknown" badge, missing from every relevance count and
+                # unreachable by any filter -- and permanently un-reharvestable,
+                # since its DOI is now in the dedup index.
+                "ai_relevance": "api_error",
+                "_parse_error": True,
                 "bu_category": paper_err.get("bu_category", ""),
                 "bu_schools": paper_err.get("bu_schools", []),
                 **derived_fields(paper_err),
@@ -400,6 +555,27 @@ def collect():
             errors += 1
 
     output = sorted(results.values(), key=lambda x: x["index"])
+
+    # Nothing used to check that every submitted paper came back. A batch that
+    # expires at 24h with requests still processing just produced a shorter
+    # results file, and those papers ended up in no index anywhere -- not master,
+    # not rejected, not non-BU. Simply gone from the run.
+    missing = sorted(set(range(len(papers))) - set(results))
+    if missing:
+        missing_path = RESULTS_FILE.replace(".json", "_missing.json")
+        with open(missing_path, "w") as f:
+            json.dump([{"index": i,
+                        "title": (papers[i].get("title") or "")[:200],
+                        "doi": papers[i].get("doi")} for i in missing],
+                      f, ensure_ascii=False, indent=2)
+        print(f"\n  WARNING: {len(missing)} of {len(papers)} submitted papers "
+              f"returned no result. Written to {missing_path}")
+    if mismatches:
+        print(f"  WARNING: {len(mismatches)} results skipped -- custom_id content "
+              f"key did not match the input file. The input changed between "
+              f"submit and collect; re-submit rather than merging these.")
+    if vocab_warnings:
+        print(f"  {vocab_warnings} off-vocabulary values normalized")
 
     with open(RESULTS_FILE, "w") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)

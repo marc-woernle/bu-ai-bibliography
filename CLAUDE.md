@@ -4,6 +4,19 @@
 ## Git commits
 - Never add Co-Authored-By trailers or any attribution to Claude/Anthropic in commit messages.
 - All commits must be authored by the user (Marc Woernle), never by Claude or any AI identity.
+- This is enforced three ways. Run `sh scripts/setup-hooks.sh` once in every clone
+  (`sh` rather than `./` because files committed through GitHub's web UI lose the
+  executable bit; the script chmods the hooks itself):
+  - `.githooks/commit-msg` rejects attribution trailers and "Generated with" footers
+  - `.githooks/pre-commit` rejects commits whose AUTHOR is a Claude/Anthropic
+    identity. This is the case the message check misses: a Claude Code sandbox
+    defaults to `user.name=Claude` / `user.email=noreply@anthropic.com`, so the
+    message is clean and the commit is still authored by Claude.
+  - `.github/workflows/no-ai-attribution.yml` runs on every push. Local hooks are
+    per-clone and can be skipped with `--no-verify`; this one cannot.
+- If you are an agent working in a fresh checkout, set the identity explicitly
+  before your first commit: `git config user.name 'Marc Woernle'` and
+  `git config user.email 'marcwho13@gmail.com'`.
 
 ## STATUS.md format
 

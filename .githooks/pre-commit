@@ -1,0 +1,36 @@
+#!/bin/sh
+# Reject any commit AUTHORED BY Claude/Anthropic.
+#
+# The commit-msg hook checks the message text. This checks the identity, which
+# is the hole the original bug went through: a Claude Code sandbox defaults to
+# `user.name=Claude` / `user.email=noreply@anthropic.com`, so a commit made
+# there carries no attribution trailer at all -- the message is clean and the
+# hook passes -- while the commit itself is authored by Claude and shows up
+# that way on GitHub forever.
+#
+# Activate with: ./scripts/setup-hooks.sh
+
+name=$(git var GIT_AUTHOR_IDENT | sed 's/ <.*//')
+email=$(git var GIT_AUTHOR_IDENT | sed 's/.*<//; s/>.*//')
+
+fail() {
+  echo "ERROR: this commit would be authored by '$name <$email>'."
+  echo ""
+  echo "       Commits in this repository must be authored by Marc Woernle."
+  echo "       Fix with:"
+  echo "         git config user.name  'Marc Woernle'"
+  echo "         git config user.email 'marcwho13@gmail.com'"
+  echo ""
+  echo "       (pre-commit hook at .githooks/pre-commit)"
+  exit 1
+}
+
+case "$email" in
+  *@anthropic.com|*@users.noreply.anthropic.com) fail ;;
+esac
+
+case "$name" in
+  [Cc]laude|"Claude Code"|"Claude Opus"*|"Claude Sonnet"*) fail ;;
+esac
+
+exit 0

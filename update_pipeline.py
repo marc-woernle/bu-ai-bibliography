@@ -11,6 +11,8 @@ import hashlib
 import json
 import logging
 import os
+import re
+import signal
 import subprocess
 import sys
 import time
@@ -32,6 +34,7 @@ from config import (
 from utils import (
     Deduplicator,
     HarvestBudgetExceeded,
+    HarvestTimeout,
     RateLimiter,
     make_paper_record,
     normalize_doi,
@@ -39,7 +42,14 @@ from utils import (
     resilient_post,
     title_fingerprint,
 )
-from classify_papers import MODEL, SYSTEM_PROMPT, derived_fields, paper_to_prompt_text
+from classify_papers import (
+    MODEL,
+    SYSTEM_PROMPT,
+    _system_block,
+    derived_fields,
+    paper_to_prompt_text,
+    validate_classification,
+)
 from school_mapper import (
     FACULTY_BY_FULLNAME,
     FACULTY_BY_OAID,
@@ -68,8 +78,17 @@ NON_BU_AI_PATH = "data/non_bu_ai_index.json"
 # ── Cost constants (Sonnet standard API pricing) ────────────────────────────
 COST_PER_INPUT_MTOK = 3.0    # $/MTok
 COST_PER_OUTPUT_MTOK = 15.0  # $/MTok
-AVG_INPUT_TOKENS = 800
-AVG_OUTPUT_TOKENS = 200
+# Measured against what the code actually sends and what the model actually
+# returns, rather than guessed. The system prompt alone is ~1,230 tokens, so the
+# old AVG_INPUT_TOKENS = 800 was below the system prompt by itself and the
+# estimate ran ~25% low -- which matters because update_monthly gates on
+# est_cost > 15.0 and then classify_via_sonnet silently stops mid-list at the
+# real $15.
+# Output: mean 181, p95 208, max 271 over the 10,595 master records with usage
+# data. Input assumes the cached system block (see _system_block); on a cache
+# miss the first request of a run pays full price for it.
+AVG_INPUT_TOKENS = 1450
+AVG_OUTPUT_TOKENS = 185
 AVG_COST_PER_PAPER = (AVG_INPUT_TOKENS * COST_PER_INPUT_MTOK + AVG_OUTPUT_TOKENS * COST_PER_OUTPUT_MTOK) / 1_000_000
 
 # Rate limiters
@@ -433,126 +452,6 @@ def harvest_crossref_biorxiv_incremental(since_date: str) -> list[dict]:
     return unique
 
 
-def harvest_crossref_per_faculty(since_date: str) -> list[dict]:
-    """Per-faculty CrossRef search for high-impact venues that the BU-ROR
-    harvest sometimes misses.
-
-    The institution-wide harvest (filter=affiliations.institution.ror:<BU>)
-    misses faculty whose OpenAlex profile has been split or whose recent
-    JAMA / NEJM / Lancet / etc. papers haven't yet been indexed under their
-    BU-affiliated profile. This loops faculty in clinically-and-legally-
-    active schools and pulls their recent works from a curated set of
-    high-impact venues, regardless of OpenAlex affiliation status.
-
-    The result is fed into the same dedup + classify + BU-verify pipeline,
-    so anything already in master gets skipped, and anything new gets the
-    full classification treatment.
-    """
-    logger.info("CrossRef per-faculty: searching high-impact venues")
-
-    HIGH_IMPACT_VENUES = {
-        # Top medical
-        "jama", "the lancet", "lancet", "new england journal of medicine",
-        "nejm", "nature", "science", "cell", "nature medicine",
-        "nature human behaviour", "nature digital medicine", "npj digital medicine",
-        "bmj", "the bmj", "annals of internal medicine",
-        "jama internal medicine", "jama network open", "jama oncology",
-        "jama pediatrics", "jama neurology", "jama psychiatry",
-        "jama health forum", "jama dermatology", "jama cardiology",
-        "jama ophthalmology", "jama otolaryngology", "jama surgery",
-        # Top law (a curated short list; full coverage would explode the query budget)
-        "harvard law review", "yale law journal", "stanford law review",
-        "columbia law review", "university of pennsylvania law review",
-        "virginia law review", "michigan law review", "california law review",
-        "boston university law review", "boston college law review",
-        "wisconsin law review",
-    }
-
-    target_schools = {
-        "School of Medicine", "School of Public Health", "School of Law",
-        "Sargent College of Health & Rehabilitation Sciences",
-        "Wheelock College of Education & Human Development",
-        "Faculty of Computing & Data Sciences",
-    }
-
-    # Build target faculty list from current roster
-    try:
-        with open("data/bu_faculty_roster_verified.json") as f:
-            roster = json.load(f)
-    except Exception as e:
-        logger.warning(f"  could not load roster: {e}")
-        return []
-    targets = [r for r in roster
-               if r.get("name") and r.get("school") in target_schools]
-    logger.info(f"  {len(targets)} faculty in target schools")
-
-    seen_dois = set()
-    papers = []
-    for fac in targets:
-        name = fac["name"]
-        # Query: per-author, recent, journal articles only
-        _crossref_rl.wait()
-        try:
-            resp = requests.get(
-                "https://api.crossref.org/works",
-                params={
-                    "query.author": name,
-                    "filter": f"from-pub-date:{since_date},type:journal-article",
-                    "rows": 50,
-                    "select": "DOI,title,author,published-print,published-online,"
-                              "abstract,URL,is-referenced-by-count,type,subject,"
-                              "container-title",
-                },
-                headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"},
-                timeout=15,
-            )
-            if resp.status_code == 429:
-                time.sleep(5)
-                continue
-            if resp.status_code != 200:
-                continue
-            items = resp.json().get("message", {}).get("items", [])
-        except Exception as e:
-            logger.debug(f"  CrossRef per-faculty error for {name}: {e}")
-            continue
-
-        for item in items:
-            ctitle_arr = item.get("container-title") or []
-            ctitle_raw = ctitle_arr[0] if ctitle_arr else ""
-            ctitle = ctitle_raw.lower()
-            if ctitle not in HIGH_IMPACT_VENUES:
-                continue
-            parsed = _parse_crossref_item(item)
-            if not parsed:
-                continue
-            doi = normalize_doi(parsed.get("doi", ""))
-            if not doi or doi in seen_dois:
-                continue
-            # Verify the faculty's name actually appears in authors
-            authors_str = ", ".join(
-                a.get("name", "") for a in parsed.get("authors", [])
-            ).lower()
-            last = name.split()[-1].lower()
-            if last not in authors_str:
-                continue
-            seen_dois.add(doi)
-            # _parse_crossref_item is tuned for SSRN: it hardcodes source="ssrn"
-            # and venue="SSRN Electronic Journal". Override both since these
-            # papers are from JAMA / NEJM / Lancet / etc., not SSRN.
-            parsed["source"] = "crossref"
-            parsed["venue"] = ctitle_raw
-            # Mark BU on the matching author so verify_bu_authors keeps it
-            for a in parsed.get("authors", []):
-                if last in (a.get("name") or "").lower():
-                    a["is_bu"] = True
-                    a["affiliation"] = a.get("affiliation") or "Boston University"
-                    break
-            papers.append(parsed)
-
-    logger.info(f"CrossRef per-faculty: {len(papers)} papers harvested")
-    return papers
-
-
 def harvest_ssrn_by_faculty() -> list[dict]:
     """Search SSRN for papers by known BU Law faculty ONLY.
 
@@ -689,7 +588,17 @@ def download_dblp_dump(dest: Path = DBLP_DUMP_PATH) -> Path | None:
 # UNIFIED HARVEST
 # ═══════════════════════════════════════════════════════════════════════════
 
-def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict]:
+# Total wall-clock the harvest phase may consume, in minutes. The CI job has a
+# 120-minute ceiling and phases 3-6 (classify, merge, maintenance, validate,
+# push, report) need the rest. Per-source budgets are clamped to whatever is
+# left of this, so the sum of the individual budgets can no longer overrun the
+# job -- previously they summed to 140 minutes against a 120-minute job.
+HARVEST_GLOBAL_BUDGET_MIN = 75
+
+
+def harvest_all_sources(since_12m: str, since_3m: str,
+                        global_budget_min: float = HARVEST_GLOBAL_BUDGET_MIN
+                        ) -> tuple[list[dict], dict]:
     """Run all source harvesters with fault isolation, time budgets, and partial result capture.
 
     Returns (all_papers, source_report) where source_report maps source_name to
@@ -701,23 +610,77 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
     # Shared collector: harvesters append here so partial results survive exceptions
     _partial_results: list[dict] = []
 
+    _global_deadline = time.time() + global_budget_min * 60
+    logger.info(f"Harvest global budget: {global_budget_min:.0f} min")
+
     def _run_source(name: str, harvester, critical: bool = False, max_minutes: float = 15):
-        """Run a harvester with fault isolation, time budget, and partial result capture."""
+        """Run a harvester with fault isolation, time budget, and partial result capture.
+
+        The budget is enforced two ways. Harvesters that accept `deadline` check
+        it cooperatively and raise HarvestBudgetExceeded, which preserves their
+        partial results. For the rest -- the majority, which take the deadline
+        kwarg only to discard it -- SIGALRM delivers a hard cutoff. Without the
+        alarm those budgets were purely decorative: harvest_crossref_per_faculty
+        ran 74 minutes against a nominal 15, and OpenBU 74 against 10, which is
+        what pushed every monthly run past the CI timeout.
+        """
         nonlocal _partial_results
         _partial_results = []
         t0 = time.time()
-        deadline = t0 + max_minutes * 60
+
+        remaining = _global_deadline - t0
+        if remaining <= 30:
+            source_report[name] = {
+                "count": 0,
+                "status": "SKIPPED_NO_TIME",
+                "error": f"global harvest budget ({global_budget_min:.0f}m) exhausted before this source ran",
+                "duration_s": 0.0,
+            }
+            logger.warning(f"  {name}: SKIPPED - global harvest budget exhausted")
+            return
+
+        budget_s = min(max_minutes * 60, remaining)
+        deadline = t0 + budget_s
+
+        def _on_alarm(signum, frame):
+            raise HarvestTimeout(f"{name} hit its {budget_s/60:.1f}m hard cutoff")
+
+        _prev_handler = None
+        _alarm_set = False
+        try:
+            _prev_handler = signal.signal(signal.SIGALRM, _on_alarm)
+            signal.alarm(int(budget_s))
+            _alarm_set = True
+        except (ValueError, AttributeError):
+            # Not the main thread, or no SIGALRM on this platform. Fall back to
+            # cooperative-only enforcement.
+            logger.debug(f"  {name}: SIGALRM unavailable, cooperative budget only")
 
         try:
             papers = harvester(deadline=deadline)
             all_papers.extend(papers)
             source_report[name] = {
                 "count": len(papers),
-                "status": "ok",
-                "error": None,
+                # A source that returns zero papers used to be recorded as "ok",
+                # which is how arXiv went its entire life returning HTTP 500 and
+                # never once raising an alert. Zero is now its own status.
+                "status": "ok" if papers else "EMPTY",
+                "error": None if papers else "returned 0 papers",
                 "duration_s": round(time.time() - t0, 1),
             }
             logger.info(f"  {name}: {len(papers)} papers ({time.time()-t0:.0f}s)")
+
+        except HarvestTimeout as e:
+            partial = _partial_results
+            if partial:
+                all_papers.extend(partial)
+            source_report[name] = {
+                "count": len(partial),
+                "status": "PARTIAL_TIMEOUT",
+                "error": f"hard cutoff after {budget_s/60:.1f}m, kept {len(partial)} papers",
+                "duration_s": round(time.time() - t0, 1),
+            }
+            logger.warning(f"  {name}: HARD TIMEOUT after {budget_s/60:.1f}m ({e})")
 
         except HarvestBudgetExceeded:
             # Time budget hit: use whatever was collected
@@ -754,6 +717,12 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
                 level = "CRITICAL" if critical else "WARNING"
                 logger.error(f"  {name}: FAILED ({level}) - {e}")
 
+        finally:
+            if _alarm_set:
+                signal.alarm(0)
+                if _prev_handler is not None:
+                    signal.signal(signal.SIGALRM, _prev_handler)
+
     # Helper: wraps a legacy harvester (no deadline param) to work with _run_source
     def _legacy_wrap(harvest_fn, *args, **kwargs):
         """Wrap a harvest function that doesn't accept deadline."""
@@ -782,9 +751,6 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
     # whose OpenAlex profile is split, or whose recent JAMA/NEJM/Lancet papers
     # the OpenAlex BU-ROR filter hasn't picked up yet (the missing-Robertson-
     # JAMA-papers scenario).
-    _run_source("crossref_per_faculty",
-                lambda deadline=None: harvest_crossref_per_faculty(since_12m),
-                max_minutes=15)
 
     # ── Sources with since_date support ──
     from source_semantic_scholar import harvest as harvest_s2
@@ -832,7 +798,21 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
         }
 
     # DBLP dump (download -> parse -> verify)
-    dblp_dump = download_dblp_dump()
+    # The ~1 GB dump download sits outside _run_source, so it used to run to
+    # completion even when there was no time left to parse it -- a gigabyte
+    # pulled down and immediately deleted. Check the global budget first.
+    _dblp_remaining = _global_deadline - time.time()
+    if _dblp_remaining <= 5 * 60:
+        logger.warning("  dblp: SKIPPED - not enough global budget left to download and parse the dump")
+        source_report["dblp"] = {
+            "count": 0,
+            "status": "SKIPPED_NO_TIME",
+            "error": f"global harvest budget ({global_budget_min:.0f}m) exhausted before the DBLP dump",
+            "duration_s": 0.0,
+        }
+        dblp_dump = None
+    else:
+        dblp_dump = download_dblp_dump()
     if dblp_dump:
         try:
             from harvest_dblp_dump import harvest_dump
@@ -860,7 +840,9 @@ def harvest_all_sources(since_12m: str, since_3m: str) -> tuple[list[dict], dict
                     "error": f"Dump: {source_report.get('dblp',{}).get('error','')}; API: {e2}",
                     "duration_s": 0,
                 }
-    else:
+    elif _dblp_remaining > 5 * 60:
+        # Dump download failed (not: skipped for lack of time). Fall back to the
+        # per-faculty DBLP API.
         try:
             from source_dblp import harvest as harvest_dblp_api
             _run_source("dblp",
@@ -988,59 +970,180 @@ def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: s
     return unique
 
 
+# Word-boundary matcher, built once. Plain substring matching meant "RAG" fired
+# on average / leverage / storage / coverage (1,872 papers in master, and the
+# ONLY matching keyword for 448 of them), "BERT" on hilbert / robert /
+# liberties -- so BU Law papers were passing the AI filter on the word
+# "liberties" -- and "LLM" on hallmark / enrollment / fulfillment.
+#
+# Left boundary only, deliberately. A full \b...\b matcher looks more correct
+# and drops 1,234 master papers, because "neural network" must keep matching
+# "neural networks" and "robot" must keep matching "robots" and "robotic".
+_AI_KEYWORD_RE = re.compile(
+    "|".join(r"(?<![a-z0-9])" + re.escape(kw.lower()) for kw in ALL_AI_KEYWORDS)
+)
+
+# Reference texts for the embedding filter. The original five were 2015-era
+# vocabulary ("data mining", "neural network training optimization") with no
+# LLM, agent, governance or applied-clinical language at all. Since MiniLM
+# scores whole-document topical similarity, a clinical abstract dominated by
+# trial vocabulary scored far from every reference even when the method was a
+# CNN -- which is why Applied AI survived at 21.8% and School of Law at 14.7%.
+AI_REFERENCE_TEXTS = [
+    "artificial intelligence machine learning deep learning",
+    "neural network training optimization backpropagation",
+    "natural language processing computer vision speech recognition",
+    "data mining classification prediction algorithm",
+    "reinforcement learning generative model",
+    "large language model foundation model pretrained transformer",
+    "generative AI multimodal vision-language model diffusion",
+    "AI governance regulation policy law ethics accountability",
+    "algorithmic fairness bias transparency explainability",
+    "applying machine learning to clinical data to predict patient outcomes",
+    "statistical prediction model risk stratification electronic health records",
+    "medical imaging segmentation computer-aided diagnosis radiology",
+    "autonomous agents robotics planning control",
+    "self-supervised representation learning embeddings retrieval",
+    "model alignment interpretability evaluation benchmarks safety",
+]
+
+# Papers kept by the embedding filter alone need to clear this. Higher than the
+# old 0.25 because the filter is now an OR arm rather than a second gate.
+EMBEDDING_THRESHOLD = 0.30
+
+PREFILTER_DROP_LOG = "logs/prefilter_drops_{ym}.jsonl"
+
+
+def _paper_text(p: dict) -> str:
+    """Title + abstract, defensively. Note `or ""` rather than a default: master
+    contains records where the key exists with a null value, and None + " " is a
+    TypeError that would abort the whole run."""
+    return ((p.get("title") or "") + " " + (p.get("abstract") or "")).strip()
+
+
 def keyword_prefilter(papers: list[dict]) -> list[dict]:
-    """Keep papers that mention any AI keyword in title or abstract."""
-    kept = []
-    for p in papers:
-        text = ((p.get("title") or "") + " " + (p.get("abstract") or "")).lower()
-        if any(kw.lower() in text for kw in ALL_AI_KEYWORDS):
-            kept.append(p)
+    """Keep papers that mention any AI keyword in title or abstract.
+
+    Kept as a standalone function for the hand-run scripts that call it. The
+    monthly pipeline uses ai_prefilter, which combines this with the embedding
+    signal rather than gating on it.
+    """
+    kept = [p for p in papers if _AI_KEYWORD_RE.search(_paper_text(p).lower())]
     logger.info(f"Keyword filter: {len(papers)} → {len(kept)}")
     return kept
 
 
-def embedding_prefilter(papers: list[dict], threshold: float = 0.25) -> list[dict]:
-    """Filter papers using sentence-transformer embeddings.
+def _embedding_scores(papers: list[dict]) -> list[float] | None:
+    """Max cosine similarity of each paper against AI_REFERENCE_TEXTS.
 
-    Gracefully falls back to returning all papers if torch is unavailable.
+    Returns None if the model can't be loaded, so callers can fall back to
+    keyword-only rather than dropping everything.
     """
     if not papers:
-        return papers
-
+        return []
     try:
         from sentence_transformers import SentenceTransformer, util
         logger.info("Loading sentence-transformer model...")
         model = SentenceTransformer("all-MiniLM-L6-v2")
+        ref_embeddings = model.encode(AI_REFERENCE_TEXTS, convert_to_tensor=True)
+        # 1,000 chars, not 500: 92.5% of abstracts exceeded the old cap, so the
+        # filter was judging most papers on their first few sentences, which for
+        # a clinical paper is the framing rather than the method.
+        texts = [_paper_text(p)[:1000] for p in papers]
+        embeddings = model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
+        return [util.cos_sim(embeddings[i], ref_embeddings).max().item()
+                for i in range(len(papers))]
+    except Exception as e:
+        # Was `except ImportError`, which did not cover the realistic failure:
+        # SentenceTransformer() raises OSError/HfHubHTTPError when the Hugging
+        # Face download fails, and that propagated up and killed the run.
+        logger.warning(f"Embedding filter unavailable ({type(e).__name__}: {e}); keyword-only")
+        return None
 
-        # Reference AI sentences for similarity comparison
-        ai_refs = [
-            "artificial intelligence machine learning deep learning",
-            "neural network training optimization",
-            "natural language processing computer vision robotics",
-            "data mining classification prediction algorithm",
-            "reinforcement learning generative model",
-        ]
-        ref_embeddings = model.encode(ai_refs, convert_to_tensor=True)
 
-        kept = []
-        texts = [
-            (p.get("title", "") + " " + (p.get("abstract", "") or ""))[:500]
-            for p in papers
-        ]
-        paper_embeddings = model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
-
-        for i, p in enumerate(papers):
-            scores = util.cos_sim(paper_embeddings[i], ref_embeddings)
-            max_score = scores.max().item()
-            if max_score >= threshold:
-                kept.append(p)
-
-        logger.info(f"Embedding filter: {len(papers)} → {len(kept)} (threshold={threshold})")
-        return kept
-
-    except ImportError:
-        logger.warning("sentence-transformers not available; skipping embedding filter")
+def embedding_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHOLD) -> list[dict]:
+    """Standalone embedding filter, for hand-run scripts. See ai_prefilter."""
+    scores = _embedding_scores(papers)
+    if scores is None:
         return papers
+    kept = [p for i, p in enumerate(papers) if scores[i] >= threshold]
+    logger.info(f"Embedding filter: {len(papers)} → {len(kept)} (threshold={threshold})")
+    return kept
+
+
+def ai_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHOLD) -> tuple[list[dict], dict]:
+    """Decide which harvested papers are worth sending to Sonnet.
+
+    A paper is kept if ANY of these holds:
+      * it has no abstract -- title-only text is too thin for either signal to
+        mean anything, and these are 16% of the corpus, concentrated in exactly
+        the law and working-paper sources the filters were worst at;
+      * it matches an AI keyword;
+      * it clears the embedding threshold.
+
+    This used to be a strict AND chain, evaluated keyword-first, so the semantic
+    filter -- the only one that can catch vocabulary the keyword list doesn't
+    know -- only ever saw papers the keyword list had already approved. Measured
+    against the 11,903 confirmed-AI papers in master, the old chain kept 46.4%.
+
+    The precision this bought was never needed. A real logged run harvested 975
+    papers, kept 17, and cost $0.09 against a $15 cap. Sonnet is the actual gate
+    and it is cheap; the pre-filter's job is to keep the bill sane, not to make
+    the AI/not-AI decision on its own.
+
+    Returns (kept, stats).
+    """
+    if not papers:
+        return papers, {"input": 0, "kept": 0}
+
+    scores = _embedding_scores(papers)
+    kept, dropped = [], []
+
+    for i, p in enumerate(papers):
+        has_abstract = bool((p.get("abstract") or "").strip())
+        kw = bool(_AI_KEYWORD_RE.search(_paper_text(p).lower()))
+        emb = scores[i] if scores is not None else None
+        emb_hit = emb is not None and emb >= threshold
+
+        if not has_abstract or kw or emb_hit:
+            kept.append(p)
+        else:
+            dropped.append({
+                "title": (p.get("title") or "")[:200],
+                "doi": p.get("doi"),
+                "source": p.get("source"),
+                "year": p.get("year"),
+                "embedding_score": round(emb, 4) if emb is not None else None,
+            })
+
+    stats = {
+        "input": len(papers),
+        "kept": len(kept),
+        "dropped": len(dropped),
+        "no_abstract": sum(1 for p in papers if not (p.get("abstract") or "").strip()),
+        "embedding_available": scores is not None,
+        "threshold": threshold,
+    }
+
+    # Log what was dropped. Both filters used to log counts only -- no title, no
+    # DOI, no score -- so "what did we lose last month?" was unanswerable, which
+    # is how a >50% loss rate stayed invisible for months.
+    if dropped:
+        try:
+            os.makedirs("logs", exist_ok=True)
+            path = PREFILTER_DROP_LOG.format(ym=date.today().strftime("%Y%m"))
+            with open(path, "a") as f:
+                for d in dropped:
+                    f.write(json.dumps(d, ensure_ascii=False) + "\n")
+            logger.info(f"Logged {len(dropped)} pre-filter drops to {path}")
+        except Exception as e:
+            logger.warning(f"Could not write pre-filter drop log: {e}")
+
+    logger.info(
+        f"AI pre-filter: {len(papers)} → {len(kept)} "
+        f"(dropped {len(dropped)}; {stats['no_abstract']} had no abstract and were passed through)"
+    )
+    return kept, stats
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1067,6 +1170,9 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
     client = anthropic.Anthropic()
     classified = []
     total_cost = 0.0
+    parse_failures = 0
+    vocab_warnings = 0
+    consecutive_errors = 0
     rl = RateLimiter(5)  # 5 calls/sec; tier 2 Anthropic accounts can safely run at this rate
 
     for i, paper in enumerate(papers):
@@ -1082,7 +1188,7 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
                 model=MODEL,
                 max_tokens=512,
                 temperature=0.0,
-                system=SYSTEM_PROMPT,
+                system=_system_block(),
                 messages=[{"role": "user", "content": prompt_text}],
             )
 
@@ -1095,22 +1201,28 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
             try:
                 result = json.loads(clean)
             except json.JSONDecodeError:
-                result = {
-                    "ai_relevance": "peripheral",
-                    "confidence": 0.3,
-                    "domains": [],
-                    "subfields": [],
-                    "annotation": text[:300],
-                    "_parse_error": True,
-                }
+                # A parse failure used to be labelled "peripheral" with 300 chars
+                # of raw model output as the annotation, which shipped to the
+                # public site as an AI Studies paper. Skip it instead: the paper
+                # is not merged, not indexed as rejected, and is re-harvested
+                # next month within the 18-month window.
+                parse_failures += 1
+                logger.warning(f"  parse failure on {(paper.get('title') or '')[:70]!r}; skipping")
+                continue
+
+            result, warns = validate_classification(result)
+            if result["ai_relevance"] == "parse_error":
+                parse_failures += 1
+                continue
+            vocab_warnings += len(warns)
 
             # Merge classification into paper
-            paper["ai_relevance"] = result.get("ai_relevance", "peripheral")
-            paper["confidence"] = result.get("confidence", 0.5)
+            paper["ai_relevance"] = result["ai_relevance"]
+            paper["confidence"] = result["confidence"]
             paper["publication_status"] = result.get("publication_status", "other")
             paper["one_line_summary"] = result.get("one_line_summary", "")
-            paper["domains"] = result.get("domains", [])
-            paper["subfields"] = result.get("subfields", [])
+            paper["domains"] = result["domains"]
+            paper["subfields"] = result["subfields"]
             paper["annotation"] = result.get("annotation", "")
 
             # Track tokens and cost
@@ -1122,36 +1234,57 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
             total_cost += cost
 
             classified.append(paper)
+            consecutive_errors = 0
             logger.debug(f"  [{i+1}/{len(papers)}] {paper.get('title', '')[:60]}... → {paper['ai_relevance']}")
 
         except Exception as e:
             error_str = str(e)
+            low = error_str.lower()
             # Detect fatal errors that won't resolve by retrying the next paper
-            if "credit balance" in error_str or "billing" in error_str.lower():
+            if "credit balance" in error_str or "billing" in low:
                 logger.error(f"BILLING ERROR - aborting classification: {e}")
                 break
-            if "authentication" in error_str.lower() or "api key" in error_str.lower():
+            if "authentication" in low or "api key" in low:
                 logger.error(f"AUTH ERROR - aborting classification: {e}")
                 break
-            if "not_found_error" in error_str or ("404" in error_str and "model" in error_str.lower()):
+            if "not_found_error" in error_str or ("404" in error_str and "model" in low):
                 logger.error(f"MODEL NOT FOUND - aborting classification (bad MODEL constant?): {e}")
                 break
-            if "invalid_request_error" in error_str and "400" in error_str:
-                logger.error(f"API request error: {e}")
-                # Count consecutive failures to detect systemic issues
-                if not hasattr(classify_via_sonnet, '_consecutive_errors'):
-                    classify_via_sonnet._consecutive_errors = 0
-                classify_via_sonnet._consecutive_errors += 1
-                if classify_via_sonnet._consecutive_errors >= 5:
-                    logger.error(f"5 consecutive API errors - aborting classification")
-                    break
-                continue
-            # Transient error (rate limit, network, etc.) - skip this paper
-            classify_via_sonnet._consecutive_errors = 0
-            logger.error(f"Classification error: {e}")
+
+            # Every error class now feeds one counter, reset only on success.
+            #
+            # Previously the counter incremented only on invalid_request_error +
+            # 400, and the transient branch reset it to zero on its way past --
+            # so overloaded_error (529), rate_limit_error (429), api_error (500)
+            # and every network failure could repeat for all N papers without
+            # ever tripping the abort. That is the same shape as the incident
+            # where a bad model ID burned two hours of CI looping over ~3,800
+            # 404s, just with a different error class, and each affected paper
+            # is silently dropped: not classified, not merged, not recorded in
+            # any index.
+            consecutive_errors += 1
+            if any(k in error_str for k in ("overloaded_error", "rate_limit_error")) or "529" in error_str or "429" in error_str:
+                backoff = min(2 ** min(consecutive_errors, 6), 60)
+                logger.warning(f"API overloaded/rate-limited, backing off {backoff}s: {error_str[:120]}")
+                time.sleep(backoff)
+            else:
+                logger.error(f"Classification error ({consecutive_errors} consecutive): {e}")
+
+            if consecutive_errors >= 10:
+                logger.error(
+                    f"{consecutive_errors} consecutive API errors - aborting classification. "
+                    f"{len(papers) - i - 1} papers not classified this run."
+                )
+                break
             continue
 
-    logger.info(f"Classified {len(classified)}/{len(papers)} papers, cost: ${total_cost:.2f}")
+    skipped = len(papers) - len(classified)
+    logger.info(
+        f"Classified {len(classified)}/{len(papers)} papers, cost: ${total_cost:.2f}"
+        + (f" | {parse_failures} parse failures" if parse_failures else "")
+        + (f" | {vocab_warnings} off-vocabulary values normalized" if vocab_warnings else "")
+        + (f" | {skipped} not classified" if skipped else "")
+    )
     return classified, total_cost
 
 
@@ -1405,6 +1538,15 @@ def git_commit_and_push(message: str) -> bool:
             "output/bibliography_app/data.js",
             "output/bibliography_app/data_private.js",
             "docs/data.js",
+            # The roster is rebuilt in phase 1 at real cost (24 department scrapes
+            # + ~1,400 live OpenAlex ID resolutions, ~16 min). Leaving it unstaged
+            # meant every CI run threw that work away and started from the stale
+            # committed copy, so roster-driven school tagging and BU verification
+            # could never improve month over month.
+            "data/bu_faculty_roster_verified.json",
+            # propagate_counts patches the paper counts into README during
+            # regenerate_all_outputs; unstaged, that edit died with the runner.
+            "README.md",
         ]
         for f in files_to_stage:
             if os.path.exists(f):

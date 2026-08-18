@@ -59,3 +59,7 @@ data/stage1_batch_requests.jsonl
 
 # Claude project files
 .claude/
+
+# DBLP dump artifacts (downloaded fresh each run, ~1 GB + its DTD)
+data/dblp.dtd
+data/dblp-*.xml.gz

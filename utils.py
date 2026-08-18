@@ -41,7 +41,17 @@ class RateLimiter:
 # ── Resilient HTTP Requests ───────────────────────────────────────────────────
 
 class HarvestBudgetExceeded(Exception):
-    """Raised when a source exceeds its time budget."""
+    """Raised when a source exceeds its time budget (cooperative check)."""
+    pass
+
+
+class HarvestTimeout(BaseException):
+    """Hard time-budget cutoff, delivered by SIGALRM from _run_source.
+
+    Deliberately derives from BaseException, not Exception: several harvesters
+    wrap their whole body in `except Exception`, and an Exception-derived
+    timeout would be swallowed there and the budget silently ignored.
+    """
     pass
 
 

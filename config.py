@@ -209,8 +209,71 @@ AI_KEYWORDS_SECONDARY = [
     "RLHF",
 ]
 
-# Combined flat list for simple matching
-ALL_AI_KEYWORDS = AI_KEYWORDS_PRIMARY + AI_KEYWORDS_SECONDARY
+# ── Vocabulary added 2026-08 after measuring the filter against master ────────
+# Re-running the pre-filter over the 11,903 Sonnet-confirmed papers showed 3,018
+# of them (25.4%) failing the keyword stage. These are the terms that rescue the
+# most, measured individually against that miss set. They are ordinary applied-ML
+# words, not LLM-era jargon: the list had "robotics" but not "robot", "image
+# segmentation" but not "segmentation", "classification model" but not
+# "classifier", "transformer model" but not "transformer".
+AI_KEYWORDS_APPLIED = [
+    "robot",                     # rescues 140
+    "segmentation",              # 119
+    "classifier",                # 84
+    "robotic",                   # 50
+    "prediction model",          # 25
+    "training data",             # 24
+    "feature selection",         # 24
+    "supervised learning",       # 17
+    "multimodal",                # 17
+    "pattern recognition",       # 16
+    "risk prediction",           # 15
+    "gradient descent",          # 15
+    "decision tree",             # 14
+    "electronic health record",  # 14
+    "language model",            # 13
+    "feature extraction",        # 13
+    "transformer",               # 11
+    "unsupervised learning",
+    "self-supervised",
+    "predictive analytics",
+    "random forest",
+    "support vector",
+    "convolutional",
+    "recurrent neural",
+]
+
+# Forward-looking 2025-26 vocabulary. Each of these rescues 0-3 papers today,
+# because a 2026 paper using them almost always also says "LLM" or "foundation
+# model" -- they are here so the filter doesn't rot as the vocabulary moves on,
+# not because they buy recall now.
+AI_KEYWORDS_FRONTIER = [
+    "agentic",
+    "ai agent",
+    "chain-of-thought",
+    "mixture-of-experts",
+    "state space model",
+    "vision-language",
+    "mechanistic interpretability",
+    "interpretability",
+    "hallucination",
+    "jailbreak",
+    "test-time",
+    "scaling law",
+    "retrieval-augmented",
+    "diffusion model",
+    "foundation model",
+    "fine-tuning",
+    "prompt engineering",
+    "model evaluation benchmark",
+]
+
+# Combined flat list for simple matching. De-duplicated: "federated learning"
+# appeared in both PRIMARY and SECONDARY.
+ALL_AI_KEYWORDS = list(dict.fromkeys(
+    AI_KEYWORDS_PRIMARY + AI_KEYWORDS_SECONDARY
+    + AI_KEYWORDS_APPLIED + AI_KEYWORDS_FRONTIER
+))
 
 # ── PubMed MeSH Terms ─────────────────────────────────────────────────────────
 PUBMED_MESH_TERMS = [

@@ -31,6 +31,19 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("quarterly_review")
 
 
+def _conf(p: dict) -> float:
+    """Confidence as a number.
+
+    The model occasionally answers "high" instead of a float; 7 such records in
+    master made `sorted(master, key=lambda p: p.get("confidence", 1.0))` raise
+    TypeError: '<' not supported between instances of 'str' and 'float', which
+    killed generate_report at section 2 -- so the quarterly review, the only
+    classification spot-check in the repo, has been producing nothing.
+    """
+    v = p.get("confidence", 1.0)
+    return v if isinstance(v, (int, float)) else 1.0
+
+
 def faculty_gap_check(master: list[dict]) -> list[dict]:
     """Check every faculty in the roster against the master dataset."""
     # Build set of BU author names in master
@@ -71,7 +84,12 @@ def stratified_sample(master: list[dict], n: int = 20) -> list[dict]:
     primary = [p for p in master if p.get("ai_relevance") == "primary"]
     methodological = [p for p in master if p.get("ai_relevance") == "methodological"]
     peripheral = [p for p in master if p.get("ai_relevance") == "peripheral"]
-    lowest_conf = sorted(master, key=lambda p: p.get("confidence", 1.0))[:100]
+    # Sort defensively. The model occasionally returns confidence as a string
+    # ("high"), and 7 such records in master made this line raise
+    # TypeError: '<' not supported between instances of 'str' and 'float',
+    # which killed generate_report at section 2 -- so the quarterly review, the
+    # only classification spot-check in the repo, produced nothing at all.
+    lowest_conf = sorted(master, key=_conf)[:100]
 
     sample = []
     for pool, count in [(primary, 5), (methodological, 5), (peripheral, 5), (lowest_conf, 5)]:
@@ -146,7 +164,7 @@ def generate_report() -> str:
     lines.append("## 2. Random Sample for Review")
     sample = stratified_sample(master)
     for s in sample:
-        lines.append(f"### [{s['relevance']}] conf={s['confidence']:.2f}")
+        lines.append(f"### [{s['relevance']}] conf={_conf(s):.2f}")
         lines.append(f"**{s['title']}**")
         lines.append(f"*{s['summary']}*")
         if s["abstract"]:

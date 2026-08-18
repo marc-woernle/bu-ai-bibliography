@@ -179,7 +179,11 @@ def harvest(since_date: str | None = None,
     if since_date:
         # since_date is ISO like "2025-01-01", convert to arXiv format YYYYMMDD
         parts = since_date.replace("-", "")
-        date_clause = f" AND submittedDate:[{parts}0000 TO *]"
+        # arXiv rejects an open-ended upper bound: submittedDate:[X TO *] returns
+        # HTTP 500 on every request, which resilient_get retried and _search_arxiv
+        # swallowed, so this source has returned zero papers and reported "ok" for
+        # its entire life. The range has to be closed.
+        date_clause = f" AND submittedDate:[{parts}0000 TO 999912312359]"
         logger.info(f"  arXiv date filter: submittedDate >= {since_date}")
 
     # arXiv affiliation search: au: field searches author info

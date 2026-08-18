@@ -1,20 +1,29 @@
 #!/bin/sh
 # Reject any commit that credits Claude/Anthropic.
-# Tracked copy of the commit-msg hook. To activate it in a fresh clone:
+# Tracked copy of the commit-msg hook. Activate it with:
 #
-#   git config core.hooksPath .githooks
+#   ./scripts/setup-hooks.sh          (or: git config core.hooksPath .githooks)
 #
-# Or symlink: ln -sf ../../.githooks/commit-msg .git/hooks/commit-msg
+# See also .githooks/pre-commit, which checks the commit AUTHOR -- the hole this
+# hook alone does not cover.
 #
-# Do not remove unless you've decided you want AI attribution in your git
-# history again.
+# Patterns are anchored to the start of a line. Git trailers and the "Generated
+# with" footer always sit at line start, and anchoring means a commit message
+# that legitimately *discusses* the rule (like the one that added this hook)
+# isn't blocked by its own prose.
 
 msg_file="$1"
 
-if grep -qiE 'co-authored-by:.*claude|noreply@anthropic\.com|@anthropic\.com' "$msg_file"; then
+if grep -qiE '^[[:space:]]*co-authored-by:.*(claude|anthropic|opus|sonnet)' "$msg_file"; then
   echo "ERROR: commit message contains a Claude/Anthropic attribution trailer."
   echo "       Strip the 'Co-Authored-By' line and try again."
   echo "       (commit-msg hook at .githooks/commit-msg)"
+  exit 1
+fi
+
+if grep -qiE '^[^a-z]{0,12}generated with claude( code)?[[:space:]]*$' "$msg_file"; then
+  echo "ERROR: commit message contains a 'Generated with Claude Code' footer."
+  echo "       Strip it and try again. (commit-msg hook at .githooks/commit-msg)"
   exit 1
 fi
 
