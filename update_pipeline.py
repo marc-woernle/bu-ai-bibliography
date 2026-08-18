@@ -331,8 +331,7 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
     while cursor:
         if deadline is not None and time.time() >= deadline:
             truncated_reason = "time budget"
-            if _partial is not None:
-                _partial.extend(papers)
+            # papers are already in _partial, streamed per record above
             raise HarvestBudgetExceeded(
                 f"OpenAlex exceeded its time budget after {len(papers)} papers"
             )
@@ -402,6 +401,13 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
                 paper = _parse_work(work)
                 if paper:
                     papers.append(paper)
+                    # Stream into the shared partial list per record, not at the
+                    # loop boundary. The SIGALRM hard cutoff can land anywhere,
+                    # including mid-page, and anything not already in _partial at
+                    # that instant is lost. Run #13 lost the entire OpenAlex
+                    # harvest this way.
+                    if _partial is not None:
+                        _partial.append(paper)
             except Exception as e:
                 logger.debug(f"Parse error: {e}")
 
@@ -412,9 +418,6 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
         cursor = data.get("meta", {}).get("next_cursor")
         if not cursor:
             break
-
-    if _partial is not None:
-        _partial.extend(papers)
 
     # Completeness check. Parsing legitimately drops a few records, so allow a
     # small margin before calling it truncated.
@@ -674,12 +677,19 @@ def download_dblp_dump(dest: Path = DBLP_DUMP_PATH) -> Path | None:
 # UNIFIED HARVEST
 # ═══════════════════════════════════════════════════════════════════════════
 
-# Total wall-clock the harvest phase may consume, in minutes. The CI job has a
-# 120-minute ceiling and phases 3-6 (classify, merge, maintenance, validate,
-# push, report) need the rest. Per-source budgets are clamped to whatever is
-# left of this, so the sum of the individual budgets can no longer overrun the
-# job -- previously they summed to 140 minutes against a 120-minute job.
-HARVEST_GLOBAL_BUDGET_MIN = 75
+# Total wall-clock the harvest phase may consume, in minutes. Per-source budgets
+# are clamped to whatever is left of this, so the sum of the individual budgets
+# can never overrun the job.
+#
+# Raised from 75 to 180 alongside the workflow's timeout-minutes going 120 -> 300.
+# At 75 minutes the sources were competing for a scarce resource that costs
+# nothing: this is a public repository, so GitHub Actions minutes are free, and
+# a full sweep genuinely has hundreds of thousands of records to page through.
+# Run #13 showed what the scarcity cost -- OpenAlex was cut off at 20 minutes
+# and NSF at 5, and because neither streamed partial results at the time, both
+# returned ZERO papers. Starving the harvest to protect a deadline we can simply
+# move is the wrong trade when acquisition is the hard part.
+HARVEST_GLOBAL_BUDGET_MIN = 180
 
 
 def harvest_all_sources(since_12m: str, since_3m: str,
@@ -821,7 +831,7 @@ def harvest_all_sources(since_12m: str, since_3m: str,
                 lambda deadline=None: harvest_openalex_incremental(
                     "from_publication_date", since_12m,
                     deadline=deadline, _partial=_partial_results),
-                critical=True, max_minutes=25)
+                critical=True, max_minutes=30)
 
     _run_source("pubmed",
                 lambda deadline=None: harvest_pubmed_incremental(since_3m),
@@ -859,20 +869,23 @@ def harvest_all_sources(since_12m: str, since_3m: str,
     from source_in_progress import harvest_nih_reporter, harvest_nsf_awards
     _run_source("nih_reporter",
                 lambda deadline=None: harvest_nih_reporter(since_date=since_12m),
-                max_minutes=5)
+                max_minutes=10)
     _run_source("nsf_awards",
-                lambda deadline=None: harvest_nsf_awards(since_date=since_12m),
-                max_minutes=5)
+                lambda deadline=None: harvest_nsf_awards(
+                    since_date=since_12m, _partial=_partial_results),
+                max_minutes=12)
 
     from source_openbu import harvest as harvest_openbu
     _run_source("openbu",
-                lambda deadline=None: harvest_openbu(since_year=int(since_12m[:4])),
-                max_minutes=10)
+                lambda deadline=None: harvest_openbu(
+                    since_year=int(since_12m[:4]), _partial=_partial_results),
+                max_minutes=20)
 
     from source_scholarly_commons import harvest as harvest_sc
     _run_source("scholarly_commons",
-                lambda deadline=None: harvest_sc(since_year=int(since_12m[:4])),
-                max_minutes=10)
+                lambda deadline=None: harvest_sc(
+                    since_year=int(since_12m[:4]), _partial=_partial_results),
+                max_minutes=15)
 
     # NBER via OpenAlex
     try:

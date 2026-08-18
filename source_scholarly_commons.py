@@ -97,7 +97,8 @@ def _parse_paper_page(url: str) -> dict | None:
     )
 
 
-def harvest(max_pages: int = 200, since_year: int | None = None) -> list[dict]:
+def harvest(max_pages: int = 200, since_year: int | None = None,
+            _partial: list | None = None) -> list[dict]:
     """Harvest all faculty scholarship from BU Law Scholarly Commons."""
     logger.info("=== Scholarly Commons harvest ===")
     if since_year:
@@ -146,6 +147,8 @@ def harvest(max_pages: int = 200, since_year: int | None = None) -> list[dict]:
                     continue
                 page_had_recent = True
                 papers.append(paper)
+                if _partial is not None:
+                    _partial.append(paper)
 
         if new_count == 0:
             break

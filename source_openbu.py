@@ -144,7 +144,8 @@ def _parse_search_result(result: dict) -> dict | None:
     )
 
 
-def harvest(since_year: int | None = None) -> list[dict]:
+def harvest(since_year: int | None = None,
+            _partial: list | None = None) -> list[dict]:
     """Search OpenBU for AI-related items."""
     logger.info("=== OpenBU harvest ===")
     if since_year:
@@ -200,6 +201,13 @@ def harvest(since_year: int | None = None) -> list[dict]:
                         continue
                     seen_uuids.add(paper["source_id"])
                     all_papers.append(paper)
+                    # Stream into the shared partial list so a hard timeout
+                    # keeps everything gathered so far instead of losing the
+                    # whole source. On a full sweep this harvester regularly
+                    # runs past its budget, and losing all of it is far worse
+                    # than keeping 7 queries' worth.
+                    if _partial is not None:
+                        _partial.append(paper)
                     query_papers += 1
 
             # Check pagination

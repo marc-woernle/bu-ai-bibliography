@@ -117,6 +117,8 @@ def harvest_nih_reporter(since_date: str | None = None) -> list[dict]:
             record = _parse_nih_project(project)
             if record:
                 all_records.append(record)
+                if _partial is not None:
+                    _partial.append(record)
 
         note = ""
         if total and len(results) < total:
@@ -211,7 +213,8 @@ def _is_ai_relevant(title: str, abstract: str) -> bool:
     return any(kw.lower() in text for kw in ALL_AI_KEYWORDS)
 
 
-def harvest_nsf_awards(since_date: str | None = None) -> list[dict]:
+def harvest_nsf_awards(since_date: str | None = None,
+                       _partial: list | None = None) -> list[dict]:
     """
     Search NSF Award Search API for BU AI-related awards.
     https://www.research.gov/awardapi-service/v1/awards.json
