@@ -40,6 +40,7 @@ from update_pipeline import (
     git_commit_and_push,
     harvest_all_sources,
     ai_prefilter,
+    backfill_abstracts,
     load_master,
     load_state,
     merge_into_master,
@@ -369,6 +370,13 @@ def _run(args, start_time):
 
     new_papers = dedup_against_master(all_harvested, master_dois, master_fps)
     report_data["deduped"] = len(new_papers)
+
+    # Backfill abstracts before filtering. Papers with no abstract bypass both
+    # filter signals, so on a full sweep they dominate the classification bill
+    # and get judged on a title alone. ~44 batched requests for 20k papers.
+    report_data["abstract_backfill"] = backfill_abstracts(
+        new_papers, deadline=time.time() + 10 * 60
+    )
 
     new_papers, prefilter_stats = ai_prefilter(new_papers)
     report_data["prefilter"] = prefilter_stats

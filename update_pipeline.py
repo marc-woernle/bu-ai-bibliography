@@ -1071,6 +1071,97 @@ def embedding_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHO
     return kept
 
 
+def backfill_abstracts(papers: list[dict], deadline: float | None = None) -> dict:
+    """Fill in missing abstracts before the AI pre-filter runs. Mutates in place.
+
+    Why this exists: on the 2026-08-18 full sweep, 21,954 of 43,469 candidates
+    (50.5%) had no abstract at all. ai_prefilter passes those straight to Sonnet,
+    because a bare title is too thin for either the keyword or the embedding
+    signal to mean anything -- which is the right call for the handful of SSRN
+    and law papers a normal monthly run sees, and the wrong economics when a
+    full sweep drags in all of DBLP. It also hurts quality: master contains
+    duplicate-title pairs where the copy WITH an abstract and the copy WITHOUT
+    got different relevance tiers from the same classifier.
+
+    Semantic Scholar's batch endpoint takes 500 IDs per request, so the whole
+    backlog is ~44 requests. Measured on 500 real DOIs from master: 2.2 seconds
+    per request, 447/500 resolved, 290 (58%) carried an abstract.
+
+    Papers with no DOI can't be looked up this way and are left alone.
+    """
+    missing = [p for p in papers
+               if not (p.get("abstract") or "").strip() and p.get("doi")]
+    no_doi = sum(1 for p in papers
+                 if not (p.get("abstract") or "").strip() and not p.get("doi"))
+
+    if not missing:
+        logger.info(f"Abstract backfill: nothing to do ({no_doi} abstract-less papers have no DOI)")
+        return {"attempted": 0, "filled": 0, "no_doi": no_doi}
+
+    logger.info(
+        f"Abstract backfill: {len(missing)} papers missing an abstract have a DOI "
+        f"({no_doi} more have neither)"
+    )
+
+    by_doi = {}
+    for p in missing:
+        by_doi.setdefault(normalize_doi(p["doi"]), []).append(p)
+
+    headers = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+    api_key = os.environ.get("S2_API_KEY", "")
+    if api_key:
+        headers["x-api-key"] = api_key
+
+    dois = list(by_doi)
+    filled = 0
+    BATCH = 500
+
+    for i in range(0, len(dois), BATCH):
+        if deadline is not None and time.time() >= deadline:
+            logger.warning(f"  abstract backfill: time budget hit, stopping at {i}/{len(dois)}")
+            break
+        chunk = dois[i:i + BATCH]
+        try:
+            resp = requests.post(
+                "https://api.semanticscholar.org/graph/v1/paper/batch",
+                params={"fields": "abstract"},
+                json={"ids": [f"DOI:{d}" for d in chunk]},
+                headers=headers,
+                timeout=120,
+            )
+            if resp.status_code == 429:
+                time.sleep(5)
+                continue
+            if resp.status_code != 200:
+                logger.warning(f"  abstract backfill: HTTP {resp.status_code}, skipping chunk")
+                continue
+            results = resp.json()
+        except Exception as e:
+            logger.warning(f"  abstract backfill: chunk failed ({e})")
+            continue
+
+        # The batch endpoint returns results positionally, null for unresolved.
+        for doi, record in zip(chunk, results):
+            if not record:
+                continue
+            abstract = (record.get("abstract") or "").strip()
+            if not abstract:
+                continue
+            for p in by_doi[doi]:
+                p["abstract"] = abstract
+                p["abstract_source"] = "semantic_scholar_backfill"
+                filled += 1
+
+        if (i // BATCH) % 10 == 0:
+            logger.info(f"  abstract backfill: {i + len(chunk)}/{len(dois)} looked up, {filled} filled")
+
+    logger.info(
+        f"Abstract backfill: filled {filled} of {len(missing)} "
+        f"({100 * filled / max(len(missing), 1):.0f}%)"
+    )
+    return {"attempted": len(missing), "filled": filled, "no_doi": no_doi}
+
+
 def ai_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHOLD) -> tuple[list[dict], dict]:
     """Decide which harvested papers are worth sending to Sonnet.
 
@@ -1116,14 +1207,29 @@ def ai_prefilter(papers: list[dict], threshold: float = EMBEDDING_THRESHOLD) -> 
                 "embedding_score": round(emb, 4) if emb is not None else None,
             })
 
+    # Diagnostic only, changes no behaviour. The abstract-less passthrough is
+    # the single biggest cost driver on a full sweep, so record how many of
+    # those papers would still survive if the rule required a keyword hit on
+    # the title. That turns the next rule decision into a measurement instead
+    # of a guess.
+    title_only = [p for p in papers if not (p.get("abstract") or "").strip()]
+    title_only_kw = sum(
+        1 for p in title_only if _AI_KEYWORD_RE.search((p.get("title") or "").lower())
+    )
     stats = {
         "input": len(papers),
         "kept": len(kept),
         "dropped": len(dropped),
-        "no_abstract": sum(1 for p in papers if not (p.get("abstract") or "").strip()),
+        "no_abstract": len(title_only),
+        "no_abstract_with_keyword_in_title": title_only_kw,
         "embedding_available": scores is not None,
         "threshold": threshold,
     }
+    if title_only:
+        logger.info(
+            f"  of {len(title_only)} abstract-less papers passed through, "
+            f"{title_only_kw} ({100*title_only_kw/len(title_only):.0f}%) match an AI keyword on the title alone"
+        )
 
     # Log what was dropped. Both filters used to log counts only -- no title, no
     # DOI, no score -- so "what did we lose last month?" was unanswerable, which
