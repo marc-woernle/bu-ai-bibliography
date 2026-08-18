@@ -1,0 +1,58 @@
+name: No AI attribution
+
+# Server-side backstop for the .githooks/ pair. Local hooks only run if someone
+# remembered to set core.hooksPath in that particular clone, and they can be
+# skipped outright with --no-verify. This check cannot be.
+#
+# It fails the build on any pushed commit that is authored by a Claude/Anthropic
+# identity or carries an AI attribution trailer.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit authorship and messages
+        run: |
+          set -u
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            range="origin/${{ github.base_ref }}..HEAD"
+          elif [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            range="HEAD~20..HEAD"   # new branch: check the recent tip only
+          else
+            range="${{ github.event.before }}..HEAD"
+          fi
+          echo "Checking $range"
+
+          fail=0
+
+          bad_ident=$(git log --pretty='%H %an <%ae> | %cn <%ce>' "$range" \
+            | grep -iE '@anthropic\.com|\| *[Cc]laude |^\S+ [Cc]laude ' || true)
+          if [ -n "$bad_ident" ]; then
+            echo "::error::Commits authored or committed by a Claude/Anthropic identity:"
+            echo "$bad_ident"
+            fail=1
+          fi
+
+          bad_msg=$(git log --pretty='%H %s%n%b' "$range" \
+            | grep -iE 'co-authored-by:.*claude|noreply@anthropic\.com|generated with .*claude' || true)
+          if [ -n "$bad_msg" ]; then
+            echo "::error::Commit messages containing AI attribution:"
+            echo "$bad_msg"
+            fail=1
+          fi
+
+          if [ "$fail" = "1" ]; then
+            echo ""
+            echo "Run ./scripts/setup-hooks.sh in your clone so this is caught before you push."
+            exit 1
+          fi
+          echo "Clean: no AI attribution in $range"
