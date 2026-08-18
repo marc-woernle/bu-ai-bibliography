@@ -433,44 +433,88 @@ def scrape_all_departments() -> tuple[list[dict], dict]:
 
 
 def merge_with_existing(scraped: list[dict], existing_roster: list[dict], school_counts: dict) -> list[dict]:
-    """Safely merge scraped faculty with existing roster.
-    Regression protection: if a school's scrape returns <50% of previous count,
-    keep old entries for that school.
-    Returns merged roster (without OAIDs, those are resolved separately).
+    """Merge scraped faculty into the existing roster. Additive: never drops.
+
+    The roster is a union of everyone we have ever confirmed as BU faculty. A
+    person vanishing from a department web page is evidence that the page
+    changed, not evidence that they left BU -- pages get restructured,
+    paginated, reordered, and occasionally return partial results.
+
+    This used to drop them. Regression protection only fired when a school
+    scraped under 50% of its previous count, so anything between 50% and 99%
+    silently deleted the difference. Observed on the 2026-08-18 run: School of
+    Medicine scraped 2,572 against 2,739 existing (94%, unprotected) and the
+    roster went 5,888 -> 5,418 entries. 470 faculty deleted by one scrape.
+
+    That matters more than it used to, because the roster is now committed
+    (previously the whole phase was thrown away with the runner, which was
+    wasteful but also accidentally protective). A shrinking roster means those
+    faculty stop matching in verify_bu_authors and school_mapper, so their
+    papers lose BU verification and school tags. It also runs straight into the
+    CLAUDE.md rule: never bulk-remove based on a single signal.
+
+    Scraped entries still win on fields -- a school reassignment or a corrected
+    name from a live page is good data. Only deletion is refused.
+
+    Returns (merged, warnings).
     """
-    # Count existing per school
     existing_school_counts = {}
     for e in existing_roster:
-        s = e.get("school", "")
-        existing_school_counts[s] = existing_school_counts.get(s, 0) + 1
+        s_ = e.get("school", "")
+        existing_school_counts[s_] = existing_school_counts.get(s_, 0) + 1
 
     warnings = []
-    # Check for regressions
-    protected_schools = set()
     for school, old_count in existing_school_counts.items():
         new_count = school_counts.get(school, 0)
         if old_count > 10 and new_count < old_count * 0.5:
-            warnings.append(f"{school}: scraped {new_count} vs existing {old_count}, keeping old entries")
-            logger.warning(f"Regression protection: {school} scraped {new_count} vs existing {old_count}")
-            protected_schools.add(school)
+            warnings.append(f"{school}: scraped {new_count} vs existing {old_count} (kept all existing)")
+            logger.warning(
+                f"Scrape shortfall: {school} scraped {new_count} vs existing {old_count} "
+                f"- likely a page change, not departures"
+            )
 
-    # Build merged list: scraped faculty + old entries for protected schools
-    merged = list(scraped)
-    scraped_names = {f["name"].lower() for f in scraped}
-
+    by_name = {}
     for entry in existing_roster:
-        school = entry.get("school", "")
-        name_lower = entry["name"].lower()
-        # Add from protected schools if not already scraped
-        if school in protected_schools and name_lower not in scraped_names:
-            merged.append(entry)
-            scraped_names.add(name_lower)
-        # Also keep entries from schools we didn't scrape at all
-        if school not in school_counts and name_lower not in scraped_names:
-            merged.append(entry)
-            scraped_names.add(name_lower)
+        by_name[entry["name"].lower()] = entry
 
-    logger.info(f"Merged roster: {len(merged)} entries ({len(warnings)} regression warnings)")
+    added = 0
+    updated = 0
+    for entry in scraped:
+        key = entry["name"].lower()
+        if key in by_name:
+            # Scraped data wins on the fields it carries, but never removes the
+            # entry and never clobbers a resolved OpenAlex ID with a blank.
+            merged_entry = dict(by_name[key])
+            for k, v in entry.items():
+                if v not in (None, "", []):
+                    merged_entry[k] = v
+            for preserve in ("openalex_id", "alternate_openalex_ids"):
+                if by_name[key].get(preserve) and not entry.get(preserve):
+                    merged_entry[preserve] = by_name[key][preserve]
+            if merged_entry != by_name[key]:
+                updated += 1
+            by_name[key] = merged_entry
+        else:
+            by_name[key] = entry
+            added += 1
+
+    merged = list(by_name.values())
+
+    missing = len(existing_roster) - sum(
+        1 for e in existing_roster if e["name"].lower() in {f["name"].lower() for f in scraped}
+    )
+    logger.info(
+        f"Merged roster: {len(merged)} entries "
+        f"(+{added} new, {updated} updated, {missing} existing not seen in this scrape but kept)"
+    )
+    if len(merged) < len(existing_roster):
+        # Should be impossible now; assert loudly rather than silently shrink.
+        logger.error(
+            f"ROSTER SHRANK: {len(existing_roster)} -> {len(merged)}. "
+            f"The merge is supposed to be additive; this is a bug."
+        )
+        warnings.append(f"roster shrank {len(existing_roster)} -> {len(merged)}")
+
     return merged, warnings
 
 
