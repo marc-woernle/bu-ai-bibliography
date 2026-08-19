@@ -874,6 +874,18 @@ def harvest_all_sources(since_12m: str, since_3m: str,
                     _registry=_bu_registry),
                 critical=True, max_minutes=30)
 
+    # Ask OpenAlex directly for what it already knows is AI, rather than paging
+    # all 200,554 BU works and filtering. 18,475 works in 93 requests, under a
+    # cent. Deliberately NOT date-windowed: measured against master, 12,233 of
+    # them had never been evaluated and 4,896 of those predate 2010, which is
+    # exactly the depth the other harvesters' date windows cut off.
+    from source_openalex_concepts import harvest as harvest_oa_concepts
+    _run_source("openalex_concepts",
+                lambda deadline=None: harvest_oa_concepts(
+                    deadline=deadline, _partial=_partial_results,
+                    _registry=_bu_registry),
+                max_minutes=15)
+
     _run_source("pubmed",
                 lambda deadline=None: harvest_pubmed_incremental(since_3m),
                 critical=True, max_minutes=10)

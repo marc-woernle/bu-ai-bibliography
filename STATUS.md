@@ -8,7 +8,7 @@
 - **Roster:** 5,888 entries, 4,465 with OpenAlex IDs. 159 entries now carry `alternate_openalex_ids` for known split profiles; Robertson manually patched
 - **AI keywords:** 300 (172 before this session)
 - **Pre-filter recall:** 95.3% against confirmed-AI papers with abstracts (86.8% before)
-- **BU author registry:** 10,351 identities (4,501 verified against OpenAlex author profiles, 50 confirmed never at BU), 11,386 names
+- **BU author registry:** 18,431 identities (4,501 verified against OpenAlex author profiles, 50 confirmed never at BU), 18,844 names
 - **Rejection index:** 46 DOIs + 51 fingerprints
 - **Non-BU AI index:** 9,049 entries (4,584 DOIs + 4,465 fingerprints)
 - **Validation:** 0 failures, 31 warnings (all pre-existing)
@@ -17,6 +17,19 @@
 - **Relevance labels (user-facing):** Core AI / Applied AI / AI Studies (internal values still primary/methodological/peripheral)
 
 ## This session (Aug 19)
+
+**Measured actual coverage against OpenAlex, and it is not good.** With the key in hand, asked OpenAlex what BU has rather than reporting what we harvested:
+
+- **200,554** BU works all-time
+- **18,475** carry an AI concept — fetched in **93 requests for $0.0093**
+- **6,242 (33.8%)** of those are in master
+- **12,233 (66.2%) have never been evaluated**, and 4,896 of them predate 2010, which is exactly the depth the other harvesters' date windows cut off
+
+Through the new pre-filter, 7,253 of the 12,233 survive to classification: **about $22 at batch rates.** That is the cheapest recall available anywhere in this project, and it was invisible because nothing ever compared what we hold against what exists.
+
+New `source_openalex_concepts.py`, wired into the harvest. It asks OpenAlex directly for the works it has already tagged as AI instead of paging all 200,554 and filtering. Deliberately not date-windowed. Verified live: 18,475/18,475, no truncation, 93 requests, $0.0093. Folding its authorships into the registry took it from **10,351 to 18,431 identities** for that same cent.
+
+The concept tags are noisy both ways — they catch "On the compactification of strongly pseudoconvex surfaces" and they miss applied work — so this supplements the ROR sweep and the keyword sweep rather than replacing either.
 
 **The pre-filter was dropping 1 in 8 real AI papers. Fixed, measured.**
 Recall against the papers Sonnet had already confirmed: **86.8% -> 95.3%** (end to end, including the abstract-less passthrough, a random sample measures 96.8%). The cost is that admission on a control of 3,877 real BU biomedical abstracts goes 35.1% -> 50.9%, which the rejection memory makes a one-time bill rather than a monthly one.
@@ -46,9 +59,9 @@ Measured today. Filtered list queries — every harvest query we make — cost *
 **Earlier the same day: BU author identification, operationalized.** `data/bu_author_registry.json`, 10,351 identities keyed by OpenAlex author ID with the years each published from BU. Grown free from affiliation strings during every harvest; filled in by `resolve_bu_authors.py` from OpenAlex author profiles (4,346 in 13 minutes, zero errors) and by autocomplete for the 1,273 roster entries that have no OpenAlex ID. `verify_bu_authors` checks it before accepting any name or ID match — DBLP 1,586 -> 728, non-DBLP 10,317 -> 10,317 untouched. `is_bu` is not treated as evidence: only 18,917 of 25,288 `is_bu` authorships carry a BU affiliation string.
 
 ## TODO
-1. **Create the free OpenAlex key** at https://openalex.org/settings/api and add it as the `OPENALEX_API_KEY` repo secret. Until then the harvest has $0.10/day to spend and cannot complete a sweep.
+1. **Add the OpenAlex key as the `OPENALEX_API_KEY` repo secret** (Settings -> Secrets and variables -> Actions). The key exists; nothing in the repo carries it, and CI has $0.10/day without it.
 2. **Apply the master cleanup**: `python clean_master_bu_years.py --apply` (11,903 -> 11,045).
-3. **Catch-up classification run.** ~$275 at batch rates under the widened filter, paid once — the rejection memory means the next month re-decides none of it.
+3. **Catch-up classification.** Two options now: the 7,253 never-evaluated OpenAlex AI-concept works at ~$22, or the full 13-source backlog at ~$275. The $22 one is strictly higher yield per dollar; do it first.
 4. **No gold set / eval.** Nothing in the repo would reveal classification drift. The 400-paper spot check is ad hoc.
 5. **141 unspecified roster entries, CFA roster cleanup.**
 6. **10 roster entries with no OpenAlex ID came from `openalex_resolve`,** i.e. from a resolver that failed to resolve. They are pure name-match liability.
