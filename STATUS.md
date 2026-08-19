@@ -18,6 +18,24 @@
 
 ## This session (Aug 19)
 
+**Coverage, measured against every source rather than reported as effort.**
+
+| source | what exists | we hold | never evaluated |
+|---|---|---|---|
+| OpenAlex, both AI taxonomies | 21,557 | 6,694 | **14,863 (69%)** |
+| PubMed, BU affiliation + AI terms | 2,423 | 1,330 | **1,093 (45%)** |
+| arXiv, cs.AI/LG/CV/CL | 88 | **0** | 88 |
+
+Through the widened pre-filter that is **9,465 candidates, about $28** at batch rates, sitting in `data/backfill_candidates.json`. The decade profile is the finding: 2000s 2,044, 1990s 965, 1980s 429. The gap is not recent work the monthly run fumbled, it is historical depth that every harvester's date window cuts off.
+
+Run it from the Actions tab, no terminal: **Backfill classification** workflow, `stage: estimate` -> `submit` -> `collect`. It uses the existing `ANTHROPIC_API_KEY` secret and commits its own results.
+
+**A gold set, and an honest label on it.** `data/gold_set.json` (300 entries) plus `eval_classifier.py`. Every number this project has produced is recall; precision has never been measured, and nothing would have revealed classification drift. The set is 60 per tier plus 120 negatives, half of it deliberately borderline, because obvious cases never move and therefore detect nothing.
+
+It is seeded from Sonnet's own high-confidence labels, so as it stands it is a **drift detector, not a correctness oracle** — it can tell you an answer changed, not that the original was right, because Sonnet wrote both sides. Every entry carries `"reviewed": false`. Reviewing the 120 borderline ones by hand is what converts it into a real oracle.
+
+**arXiv contributes zero papers.** 0 of 11,903 carry an arXiv tag. The date-bound bug is fixed but the source has never produced anything, and arXiv's affiliation metadata is too sparse for `all:"Boston University"` to work — the real path is per-author, which is not built.
+
 **Measured actual coverage against OpenAlex, and it is not good.** With the key in hand, asked OpenAlex what BU has rather than reporting what we harvested:
 
 - **200,554** BU works all-time
