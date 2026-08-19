@@ -103,12 +103,20 @@ jobs:
           python clean_master_bu_years.py --apply
           python validate_dataset.py
 
+      # merge_batch_results.py takes --input, and the results file name is
+      # derived from the candidates file stem the same way classify_papers
+      # derives it. The first collect run omitted the flag, argparse exited 2,
+      # and the results sat on a runner that was then destroyed -- $12.96 of
+      # classification downloaded and thrown away, recoverable only because
+      # batch results stay retrievable for 29 days.
       - name: Merge results into master
         if: inputs.stage == 'collect'
         env:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
-          python merge_batch_results.py
+          results="data/$(basename ${{ inputs.input_file }} .json)_results.json"
+          test -s "$results" || { echo "No results at $results"; exit 1; }
+          python merge_batch_results.py --input="$results"
           python validate_dataset.py
 
       # Committed so the batch id survives between the submit run and the
