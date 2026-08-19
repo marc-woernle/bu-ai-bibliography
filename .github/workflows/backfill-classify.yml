@@ -1,0 +1,87 @@
+name: Backfill classification
+
+# Run the catch-up classification without anyone opening a terminal.
+#
+# The candidate set is data/backfill_candidates.json: 9,465 BU works that this
+# project has never evaluated, found by asking OpenAlex and PubMed what BU has
+# and diffing against the master dataset. About $28 at Anthropic batch rates.
+#
+# The Batch API is asynchronous and takes hours, so this is three button
+# presses rather than one:
+#
+#   1. stage: estimate   -- prints the exact cost, changes nothing
+#   2. stage: submit     -- sends the batch, commits the batch id
+#   3. stage: collect    -- fetches results, merges into master, commits
+#
+# Between 2 and 3, run `stage: status` whenever you want to see if it is done.
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "What to do"
+        required: true
+        default: estimate
+        type: choice
+        options: [estimate, submit, status, collect]
+      input_file:
+        description: "Candidates file"
+        required: true
+        default: data/backfill_candidates.json
+        type: string
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Show what is about to happen
+        run: |
+          python - <<'PY'
+          import json, os
+          d = json.load(open(os.environ["INPUT_FILE"]))
+          print(f"{len(d):,} candidates in {os.environ['INPUT_FILE']}")
+          yrs = [p.get("year") for p in d if p.get("year")]
+          print(f"years {min(yrs)}-{max(yrs)}")
+          PY
+        env:
+          INPUT_FILE: ${{ inputs.input_file }}
+
+      - name: Run the stage
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          CI: "true"
+        run: python classify_papers.py ${{ inputs.stage }} --input=${{ inputs.input_file }}
+
+      - name: Merge results into master
+        if: inputs.stage == 'collect'
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python merge_batch_results.py
+          python validate_dataset.py
+
+      # Committed so the batch id survives between the submit run and the
+      # collect run, and so the merged master is what everyone sees. Authored
+      # as the repo owner: this project forbids AI attribution in git history
+      # and enforces it in CI, see .github/workflows/no-ai-attribution.yml.
+      - name: Commit whatever changed
+        if: inputs.stage == 'submit' || inputs.stage == 'collect'
+        run: |
+          git config user.name 'Marc Woernle'
+          git config user.email 'marcwho13@gmail.com'
+          git add -A data/ output/ docs/ || true
+          git diff --cached --quiet || git commit -m "backfill classification: ${{ inputs.stage }}"
+          git push
