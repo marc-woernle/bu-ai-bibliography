@@ -11,10 +11,10 @@ A multi-source pipeline for harvesting, deduplicating, classifying, and annotati
             NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv)
   -> harvest by BU ROR ID + keyword/concept filters + faculty name matching
   -> dedup by DOI + title fingerprint
-  -> keyword pre-filter (172 AI terms in title/abstract)
+  -> keyword pre-filter (300 AI terms in title/abstract)
   -> embedding pre-filter (sentence-transformers semantic similarity)
   -> Claude Sonnet classification (relevance tier, domains, subfields, annotation)
-  -> BU author verification (5,888-entry faculty roster with OpenAlex IDs)
+  -> BU author verification (faculty roster + a 10,351-identity BU author registry with years)
   -> school/department classification (4-tier OAID-first matching)
   -> merge into master dataset
   -> generate static web app
@@ -28,16 +28,18 @@ A multi-source pipeline for harvesting, deduplicating, classifying, and annotati
 Papers are collected from 13 sources covering journals, conferences, preprints, grants, and institutional repositories. OpenAlex is the primary source, queried by BU's ROR identifier for exact institutional matching. DBLP covers CS conference proceedings (the main gap in OpenAlex) via monthly XML dump processing with two-tier name matching and OpenAlex verification. PubMed handles biomedical literature via MeSH terms. SSRN and NBER cover working papers in law, business, and economics. Remaining sources fill niche gaps: arXiv for preprints, Scholarly Commons for BU Law, OpenBU for theses, NIH/NSF for grant-linked work.
 
 ### Filtering and classification
-Raw harvests go through three stages of filtering. A keyword pre-filter checks for 172 AI-related terms (from "machine learning" to "algorithmic fairness"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against AI reference texts (threshold 0.30). Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a one-line summary. Papers classified as not_relevant are excluded. The initial dataset was classified via the Anthropic Batch API (~$0.003/paper at 50% discount); monthly updates use the standard API.
+Raw harvests go through three stages of filtering. A keyword pre-filter checks for 300 AI-related terms (from "machine learning" to "adaptive resonance" to "control barrier"). An embedding pre-filter uses sentence-transformers to compute semantic similarity against 33 AI reference texts (threshold 0.30). The two are an OR, not a chain: either signal is enough, and a paper with no abstract passes through untested because title-only text is too thin for either to mean anything.
+
+Both were rebuilt in August 2026 after measuring them against the papers Sonnet had already confirmed. The keyword list had no vocabulary for classical computer vision, for BU's own Center for Adaptive Systems tradition of neural and cognitive modelling, for control and formal methods, or for computational biology; the reference texts were 2015-era and scored a CNN-based clinical paper as far from every one of them. Recall against confirmed-AI papers with abstracts went from 86.8% to 95.3%; end to end on a random sample, including the abstract-less passthrough, 96.8%. Finally, Claude Sonnet classifies each paper into relevance tiers (primary, methodological, peripheral, not_relevant) with domain tags, subfield tags, and a one-line summary. Papers classified as not_relevant are excluded. The initial dataset was classified via the Anthropic Batch API (~$0.003/paper at 50% discount); monthly updates use the standard API.
 
 ### Author matching and school classification
-BU authorship is verified against a faculty roster of 5,888 entries scraped from 24+ BU department web pages, with OpenAlex author IDs resolved for ~4,500 faculty. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
+BU authorship is verified in two steps. A faculty roster of 5,888 entries, scraped from 24+ BU department web pages with OpenAlex author IDs resolved for ~4,500 of them, answers "is this name associated with BU". A BU author registry of 10,351 identities -- keyed by OpenAlex author ID, because an ID is an identity and a name is not -- answers the question the roster cannot: *when* was this person at BU. It is grown for free during every harvest from the affiliation strings on papers already being processed, and filled in by `resolve_bu_authors.py` from OpenAlex author profiles, whose `affiliations[]` gives the exact years. A name match outside an author's documented BU years is refused. School tags are assigned via a 4-tier strategy: (1) OpenAlex author ID matching against the roster (zero false positives), (2) affiliation text regex against 60+ school/department patterns, (3) full-name roster matching with an OAID-mismatch guard and common-name blocklist, (4) alt-names cache from 98K OpenAlex author profiles. Faculty with dual appointments (e.g., Computing & Data Sciences + Questrom) are tagged to both schools.
 
 ## Limitations and known issues
 
 **Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,586 papers.
 
-**Author disambiguation.** OpenAlex sometimes merges different people under a single author ID, especially for common names. We maintain a blocklist for known false matches and have cleared 19+ wrong IDs from the roster, but more may exist.
+**Author disambiguation.** OpenAlex sometimes merges different people under a single author ID, especially for common names. We maintain a blocklist for known false matches and have cleared 19+ wrong IDs from the roster, but more may exist. Separately, a roster name match used to import the matched person's entire career: DBLP carries no affiliation data at all, so 858 papers written at Stanford, Washington and Northeastern by BU alumni sat in the dataset. The BU author registry now bounds every name match by the author's documented BU years; `clean_master_bu_years.py` removes the ones already merged.
 
 **Unspecified school tags.** ~3,100 papers (~26%) are tagged "Boston University (unspecified)" because the BU author is not in our faculty roster, or the roster entry lacks a school assignment. This primarily affects interdisciplinary researchers, postdocs, and visiting scholars.
 
@@ -85,6 +87,7 @@ git clone https://github.com/marc-woernle/bu-ai-bibliography.git
 cd bu-ai-bibliography
 pip install -r requirements.txt
 export ANTHROPIC_API_KEY=sk-ant-...
+export OPENALEX_API_KEY=...   # free, https://openalex.org/settings/api
 ```
 
 ### Running updates
@@ -101,7 +104,7 @@ python validate_dataset.py            # Ground truth validation
 bu-ai-bibliography/
 |
 |- Pipeline
-|- config.py                    # Constants: ROR ID, 172 AI keywords, rate limits
+|- config.py                    # Constants: ROR ID, 300 AI keywords, OpenAlex auth, rate limits
 |- utils.py                     # Deduplication, rate limiter, paper record factory
 |- update_pipeline.py           # Shared functions: harvest, filter, classify, merge, validate
 |- update_monthly.py            # Monthly auto-update orchestrator (6-phase pipeline)
@@ -130,11 +133,16 @@ bu-ai-bibliography/
 |- build_faculty_roster.py      # Scrape 24+ BU department pages for faculty
 |- resolve_openalex_ids.py      # Batch-match faculty to OpenAlex author IDs
 |- enrich_unspecified_roster.py # Resolve "unspecified" entries via affiliation strings
+|- resolve_bu_authors.py # BU years per author, from OpenAlex profiles (free endpoints)
+|- clean_master_bu_years.py # One-shot: drop papers outside their author's BU years
 |
 |- Data
 |- data/
 |   |- sonnet_classification_bu_verified.json  # Master dataset (11,903 papers)
 |   |- bu_faculty_roster_verified.json         # Faculty roster (5,888 entries)
+|   |- bu_author_registry.json                 # BU author identities + their BU years (10,351)
+|   |- non_bu_ai_index.json                    # AI papers that are not BU's; never re-harvested
+|   |- prefilter_seen_index.json               # Pre-filter rejections, versioned by filter hash
 |   |- openalex_bu_authors_cache.json          # 98K OpenAlex author profiles (local)
 |   |- update_state.json                       # Auto-update state + source health
 |   |- update_log.csv                          # Run history
