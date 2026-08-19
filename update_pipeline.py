@@ -75,6 +75,7 @@ BU_ROSTER_PATH = "data/bu_faculty_roster.json"
 REJECTED_PATH = "data/rejected_papers_index.json"
 NON_BU_AI_PATH = "data/non_bu_ai_index.json"
 PREFILTER_SEEN_PATH = "data/prefilter_seen_index.json"
+BU_AUTHOR_REGISTRY_PATH = "data/bu_author_registry.json"
 
 # ── Cost constants (Sonnet standard API pricing) ────────────────────────────
 COST_PER_INPUT_MTOK = 3.0    # $/MTok
@@ -290,7 +291,8 @@ def refresh_faculty_roster() -> dict:
 
 def harvest_openalex_incremental(date_field: str, since_date: str,
                                  deadline: float | None = None,
-                                 _partial: list | None = None) -> list[dict]:
+                                 _partial: list | None = None,
+                                 _registry: dict | None = None) -> list[dict]:
     """Harvest BU papers from OpenAlex with a date filter.
 
     OpenAlex is the primary source -- roughly two thirds of the corpus -- so a
@@ -396,11 +398,13 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
         if not results:
             break
 
+        page_papers = []
         for work in results:
             try:
                 paper = _parse_work(work)
                 if paper:
                     papers.append(paper)
+                    page_papers.append(paper)
                     # Stream into the shared partial list per record, not at the
                     # loop boundary. The SIGALRM hard cutoff can land anywhere,
                     # including mid-page, and anything not already in _partial at
@@ -410,6 +414,16 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
                         _partial.append(paper)
             except Exception as e:
                 logger.debug(f"Parse error: {e}")
+
+        # Fold this page's authorships into the BU author registry before the AI
+        # filter ever sees them. A BU chemist's 2004 paper is not going into the
+        # bibliography, but it is still evidence that they were at BU in 2004,
+        # and that evidence is what lets us judge a name-matched DBLP record.
+        if _registry is not None:
+            try:
+                fold_papers_into_bu_registry(page_papers, _registry)
+            except Exception as e:
+                logger.debug(f"registry fold failed: {e}")
 
         pages += 1
         if pages % 25 == 0:
@@ -709,14 +723,11 @@ def harvest_all_sources(since_12m: str, since_3m: str,
     _global_deadline = time.time() + global_budget_min * 60
     logger.info(f"Harvest global budget: {global_budget_min:.0f} min")
 
-    # Year windows in which we have independent evidence each author was at BU.
-    # Used to gate sources that match by name and carry no affiliation data.
-    try:
-        _bu_windows = build_bu_year_windows(load_master())
-        logger.info(f"BU year windows built for {len(_bu_windows):,} authors")
-    except Exception as e:
-        logger.warning(f"Could not build BU year windows ({e}); name-matched sources ungated")
-        _bu_windows = {}
+    # The BU author registry: who published from BU, and when. Grown every run
+    # from the authorship data already flowing through the OpenAlex harvest.
+    _bu_registry = load_bu_author_registry()
+    _registry_at_start = len(_bu_registry)
+    logger.info(f"BU author registry loaded: {_registry_at_start:,} authors")
 
     def _run_source(name: str, harvester, critical: bool = False, max_minutes: float = 15):
         """Run a harvester with fault isolation, time budget, and partial result capture.
@@ -839,7 +850,8 @@ def harvest_all_sources(since_12m: str, since_3m: str,
     _run_source("openalex",
                 lambda deadline=None: harvest_openalex_incremental(
                     "from_publication_date", since_12m,
-                    deadline=deadline, _partial=_partial_results),
+                    deadline=deadline, _partial=_partial_results,
+                    _registry=_bu_registry),
                 critical=True, max_minutes=30)
 
     _run_source("pubmed",
@@ -907,6 +919,28 @@ def harvest_all_sources(since_12m: str, since_3m: str,
             "count": 0, "status": "skipped", "error": str(e)[:200], "duration_s": 0,
         }
 
+    # Everything harvested so far from sources that carry real affiliations also
+    # counts as evidence. Fold it in, then derive the year windows DBLP is gated
+    # against. This runs immediately before DBLP for a reason: DBLP is the source
+    # with no affiliation data, so it should be judged against the most complete
+    # picture this run can offer.
+    try:
+        fold_papers_into_bu_registry(all_papers, _bu_registry)
+        fold_papers_into_bu_registry(load_master(), _bu_registry)
+        _bu_windows, _ambiguous_names = registry_year_windows(_bu_registry)
+        logger.info(
+            f"BU author registry: {len(_bu_registry):,} authors "
+            f"(+{len(_bu_registry)-_registry_at_start:,} this run), "
+            f"{len(_bu_windows):,} names, {len(_ambiguous_names):,} names shared by "
+            f"more than one BU identity"
+        )
+        save_bu_author_registry(_bu_registry)
+        global _BU_WINDOWS_CACHE
+        _BU_WINDOWS_CACHE = _bu_windows
+    except Exception as e:
+        logger.warning(f"Could not build BU author registry ({e}); DBLP ungated")
+        _bu_windows, _ambiguous_names = {}, set()
+
     # DBLP dump (download -> parse -> verify)
     # The ~1 GB dump download sits outside _run_source, so it used to run to
     # completion even when there was no time left to parse it -- a gigabyte
@@ -927,10 +961,9 @@ def harvest_all_sources(since_12m: str, since_3m: str,
         try:
             from harvest_dblp_dump import harvest_dump
             _run_source("dblp",
-                        lambda deadline=None: gate_affiliationless_by_bu_years(
-                            harvest_dump(dump_path=str(dblp_dump),
-                                         since_year=int(since_12m[:4])),
-                            _bu_windows, "dblp")[0],
+                        lambda deadline=None: harvest_dump(
+                            dump_path=str(dblp_dump),
+                            since_year=int(since_12m[:4])),
                         max_minutes=20)
             try:
                 os.remove(str(dblp_dump))
@@ -959,9 +992,8 @@ def harvest_all_sources(since_12m: str, since_3m: str,
         try:
             from source_dblp import harvest as harvest_dblp_api
             _run_source("dblp",
-                        lambda deadline=None: gate_affiliationless_by_bu_years(
-                            harvest_dblp_api(since_year=int(since_12m[:4])),
-                            _bu_windows, "dblp")[0],
+                        lambda deadline=None: harvest_dblp_api(
+                            since_year=int(since_12m[:4])),
                         max_minutes=10)
         except Exception as e:
             source_report["dblp"] = {
@@ -1163,6 +1195,189 @@ def record_non_bu_ai(papers: list[dict]):
     logger.info(f"Recorded {len(papers)} non-BU AI papers ({added} new index entries)")
 
 
+# ── BU author registry ──────────────────────────────────────────────────────
+# Who is a BU author, and in which years, established from evidence rather than
+# from a name appearing on a department web page.
+#
+# The evidence is already flowing past us. Every OpenAlex work we page through
+# during harvest is filtered by BU's ROR, and each authorship on it says whether
+# THAT author was at BU on THAT paper, with the publication year attached. We
+# parse it, use it once for the AI filter, and throw it away.
+#
+# Folding it into a registry instead gives, for free and with no extra API call,
+# the thing the roster was trying and failing to be: every person with evidence
+# of a BU affiliation, their OpenAlex ID and ORCID, and the year span over which
+# that evidence exists. A department scrape says "this name is on a web page".
+# This says "this identity published from BU in these years".
+
+
+def load_bu_author_registry() -> dict:
+    if os.path.exists(BU_AUTHOR_REGISTRY_PATH):
+        try:
+            with open(BU_AUTHOR_REGISTRY_PATH) as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not read BU author registry: {e}")
+    return {}
+
+
+def save_bu_author_registry(registry: dict):
+    try:
+        with open(BU_AUTHOR_REGISTRY_PATH, "w") as f:
+            json.dump(registry, f, separators=(",", ":"), sort_keys=True)
+        logger.info(f"BU author registry saved: {len(registry):,} authors")
+    except Exception as e:
+        logger.warning(f"Could not write BU author registry: {e}")
+
+
+BU_AFFILIATION_MARKERS = (
+    "boston university", "boston univ", "boston medical center",
+    "chobanian", "bumc", "va boston", "boston va",
+)
+
+
+def _attests_bu(authorship: dict) -> bool:
+    """Does this authorship's OWN affiliation string say Boston University?
+
+    is_bu cannot be trusted as evidence, because several things set it that are
+    not evidence of anything. Measured on the current master, of 25,288 is_bu
+    authorships only 18,917 carry a BU affiliation string: OpenBU stamps
+    "Boston University" onto every author of every record it holds including
+    external co-authors (1,470 authorships), NIH Reporter and Semantic Scholar
+    carry no affiliation at all yet come through at 4.5% and 7.0% attested, and
+    verify_bu_authors flips the flag on a roster name match with no affiliation
+    to back it. Building the registry off is_bu would be circular: it would
+    launder name matches into "evidence" and then use that evidence to approve
+    name matches.
+    """
+    aff = (authorship.get("affiliation") or "").lower()
+    return bool(aff) and any(k in aff for k in BU_AFFILIATION_MARKERS)
+
+
+def fold_papers_into_bu_registry(papers: list[dict], registry: dict) -> int:
+    """Record every author with an attested BU affiliation, and the year.
+
+    Keyed by OpenAlex author ID where we have one, because an ID is an identity
+    and a name is not -- that distinction is exactly what the DBLP namesake
+    problem is made of. Names are kept as an index onto those identities.
+
+    Two independent conditions, both required: the paper comes from a source
+    that carries real per-paper affiliation data, and the authorship's own
+    affiliation string names BU. OpenBU passes the first and fails the second;
+    a name-matched DBLP record fails both.
+    """
+    added = 0
+    for p in papers:
+        src = p.get("source")
+        if src is not None and src not in AFFILIATION_TRUSTED_SOURCES:
+            continue
+        y = p.get("year")
+        if not isinstance(y, int) or not (1900 < y < 2100):
+            continue
+        for a in (p.get("authors") or []):
+            if not _attests_bu(a):
+                continue
+            nm = (a.get("name") or "").strip()
+            key = a.get("openalex_id") or (("name:" + nm.lower()) if nm else None)
+            if not key:
+                continue
+            e = registry.get(key)
+            if e is None:
+                registry[key] = {
+                    "name": nm or None,
+                    "orcid": a.get("orcid") or None,
+                    "first": y, "last": y, "n": 1,
+                    "names": [nm] if nm else [],
+                }
+                added += 1
+            else:
+                e["first"] = min(e["first"], y)
+                e["last"] = max(e["last"], y)
+                e["n"] = e.get("n", 0) + 1
+                if nm and nm not in e.get("names", []):
+                    e.setdefault("names", []).append(nm)
+                if a.get("orcid") and not e.get("orcid"):
+                    e["orcid"] = a["orcid"]
+    return added
+
+
+def _reg_name_key(name: str) -> str:
+    """Fold a display name to a comparison key.
+
+    Unicode dashes and casing split identities that are the same person:
+    the roster carries "Ching\u2010Ray Chang" while OpenAlex returns
+    "Ching-Ray Chang", and without folding, a bu=False recorded against one
+    spelling fails to be overridden by BU evidence carried on the other.
+    """
+    import unicodedata
+    n = unicodedata.normalize("NFKC", name or "").casefold()
+    for dash in ("\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2212"):
+        n = n.replace(dash, "-")
+    return " ".join(n.split())
+
+
+def registry_year_windows(registry: dict) -> tuple[dict, set]:
+    """Name -> {"first", "last", "bu"} across every BU identity with that name.
+
+    "bu": False only when EVERY identity carrying that name has been checked
+    against its OpenAlex profile and none of them has ever published from BU.
+    That is the Li Fei-Fei case -- on our roster, never at BU -- and it is the
+    only situation in which a name match should be refused outright rather than
+    merely bounded by years.
+
+    Also returns the set of names shared by more than one BU identity, where a
+    bare string match cannot tell you which person you have.
+    """
+    by_name, ids_per_name = {}, {}
+    for key, e in registry.items():
+        names = e.get("names") or ([e["name"]] if e.get("name") else [])
+        for nm in names:
+            if not nm:
+                continue
+            nk = _reg_name_key(nm)
+            if not nk:
+                continue
+            ids_per_name.setdefault(nk, set()).add(key)
+            w = by_name.get(nk)
+            f, l, bu = e.get("first"), e.get("last"), e.get("bu", True)
+            if w is None:
+                by_name[nk] = {"first": f, "last": l, "bu": bool(bu)}
+                continue
+            if bu:
+                w["bu"] = True
+            if f is not None:
+                w["first"] = f if w["first"] is None else min(w["first"], f)
+            if l is not None:
+                w["last"] = l if w["last"] is None else max(w["last"], l)
+    ambiguous = {nm for nm, ids in ids_per_name.items() if len(ids) > 1}
+    for nm in ambiguous:
+        # More than one identity answers to this name, so no single identity's
+        # history can speak for it. Fall back to the year window, which is a
+        # bound rather than a resolution and is safe to union.
+        w = by_name.get(nm)
+        if w is not None and not w.get("bu"):
+            w["bu"] = True
+    return by_name, ambiguous
+
+
+def bu_name_verdict(name: str, year, windows: dict) -> bool | None:
+    """Is a bare name match to `name` on a paper from `year` believable?
+
+    True  -- yes, the person was at BU then
+    False -- no; refuse the match
+    None  -- we hold no evidence about this person either way
+    """
+    w = windows.get(_reg_name_key(name))
+    if w is None:
+        return None
+    if not w.get("bu"):
+        return False
+    f, l = w.get("first"), w.get("last")
+    if not year or f is None or l is None:
+        return True
+    return (f - BU_WINDOW_GRACE_YEARS) <= year <= (l + BU_WINDOW_GRACE_YEARS)
+
+
 # Sources that carry real, per-paper affiliation data. A BU affiliation string
 # on a paper from one of these is independent evidence that the author was at BU
 # when the paper was written. DBLP carries no affiliations at all, and the
@@ -1172,87 +1387,6 @@ AFFILIATION_TRUSTED_SOURCES = {"openalex", "pubmed", "biorxiv", "nber"}
 # Grace either side of an author's documented BU years. Indexing lags, a paper
 # submitted at BU can appear after a move, and affiliation data is patchy.
 BU_WINDOW_GRACE_YEARS = 2
-
-
-def build_bu_year_windows(master: list[dict]) -> dict:
-    """For each author, the span of years we have independent evidence they were at BU.
-
-    Derived entirely from data we already hold -- no API calls, instant.
-    """
-    years = {}
-    for p in master:
-        if p.get("source") not in AFFILIATION_TRUSTED_SOURCES:
-            continue
-        y = p.get("year")
-        if not y:
-            continue
-        for a in (p.get("authors") or []):
-            aff = (a.get("affiliation") or "").lower()
-            if any(k in aff for k in ("boston university", "boston medical",
-                                      "chobanian", "va boston", "bumc")):
-                name = a.get("name")
-                if not name:
-                    continue
-                lo, hi = years.get(name, (y, y))
-                years[name] = (min(lo, y), max(hi, y))
-    return years
-
-
-def gate_affiliationless_by_bu_years(papers: list[dict], windows: dict,
-                                     source_label: str = "dblp") -> tuple[list[dict], dict]:
-    """Drop papers attributed to BU purely by name match, outside the author's BU years.
-
-    DBLP is matched by name against the roster and has no affiliation data, so a
-    hit imports that person's ENTIRE career -- including the decades before and
-    after they were at BU, and including unrelated namesakes.
-
-    The people this affects are mostly real: BU PhD students, postdocs and former
-    faculty who moved on. Measured on the current master, 940 of 1,586 DBLP
-    papers (59%) sit outside their author's documented BU years or belong to an
-    author with no BU evidence at all. Examples: Mari Ostendorf (BU 1989-2002,
-    66 later papers from Washington), Mac Schwager (BU 2011-2016, 55 later papers
-    from Stanford), Christopher Amato (BU 2011-2018, 28 later papers from
-    Northeastern).
-
-    Keeping a paper someone wrote at Stanford in a bibliography of BU research is
-    not a recall win; it is a wrong entry. Papers written DURING their BU years
-    are kept, which is the whole point.
-    """
-    kept, dropped_window, dropped_noevidence = [], 0, 0
-    for p in papers:
-        y = p.get("year")
-        names = [a.get("name") for a in (p.get("authors") or []) if a.get("is_bu")]
-        if not y or not names:
-            kept.append(p)
-            continue
-        verdict = None
-        for n in names:
-            w = windows.get(n)
-            if w is None:
-                continue
-            if (w[0] - BU_WINDOW_GRACE_YEARS) <= y <= (w[1] + BU_WINDOW_GRACE_YEARS):
-                verdict = True
-                break
-            verdict = False
-        if verdict is True:
-            kept.append(p)
-        elif verdict is False:
-            dropped_window += 1
-        else:
-            dropped_noevidence += 1
-
-    stats = {
-        "input": len(papers),
-        "kept": len(kept),
-        "dropped_outside_bu_years": dropped_window,
-        "dropped_no_bu_evidence": dropped_noevidence,
-    }
-    logger.info(
-        f"{source_label} BU-year gate: {len(papers):,} → {len(kept):,} "
-        f"({dropped_window:,} outside the author's BU years, "
-        f"{dropped_noevidence:,} with no independent BU evidence)"
-    )
-    return kept, stats
 
 
 def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: set) -> list[dict]:
@@ -1747,21 +1881,69 @@ def classify_via_sonnet(papers: list[dict], hard_cap_usd: float = 5.0) -> tuple[
 # BU AUTHOR VERIFICATION
 # ═══════════════════════════════════════════════════════════════════════════
 
-def verify_bu_authors(papers: list[dict]) -> list[dict]:
-    """Verify BU authorship using the faculty roster. Drops papers with zero BU authors.
+_BU_WINDOWS_CACHE = None
 
-    Tier 1: Check existing is_bu flags (set by OpenAlex ROR matching during harvest)
-    Tier 2: OpenAlex author ID match against FACULTY_BY_OAID (zero false positives)
-    Tier 3: Full-name unique match against roster (no initial-only fallback)
+
+def _cached_bu_windows() -> dict:
+    """Windows from the registry on disk, read once per process.
+
+    Callers that do not pass windows explicitly still get the check, which is
+    the point: merge_batch_results and backfill_pubmed both call
+    verify_bu_authors and neither should be able to opt out of it by omission.
     """
+    global _BU_WINDOWS_CACHE
+    if _BU_WINDOWS_CACHE is None:
+        try:
+            _BU_WINDOWS_CACHE = registry_year_windows(load_bu_author_registry())[0]
+        except Exception as e:
+            logger.warning(f"Could not load BU author registry ({e}); name matches unchecked")
+            _BU_WINDOWS_CACHE = {}
+    return _BU_WINDOWS_CACHE
+
+
+def verify_bu_authors(papers: list[dict], windows: dict | None = None) -> list[dict]:
+    """Verify BU authorship. Drops papers left with zero BU authors.
+
+    Tier 1: is_bu already set by the source from a real affiliation (OpenAlex ROR)
+    Tier 2: OpenAlex author ID matches the roster
+    Tier 3: unique full-name match against the roster
+
+    Tiers 2 and 3 are name-or-id matches against a roster that says only "this
+    person is associated with BU", with no sense of when. That is how a
+    bibliography of BU research ends up holding papers written at Stanford:
+    DBLP carries no affiliations at all, so one name match imports the matched
+    person's entire career. Measured on the current master, 858 of 1,586 DBLP
+    papers sit outside their author's documented BU years, and another 82 belong
+    to people with no BU evidence anywhere -- Li Fei-Fei is on our roster.
+
+    So both tiers are checked against the BU author registry, which knows the
+    years each identity actually published from BU. This used to be a gate
+    bolted onto the DBLP call sites only; it belongs here, where it covers every
+    source that matches by name.
+    """
+    if windows is None:
+        windows = _cached_bu_windows()
     verified = []
+    refused_never_bu = refused_window = 0
+
     for paper in papers:
         has_bu = False
+        year = paper.get("year")
 
         for author in paper.get("authors", []):
-            # Tier 1: already flagged by source (OpenAlex ROR match)
+            # Tier 1: already flagged by the source from a real affiliation.
             if author.get("is_bu"):
                 has_bu = True
+                continue
+
+            name = author.get("name", "")
+            verdict = bu_name_verdict(name, year, windows)
+            if verdict is False:
+                w = windows.get(_reg_name_key(name)) or {}
+                if w.get("bu"):
+                    refused_window += 1
+                else:
+                    refused_never_bu += 1
                 continue
 
             # Tier 2: OpenAlex author ID
@@ -1775,7 +1957,6 @@ def verify_bu_authors(papers: list[dict]) -> list[dict]:
             # Skip empty/whitespace keys: non-Latin names normalize to ' ' or '' under
             # _normalize_name's [^a-z\s-] strip, and would otherwise collide with any
             # similarly-stripped roster entry (the "Lei Guo trojan" pattern).
-            name = author.get("name", "")
             fkey = _name_key(name)
             if not fkey.strip():
                 continue
@@ -1788,7 +1969,11 @@ def verify_bu_authors(papers: list[dict]) -> list[dict]:
         if has_bu:
             verified.append(paper)
 
-    logger.info(f"BU verification: {len(papers)} → {len(verified)} with confirmed BU authors")
+    logger.info(
+        f"BU verification: {len(papers):,} → {len(verified):,} with confirmed BU authors "
+        f"({refused_window:,} name matches refused as outside the author's BU years, "
+        f"{refused_never_bu:,} as people who have never published from BU)"
+    )
     return verified
 
 
@@ -1994,6 +2179,9 @@ def git_commit_and_push(message: str) -> bool:
             # otherwise every CI run starts blank and re-decides the same
             # tens of thousands of papers.
             PREFILTER_SEEN_PATH,
+            # The BU author registry is the accumulated evidence of who published
+            # from BU and when; it is only useful if it persists between runs.
+            BU_AUTHOR_REGISTRY_PATH,
             "output/bibliography_app/data.js",
             "output/bibliography_app/data_private.js",
             "docs/data.js",
