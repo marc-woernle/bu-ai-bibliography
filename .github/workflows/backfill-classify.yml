@@ -14,6 +14,12 @@ name: Backfill classification
 #   3. stage: collect    -- fetches results, merges into master, commits
 #
 # Between 2 and 3, run `stage: status` whenever you want to see if it is done.
+#
+# stage: clean-master is separate and unrelated to the batch. It runs
+# clean_master_bu_years.py --apply, which removes the 858 papers already in
+# master that sit outside their author's documented BU years -- Mari
+# Ostendorf's Washington papers, Mac Schwager's Stanford ones. It backs master
+# up first and archives every removed record.
 
 on:
   workflow_dispatch:
@@ -23,7 +29,7 @@ on:
         required: true
         default: estimate
         type: choice
-        options: [estimate, submit, status, collect]
+        options: [estimate, submit, status, collect, clean-master]
       input_file:
         description: "Candidates file"
         required: true
@@ -58,12 +64,44 @@ jobs:
         env:
           INPUT_FILE: ${{ inputs.input_file }}
 
+      # `submit` needs the batch request file that `estimate` writes. Runners
+      # are ephemeral, so the file from the estimate run is long gone and
+      # submit has to rebuild it here. The first attempt at this did not, found
+      # no batch file, printed a message, exited 0, and reported a green run
+      # that had submitted nothing.
+      - name: Build the batch file
+        if: inputs.stage == 'submit'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CI: "true"
+        run: python classify_papers.py estimate --input=${{ inputs.input_file }}
+
       - name: Run the stage
+        if: inputs.stage != 'clean-master'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           CI: "true"
         run: python classify_papers.py ${{ inputs.stage }} --input=${{ inputs.input_file }}
+
+      # Belt and braces. classify_papers now exits non-zero on a missing
+      # prerequisite, but a submit that produced no batch id is the one failure
+      # that must never be reported as success.
+      - name: Verify the batch actually went
+        if: inputs.stage == 'submit'
+        run: |
+          f="data/$(basename ${{ inputs.input_file }} .json)_batch_id.txt"
+          test -s "$f" || { echo "No batch id at $f -- nothing was submitted"; exit 1; }
+          echo "batch id: $(cat "$f")"
+
+      - name: Clean papers outside their author's BU years
+        if: inputs.stage == 'clean-master'
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python clean_master_bu_years.py            # dry run first, so the log shows what goes
+          python clean_master_bu_years.py --apply
+          python validate_dataset.py
 
       - name: Merge results into master
         if: inputs.stage == 'collect'
@@ -78,10 +116,11 @@ jobs:
       # as the repo owner: this project forbids AI attribution in git history
       # and enforces it in CI, see .github/workflows/no-ai-attribution.yml.
       - name: Commit whatever changed
-        if: inputs.stage == 'submit' || inputs.stage == 'collect'
+        if: inputs.stage == 'submit' || inputs.stage == 'collect' || inputs.stage == 'clean-master'
         run: |
           git config user.name 'Marc Woernle'
           git config user.email 'marcwho13@gmail.com'
           git add -A data/ output/ docs/ || true
+          git reset -q -- 'data/*_batch_requests.jsonl' || true
           git diff --cached --quiet || git commit -m "backfill classification: ${{ inputs.stage }}"
           git push
