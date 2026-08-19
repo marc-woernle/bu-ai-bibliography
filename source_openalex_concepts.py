@@ -38,6 +38,15 @@ logger = logging.getLogger(__name__)
 
 # OpenAlex legacy concept IDs. Kept explicit rather than resolved by name at
 # runtime: a name lookup is a metered request, and these IDs are stable.
+# The newer "topics" taxonomy is a separate index, and OpenAlex will not OR
+# across different filter keys (concepts.id:X|topics...:Y is a 400), so this is
+# a second sweep unioned by OpenAlex work ID. Measured: 5,877 BU works carry the
+# AI subfield, 3,082 of which the concept sweep does not return, and 2,630 of
+# those are works we have never evaluated. It is noisier -- subfield 1702 also
+# catches "Review of Particle Physics" -- but 30 requests for $0.003 is not a
+# price worth optimising, and Sonnet is the gate.
+AI_TOPIC_SUBFIELD = "subfields/1702"  # Artificial Intelligence
+
 AI_CONCEPTS = {
     "C154945302": "Artificial intelligence",
     "C119857082": "Machine learning",
@@ -56,11 +65,20 @@ def harvest(since_year: int | None = None, deadline: float | None = None,
     date because they are expensive; this one is not, and most of what it finds
     that we do not already hold is old -- 4,896 of 12,233 predate 2010.
     """
-    filt = f"institutions.ror:{BU_ROR_ID},concepts.id:{'|'.join(AI_CONCEPTS)}"
-    if since_year:
-        filt += f",from_publication_date:{since_year}-01-01"
+    window = f",from_publication_date:{since_year}-01-01" if since_year else ""
+    filters = [
+        f"institutions.ror:{BU_ROR_ID},concepts.id:{'|'.join(AI_CONCEPTS)}{window}",
+        f"institutions.ror:{BU_ROR_ID},topics.subfield.id:{AI_TOPIC_SUBFIELD}{window}",
+    ]
+    papers, seen = [], set()
+    for filt in filters:
+        papers.extend(p for p in _sweep(filt, deadline, _partial, _registry, seen))
+    logger.info(f"  openalex_concepts: {len(papers):,} distinct works across both taxonomies")
+    return papers
 
-    papers, cursor, calls, cost, retries = [], "*", 0, 0.0, 0
+
+def _sweep(filt, deadline, _partial, _registry, seen: set) -> list[dict]:
+    papers, cursor, calls, cost, retries, fetched = [], "*", 0, 0.0, 0, 0
     expected = None
     while cursor:
         if deadline and time.time() > deadline:
@@ -109,9 +127,13 @@ def harvest(since_year: int | None = None, deadline: float | None = None,
         results = data.get("results", [])
         if not results:
             break
+        fetched += len(results)
         page = []
         for w in results:
             try:
+                if w.get("id") in seen:
+                    continue
+                seen.add(w.get("id"))
                 p = _parse_work(w)
                 if p:
                     p["source"] = "openalex"
@@ -132,12 +154,16 @@ def harvest(since_year: int | None = None, deadline: float | None = None,
         cursor = data.get("meta", {}).get("next_cursor")
 
     logger.info(
-        f"  openalex_concepts: {len(papers):,} works in {calls} requests, ${cost:.4f}"
+        f"  openalex_concepts: {fetched:,} works seen, {len(papers):,} new, "
+        f"{calls} requests, ${cost:.4f}"
         + (f" (OpenAlex reported {expected:,})" if expected else "")
     )
-    if expected and len(papers) < expected * 0.9:
+    # `fetched` counts what came back; `papers` counts what was new. The second
+    # sweep legitimately returns far fewer papers than expected because most of
+    # its results were already seen, so truncation is judged on fetched.
+    if expected and fetched < expected * 0.9:
         logger.warning(
-            f"  openalex_concepts: TRUNCATED -- got {len(papers):,} of {expected:,}"
+            f"  openalex_concepts: TRUNCATED -- saw {fetched:,} of {expected:,}"
         )
     return papers
 
