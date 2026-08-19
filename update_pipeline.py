@@ -709,6 +709,15 @@ def harvest_all_sources(since_12m: str, since_3m: str,
     _global_deadline = time.time() + global_budget_min * 60
     logger.info(f"Harvest global budget: {global_budget_min:.0f} min")
 
+    # Year windows in which we have independent evidence each author was at BU.
+    # Used to gate sources that match by name and carry no affiliation data.
+    try:
+        _bu_windows = build_bu_year_windows(load_master())
+        logger.info(f"BU year windows built for {len(_bu_windows):,} authors")
+    except Exception as e:
+        logger.warning(f"Could not build BU year windows ({e}); name-matched sources ungated")
+        _bu_windows = {}
+
     def _run_source(name: str, harvester, critical: bool = False, max_minutes: float = 15):
         """Run a harvester with fault isolation, time budget, and partial result capture.
 
@@ -918,8 +927,11 @@ def harvest_all_sources(since_12m: str, since_3m: str,
         try:
             from harvest_dblp_dump import harvest_dump
             _run_source("dblp",
-                        lambda deadline=None: harvest_dump(dump_path=str(dblp_dump), since_year=int(since_12m[:4])),
-                        max_minutes=15)
+                        lambda deadline=None: gate_affiliationless_by_bu_years(
+                            harvest_dump(dump_path=str(dblp_dump),
+                                         since_year=int(since_12m[:4])),
+                            _bu_windows, "dblp")[0],
+                        max_minutes=20)
             try:
                 os.remove(str(dblp_dump))
                 logger.info("Deleted DBLP dump to free disk space")
@@ -947,7 +959,9 @@ def harvest_all_sources(since_12m: str, since_3m: str,
         try:
             from source_dblp import harvest as harvest_dblp_api
             _run_source("dblp",
-                        lambda deadline=None: harvest_dblp_api(since_year=int(since_12m[:4])),
+                        lambda deadline=None: gate_affiliationless_by_bu_years(
+                            harvest_dblp_api(since_year=int(since_12m[:4])),
+                            _bu_windows, "dblp")[0],
                         max_minutes=10)
         except Exception as e:
             source_report["dblp"] = {
@@ -1147,6 +1161,98 @@ def record_non_bu_ai(papers: list[dict]):
     if added:
         save_non_bu_ai_index(dois, fps)
     logger.info(f"Recorded {len(papers)} non-BU AI papers ({added} new index entries)")
+
+
+# Sources that carry real, per-paper affiliation data. A BU affiliation string
+# on a paper from one of these is independent evidence that the author was at BU
+# when the paper was written. DBLP carries no affiliations at all, and the
+# per-faculty harvesters fabricate them from a name match, so neither counts.
+AFFILIATION_TRUSTED_SOURCES = {"openalex", "pubmed", "biorxiv", "nber"}
+
+# Grace either side of an author's documented BU years. Indexing lags, a paper
+# submitted at BU can appear after a move, and affiliation data is patchy.
+BU_WINDOW_GRACE_YEARS = 2
+
+
+def build_bu_year_windows(master: list[dict]) -> dict:
+    """For each author, the span of years we have independent evidence they were at BU.
+
+    Derived entirely from data we already hold -- no API calls, instant.
+    """
+    years = {}
+    for p in master:
+        if p.get("source") not in AFFILIATION_TRUSTED_SOURCES:
+            continue
+        y = p.get("year")
+        if not y:
+            continue
+        for a in (p.get("authors") or []):
+            aff = (a.get("affiliation") or "").lower()
+            if any(k in aff for k in ("boston university", "boston medical",
+                                      "chobanian", "va boston", "bumc")):
+                name = a.get("name")
+                if not name:
+                    continue
+                lo, hi = years.get(name, (y, y))
+                years[name] = (min(lo, y), max(hi, y))
+    return years
+
+
+def gate_affiliationless_by_bu_years(papers: list[dict], windows: dict,
+                                     source_label: str = "dblp") -> tuple[list[dict], dict]:
+    """Drop papers attributed to BU purely by name match, outside the author's BU years.
+
+    DBLP is matched by name against the roster and has no affiliation data, so a
+    hit imports that person's ENTIRE career -- including the decades before and
+    after they were at BU, and including unrelated namesakes.
+
+    The people this affects are mostly real: BU PhD students, postdocs and former
+    faculty who moved on. Measured on the current master, 940 of 1,586 DBLP
+    papers (59%) sit outside their author's documented BU years or belong to an
+    author with no BU evidence at all. Examples: Mari Ostendorf (BU 1989-2002,
+    66 later papers from Washington), Mac Schwager (BU 2011-2016, 55 later papers
+    from Stanford), Christopher Amato (BU 2011-2018, 28 later papers from
+    Northeastern).
+
+    Keeping a paper someone wrote at Stanford in a bibliography of BU research is
+    not a recall win; it is a wrong entry. Papers written DURING their BU years
+    are kept, which is the whole point.
+    """
+    kept, dropped_window, dropped_noevidence = [], 0, 0
+    for p in papers:
+        y = p.get("year")
+        names = [a.get("name") for a in (p.get("authors") or []) if a.get("is_bu")]
+        if not y or not names:
+            kept.append(p)
+            continue
+        verdict = None
+        for n in names:
+            w = windows.get(n)
+            if w is None:
+                continue
+            if (w[0] - BU_WINDOW_GRACE_YEARS) <= y <= (w[1] + BU_WINDOW_GRACE_YEARS):
+                verdict = True
+                break
+            verdict = False
+        if verdict is True:
+            kept.append(p)
+        elif verdict is False:
+            dropped_window += 1
+        else:
+            dropped_noevidence += 1
+
+    stats = {
+        "input": len(papers),
+        "kept": len(kept),
+        "dropped_outside_bu_years": dropped_window,
+        "dropped_no_bu_evidence": dropped_noevidence,
+    }
+    logger.info(
+        f"{source_label} BU-year gate: {len(papers):,} → {len(kept):,} "
+        f"({dropped_window:,} outside the author's BU years, "
+        f"{dropped_noevidence:,} with no independent BU evidence)"
+    )
+    return kept, stats
 
 
 def dedup_against_master(new_papers: list[dict], master_dois: set, master_fps: set) -> list[dict]:
