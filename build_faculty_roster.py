@@ -260,59 +260,52 @@ def extract_faculty_generic(soup: BeautifulSoup, url: str) -> list[dict]:
 
 
 def resolve_openalex_id(name: str) -> dict | None:
-    """Look up a faculty member's OpenAlex author ID."""
-    time.sleep(0.15)  # Rate limit
+    """Look up a faculty member's OpenAlex author ID, on the free endpoints only.
+
+    This used to be one filter query per name:
+
+        /authors?search=<name>&filter=affiliations.institution.ror:<BU>
+
+    Two problems with that. It is metered -- filter queries cost $0.10 per 1,000
+    against a daily budget -- and 1,423 roster entries have never resolved, so
+    every run re-attempts every one of them. That is 1,423 metered calls a month,
+    39% of the entire free daily allowance, spent re-asking questions that
+    already came back empty.
+
+    And it was not even careful: it took results[0] and accepted it if the last
+    word of the name matched, which is how a roster ends up asserting that
+    someone is BU faculty on the strength of a surname.
+
+    The replacement uses /autocomplete/authors to get candidates and a
+    single-entity GET per candidate to check them. Both report cost_usd 0.0.
+    A candidate is accepted only if BU's ROR actually appears in that person's
+    institutional history, which is evidence rather than a string match, and the
+    years come back with it.
+    """
+    from resolve_bu_authors import autocomplete, bu_years, fetch_author
+
+    time.sleep(0.1)
     try:
-        resp = requests.get(
-            "https://api.openalex.org/authors",
-            params={
-                "search": name,
-                "filter": f"affiliations.institution.ror:{BU_ROR_ID}",
-                "per_page": 3,
-            },
-            headers=OA_HEADERS,
-            timeout=15,
-        )
-        if resp.status_code == 429:
-            time.sleep(5)
-            return resolve_openalex_id(name)  # retry once
-        if resp.status_code != 200:
-            return None
-
-        results = resp.json().get("results", [])
-        if not results:
-            return None
-
-        # Take best match — check name similarity
-        best = results[0]
-        oa_name = best.get("display_name", "").lower()
-        query_name = name.lower()
-
-        # Basic similarity: last names must match
-        query_last = query_name.split()[-1] if query_name.split() else ""
-        oa_last = oa_name.split()[-1] if oa_name.split() else ""
-
-        if query_last != oa_last:
-            # Try second result
-            if len(results) > 1:
-                best = results[1]
-                oa_name = best.get("display_name", "").lower()
-                oa_last = oa_name.split()[-1] if oa_name.split() else ""
-                if query_last != oa_last:
-                    return None
-            else:
-                return None
-
-        return {
-            "openalex_id": best["id"],
-            "display_name": best.get("display_name", ""),
-            "works_count": best.get("works_count", 0),
-            "cited_by_count": best.get("cited_by_count", 0),
-        }
-
+        session = requests.Session()
+        for cand in autocomplete(name, session):
+            status, prof = fetch_author(cand, session)
+            if status != "ok":
+                continue
+            yrs = bu_years(prof)
+            if not yrs:
+                continue
+            return {
+                "openalex_id": prof.get("id") or cand,
+                "display_name": prof.get("display_name", ""),
+                "works_count": prof.get("works_count", 0),
+                "cited_by_count": prof.get("cited_by_count")
+                    or (prof.get("summary_stats") or {}).get("cited_by_count", 0),
+                "bu_first_year": yrs[0],
+                "bu_last_year": yrs[-1],
+            }
     except Exception as e:
         logger.debug(f"  OpenAlex lookup error for {name}: {e}")
-        return None
+    return None
 
 
 def check_name_rarity(name: str, all_bu_authors: set) -> bool:

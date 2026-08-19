@@ -514,6 +514,25 @@ CONTACT_EMAIL = "marcwho@bu.edu"  # ← Set this to your BU email
 #
 # Get one in about thirty seconds at https://openalex.org/settings/api and set
 # OPENALEX_API_KEY in the environment (and in the repo's Actions secrets).
+#
+# What this pipeline actually spends, counted rather than guessed. Metered calls
+# per monthly run, worst case (a full sweep month):
+#
+#   OpenAlex works sweep, full, ~250k works at per_page=200      1,250
+#   roster OAID resolution, now on the free endpoints                0
+#   enrich_unspecified_roster, 141 entries                         141
+#   citation refresh + preprint tracking + venue backfill, DOI
+#     batches of 50 across three passes over ~11k papers           717
+#   NBER via OpenAlex                                               10
+#                                                                 -----
+#                                                                 2,118  = $0.21
+#
+# The free daily budget with a key is $1.00 = 10,000 calls, so a full-sweep
+# month uses about a fifth of one day's allowance. There is nothing to buy.
+# Prepaid top-ups exist in $1 increments if a backfill ever needs more; the
+# $5,000/year Member tier buys a $20 daily budget and is irrelevant at this
+# scale. WITHOUT a key the allowance is $0.10 = 1,000 calls, which the sweep
+# alone exceeds -- that is the whole reason the key matters.
 OPENALEX_API_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 
 
