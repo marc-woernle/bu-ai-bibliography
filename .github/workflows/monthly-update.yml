@@ -52,6 +52,14 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           S2_API_KEY: ${{ secrets.S2_API_KEY }}
+          # Free, and worth ten times the keyless budget: OpenAlex meters
+          # filtered queries at $0.10/1,000 against a daily allowance, $0.10/day
+          # keyless versus $1/day with a key. A full BU sweep is ~250k records,
+          # about 1,250 calls at per_page=200. Without the key the run has room
+          # for 1,000 calls total and the harvest truncates.
+          # Get one at https://openalex.org/settings/api, add it as a repo
+          # secret named OPENALEX_API_KEY.
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           CI: "true"
         run: |
           mkdir -p logs output data
