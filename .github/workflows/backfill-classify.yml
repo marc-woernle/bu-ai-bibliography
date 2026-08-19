@@ -29,7 +29,7 @@ on:
         required: true
         default: estimate
         type: choice
-        options: [estimate, submit, status, collect, clean-master]
+        options: [estimate, submit, status, collect, merge-only, clean-master]
       input_file:
         description: "Candidates file"
         required: true
@@ -77,7 +77,7 @@ jobs:
         run: python classify_papers.py estimate --input=${{ inputs.input_file }}
 
       - name: Run the stage
-        if: inputs.stage != 'clean-master'
+        if: inputs.stage != 'clean-master' && inputs.stage != 'merge-only'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
@@ -109,8 +109,14 @@ jobs:
       # and the results sat on a runner that was then destroyed -- $12.96 of
       # classification downloaded and thrown away, recoverable only because
       # batch results stay retrievable for 29 days.
+      # merge-only re-runs the merge against a results file already in the
+      # repo, without re-downloading. Needed because the first merge ran
+      # against candidate records that carried no author data, so
+      # verify_bu_authors found zero BU authors on all 1,833 AI-relevant papers
+      # and filed every one of them in the non-BU index -- permanently blocking
+      # papers that came from a BU-ROR-filtered query in the first place.
       - name: Merge results into master
-        if: inputs.stage == 'collect'
+        if: inputs.stage == 'collect' || inputs.stage == 'merge-only'
         env:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
@@ -124,7 +130,7 @@ jobs:
       # as the repo owner: this project forbids AI attribution in git history
       # and enforces it in CI, see .github/workflows/no-ai-attribution.yml.
       - name: Commit whatever changed
-        if: inputs.stage == 'submit' || inputs.stage == 'collect' || inputs.stage == 'clean-master'
+        if: inputs.stage != 'estimate' && inputs.stage != 'status'
         run: |
           git config user.name 'Marc Woernle'
           git config user.email 'marcwho13@gmail.com'
