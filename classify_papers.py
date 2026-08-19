@@ -361,8 +361,10 @@ def estimate():
 def submit():
     """Submit batch to Anthropic API."""
     if not os.path.exists(BATCH_FILE):
-        print("Batch file not found. Run 'estimate' first.")
-        return
+        # sys.exit, not return. Returning meant the process exited 0 and every
+        # caller -- CI included -- reported a green run that had submitted
+        # nothing. A missing prerequisite is a failure and has to look like one.
+        sys.exit(f"Batch file not found: {BATCH_FILE}. Run 'estimate' first.")
 
     client = anthropic.Anthropic()
 
@@ -385,8 +387,7 @@ def submit():
 def status():
     """Check batch progress."""
     if not os.path.exists(BATCH_ID_FILE):
-        print("No batch ID found. Run 'submit' first.")
-        return
+        sys.exit(f"No batch ID at {BATCH_ID_FILE}. Run 'submit' first.")
 
     client = anthropic.Anthropic()
     batch_id = Path(BATCH_ID_FILE).read_text().strip()
@@ -414,8 +415,7 @@ def status():
 def collect():
     """Download results, merge with paper data, save."""
     if not os.path.exists(BATCH_ID_FILE):
-        print("No batch ID found.")
-        return
+        sys.exit(f"No batch ID at {BATCH_ID_FILE}. Run 'submit' first.")
 
     client = anthropic.Anthropic()
     batch_id = Path(BATCH_ID_FILE).read_text().strip()
