@@ -24,7 +24,7 @@ import sys
 import time
 from datetime import date, datetime, timedelta
 
-from config import BU_ROR_ID, CONTACT_EMAIL, OPENALEX_RATE_LIMIT
+from config import BU_ROR_ID, CONTACT_EMAIL, OPENALEX_RATE_LIMIT, openalex_headers
 from update_pipeline import (
     acquire_lock,
     append_log,
@@ -246,7 +246,7 @@ def _backfill_new_faculty(faculty_names: list[str]) -> list[dict]:
                         "per_page": 200,
                         "cursor": cursor,
                     },
-                    headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"},
+                    headers=openalex_headers(),
                     rate_limiter=_openalex_rl,
                     max_retries=3,
                     timeout=30,

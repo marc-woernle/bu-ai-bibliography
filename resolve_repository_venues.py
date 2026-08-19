@@ -30,7 +30,7 @@ from pathlib import Path
 
 import requests
 
-from config import CONTACT_EMAIL
+from config import CONTACT_EMAIL, openalex_headers
 from utils import sanitize_inline_text
 
 MASTER_PATH = Path("data/sonnet_classification_bu_verified.json")
@@ -44,7 +44,7 @@ PLATFORM_VENUES = {
     "boston university school of law digital repository",
 }
 
-HEADERS = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+HEADERS = openalex_headers()
 
 
 def _norm(s: str) -> str:

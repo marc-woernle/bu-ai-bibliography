@@ -23,6 +23,8 @@ import requests
 
 # ── Imports from existing pipeline ──────────────────────────────────────────
 from config import (
+    OPENALEX_API_KEY,
+    openalex_headers,
     ALL_AI_KEYWORDS,
     AI_KEYWORDS_PRIMARY,
     BU_ROR_ID,
@@ -348,6 +350,24 @@ def harvest_openalex_incremental(date_field: str, since_date: str,
         try:
             resp = requests.get(base_url, params=params, headers=headers, timeout=60)
 
+            # A 429 whose body says "Insufficient budget" is NOT transient. The
+            # daily allowance resets at midnight UTC and no amount of backing
+            # off inside one run recovers it. Retrying it burns the run's clock
+            # and then reports a generic rate-limit failure, which is how this
+            # cost us a whole source before anyone noticed the actual cause.
+            if resp.status_code == 429 and "Insufficient budget" in resp.text:
+                truncated_reason = "OpenAlex daily budget exhausted"
+                logger.error(
+                    "OpenAlex budget exhausted. Filtered queries cost $0.10/1,000 "
+                    "against a daily allowance that resets at midnight UTC; keyless "
+                    "gets $0.10/day, a FREE key gets $1/day. Set OPENALEX_API_KEY "
+                    "(30 seconds at https://openalex.org/settings/api) — "
+                    + ("a key IS configured, so today's $1 is genuinely spent."
+                       if OPENALEX_API_KEY else
+                       "no key is configured, so this run had only $0.10 to spend.")
+                )
+                break
+
             # 429 and 5xx are both transient: back off and retry the SAME cursor.
             if resp.status_code == 429 or resp.status_code >= 500:
                 retries += 1
@@ -584,7 +604,7 @@ def harvest_ssrn_by_faculty() -> list[dict]:
                     "select": "DOI,title,author,published-print,published-online,"
                               "abstract,URL,is-referenced-by-count,type,subject",
                 },
-                headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"},
+                headers=openalex_headers(),
                 timeout=15,
             )
             if resp.status_code == 429:
@@ -1485,6 +1505,31 @@ AI_REFERENCE_TEXTS = [
     "autonomous agents robotics planning control",
     "self-supervised representation learning embeddings retrieval",
     "model alignment interpretability evaluation benchmarks safety",
+    # A second wave, added after measuring which confirmed-AI papers the filter
+    # still dropped. MiniLM scores whole-document topical similarity, so a paper
+    # is only close to a reference if it talks the same way -- and none of the
+    # fifteen above talk like a 1998 computer vision paper, a cortical circuit
+    # model, a formal-methods control paper, or a bioinformatics method. At the
+    # same 0.30 threshold these eighteen take the embedding arm from recovering
+    # 5.9% of those missed papers to 57.3%.
+    "computer vision image processing object detection tracking segmentation recognition",
+    "feature extraction pattern recognition classification of images and video",
+    "signal processing estimation filtering time series prediction from noisy measurements",
+    "speech and audio processing acoustic modelling recognition synthesis",
+    "statistical learning regression classification inference from data with a fitted model",
+    "probabilistic graphical models Bayesian inference latent variables expectation maximization",
+    "dimensionality reduction manifold learning clustering unsupervised structure discovery",
+    "computational neuroscience neural network models of brain circuits learning and memory",
+    "adaptive resonance theory cortical models attention consciousness perceptual learning",
+    "brain computer interface neural decoding of EEG and spiking activity",
+    "robotics motion planning control of autonomous vehicles and multi-robot teams",
+    "optimal control model predictive control formal methods temporal logic specifications",
+    "network science graph algorithms link prediction community structure in complex networks",
+    "computational biology bioinformatics predicting protein structure function and interactions",
+    "gene regulatory network inference from expression data systems biology modelling",
+    "optimization linear and integer programming combinatorial algorithms operations research",
+    "computational social science analysis of social media text and online behaviour",
+    "recommender systems collaborative filtering information retrieval ranking",
 ]
 
 # Papers kept by the embedding filter alone need to clear this. Higher than the
@@ -1587,7 +1632,7 @@ def backfill_abstracts(papers: list[dict], deadline: float | None = None) -> dic
     for p in missing:
         by_doi.setdefault(normalize_doi(p["doi"]), []).append(p)
 
-    headers = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+    headers = openalex_headers()
     api_key = os.environ.get("S2_API_KEY", "")
     if api_key:
         headers["x-api-key"] = api_key
@@ -1888,7 +1933,7 @@ def _cached_bu_windows() -> dict:
     """Windows from the registry on disk, read once per process.
 
     Callers that do not pass windows explicitly still get the check, which is
-    the point: merge_batch_results and backfill_pubmed both call
+    the point: merge_batch_results and the batch merge path both call
     verify_bu_authors and neither should be able to opt out of it by omission.
     """
     global _BU_WINDOWS_CACHE

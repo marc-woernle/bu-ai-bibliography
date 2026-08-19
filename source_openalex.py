@@ -12,6 +12,7 @@ import requests
 import logging
 import time
 from config import (
+    openalex_headers,
     BU_ROR_ID, BU_OPENALEX_INSTITUTION_ID,
     OPENALEX_AI_CONCEPT_IDS, ALL_AI_KEYWORDS, AI_KEYWORDS_PRIMARY,
     OPENALEX_RATE_LIMIT, CONTACT_EMAIL,
@@ -35,7 +36,7 @@ def _safe_venue(work):
 
 def _headers():
     """OpenAlex polite pool: include mailto for faster access."""
-    return {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+    return openalex_headers()
 
 
 def _parse_work(work: dict) -> dict:

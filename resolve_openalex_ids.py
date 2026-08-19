@@ -58,7 +58,7 @@ def _verify_bu_in_affiliations(oa_id: str) -> bool:
     try:
         r = requests.get(
             f"https://api.openalex.org/authors/{short}?mailto={EMAIL}",
-            headers={"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{EMAIL})"},
+            headers=openalex_headers(),
             timeout=15,
         )
         if r.status_code != 200:

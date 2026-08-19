@@ -48,11 +48,11 @@ import time
 
 import requests
 
-from config import BU_ROR_ID, CONTACT_EMAIL
+from config import BU_ROR_ID, CONTACT_EMAIL, openalex_headers
 
 ROSTER_PATH = "data/bu_faculty_roster_verified.json"
 REGISTRY_PATH = "data/bu_author_registry.json"
-HEADERS = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+HEADERS = openalex_headers()
 
 
 def load_json(path, default):
