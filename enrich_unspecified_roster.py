@@ -20,7 +20,7 @@ import importlib
 import school_mapper
 importlib.reload(school_mapper)
 from school_mapper import classify_affiliation
-from config import BU_ROR_ID, CONTACT_EMAIL
+from config import BU_ROR_ID, CONTACT_EMAIL, openalex_headers
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger("enrich_roster")
@@ -30,7 +30,7 @@ OPENALEX_BASE = "https://api.openalex.org"
 
 
 def _headers():
-    return {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+    return openalex_headers()
 
 
 def fetch_affiliations(openalex_id: str, max_works: int = 10) -> list[str]:

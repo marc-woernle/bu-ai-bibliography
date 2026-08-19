@@ -22,14 +22,14 @@ from datetime import date
 import requests
 from bs4 import BeautifulSoup
 
-from config import BU_ROR_ID, CONTACT_EMAIL
+from config import BU_ROR_ID, CONTACT_EMAIL, openalex_headers
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("build_roster")
 
 OUTPUT_PATH = "data/bu_faculty_roster_verified.json"
 EXISTING_ROSTER_PATH = "data/bu_faculty_roster.json"
-OA_HEADERS = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+OA_HEADERS = openalex_headers()
 
 # Map department URLs to school names (matching school_mapper.py naming)
 DEPARTMENT_URLS = {

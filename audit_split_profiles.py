@@ -34,11 +34,11 @@ from pathlib import Path
 
 import requests
 
-from config import BU_ROR_ID, CONTACT_EMAIL
+from config import BU_ROR_ID, CONTACT_EMAIL, openalex_headers
 
 ROSTER_PATH = Path("data/bu_faculty_roster_verified.json")
 OUT_PATH = Path("data/split_profiles_audit.json")
-HEADERS = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+HEADERS = openalex_headers()
 
 # Conservative threshold: only propose alternates that have at least this many
 # works. Below this, a duplicate profile is more likely to be a stub OpenAlex

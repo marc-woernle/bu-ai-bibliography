@@ -31,12 +31,12 @@ from pathlib import Path
 
 import requests
 
-from config import CONTACT_EMAIL
+from config import CONTACT_EMAIL, openalex_headers
 
 ROSTER_PATH = Path("data/bu_faculty_roster_verified.json")
 MASTER_PATH = Path("data/sonnet_classification_bu_verified.json")
 OUT_PATH = Path("data/faculty_completeness_audit.json")
-HEADERS = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+HEADERS = openalex_headers()
 
 AI_RE = re.compile(
     r"\b(artificial intelligence|machine learning|deep learning|neural network"

@@ -4,6 +4,8 @@ BU AI Bibliography Harvester — Configuration
 Centralized config for all data sources, search terms, and parameters.
 """
 
+import os
+
 # ── BU Institutional Identifiers ──────────────────────────────────────────────
 BU_ROR_ID = "https://ror.org/05qwgg493"
 BU_GRID_ID = "grid.189504.1"
@@ -268,11 +270,157 @@ AI_KEYWORDS_FRONTIER = [
     "model evaluation benchmark",
 ]
 
+# ── Vocabulary the old list could not see ────────────────────────────────
+# Measured, not guessed. Of 9,945 papers Sonnet had already confirmed as AI,
+# the keyword arm matched 80.3% -- and the 1,259 it missed were not random.
+# They clustered into families the list simply had no words for: classical
+# computer vision from before anyone said "deep learning", BU's own Center for
+# Adaptive Systems tradition of neural and cognitive modelling, control and
+# formal methods, network science, and computational biology where the method
+# is machine learning and every word in the abstract is biology.
+#
+# Every entry below appears in at least one of those missed papers. Each was
+# then checked against 3,877 real BU biomedical abstracts to see how much
+# non-AI traffic it would let through: the worst single term admits 1.7% of
+# them and most admit none. Together they recover 326 of the 1,259 (25.9%)
+# for 86 extra control admissions.
+AI_KEYWORDS_UNDERSERVED = [
+    "image processing",
+    "image analysis",
+    "image classification",
+    "object tracking",
+    "object recognition",
+    "saliency",
+    "optical flow",
+    "pose estimation",
+    "face recognition",
+    "facial recognition",
+    "gesture recognition",
+    "scene understanding",
+    "visual tracking",
+    "particle tracking",
+    "image registration",
+    "3d reconstruction",
+    "view synthesis",
+    "radiance field",
+    "visual recognition",
+    "video analysis",
+    "signal processing",
+    "speech processing",
+    "speech synthesis",
+    "acoustic model",
+    "speaker recognition",
+    "time series forecasting",
+    "state estimation",
+    "kalman filter",
+    "sparse coding",
+    "compressed sensing",
+    "blind source separation",
+    "independent component analysis",
+    "principal component analysis",
+    "dimensionality reduction",
+    "dimension reduction",
+    "manifold learning",
+    "spectral clustering",
+    "semi-supervised",
+    "representation learning",
+    "feature learning",
+    "statistical learning",
+    "learning algorithm",
+    "regression model",
+    "latent variable model",
+    "graphical model",
+    "hidden markov",
+    "maximum likelihood estimation",
+    "expectation maximization",
+    "variational inference",
+    "gaussian process",
+    "kernel method",
+    "ensemble learning",
+    "cross-validation",
+    "generalization bound",
+    "empirical risk",
+    "nearest neighbor",
+    "naive bayes",
+    "regularization",
+    "adaptive resonance",
+    "neural model",
+    "computational neuroscience",
+    "spiking neural",
+    "brain-computer interface",
+    "brain computer interface",
+    "neural decoding",
+    "neural encoding",
+    "electroencephalogram",
+    "cortical model",
+    "perceptual learning",
+    "cognitive model",
+    "neuromorphic",
+    "memristive",
+    "hebbian",
+    "temporal logic",
+    "control barrier",
+    "optimal control",
+    "model predictive control",
+    "motion planning",
+    "path planning",
+    "trajectory optimization",
+    "swarm robotics",
+    "distributed control",
+    "reachability analysis",
+    "autonomous navigation",
+    "unmanned aerial",
+    "cyber-physical",
+    "feedback control",
+    "adaptive control",
+    "complex network",
+    "network science",
+    "graph neural",
+    "link prediction",
+    "community detection",
+    "network inference",
+    "sensor network",
+    "graph algorithm",
+    "network embedding",
+    "social network analysis",
+    "network topology",
+    "centrality measure",
+    "protein structure prediction",
+    "protein function prediction",
+    "sequence alignment",
+    "computational biology",
+    "systems biology",
+    "gene regulatory network",
+    "single-cell analysis",
+    "variant calling",
+    "molecular docking",
+    "virtual screening",
+    "drug-target",
+    "biomarker prediction",
+    "in silico",
+    "structural bioinformatics",
+    "linear programming",
+    "integer programming",
+    "combinatorial optimization",
+    "scheduling algorithm",
+    "network flow",
+    "dynamic programming",
+    "social media",
+    "text classification",
+    "topic modeling",
+    "computational social science",
+    "recommender",
+    "collaborative filtering",
+    "opinion mining",
+    "misinformation detection",
+]
+
 # Combined flat list for simple matching. De-duplicated: "federated learning"
 # appeared in both PRIMARY and SECONDARY.
 ALL_AI_KEYWORDS = list(dict.fromkeys(
     AI_KEYWORDS_PRIMARY + AI_KEYWORDS_SECONDARY
     + AI_KEYWORDS_APPLIED + AI_KEYWORDS_FRONTIER
+    + AI_KEYWORDS_UNDERSERVED
 ))
 
 # ── PubMed MeSH Terms ─────────────────────────────────────────────────────────
@@ -350,6 +498,34 @@ CROSSREF_RATE_LIMIT = 5         # requests/second (polite pool: use mailto)
 # ── Contact Email (for polite pools) ──────────────────────────────────────────
 # OpenAlex and CrossRef give faster access if you identify yourself
 CONTACT_EMAIL = "marcwho@bu.edu"  # ← Set this to your BU email
+
+
+# ── OpenAlex authentication ──────────────────────────────────────────────────
+# OpenAlex started metering in 2026. Filtered list queries -- which is every
+# harvest query we make -- cost $0.10 per 1,000 calls against a daily budget
+# that resets at midnight UTC. Single-entity GETs (/authors/A123) and
+# /autocomplete are free and always have been.
+#
+# A key is NOT required and costs nothing, but a free key gives 10x the keyless
+# budget: $1/day instead of $0.10/day. At per_page=200 that is roughly two
+# million works a day against two hundred thousand, and a full BU sweep is
+# about a quarter of a million records. Without a key the sweep cannot finish;
+# with a free key it costs about three cents.
+#
+# Get one in about thirty seconds at https://openalex.org/settings/api and set
+# OPENALEX_API_KEY in the environment (and in the repo's Actions secrets).
+OPENALEX_API_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
+
+
+def openalex_headers() -> dict:
+    """Headers for every OpenAlex request: polite-pool identification, plus the
+    API key when one is configured. Never build these by hand -- a call site
+    that misses the key silently spends the keyless budget and then fails with
+    'Insufficient budget' instead of saying what is wrong."""
+    h = {"User-Agent": f"BU-AI-Bibliography/1.0 (mailto:{CONTACT_EMAIL})"}
+    if OPENALEX_API_KEY:
+        h["Authorization"] = f"Bearer {OPENALEX_API_KEY}"
+    return h
 
 # ── Output ────────────────────────────────────────────────────────────────────
 OUTPUT_DIR = "data"
