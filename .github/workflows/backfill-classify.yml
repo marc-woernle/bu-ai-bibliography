@@ -52,6 +52,30 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-ci.txt
 
+      # Proves the secret actually reaches the runner. A key that is configured
+      # but not plumbed through looks identical to no key at all until a harvest
+      # truncates months later, so check it where it is cheap to check.
+      - name: Check OpenAlex auth
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python - <<'EOF'
+          import requests
+          from config import BU_ROR_ID, CONTACT_EMAIL, OPENALEX_API_KEY, openalex_headers
+          print("OPENALEX_API_KEY reaches the runner:", bool(OPENALEX_API_KEY))
+          r = requests.get("https://api.openalex.org/works",
+                           params={"filter": f"institutions.ror:{BU_ROR_ID}",
+                                   "per_page": 1, "mailto": CONTACT_EMAIL},
+                           headers=openalex_headers(), timeout=30)
+          print("works endpoint:", r.status_code)
+          if r.status_code == 200:
+              m = r.json()["meta"]
+              print(f"  BU works visible: {m['count']:,}   cost this call: ${m.get('cost_usd')}")
+          else:
+              print(" ", r.text[:200])
+              raise SystemExit("OpenAlex is not usable from CI")
+          EOF
+
       - name: Show what is about to happen
         run: |
           python - <<'PY'
