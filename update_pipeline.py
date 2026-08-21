@@ -921,7 +921,8 @@ def harvest_all_sources(since_12m: str, since_3m: str,
 
     from source_in_progress import harvest_nih_reporter, harvest_nsf_awards
     _run_source("nih_reporter",
-                lambda deadline=None: harvest_nih_reporter(since_date=since_12m),
+                lambda deadline=None: harvest_nih_reporter(
+                    since_date=since_12m, _partial=_partial_results),
                 max_minutes=10)
     _run_source("nsf_awards",
                 lambda deadline=None: harvest_nsf_awards(

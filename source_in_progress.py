@@ -23,7 +23,8 @@ rate_limiter = RateLimiter(2)
 
 # ── NIH Reporter ─────────────────────────────────────────────────────────────
 
-def harvest_nih_reporter(since_date: str | None = None) -> list[dict]:
+def harvest_nih_reporter(since_date: str | None = None,
+                         _partial: list | None = None) -> list[dict]:
     """
     Search NIH Reporter for active/recent BU grants related to AI.
     NIH Reporter has a proper JSON API.

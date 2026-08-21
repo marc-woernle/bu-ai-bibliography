@@ -23,6 +23,7 @@ def _search_crossref_for_ssrn(query: str, rows: int = 100) -> list[dict]:
     """
     papers = []
     offset = 0
+    retries = 0
 
     while offset < 1000:  # safety cap
         rate_limiter.wait()
@@ -34,7 +35,11 @@ def _search_crossref_for_ssrn(query: str, rows: int = 100) -> list[dict]:
                     "filter": "prefix:10.2139",  # SSRN DOI prefix
                     "rows": rows,
                     "offset": offset,
+                    # posted/issued/created matter: SSRN working papers carry
+                    # none of published-print or published-online, so asking
+                    # only for those returned a year of None on every record.
                     "select": "DOI,title,author,published-print,published-online,"
+                              "posted,issued,created,"
                               "abstract,URL,is-referenced-by-count,type,subject",
                 },
                 headers={
@@ -45,10 +50,26 @@ def _search_crossref_for_ssrn(query: str, rows: int = 100) -> list[dict]:
             resp.raise_for_status()
             data = resp.json()
         except requests.exceptions.RequestException as e:
-            logger.error(f"CrossRef/SSRN request failed: {e}")
-            time.sleep(10)
+            # Bounded. This used to sleep 10s and `continue` with no counter and
+            # no change to offset, so a CrossRef outage or a persistent 429 span
+            # this loop forever -- burning the whole harvest's global time budget
+            # on one source until a hard cutoff killed it. That is the shape of
+            # the failure that took this pipeline down for five months.
+            retries += 1
+            if retries > 5:
+                logger.error(
+                    f"CrossRef/SSRN: giving up after 5 consecutive failures ({e}); "
+                    f"returning the {len(papers)} papers collected so far"
+                )
+                return papers
+            wait = min(5 * 2 ** (retries - 1), 60)
+            logger.warning(
+                f"CrossRef/SSRN request failed ({e}); retry {retries}/5 in {wait}s"
+            )
+            time.sleep(wait)
             continue
 
+        retries = 0
         items = data.get("message", {}).get("items", [])
         if not items:
             break
@@ -88,7 +109,7 @@ def _parse_crossref_item(item: dict) -> dict | None:
 
     # Year
     year = None
-    for date_field in ["published-print", "published-online", "created"]:
+    for date_field in ["published-print", "published-online", "posted", "issued", "created"]:
         date_parts = item.get(date_field, {}).get("date-parts", [[]])
         if date_parts and date_parts[0] and date_parts[0][0]:
             year = date_parts[0][0]
