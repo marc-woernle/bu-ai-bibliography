@@ -35,6 +35,11 @@ on:
         required: true
         default: data/backfill_candidates.json
         type: string
+      candidates_run_id:
+        description: "Optional: run id of a Monthly Bibliography Update dispatched with save_candidates. Downloads that run's candidates artifact into input_file. The full candidate set is ~68 MB, far too big to live in the repo, so without this the only candidates a stage can see are the small ones that are committed."
+        required: false
+        default: ""
+        type: string
 
 jobs:
   backfill:
@@ -42,6 +47,8 @@ jobs:
     timeout-minutes: 120
     permissions:
       contents: write
+      # download-artifact needs this to reach another run's artifacts.
+      actions: read
     steps:
       - uses: actions/checkout@v4
 
@@ -76,14 +83,45 @@ jobs:
               raise SystemExit("OpenAlex is not usable from CI")
           EOF
 
+      # Runners are ephemeral and the monthly harvest's candidate file is an
+      # artifact, not a committed file. Pulling it here is what lets `estimate`
+      # price the real backlog instead of whichever small candidate file
+      # happens to be checked in.
+      - name: Fetch candidates from a harvest run
+        if: inputs.candidates_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: backlog-candidates-${{ inputs.candidates_run_id }}
+          run-id: ${{ inputs.candidates_run_id }}
+          github-token: ${{ github.token }}
+          path: data/
+
+      # The headline candidate count hides the number that actually decides
+      # whether a batch is worth submitting. The pre-filter passes through
+      # every paper with no abstract rather than dropping what it cannot
+      # judge, so a large fraction of any candidate set is Sonnet reading a
+      # bare title. Those two populations have very different hit rates and
+      # very different value, so price and report them separately.
       - name: Show what is about to happen
         run: |
           python - <<'PY'
           import json, os
-          d = json.load(open(os.environ["INPUT_FILE"]))
-          print(f"{len(d):,} candidates in {os.environ['INPUT_FILE']}")
+          from collections import Counter
+          path = os.environ["INPUT_FILE"]
+          d = json.load(open(path))
+          print(f"{len(d):,} candidates in {path}")
           yrs = [p.get("year") for p in d if p.get("year")]
-          print(f"years {min(yrs)}-{max(yrs)}")
+          if yrs:
+              print(f"years {min(yrs)}-{max(yrs)}")
+          with_abs = [p for p in d if (p.get("abstract") or "").strip()]
+          without = len(d) - len(with_abs)
+          print(f"  with an abstract:    {len(with_abs):,}")
+          print(f"  title only:          {without:,}"
+                f"  ({without/max(len(d),1):.0%} of the batch)")
+          src = Counter(p.get("source", "?") for p in d)
+          print("  by source:")
+          for k, v in src.most_common():
+              print(f"    {k:<22} {v:>8,}")
           PY
         env:
           INPUT_FILE: ${{ inputs.input_file }}
