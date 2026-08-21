@@ -16,6 +16,8 @@ from pathlib import Path
 
 import requests
 
+from config import openalex_headers
+
 BU_ROR = "https://ror.org/05qwgg493"
 ROSTER_PATH = Path("data/bu_faculty_roster_verified.json")
 CACHE_PATH = Path("data/openalex_bu_authors_cache.json")
