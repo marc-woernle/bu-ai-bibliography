@@ -125,6 +125,16 @@ jobs:
           python merge_batch_results.py --input="$results"
           python validate_dataset.py
 
+      # Master changed, so the site has to change with it. Without this the
+      # web app and the README keep reporting the old paper count -- the merge
+      # that added 1,476 papers left marc-woernle.github.io still saying 11,903,
+      # which is the kind of gap nobody notices until someone cites the number.
+      - name: Regenerate the web app and propagate counts
+        if: inputs.stage == 'collect' || inputs.stage == 'merge-only' || inputs.stage == 'clean-master'
+        run: |
+          python generate_data_js.py
+          python propagate_counts.py --no-gh
+
       # Committed so the batch id survives between the submit run and the
       # collect run, and so the merged master is what everyone sees. Authored
       # as the repo owner: this project forbids AI attribution in git history
