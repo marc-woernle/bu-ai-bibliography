@@ -1,8 +1,8 @@
 # BU AI Bibliography -- Status
-**Updated:** 2026-08-19
+**Updated:** 2026-08-21
 
 ## Numbers
-- **Papers:** 11,903 in `data/sonnet_classification_bu_verified.json` (11,045 after `clean_master_bu_years.py --apply`)
+- **Papers:** 12,528 in `data/sonnet_classification_bu_verified.json` (11,903 before the backfill; +1,476 added, 851 mis-attributed removed)
 - **Sources:** 13 canonical (OpenAlex, PubMed, DBLP, SSRN, NBER, Scholarly Commons, OpenBU, NIH Reporter, NSF Awards, arXiv, CrossRef, Semantic Scholar, bioRxiv). 11 distinct source tags in data; NBER and arXiv harvest via OpenAlex
 - **Schools:** 27 named schools/departments
 - **Roster:** 5,888 entries, 4,465 with OpenAlex IDs. 159 entries now carry `alternate_openalex_ids` for known split profiles; Robertson manually patched
@@ -15,6 +15,29 @@
 - **Web app:** live at marc-woernle.github.io/bu-ai-bibliography
 - **Classifier:** Sonnet 4.6 (`claude-sonnet-4-6`)
 - **Relevance labels (user-facing):** Core AI / Applied AI / AI Studies (internal values still primary/methodological/peripheral)
+
+## Backfill run (Aug 19-21)
+
+**The catch-up ran. Master 11,903 -> 12,528.**
+
+9,465 never-evaluated candidates went through the Batch API for **$12.96**:
+
+| tier | returned | master before | master after |
+|---|---|---|---|
+| Core AI (primary) | 935 | 6,067 | 6,065 |
+| Applied AI (methodological) | 616 | 4,918 | 5,306 |
+| AI Studies (peripheral) | 282 | 918 | 1,157 |
+| not relevant | 7,626 | — | — |
+
+1,839 came back AI-relevant, 1,476 verified as BU and merged. Then `clean-master` removed 851 papers sitting outside their author's documented BU years; DBLP went 1,586 -> 735. Net 11,903 -> 12,528, and the site and README now report it.
+
+**Three failures on the way, all the same shape: a missing input read as a negative answer.**
+
+1. `submit` printed "Batch file not found", exited 0, and reported a green run that had submitted nothing. `classify_papers` submit/status/collect now `sys.exit` on a missing prerequisite, and the workflow verifies a batch id exists.
+2. The merge ran `merge_batch_results.py` with no `--input`; argparse exited 2 and $12.96 of downloaded results died with the runner. Recoverable only because batch results stay retrievable for 29 days.
+3. Worst: the merge filed **all 1,833 AI-relevant papers as non-BU**, writing 3,388 permanent block entries. The candidate file was a title/abstract/DOI projection with authors stripped to fit an upload limit, and `verify_bu_authors` reads BU authorship off the author list. Papers selected by a filter on BU's own ROR were declared not-BU. `merge_batch_results` now re-fetches authorships before verification; the index was repaired.
+
+Also: the commit step staged only `data/ output/ docs/`, so `propagate_counts` patched README.md and STATUS.md on the runner and the edits were discarded. Fixed.
 
 ## This session (Aug 19)
 

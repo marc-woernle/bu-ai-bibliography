@@ -1,6 +1,6 @@
 # BU AI Bibliography
 
-A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **11,903 papers** across 27 schools and departments.
+A multi-source pipeline for harvesting, deduplicating, classifying, and annotating **all AI-related academic publications by Boston University faculty**. Currently **12,528 papers** across 27 schools and departments.
 
 **Static site:** [marc-woernle.github.io/bu-ai-bibliography](https://marc-woernle.github.io/bu-ai-bibliography/)
 
@@ -37,7 +37,7 @@ BU authorship is verified in two steps. A faculty roster of 5,888 entries, scrap
 
 ## Limitations and known issues
 
-**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 1,586 papers.
+**Coverage gaps.** Fields that primarily publish in proprietary law reviews, book chapters, or non-indexed venues are underrepresented. Conference workshop papers without DOIs can be missed. CS conference proceedings are well-covered via the DBLP source, which contributes 735 papers.
 
 **Author disambiguation.** OpenAlex sometimes merges different people under a single author ID, especially for common names. We maintain a blocklist for known false matches and have cleared 19+ wrong IDs from the roster, but more may exist. Separately, a roster name match used to import the matched person's entire career: DBLP carries no affiliation data at all, so 858 papers written at Stanford, Washington and Northeastern by BU alumni sat in the dataset. The BU author registry now bounds every name match by the author's documented BU years; `clean_master_bu_years.py` removes the ones already merged.
 
@@ -64,10 +64,10 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 
 | Source | Mentions | What it catches | Affiliation filter |
 |--------|----------|----------------|-------------------|
-| **OpenAlex** | 15,466 | Primary source, 250M+ works | BU ROR ID (exact) |
-| **DBLP** | 1,586 | CS conference proceedings | Faculty name match + OpenAlex verification |
+| **OpenAlex** | 16,790 | Primary source, 250M+ works | BU ROR ID (exact) |
+| **DBLP** | 735 | CS conference proceedings | Faculty name match + OpenAlex verification |
 | **OpenBU** | 1,474 | Theses, dissertations, tech reports | Native (all BU) |
-| **PubMed** | 1,465 | Biomedical AI work | Affiliation + MeSH terms |
+| **PubMed** | 1,617 | Biomedical AI work | Affiliation + MeSH terms |
 | **NIH Reporter** | 345 | Federal grants | Organization name |
 | **Semantic Scholar** | 102 | CS/ML papers | Text search |
 | **SSRN** | 57 | Law/policy/business working papers | Faculty name search via CrossRef |
@@ -78,7 +78,7 @@ Cost controls: $15/run hard cap, paper count gates, cumulative cost tracking in 
 | **NBER** | -- | Economics working papers | BU ROR via OpenAlex |
 | **arXiv** | -- | CS/ML preprints | Category + affiliation |
 
-Papers often appear in multiple sources, so total mentions exceed the 11,903 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
+Papers often appear in multiple sources, so total mentions exceed the 12,528 deduplicated paper count. NBER and arXiv counts are included in the OpenAlex total since they're harvested via OpenAlex filters.
 
 ## Setup
 
@@ -138,7 +138,7 @@ bu-ai-bibliography/
 |
 |- Data
 |- data/
-|   |- sonnet_classification_bu_verified.json  # Master dataset (11,903 papers)
+|   |- sonnet_classification_bu_verified.json  # Master dataset (12,528 papers)
 |   |- bu_faculty_roster_verified.json         # Faculty roster (5,888 entries)
 |   |- bu_author_registry.json                 # BU author identities + their BU years (10,351)
 |   |- non_bu_ai_index.json                    # AI papers that are not BU's; never re-harvested
