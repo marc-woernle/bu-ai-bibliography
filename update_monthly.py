@@ -391,6 +391,24 @@ def _run(args, start_time):
             _json.dump(new_papers, f, ensure_ascii=False)
         logger.info(f"Saved {len(new_papers)} candidates to {args.save_candidates}")
         logger.info(f"Next: python classify_papers.py estimate --input={args.save_candidates}")
+
+        # A candidate run does not add papers to master, but it is not
+        # read-only either: it rebuilds the verified faculty roster, folds
+        # tens of thousands of newly-attested BU authors into the registry,
+        # and records every pre-filter rejection so the next run does not
+        # re-decide them. This used to be a bare `return`, and run
+        # 32474538652 proved what that costs -- 3h46m of harvesting that
+        # produced 79,813 new registry authors and 112,230 recorded
+        # rejections, every one of which died with the runner because
+        # nothing between here and the commit at the end of this function
+        # was ever reached. The papers are recoverable from the artifact.
+        # The learned state was not.
+        if args.ci:
+            git_commit_and_push(
+                f"harvest state from candidate run: "
+                f"{len(new_papers):,} candidates written to "
+                f"{os.path.basename(args.save_candidates)}"
+            )
         return
 
     est_cost = estimate_cost(len(new_papers))
