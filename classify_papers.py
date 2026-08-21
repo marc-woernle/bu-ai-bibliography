@@ -296,12 +296,16 @@ def build_batch():
     """Build JSONL batch file for Sonnet classification."""
     papers = load_papers()
     total_input_tokens = 0
+    title_only_input_tokens = 0
     system_tokens = estimate_tokens(SYSTEM_PROMPT)
 
     with open(BATCH_FILE, "w") as f:
         for i, paper in enumerate(papers):
             user_text = paper_to_prompt_text(paper)
-            total_input_tokens += system_tokens + estimate_tokens(user_text)
+            this_input = system_tokens + estimate_tokens(user_text)
+            total_input_tokens += this_input
+            if not (paper.get("abstract") or "").strip():
+                title_only_input_tokens += this_input
 
             # custom_id carries a content key, not just a position. The join on
             # collect was purely positional against a regenerable, gitignored
@@ -325,10 +329,24 @@ def build_batch():
     # ~175 tokens per response (JSON with annotation + publication_status + one_line_summary)
     est_output_tokens = len(papers) * 175
 
+    # A candidate with no abstract is not the same purchase as one with an
+    # abstract. The pre-filter passes abstract-less papers through rather than
+    # dropping what it cannot judge, which is the right call, but it means a
+    # backlog batch can be majority bare titles -- and a title-only
+    # classification is both cheaper per paper and much weaker evidence.
+    # Splitting the estimate is the difference between "this costs $150" and
+    # "$60 of this is Sonnet guessing from titles", which are different
+    # decisions.
+    n_title_only = sum(1 for p in papers if not (p.get("abstract") or "").strip())
+
     return {
         "num_requests": len(papers),
         "input_tokens": total_input_tokens,
         "output_tokens": est_output_tokens,
+        "title_only": n_title_only,
+        "with_abstract": len(papers) - n_title_only,
+        "title_only_input_tokens": title_only_input_tokens,
+        "title_only_requests": n_title_only,
     }
 
 
@@ -355,6 +373,25 @@ def estimate():
     print(f"    {'─'*40}")
     print(f"    TOTAL:   ${total:.2f}")
     print()
+
+    n_title = stats.get("title_only", 0)
+    if n_title:
+        t_in = stats["title_only_input_tokens"] / 1_000_000 * PRICE_INPUT
+        t_out = n_title * 175 / 1_000_000 * PRICE_OUTPUT
+        t_total = t_in + t_out
+        print(f"  Of that total, what you are buying:")
+        print(f"    {stats['with_abstract']:>8,} papers with an abstract"
+              f"   ${total - t_total:>7.2f}")
+        print(f"    {n_title:>8,} papers with a title only"
+              f"   ${t_total:>7.2f}   ({t_total/max(total, 0.01):.0%} of the bill)")
+        print()
+        print(f"  A title-only classification is a real judgement, not a"
+              f" coin flip, but it is the weakest evidence this pipeline")
+        print(f"  produces. Dropping those requests saves ${t_total:.2f} and"
+              f" loses whatever share of {n_title:,} papers are AI-relevant")
+        print(f"  with a title that does not say so.")
+        print()
+
     print(f"  Run 'python classify_papers.py submit' to start.")
 
 
