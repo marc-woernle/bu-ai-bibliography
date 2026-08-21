@@ -19,6 +19,7 @@ import json
 import sys
 import os
 import logging
+from datetime import datetime
 from pathlib import Path
 
 import anthropic
@@ -38,6 +39,21 @@ MODEL = "claude-sonnet-4-6"
 # Batch API = 50% of standard pricing
 PRICE_INPUT = 1.50    # $/MTok
 PRICE_OUTPUT = 7.50   # $/MTok
+# The system prompt is sent as a cached block, so after the first request it is
+# billed at the cache-read rate rather than the input rate. Ignoring that is not
+# a rounding error: the system prompt is ~1,230 of the ~1,366 average input
+# tokens per request, so an uncached estimate overstates a title-heavy batch by
+# well over 2x. The 9,465-paper backfill was quoted at ~$28 and actually cost
+# $12.96.
+PRICE_CACHE_READ = PRICE_INPUT * 0.1
+PRICE_CACHE_WRITE = PRICE_INPUT * 1.25
+# Ephemeral cache entries live ~5 minutes. A batch that takes hours re-writes
+# the block many times; this is a deliberately pessimistic guess at how often,
+# because being wrong in the direction of "cheaper than quoted" is the safe way
+# to be wrong about someone else's money.
+ASSUMED_CACHE_WRITES = 200
+
+COST_HISTORY_PATH = "data/classification_cost_history.json"
 
 # ── Prompt ───────────────────────────────────────────────────────────────────
 
@@ -296,16 +312,18 @@ def build_batch():
     """Build JSONL batch file for Sonnet classification."""
     papers = load_papers()
     total_input_tokens = 0
-    title_only_input_tokens = 0
+    total_user_tokens = 0
+    title_only_user_tokens = 0
     system_tokens = estimate_tokens(SYSTEM_PROMPT)
 
     with open(BATCH_FILE, "w") as f:
         for i, paper in enumerate(papers):
             user_text = paper_to_prompt_text(paper)
-            this_input = system_tokens + estimate_tokens(user_text)
-            total_input_tokens += this_input
+            this_user = estimate_tokens(user_text)
+            total_user_tokens += this_user
+            total_input_tokens += system_tokens + this_user
             if not (paper.get("abstract") or "").strip():
-                title_only_input_tokens += this_input
+                title_only_user_tokens += this_user
 
             # custom_id carries a content key, not just a position. The join on
             # collect was purely positional against a regenerable, gitignored
@@ -343,10 +361,11 @@ def build_batch():
         "num_requests": len(papers),
         "input_tokens": total_input_tokens,
         "output_tokens": est_output_tokens,
+        "system_tokens": system_tokens,
+        "user_tokens": total_user_tokens,
         "title_only": n_title_only,
         "with_abstract": len(papers) - n_title_only,
-        "title_only_input_tokens": title_only_input_tokens,
-        "title_only_requests": n_title_only,
+        "title_only_user_tokens": title_only_user_tokens,
     }
 
 
@@ -357,42 +376,109 @@ def estimate():
     print("Building batch file and estimating costs...\n")
     stats = build_batch()
 
-    cost_in = stats["input_tokens"] / 1_000_000 * PRICE_INPUT
+    n = stats["num_requests"]
+    sys_tok = stats["system_tokens"]
+    user_tok = stats["user_tokens"]
+
+    # Uncached: what the old estimator reported, kept as the ceiling.
+    ceiling = ((sys_tok * n + user_tok) / 1_000_000 * PRICE_INPUT
+               + stats["output_tokens"] / 1_000_000 * PRICE_OUTPUT)
+
+    writes = min(ASSUMED_CACHE_WRITES, n)
+    cost_cache_w = writes * sys_tok / 1_000_000 * PRICE_CACHE_WRITE
+    cost_cache_r = max(n - writes, 0) * sys_tok / 1_000_000 * PRICE_CACHE_READ
+    cost_user = user_tok / 1_000_000 * PRICE_INPUT
     cost_out = stats["output_tokens"] / 1_000_000 * PRICE_OUTPUT
-    total = cost_in + cost_out
+    total = cost_cache_w + cost_cache_r + cost_user + cost_out
 
     print(f"Sonnet classification ({MODEL})")
-    print(f"  Requests:       {stats['num_requests']:,}")
-    print(f"  Input tokens:   {stats['input_tokens']:,} (~{stats['input_tokens']/1_000_000:.1f}M)")
-    print(f"  Output tokens:  {stats['output_tokens']:,} (~{stats['output_tokens']/1_000_000:.1f}M)")
+    print(f"  Requests:       {n:,}")
+    print(f"  System prompt:  {sys_tok:,} tokens, cached, sent once per request")
+    print(f"  Paper text:     {user_tok:,} tokens total"
+          f" (~{user_tok/max(n,1):.0f} per paper)")
+    print(f"  Output tokens:  {stats['output_tokens']:,}"
+          f" (~{stats['output_tokens']/1_000_000:.1f}M)")
     print(f"  Batch file:     {BATCH_FILE}")
     print()
-    print(f"  Estimated cost (batch pricing):")
-    print(f"    Input:   ${cost_in:.2f}  ({stats['input_tokens']/1_000_000:.1f}M × ${PRICE_INPUT}/MTok)")
-    print(f"    Output:  ${cost_out:.2f}  ({stats['output_tokens']/1_000_000:.1f}M × ${PRICE_OUTPUT}/MTok)")
-    print(f"    {'─'*40}")
-    print(f"    TOTAL:   ${total:.2f}")
+    print(f"  Estimated cost (batch pricing, system prompt cached):")
+    print(f"    Cache writes:  ${cost_cache_w:>8.2f}"
+          f"   ({writes:,} assumed re-writes of the cached block)")
+    print(f"    Cache reads:   ${cost_cache_r:>8.2f}")
+    print(f"    Paper text:    ${cost_user:>8.2f}")
+    print(f"    Output:        ${cost_out:>8.2f}"
+          f"   ({cost_out/max(total, 0.01):.0%} of the bill)")
+    print(f"    {'-'*46}")
+    print(f"    TOTAL:         ${total:>8.2f}"
+          f"   (${total/max(n,1):.4f} per paper)")
+    print(f"    ceiling if caching does not work at all: ${ceiling:.2f}")
     print()
+
+    # An estimate is a model. A previous run is a measurement. When both exist,
+    # lead with the measurement.
+    hist = _load_cost_history()
+    if hist:
+        last = hist[-1]
+        rate = last["cost_per_paper"]
+        print(f"  Measured, not modelled: the last completed batch"
+              f" ({last['papers']:,} papers on {last['date']})")
+        print(f"  cost ${last['cost']:.2f}, i.e. ${rate:.4f} per paper."
+              f"  At that rate this batch is ${rate * n:.2f}.")
+        print()
 
     n_title = stats.get("title_only", 0)
     if n_title:
-        t_in = stats["title_only_input_tokens"] / 1_000_000 * PRICE_INPUT
-        t_out = n_title * 175 / 1_000_000 * PRICE_OUTPUT
-        t_total = t_in + t_out
+        # Output is charged per response regardless of how much input produced
+        # it, so a title-only paper costs nearly as much as one with an
+        # abstract. The saving from dropping them is close to proportional.
+        share_out = n_title / max(n, 1) * cost_out
+        t_total = share_out + stats["title_only_user_tokens"] / 1_000_000 * PRICE_INPUT
         print(f"  Of that total, what you are buying:")
         print(f"    {stats['with_abstract']:>8,} papers with an abstract"
-              f"   ${total - t_total:>7.2f}")
+              f"   ${total - t_total:>8.2f}")
         print(f"    {n_title:>8,} papers with a title only"
-              f"   ${t_total:>7.2f}   ({t_total/max(total, 0.01):.0%} of the bill)")
+              f"   ${t_total:>8.2f}   ({t_total/max(total, 0.01):.0%} of the bill)")
         print()
-        print(f"  A title-only classification is a real judgement, not a"
-              f" coin flip, but it is the weakest evidence this pipeline")
-        print(f"  produces. Dropping those requests saves ${t_total:.2f} and"
-              f" loses whatever share of {n_title:,} papers are AI-relevant")
-        print(f"  with a title that does not say so.")
+        print(f"  A title-only classification is a real judgement, not a coin")
+        print(f"  flip, but it is the weakest evidence this pipeline produces.")
+        print(f"  Dropping those requests saves ${t_total:.2f} and loses whatever")
+        print(f"  share of {n_title:,} papers are AI-relevant with a title that")
+        print(f"  does not say so. Nothing else in the pipeline finds them later.")
         print()
 
     print(f"  Run 'python classify_papers.py submit' to start.")
+
+
+def _load_cost_history() -> list:
+    if not os.path.exists(COST_HISTORY_PATH):
+        return []
+    try:
+        with open(COST_HISTORY_PATH) as f:
+            h = json.load(f)
+        return h if isinstance(h, list) else []
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def _record_actual_cost(papers: int, cost: float):
+    """Append what a finished batch actually cost.
+
+    Estimates drift; a recorded price does not. Without this, every future
+    estimate is a model argued from first principles against a bill nobody
+    wrote down.
+    """
+    if papers <= 0:
+        return
+    hist = _load_cost_history()
+    hist.append({
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "model": MODEL,
+        "papers": papers,
+        "cost": round(cost, 2),
+        "cost_per_paper": round(cost / papers, 6),
+    })
+    os.makedirs(os.path.dirname(COST_HISTORY_PATH), exist_ok=True)
+    with open(COST_HISTORY_PATH, "w") as f:
+        json.dump(hist[-50:], f, indent=2)
 
 
 def submit():
@@ -641,9 +727,14 @@ def collect():
     print(f"    {'─'*30}")
     print(f"    {'AI-relevant total':<20} {relevant:>6,}")
     print()
+    total_cost = cost_in + cost_out
     print(f"  Actual tokens:   {total_in:,} in / {total_out:,} out")
-    print(f"  Actual cost:     ${cost_in + cost_out:.2f}")
+    print(f"  Actual cost:     ${total_cost:.2f}"
+          f"  (${total_cost/max(len(output),1):.4f} per paper)")
     print(f"  Saved to:        {RESULTS_FILE}")
+    _record_actual_cost(len(output), total_cost)
+    print(f"  Cost recorded in {COST_HISTORY_PATH} so the next estimate can"
+          f" quote a measured price instead of a modelled one.")
 
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
