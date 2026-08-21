@@ -144,7 +144,11 @@ jobs:
         run: |
           git config user.name 'Marc Woernle'
           git config user.email 'marcwho13@gmail.com'
-          git add -A data/ output/ docs/ || true
+          # README.md and STATUS.md too. propagate_counts patches them on the
+          # runner, and staging only data/output/docs meant those edits were
+          # made and then thrown away with the runner -- which is why the
+          # README kept advertising 11,903 papers after master reached 12,528.
+          git add -A data/ output/ docs/ README.md STATUS.md || true
           git reset -q -- 'data/*_batch_requests.jsonl' || true
           git diff --cached --quiet || git commit -m "backfill classification: ${{ inputs.stage }}"
           git push
